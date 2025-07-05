@@ -36,7 +36,7 @@ const projects = [
     image: "/projects/qr-generator.jpeg",
     technologies: ["React", "TypeScript", "CSS"],
     date: "Mar 2025",
-    liveUrl: "www.nowhile.com",
+    liveUrl: "https://www.nowhile.com ",
     githubUrl: "#",
     status: "Completed",
     category: "Utility",
