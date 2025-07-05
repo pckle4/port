@@ -11,7 +11,7 @@ const projects = [
     image: "/projects/resume-generator.jpeg",
     technologies: ["TypeScript", "React", "Tailwind CSS"],
     date: "Jan 2025",
-    liveUrl: "#",
+    liveUrl: "https://nowhile.com",
     githubUrl: "#",
     features: ["Dynamic form validation", "Real-time preview", "PDF export"],
     status: "Completed",
