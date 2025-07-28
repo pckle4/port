@@ -35,7 +35,7 @@ import Link from "next/link"
 const personalInfo = {
   name: "Ansh Shah",
   email: "theanshshah@gmail.com",
-  linkedin: "linkedin.com/in/ansh",
+  linkedin: "linkedin.com/in/anshshahh",
   github: "github.com/ansh",
 }
 
