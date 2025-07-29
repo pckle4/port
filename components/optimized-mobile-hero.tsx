@@ -277,7 +277,7 @@ export function OptimizedMobileHero() {
             className="group w-12 h-12 sm:w-14 sm:h-14 hover:text-purple-600 hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-all duration-300 hover:scale-110 hover:-translate-y-1 relative overflow-hidden"
             asChild
           >
-            <a href="https://github.com/ansh" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/theanshshah" target="_blank" rel="noopener noreferrer">
               <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <Github className="h-5 w-5 sm:h-6 sm:w-6 group-hover:rotate-12 transition-transform duration-300" />
             </a>
@@ -289,7 +289,7 @@ export function OptimizedMobileHero() {
             className="group w-12 h-12 sm:w-14 sm:h-14 hover:text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-all duration-300 hover:scale-110 hover:-translate-y-1 relative overflow-hidden"
             asChild
           >
-            <a href="https://linkedin.com/in/ansh" target="_blank" rel="noopener noreferrer">
+            <a href="https://linkedin.com/in/anshshahh" target="_blank" rel="noopener noreferrer">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <Linkedin className="h-5 w-5 sm:h-6 sm:w-6 group-hover:rotate-12 transition-transform duration-300" />
             </a>
