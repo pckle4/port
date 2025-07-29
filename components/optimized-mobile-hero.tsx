@@ -179,7 +179,7 @@ export function OptimizedMobileHero() {
 
       <div className="container mx-auto text-center max-w-5xl relative z-10">
         {/* Enhanced Tagline with animated icons - Increased mobile text size */}
-        <div className="mb-2 sm:mb-4 flex items-center justify-center space-x-3 sm:space-x-4">
+        <div className="mb-2 sm:mb-6 flex items-center justify-center space-x-3 sm:space-x-4">
           <AnimatedCodeIcon />
           <span className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent animate-pulse">
             Craving For Crafting !!
