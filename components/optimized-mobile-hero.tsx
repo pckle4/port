@@ -260,7 +260,7 @@ export function OptimizedMobileHero() {
             className="group w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg font-semibold border-2 hover:bg-primary hover:text-primary-foreground transition-all duration-300 bg-transparent hover:scale-105 hover:-translate-y-1 relative overflow-hidden"
             asChild
           >
-            <Link href="/gitansh.pdf">
+            <Link href="/resume">
               <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <Download className="h-4 w-4 sm:h-5 sm:w-5 mr-2 group-hover:animate-bounce" />
               <span className="relative z-10">Download CV</span>
