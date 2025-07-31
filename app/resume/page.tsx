@@ -81,7 +81,7 @@ const projects = [
     title: "P2P File Transfer app",
     technologies: ["HTML", "CSS", "JavaScript"],
     date: "January 2025",
-    liveDemo: "#",
+    liveDemo: "https://file.nowhile.com",
     description: [
       "Developed a peer-to-peer file transfer application using vanilla JavaScript that enables secure file sharing between users after establishing a direct connection.",
       "Implemented real-time chat functionality alongside file transfer capabilities, allowing users to communicate seamlessly during the file sharing process.",
