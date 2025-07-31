@@ -69,7 +69,7 @@ const projects = [
     title: "Resume Generator",
     technologies: ["TypeScript", "Shadcn", "ReactJS"],
     date: "January 2025",
-    liveDemo: "#",
+    liveDemo: "resume.nowhile.com",
     description: [
       "Developed a responsive resume generator web application using React, TypeScript, and Tailwind CSS to enable users to create professional resumes with an intuitive interface and real-time preview functionality.",
       "Implemented dynamic form validation and state management to ensure data integrity while allowing users to customize resume sections, formatting, and styling options seamlessly.",
@@ -92,7 +92,7 @@ const projects = [
     title: "QR Code Generator",
     technologies: ["React", "TypeScript", "Tailwind CSS"],
     date: "March 2025",
-    liveDemo: "#",
+    liveDemo: "qr.nowhile.com",
     description: [
       "Built a versatile QR code generator using React, TypeScript, and Tailwind CSS supporting multiple data types including URLs, text, location coordinates, dates, and business contact information.",
       "Implemented dynamic QR code generation with real-time preview functionality, allowing users to instantly visualize and customize QR codes for various use cases.",
