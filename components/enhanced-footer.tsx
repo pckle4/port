@@ -254,6 +254,7 @@ export function EnhancedFooter() {
                 gratitude.
               </p>
               <p className="text-xs text-gray-600">Crafted with passion, precision, and countless cups of coffee ☕</p>
+              <p className="text-xs text-gray-600">Some Features Might Not Work As Expected.Kindly Report it via email</p>
               {/* Enhanced time display with seconds */}
               <div className="flex items-center justify-center space-x-4 text-xs text-gray-500 mt-4">
                 <span className="font-mono bg-gray-800/50 px-2 py-1 rounded">{formatTime(currentTime)}</span>
