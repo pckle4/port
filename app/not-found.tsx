@@ -44,13 +44,13 @@ export default function NotFound() {
         </p>
 
         <div className="flex items-center justify-center gap-3 flex-wrap">
-          <Link href="/" prefetch>
+          <Link href="/home" prefetch>
             <Button className="motion-safe:transition-transform motion-safe:duration-200 motion-safe:hover:-translate-y-0.5">
               Go Home
             </Button>
           </Link>
 
-          <a href="#projects" className="inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm">
+          <a href="/home#projects" className="inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm">
             Browse Projects
           </a>
 
