@@ -146,6 +146,7 @@
               "loading": "loading 1.5s infinite",
               "grid-movement": "grid-movement 20s linear infinite",
               "shimmer-slide": "shimmer-slide 4s linear infinite",
+              "swing": "swing 3.5s ease-in-out infinite",
             },
             keyframes: {
               "spin-slow": {
@@ -176,6 +177,10 @@
               "shimmer-slide": {
                 "0%": { transform: "translateX(-100%) skewX(-20deg)" },
                 "100%": { transform: "translateX(200%) skewX(-20deg)" }
+              },
+              "swing": {
+                "0%, 100%": { transform: "rotate(1.5deg)" },
+                "50%": { transform: "rotate(-1.5deg)" },
               }
             }
           },
