@@ -154,12 +154,14 @@ export default function EnhancedSkills() {
             </div>
 
             <div
-              className={`relative transition-all duration-1000 delay-600 ${
+              className={`relative flex items-center justify-center transition-all duration-1000 delay-600 ${
                 isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
               }`}
             >
               {shouldRenderCloud && (
-                <div className="h-[400px] relative flex items-center justify-center animate-fade-in">
+                // Fixed Dimensions to prevent explosion on "Desktop Site" in mobile
+                // Responsive sizing: smaller on mobile, reasonable max on desktop
+                <div className="h-[300px] w-[300px] sm:h-[360px] sm:w-[360px] relative flex items-center justify-center animate-fade-in aspect-square">
                   <IconCloud iconSlugs={slugs} />
                 </div>
               )}
