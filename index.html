@@ -69,12 +69,17 @@
               md: "calc(var(--radius) - 2px)",
               sm: "calc(var(--radius) - 4px)",
             },
+            transitionTimingFunction: {
+              "spring-gentle": "cubic-bezier(0.4, 0, 0.2, 1)",
+            },
             animation: {
               "spin-slow": "spin-slow 3s linear infinite",
               "bounce-subtle": "bounce-subtle 1s ease-in-out infinite",
               "fade-in": "fade-in 1s ease-out",
               "expand": "expand 2s ease-out forwards",
               "loading": "loading 1.5s infinite",
+              "grid-movement": "grid-movement 20s linear infinite",
+              "shimmer-slide": "shimmer-slide 4s linear infinite",
             },
             keyframes: {
               "spin-slow": {
@@ -97,6 +102,14 @@
               "loading": {
                 "0%": { backgroundPosition: "200% 0" },
                 "100%": { backgroundPosition: "-200% 0" },
+              },
+              "grid-movement": {
+                "0%": { transform: "rotateX(60deg) translateY(-20%) translateZ(0)" },
+                "100%": { transform: "rotateX(60deg) translateY(calc(-20% + 50px)) translateZ(0)" }
+              },
+              "shimmer-slide": {
+                "0%": { transform: "translateX(-100%) skewX(-20deg)" },
+                "100%": { transform: "translateX(200%) skewX(-20deg)" }
               }
             }
           },
@@ -236,26 +249,27 @@
         }
       }
     </style>
-<script type="importmap">
+  <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@18.3.1",
-    "react-dom": "https://esm.sh/react-dom@18.3.1",
-    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
-    "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime",
-    "lucide-react": "https://esm.sh/lucide-react@0.469.0",
-    "react-router-dom": "https://esm.sh/react-router-dom@6.25.1",
-    "clsx": "https://esm.sh/clsx@2.1.1",
-    "tailwind-merge": "https://esm.sh/tailwind-merge@2.4.0",
-    "@radix-ui/react-slot": "https://esm.sh/@radix-ui/react-slot@1.2.4",
-    "react-icon-cloud": "https://esm.sh/react-icon-cloud@4.1.7"
+    "react-dom/client": "https://aistudiocdn.com/react-dom@^19.2.0/client",
+    "react-dom": "https://aistudiocdn.com/react-dom@^19.2.0",
+    "react/jsx-runtime": "https://aistudiocdn.com/react@^19.2.0/jsx-runtime",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.469.0",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.6",
+    "clsx": "https://aistudiocdn.com/clsx@^2.1.1",
+    "tailwind-merge": "https://aistudiocdn.com/tailwind-merge@^3.4.0",
+    "@radix-ui/react-slot": "https://aistudiocdn.com/@radix-ui/react-slot@^1.2.4",
+    "react-icon-cloud": "https://aistudiocdn.com/react-icon-cloud@^4.1.7",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/"
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
 </head>
   <body>
     <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
-</body>
+    <script type="module" src="/index.tsx"></script>
+  </body>
 </html>
