@@ -4,6 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="description" content="Ansh Shah - Full Stack Developer Portfolio. Specialized in React, Node.js, and modern web technologies.">
+    
+    <!-- Mobile Web App Capability -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+
     <title>Ansh Shah - Full Stack Developer</title>
     
     <!-- Performance Optimization: Preconnect to critical domains -->
@@ -14,6 +22,64 @@
     <!-- Performance Optimization: Preload critical assets -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" as="style">
     
+    <!-- Critical CSS Fallback: Prevents FOUC and Giant Icons if JS/CDN delays -->
+    <style>
+      :root {
+        --bg-primary: #ffffff;
+        --text-primary: #000000;
+      }
+      .dark {
+        --bg-primary: #030712; /* gray-950 */
+        --text-primary: #f9fafb; /* gray-50 */
+      }
+      
+      body {
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* Safety Cap for SVGs to prevent explosion before Tailwind loads */
+      svg {
+        max-width: 2rem; 
+        max-height: 2rem;
+        display: inline-block;
+      }
+
+      /* Initial loader styles if needed */
+      #root:empty {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+      }
+    </style>
+
+    <!-- Immediate Theme Restoration Script (Blocking) -->
+    <script>
+      (function() {
+        try {
+          var storageKey = "vite-ui-theme";
+          var theme = localStorage.getItem(storageKey);
+          var supportDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          var element = document.documentElement;
+          var isDark = theme === "dark" || (theme === "system" && supportDarkMode) || (!theme && supportDarkMode);
+          
+          if (isDark) {
+            element.classList.add("dark");
+          } else {
+            element.classList.remove("dark");
+          }
+        } catch (e) {
+          console.error("Critical theme restoration failed", e);
+        }
+      })();
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
