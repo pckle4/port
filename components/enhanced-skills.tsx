@@ -70,7 +70,7 @@ const skillCategories = [
 ]
 
 // Magic Spotlight Card Component
-function MagicCard({ category, index }: { category: typeof skillCategories[0], index: number }) {
+const MagicCard: React.FC<{ category: typeof skillCategories[0], index: number }> = ({ category, index }) => {
     const divRef = useRef<HTMLDivElement>(null);
     const [isFocused, setIsFocused] = useState(false);
     const [position, setPosition] = useState({ x: 0, y: 0 });
