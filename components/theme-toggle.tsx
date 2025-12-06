@@ -95,6 +95,7 @@ export function ThemeToggle() {
       <div className="relative w-full h-full flex items-center justify-center pointer-events-none">
         {/* Sun Icon (Light Mode) */}
         <Sun 
+            style={{ width: '1.25rem', height: '1.25rem' }}
             className={cn(
                 "absolute h-5 w-5 text-amber-500 fill-amber-500/20",
                 // Only animate if NOT inside a view transition to avoid double-movement artifacts
@@ -104,6 +105,7 @@ export function ThemeToggle() {
         />
         {/* Moon Icon (Dark Mode) */}
         <Moon 
+            style={{ width: '1.25rem', height: '1.25rem' }}
             className={cn(
                 "absolute h-5 w-5 text-blue-400 fill-blue-400/20",
                 // Only animate if NOT inside a view transition
