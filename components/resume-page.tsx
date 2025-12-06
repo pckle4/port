@@ -1,7 +1,7 @@
 
 "use client"
 
-import { useEffect, useRef, useState, Suspense } from "react"
+import React, { useEffect, useRef, useState, Suspense } from "react"
 import { Card, CardContent } from "./ui/card"
 import { Button } from "./ui/button"
 import { EnhancedHeader } from "./enhanced-header"
