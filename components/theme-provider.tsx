@@ -30,12 +30,14 @@ export function ThemeProvider({
     () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
   )
 
-  useEffect(() => {
+  // Function to apply theme to DOM
+  const applyTheme = (currentTheme: Theme) => {
     const root = window.document.documentElement
 
+    // Remove both potentially to clean slate
     root.classList.remove("light", "dark")
 
-    if (theme === "system") {
+    if (currentTheme === "system") {
       const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
         .matches
         ? "dark"
@@ -45,8 +47,26 @@ export function ThemeProvider({
       return
     }
 
-    root.classList.add(theme)
+    root.classList.add(currentTheme)
+  }
+
+  useEffect(() => {
+    applyTheme(theme)
   }, [theme])
+
+  // Mobile Resilience: Re-apply theme when tab becomes visible
+  // This fixes the issue where browsers (esp. iOS Safari) might strip dynamic classes
+  // when unfreezing a background tab.
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+        if (document.visibilityState === 'visible') {
+            applyTheme(theme);
+        }
+    }
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, [theme]);
 
   const value = {
     theme,
