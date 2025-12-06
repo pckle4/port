@@ -1,6 +1,7 @@
 
+
 import React, { Suspense, useEffect, useState } from 'react';
-import { HashRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom';
 import { ThemeProvider } from './components/theme-provider';
 import { EnhancedHeader } from './components/enhanced-header';
 import { OptimizedMobileHero } from './components/optimized-mobile-hero';
@@ -16,6 +17,7 @@ const MobileOptimizedProjects = React.lazy(() => import('./components/mobile-opt
 const CompactContactSection = React.lazy(() => import('./components/compact-contact-section'));
 const EnhancedFooter = React.lazy(() => import('./components/enhanced-footer'));
 const ResumePage = React.lazy(() => import('./components/resume-page'));
+const NotFound = React.lazy(() => import('./components/not-found'));
 
 // Skeleton Loader for Sections
 const SectionSkeleton = () => (
@@ -30,20 +32,22 @@ const SectionSkeleton = () => (
 
 // Component to handle scrolling to hash
 const ScrollToHash = () => {
-  const { hash } = useLocation();
+  const { hash, pathname } = useLocation();
 
   React.useEffect(() => {
+    // Only scroll to hash if it exists
     if (hash) {
       setTimeout(() => {
         const element = document.getElementById(hash.replace('#', ''));
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
         }
-      }, 100); // Small delay to allow Suspense to hydrate
+      }, 100);
     } else {
+      // Scroll to top on route change (e.g. / to /resume)
       window.scrollTo(0, 0);
     }
-  }, [hash]);
+  }, [hash, pathname]);
 
   return null;
 };
@@ -100,22 +104,6 @@ const HomePage = () => {
   );
 };
 
-const NotFound = () => {
-  return (
-    <div className="min-h-[80dvh] flex items-center justify-center px-6 py-16 bg-background">
-      <section className="max-w-xl w-full text-center">
-        <h1 className="text-4xl font-semibold tracking-tight mb-2 text-foreground">Page not found</h1>
-        <p className="text-muted-foreground mb-6">The page you are looking for doesn't exist.</p>
-        <Button asChild>
-          <Link to="/">
-            Go Home
-          </Link>
-        </Button>
-      </section>
-    </div>
-  );
-}
-
 export default function App() {
   const [loading, setLoading] = useState(true);
 
@@ -127,8 +115,6 @@ export default function App() {
       setLoading(false);
     } else {
       // If first time, keep loading true (TechPreloader handles timing)
-      // We set the flag inside the onComplete handler of the preloader or here if preferred,
-      // but usually better to set it after animation completes.
     }
   }, []);
 
@@ -163,7 +149,11 @@ export default function App() {
                 <Route path="/qr" element={<ExternalRedirect to="https://qr.nowhile.com" />} />
                 <Route path="/file" element={<ExternalRedirect to="https://file.nowhile.com" />} />
                 
-                <Route path="*" element={<NotFound />} />
+                <Route path="*" element={
+                  <Suspense fallback={<div className="min-h-screen bg-[#050505]" />}>
+                    <NotFound />
+                  </Suspense>
+                } />
               </Routes>
             </PageTransition>
           </ThemeProvider>
