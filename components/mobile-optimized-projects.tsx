@@ -53,7 +53,7 @@ const projects: Project[] = [
     title: "QR Code Generator",
     description: "Advanced QR tool supporting URLs, WiFi, vCards, and more. Includes customization options for colors, logos, and error correction levels.",
     tags: ["React", "TypeScript", "Canvas API"],
-    image: "/images/2x.png",
+    image: "/images/1x.png",
     links: { demo: "https://qr.nowhile.com", github: "https://github.com/theanshshah" },
     color: "from-emerald-500 to-green-500",
     date: "March 2025",
