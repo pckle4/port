@@ -19,17 +19,18 @@ export const cloudProps: Omit<ICloud, "children"> = {
     depth: 1,
     wheelZoom: false,
     imageScale: 2,
-    activeCursor: "pointer",
+    activeCursor: "default",
     tooltip: "native",
-    initial: [0.1, -0.1],
+    initial: [0.1, -0.1], // Restored faster initial spin
     clickToFront: 500,
     tooltipDelay: 0,
     outlineColour: "#0000",
-    maxSpeed: 0.03, // Slower rotation
-    minSpeed: 0.01, // Slower rotation
-    dragControl: true,
+    maxSpeed: 0.04, // Increased speed cap for responsive dragging
+    minSpeed: 0.02, // Faster idle rotation
+    dragControl: true, // Ensure dragging is enabled
+    decel: 0.95, // Smooth momentum
     pinchZoom: false,
-    freezeActive: false,
+    freezeActive: true,
     freezeDecel: false,
   },
 }
@@ -44,13 +45,13 @@ export const renderCustomIcon = (icon: SimpleIcon, theme: string) => {
     bgHex,
     fallbackHex,
     minContrastRatio,
-    size: 38, // Reduced from 42 for a cleaner look
+    size: 40, 
     aProps: {
       href: undefined,
       target: undefined,
       rel: undefined,
       onClick: (e: any) => e.preventDefault(),
-      title: icon.title, // This enables the tooltip
+      style: { cursor: 'pointer' }
     },
   })
 }
@@ -81,10 +82,20 @@ export function IconCloud({ iconSlugs }: DynamicCloudProps) {
     return Object.values(data.simpleIcons).map((icon) => renderCustomIcon(icon, effectiveTheme))
   }, [data, theme])
 
-  if (!data) return <div>Loading icons...</div>;
+  if (!data) return (
+    <div className="flex items-center justify-center h-full w-full">
+        <div className="w-8 h-8 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin"></div>
+    </div>
+  );
 
   return (
-    <div className="relative w-full h-full flex items-center justify-center">
+    <div className="relative w-full h-full flex items-center justify-center group perspective-1000">
+      {/* Ambient Glow Background - pointer-events-none to prevent blocking drag */}
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-blue-500/10 to-transparent rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none transform scale-75 group-hover:scale-110" />
+      
+      {/* Center Core Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl pointer-events-none" />
+
       <Cloud {...cloudProps}>
         <>{renderedIcons}</>
       </Cloud>
