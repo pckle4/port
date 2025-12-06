@@ -1,3 +1,4 @@
+
 import React, { useEffect, useMemo, useState } from "react"
 import { Cloud, fetchSimpleIcons, ICloud, renderSimpleIcon, SimpleIcon } from "react-icon-cloud"
 import { useTheme } from "./theme-provider"
@@ -9,7 +10,8 @@ export const cloudProps: Omit<ICloud, "children"> = {
       justifyContent: "center",
       alignItems: "center",
       width: "100%",
-      paddingTop: 40,
+      height: "100%",
+      paddingTop: 0,
     },
   },
   options: {
@@ -42,7 +44,7 @@ export const renderCustomIcon = (icon: SimpleIcon, theme: string) => {
     bgHex,
     fallbackHex,
     minContrastRatio,
-    size: 42,
+    size: 38, // Reduced from 42 for a cleaner look
     aProps: {
       href: undefined,
       target: undefined,
@@ -82,7 +84,7 @@ export function IconCloud({ iconSlugs }: DynamicCloudProps) {
   if (!data) return <div>Loading icons...</div>;
 
   return (
-    <div className="relative">
+    <div className="relative w-full h-full flex items-center justify-center">
       <Cloud {...cloudProps}>
         <>{renderedIcons}</>
       </Cloud>
