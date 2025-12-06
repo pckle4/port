@@ -6,28 +6,6 @@ import { ExternalLink, Github, ArrowUpRight, Folder, Calendar, ImageOff, Globe, 
 import { Button } from "./ui/button"
 import { cn } from "../lib/utils"
 
-/* 
-  ================================================================================
-  IMAGE SETUP GUIDE
-  ================================================================================
-  
-  Please add the following single image files to your 'public/images/' folder.
-  
-  1. Link File Sharing:
-     - public/images/link-file-sharing-1x.png
-
-  2. Resume Generator:
-     - public/images/resume-generator-1x.png
-
-  3. P2P File Transfer:
-     - public/images/p2p-file-transfer-1x.png
-
-  4. QR Code Generator:
-     - public/images/qr-code-generator-1x.png
-
-  Note: Ensure exact filenames are used.
-  ================================================================================
-*/
 
 type Project = {
   title: string
@@ -45,7 +23,7 @@ const projects: Project[] = [
     title: "Link File Sharing",
     description: "A secure, frontend-only file sharing platform. Encrypts files client-side and generates shareable links without permanent server storage.",
     tags: ["React", "Tailwind CSS", "Web Crypto API"],
-    image: "/images/link-file-sharing-1x.png",
+    image: "/images/4x.png",
     links: { demo: "https://l.nowhile.com", github: "https://github.com/theanshshah" },
     color: "from-orange-500 to-red-500",
     date: "November 2025",
@@ -55,7 +33,7 @@ const projects: Project[] = [
     title: "Resume Generator",
     description: "Professional resume builder with real-time preview. Features dynamic forms, customizable templates, and instant PDF export.",
     tags: ["React", "TypeScript", "Shadcn UI"],
-    image: "/images/resume-generator-1x.png",
+    image: "/images/1x.png",
     links: { demo: "https://resume.nowhile.com", github: "https://github.com/theanshshah" },
     color: "from-purple-500 to-indigo-500",
     date: "January 2025",
@@ -65,7 +43,7 @@ const projects: Project[] = [
     title: "P2P File Transfer",
     description: "Direct browser-to-browser file sharing using WebRTC. Supports large files and real-time text chat with zero-knowledge privacy.",
     tags: ["Vanilla JS", "WebRTC", "Socket.io"],
-    image: "/images/p2p-file-transfer-1x.png",
+    image: "/images/3x.png",
     links: { demo: "https://file.nowhile.com", github: "https://github.com/theanshshah" },
     color: "from-blue-500 to-cyan-500",
     date: "January 2025",
@@ -75,7 +53,7 @@ const projects: Project[] = [
     title: "QR Code Generator",
     description: "Advanced QR tool supporting URLs, WiFi, vCards, and more. Includes customization options for colors, logos, and error correction levels.",
     tags: ["React", "TypeScript", "Canvas API"],
-    image: "/images/qr-code-generator-1x.png",
+    image: "/images/2x.png",
     links: { demo: "https://qr.nowhile.com", github: "https://github.com/theanshshah" },
     color: "from-emerald-500 to-green-500",
     date: "March 2025",
