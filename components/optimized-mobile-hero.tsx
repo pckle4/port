@@ -201,15 +201,30 @@ export function OptimizedMobileHero() {
 
       <div className="container mx-auto text-center max-w-5xl relative z-10">
         
-        <div className="mb-6 flex justify-center animate-fade-in">
-          <div className="group relative inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-background/40 border border-purple-200/30 dark:border-purple-500/20 backdrop-blur-md shadow-sm hover:border-purple-400/50 transition-colors cursor-default">
-             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-            </span>
-            <span className="text-sm font-medium bg-gradient-to-r from-purple-700 to-blue-700 dark:from-purple-200 dark:to-blue-200 bg-clip-text text-transparent">
-              Available for freelance work
-            </span>
+        {/* Shimmering Rotating Border Badge v2.0 */}
+        <div className="mb-8 flex justify-center animate-fade-in relative z-20">
+          <div className="group relative inline-flex overflow-hidden rounded-full p-[1.5px] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(148,163,184,0.15)] dark:hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+            
+            {/* 
+                Continuous Rotating Gradient Border
+                Light Mode: Soft silver/slate base with a sharp dark charcoal shimmer
+                Dark Mode: Deep slate base with a brilliant white/silver beam 
+            */}
+            <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2E8F0_0%,#334155_50%,#E2E8F0_100%)] dark:bg-[conic-gradient(from_90deg_at_50%_50%,#1E293B_0%,#FFFFFF_50%,#1E293B_100%)]" />
+            
+            {/* Inner Content */}
+            <div className="inline-flex h-full w-full cursor-default items-center justify-center rounded-full bg-white/95 dark:bg-black/95 px-5 py-2 text-sm font-medium backdrop-blur-3xl transition-all duration-300 group-hover:bg-white dark:group-hover:bg-black">
+              
+              {/* Pulsing Status Dot */}
+              <span className="relative flex h-2.5 w-2.5 mr-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
+              </span>
+              
+              <span className="text-gray-700 dark:text-gray-200 group-hover:text-black dark:group-hover:text-white transition-colors duration-300 font-semibold tracking-wide">
+                Available for freelance work
+              </span>
+            </div>
           </div>
         </div>
 
