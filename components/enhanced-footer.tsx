@@ -13,6 +13,7 @@ import {
   Code,
   Coffee,
   Zap,
+  Terminal,
 } from "lucide-react"
 import { EnhancedSystemInfo } from "./enhanced-system-info"
 
@@ -22,42 +23,54 @@ const socialLinks = [
     href: "https://github.com/theanshshah",
     icon: Github,
     color: "group-hover:text-white",
-    bgColor: "hover:bg-gray-800",
+    bgColor: "hover:bg-white/10",
+    borderColor: "hover:border-white/20",
+    shadow: "hover:shadow-white/10",
   },
   {
     name: "LinkedIn",
     href: "https://linkedin.com/in/anshshahh",
     icon: Linkedin,
-    color: "group-hover:text-blue-400",
-    bgColor: "hover:bg-blue-900/30",
+    color: "group-hover:text-[#0077b5]",
+    bgColor: "hover:bg-[#0077b5]/10",
+    borderColor: "hover:border-[#0077b5]/30",
+    shadow: "hover:shadow-[#0077b5]/20",
   },
   {
     name: "Twitter",
     href: "https://twitter.com",
     icon: Twitter,
-    color: "group-hover:text-cyan-400",
-    bgColor: "hover:bg-cyan-900/30",
+    color: "group-hover:text-[#1DA1F2]",
+    bgColor: "hover:bg-[#1DA1F2]/10",
+    borderColor: "hover:border-[#1DA1F2]/30",
+    shadow: "hover:shadow-[#1DA1F2]/20",
   },
   {
     name: "Instagram",
     href: "https://instagram.com",
     icon: Instagram,
-    color: "group-hover:text-pink-400",
-    bgColor: "hover:bg-pink-900/30",
+    color: "group-hover:text-[#E1306C]",
+    bgColor: "hover:bg-[#E1306C]/10",
+    borderColor: "hover:border-[#E1306C]/30",
+    shadow: "hover:shadow-[#E1306C]/20",
   },
   {
     name: "YouTube",
     href: "https://youtube.com",
     icon: Youtube,
-    color: "group-hover:text-red-400",
-    bgColor: "hover:bg-red-900/30",
+    color: "group-hover:text-[#FF0000]",
+    bgColor: "hover:bg-[#FF0000]/10",
+    borderColor: "hover:border-[#FF0000]/30",
+    shadow: "hover:shadow-[#FF0000]/20",
   },
   {
     name: "Email",
     href: "mailto:theanshshah@gmail.com",
     icon: Mail,
     color: "group-hover:text-green-400",
-    bgColor: "hover:bg-green-900/30",
+    bgColor: "hover:bg-green-500/10",
+    borderColor: "hover:border-green-500/30",
+    shadow: "hover:shadow-green-500/20",
   },
 ]
 
@@ -119,7 +132,7 @@ export default function EnhancedFooter() {
         />
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6 sm:pt-16 sm:pb-8 relative z-10">
         <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-8 lg:gap-12">
           {/* Brand Column */}
           <div className="lg:col-span-1 space-y-5">
@@ -134,17 +147,17 @@ export default function EnhancedFooter() {
               build something amazing together.
             </p>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-3">
               {socialLinks.map((social) => (
                 <a
                   key={social.name}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`group p-2.5 rounded-xl bg-white/5 border border-white/5 transition-all duration-300 hover:scale-110 ${social.bgColor}`}
+                  className={`group p-2.5 rounded-xl bg-white/5 border border-white/5 transition-all duration-300 hover:scale-110 hover:-translate-y-1 hover:shadow-lg ${social.bgColor} ${social.borderColor} ${social.shadow}`}
                   aria-label={social.name}
                 >
-                  <social.icon className={`h-5 w-5 text-gray-400 transition-colors ${social.color}`} />
+                  <social.icon className={`h-5 w-5 text-gray-400 transition-colors duration-300 ${social.color}`} />
                 </a>
               ))}
             </div>
@@ -161,9 +174,9 @@ export default function EnhancedFooter() {
                 <li key={link.name}>
                   <Link
                     to={link.href}
-                    className="group flex items-center text-sm text-gray-400 hover:text-white transition-colors duration-200"
+                    className="group flex items-center text-sm text-gray-400 hover:text-white transition-all duration-300 hover:translate-x-2"
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-gray-700 mr-2 group-hover:bg-purple-400 transition-colors" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-gray-700 mr-3 group-hover:bg-purple-400 group-hover:scale-150 transition-all duration-300" />
                     {link.name}
                   </Link>
                 </li>
@@ -181,9 +194,11 @@ export default function EnhancedFooter() {
               {services.map((service) => (
                 <li
                   key={service.name}
-                  className="group flex items-center text-sm text-gray-400 hover:text-white transition-colors duration-200"
+                  className="group flex items-center text-sm text-gray-400 hover:text-white transition-all duration-300 hover:translate-x-2 cursor-default"
                 >
-                  <service.icon className="h-4 w-4 mr-2 text-purple-400/70 group-hover:text-purple-400 transition-colors" />
+                  <div className="mr-3 p-1.5 rounded-md bg-white/5 group-hover:bg-purple-500/20 transition-colors duration-300">
+                    <service.icon className="h-4 w-4 text-purple-400/70 group-hover:text-purple-400 transition-colors" />
+                  </div>
                   {service.name}
                 </li>
               ))}
@@ -229,12 +244,32 @@ export default function EnhancedFooter() {
                 <span className="w-1 h-1 bg-gray-700 rounded-full"></span>
                 <span className="text-green-500/80">IST</span>
             </div>
+            
+            {/* Nowhile Badge */}
+            <div className="flex justify-center pt-2">
+               <a 
+                  href="https://nowhile.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="group relative inline-flex h-7 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 transition-transform duration-300 hover:scale-105"
+                >
+                  <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#000000_0%,#ffffff_50%,#000000_100%)] opacity-40 group-hover:opacity-100 transition-opacity" />
+                  <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-[#050505] px-4 py-1 text-[10px] font-medium text-gray-400 backdrop-blur-3xl transition-colors group-hover:text-white group-hover:bg-black/80">
+                    <span className="mr-2 flex h-1.5 w-1.5 relative">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-500 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-indigo-500"></span>
+                    </span>
+                     <span className="font-bold ml-1 text-indigo-400 group-hover:text-indigo-300 transition-colors">nowhile</span>
+                    <Terminal className="ml-1.5 h-3 w-3 text-gray-500 group-hover:text-indigo-400 transition-colors" />
+                  </span>
+               </a>
+            </div>
           </div>
         </div>
+        
+        {/* Decorative Gradient Line */}
+        <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-purple-600/50 to-transparent"></div>
       </div>
-      
-      {/* Decorative Gradient Line */}
-      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-purple-600/50 to-transparent"></div>
     </footer>
   )
 }
