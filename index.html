@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description"
+    content="Ansh Shah - Full Stack Developer Portfolio. Personal portfolio showcasing web development projects and skills. Not affiliated with any third-party brands.">
+
+  <!-- Security & Legitimacy Meta Tags -->
+  <meta name="author" content="Ansh Shah">
+  <meta name="creator" content="Ansh Shah">
+  <meta name="publisher" content="nowhile.com">
+  <meta name="robots" content="index, follow">
+  <meta name="googlebot" content="index, follow">
+  <meta name="classification" content="Personal Portfolio Website">
+  <meta name="category" content="Technology, Web Development, Portfolio">
+  <meta name="coverage" content="Worldwide">
+  <meta name="distribution" content="Global">
+  <meta name="rating" content="General">
+
+  <!-- Security Headers -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <!-- Open Graph for Social Verification -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Ansh Shah Portfolio">
+  <meta property="og:title" content="Ansh Shah - Full Stack Developer">
+  <meta property="og:description"
+    content="Personal portfolio website of Ansh Shah, Full Stack Developer. Educational and demonstration purposes only.">
+  <meta property="og:url" content="https://nowhile.com">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Ansh Shah - Full Stack Developer Portfolio">
+  <meta name="twitter:description"
+    content="Personal portfolio showcasing web development skills. Not affiliated with any third-party services.">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+
+  <title>Ansh Shah - Full Stack Developer | Personal Portfolio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link rel="preload"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap"
+    as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap">
+  </noscript>
+
+  <style>
+    /* View Transitions API for smooth route changes */
+    @view-transition {
+      navigation: auto;
+    }
+
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation-duration: 0.3s;
+      animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    ::view-transition-old(root) {
+      animation-name: fade-out-and-scale-down;
+    }
+
+    ::view-transition-new(root) {
+      animation-name: fade-in-and-scale-up;
+    }
+
+    @keyframes fade-out-and-scale-down {
+      to {
+        opacity: 0;
+        transform: scale(0.98);
+      }
+    }
+
+    @keyframes fade-in-and-scale-up {
+      from {
+        opacity: 0;
+        transform: scale(1.02);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Cursor glow effect - desktop only */
+    .cursor-glow {
+      pointer-events: none;
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(166, 128, 140, 0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      will-change: transform, opacity;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .cursor-glow {
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 768px),
+    (hover: none) {
+      .cursor-glow {
+        display: none !important;
+      }
+    }
+
+    /* Animated text gradient */
+    @keyframes gradient-shift {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .animate-gradient-text {
+      background: linear-gradient(90deg, #cc8b86, #a6808c, #7d4f50, #cc8b86);
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradient-shift 6s ease infinite;
+    }
+
+    /* Scroll progress indicator */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #cc8b86, #a6808c, #7d4f50);
+      z-index: 9999;
+      transform-origin: left;
+      transition: transform 0.1s linear;
+    }
+
+    /* Image lazy load fade */
+    .img-lazy-load {
+      opacity: 0;
+      filter: blur(10px);
+      transition: opacity 0.5s ease, filter 0.5s ease;
+    }
+
+    .img-lazy-load.loaded {
+      opacity: 1;
+      filter: blur(0);
+    }
+
+    /* Magnetic button base */
+    .magnetic-btn {
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* Staggered reveal animation */
+    @keyframes reveal-up {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .reveal-stagger>.reveal-item {
+      opacity: 0;
+    }
+
+    .reveal-stagger.visible>.reveal-item {
+      animation: reveal-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .reveal-stagger.visible>.reveal-item:nth-child(1) {
+      animation-delay: 0ms;
+    }
+
+    .reveal-stagger.visible>.reveal-item:nth-child(2) {
+      animation-delay: 80ms;
+    }
+
+    .reveal-stagger.visible>.reveal-item:nth-child(3) {
+      animation-delay: 160ms;
+    }
+
+    .reveal-stagger.visible>.reveal-item:nth-child(4) {
+      animation-delay: 240ms;
+    }
+
+    .reveal-stagger.visible>.reveal-item:nth-child(5) {
+      animation-delay: 320ms;
+    }
+
+    .reveal-stagger.visible>.reveal-item:nth-child(6) {
+      animation-delay: 400ms;
+    }
+
+    :root {
+      --bg-primary: #ffffff;
+      --text-primary: #000000;
+    }
+
+    .dark {
+      --bg-primary: #030712;
+      --text-primary: #f9fafb;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Outfit', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    svg {
+      max-width: 2rem;
+      max-height: 2rem;
+      display: inline-block;
+    }
+
+    #root:empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    @media (max-width: 767px) {
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.2s !important;
+      }
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateZ(0);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateZ(0);
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translate3d(0, 16px, 0) scale(0.98);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+    }
+
+    @keyframes float-slow {
+
+      0%,
+      100% {
+        transform: translate3d(0, 0, 0);
+      }
+
+      50% {
+        transform: translate3d(0, -10px, 0);
+      }
+    }
+
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes glow {
+      from {
+        box-shadow: 0 0 5px rgba(166, 128, 140, 0.2);
+      }
+
+      to {
+        box-shadow: 0 0 20px rgba(166, 128, 140, 0.4);
+      }
+    }
+
+    @keyframes shine {
+      0% {
+        background-position: -200% center;
+      }
+
+      100% {
+        background-position: 200% center;
+      }
+    }
+
+    @keyframes pulseRing {
+      0% {
+        box-shadow: 0 0 0 0 rgba(166, 128, 140, 0.4);
+      }
+
+      70% {
+        box-shadow: 0 0 0 10px rgba(166, 128, 140, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(166, 128, 140, 0);
+      }
+    }
+
+    @keyframes fadeUpStagger {
+      from {
+        opacity: 0;
+        transform: translate3d(0, 20px, 0);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    .animate-fade-up {
+      animation: fadeUpStagger 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
+    }
+
+    .animate-fade-up-delay-1 {
+      animation-delay: 100ms;
+    }
+
+    .animate-fade-up-delay-2 {
+      animation-delay: 200ms;
+    }
+
+    .animate-fade-up-delay-3 {
+      animation-delay: 300ms;
+    }
+
+    .animate-fade-in {
+      animation: fadeIn 0.4s ease-out forwards;
+      will-change: opacity, transform;
+    }
+
+    .animate-slide-up {
+      animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      will-change: opacity, transform;
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    ::selection {
+      background: rgba(168, 85, 247, 0.3);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+
+  <script>
+    (function () {
+      try {
+        var storageKey = "vite-ui-theme";
+        var theme = localStorage.getItem(storageKey);
+        var supportDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        var element = document.documentElement;
+        var isDark = theme === "dark" || (theme === "system" && supportDarkMode) || (!theme && supportDarkMode);
+
+        if (isDark) {
+          element.classList.add("dark");
+        } else {
+          element.classList.remove("dark");
+        }
+      } catch (e) {
+        console.error("Critical theme restoration failed", e);
+      }
+    })();
+  </script>
+
+
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+
+</html>

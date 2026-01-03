@@ -1,0 +1,25 @@
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/l",
+      "destination": "https://l.nowhile.com",
+      "permanent": false
+    },
+    {
+      "source": "/qr",
+      "destination": "https://qr.nowhile.com",
+      "permanent": false
+    },
+    {
+      "source": "/file",
+      "destination": "https://file.nowhile.com",
+      "permanent": false
+    }
+  ]
+}

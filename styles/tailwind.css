@@ -1,0 +1,300 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .content-visibility-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 500px;
+  }
+
+
+  .ease-spring {
+    transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .ease-smooth {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ease-bounce {
+    transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out forwards;
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  .animate-shine {
+    animation: shine 1.5s ease-in-out infinite;
+  }
+
+  .animate-pulse-ring {
+    animation: pulseRing 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .hover-scale {
+    @apply transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98];
+  }
+
+  .hover-glow {
+    @apply transition-shadow duration-300 hover:shadow-[0_0_20px_rgba(166, 128, 140, 0.3)];
+  }
+
+
+  .touch-feedback {
+    @apply active:scale-[0.97] active:opacity-90 transition-all duration-150;
+  }
+
+  .touch-highlight {
+    -webkit-tap-highlight-color: rgba(166, 128, 140, 0.2);
+  }
+
+
+  .glass {
+    @apply backdrop-blur-md bg-white/10 dark:bg-black/10 border border-white/20 dark:border-white/10;
+  }
+
+  .glass-hover {
+    @apply hover:backdrop-blur-xl hover:bg-white/20 dark:hover:bg-black/20 hover:border-white/30;
+  }
+
+
+  .section-divider {
+    @apply relative;
+  }
+
+  .section-divider::after {
+    content: '';
+    @apply absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-[2px] bg-gradient-to-r from-transparent via-[#a6808c]/50 to-transparent;
+  }
+
+
+  @media (max-width: 768px) {
+    .animate-shimmer {
+      animation: none !important;
+    }
+
+
+    .mobile-compact {
+      @apply px-4 py-3;
+    }
+
+    .mobile-text-balance {
+      text-wrap: balance;
+      max-width: 90vw;
+    }
+  }
+
+
+  .safe-area-inset {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+
+@layer base {
+  :root {
+    /* Warm Linen-based light theme */
+    --background: 22 67% 93%;
+    /* Linen #f9eae1 */
+    --foreground: 253 15% 20%;
+    /* Deep Charcoal #2d2a33 - accessible */
+    --card: 22 12% 82%;
+    /* Dust Grey #d6cfcb */
+    --card-foreground: 253 15% 20%;
+    /* Deep Charcoal */
+    --popover: 22 67% 93%;
+    /* Linen */
+    --popover-foreground: 253 15% 20%;
+    /* Deep Charcoal */
+    --primary: 4 41% 60%;
+    /* Darker Dusty Rose for contrast */
+    --primary-foreground: 22 67% 96%;
+    /* Light Linen */
+    --secondary: 38 37% 72%;
+    /* Pale Oak #d1be9c */
+    --secondary-foreground: 253 15% 20%;
+    /* Deep Charcoal */
+    --muted: 22 14% 61%;
+    /* Taupe #aa998f */
+    --muted-foreground: 253 10% 36%;
+    /* Charcoal #565264 - darker for visibility */
+    --accent: 341 18% 58%;
+    /* Dusty Mauve #a6808c */
+    --accent-foreground: 22 67% 96%;
+    /* Light Linen */
+    --destructive: 359 37% 49%;
+    /* Smoky Rose derived */
+    --destructive-foreground: 22 67% 96%;
+    --border: 22 23% 74%;
+    /* Almond Silk tint */
+    --input: 22 23% 80%;
+    /* Lighter Almond */
+    --ring: 341 18% 58%;
+    /* Dusty Mauve */
+    --dusk-blue: 213 36% 32%;
+    /* Dusk Blue #355070 */
+    --dusty-lavender: 276 16% 41%;
+    /* Dusty Lavender #6d597a */
+    --rosewood: 347 35% 55%;
+    /* Rosewood #b56576 */
+    --light-coral: 358 70% 66%;
+    /* Light Coral #e56b6f */
+    --light-bronze: 21 69% 73%;
+    /* Light Bronze #eaac8b */
+    --radius: 0.5rem;
+    --spotlight-color: 213 36% 32%;
+    /* Dusk Blue - forcing dark color for glow in light mode too */
+    --spotlight-opacity: 0.08;
+    /* Slightly lower opacity for light mode to avoid muddy look */
+  }
+
+  .dark {
+    /* Sophisticated dark theme with warm accents - Deeper Brown/Black */
+    --background: 15 25% 5%;
+    /* Deep Espresso */
+    --foreground: 22 40% 95%;
+    /* Bright Linen */
+    --card: 15 20% 8%;
+    /* Deep Mocha */
+    --card-foreground: 22 40% 95%;
+    /* Bright Linen */
+    --popover: 15 20% 8%;
+    /* Deep Mocha */
+    --popover-foreground: 22 40% 95%;
+    /* Bright Linen */
+    --primary: 341 25% 65%;
+    /* Vibrant Dusty Mauve */
+    --primary-foreground: 15 25% 5%;
+    /* Dark bg */
+    --secondary: 275 8% 43%;
+    /* Dim Grey */
+    --secondary-foreground: 22 40% 95%;
+    /* Bright Linen */
+    --muted: 15 15% 12%;
+    /* Muted Espresso */
+    --muted-foreground: 22 20% 70%;
+    /* Lighter Almond */
+    --accent: 4 41% 66%;
+    /* Dusty Rose */
+    --accent-foreground: 15 25% 5%;
+    /* Dark bg */
+    --destructive: 359 23% 40%;
+    /* Muted Smoky Rose */
+    --destructive-foreground: 22 67% 93%;
+    --border: 15 15% 15%;
+    /* Espresso Border */
+    --input: 15 15% 15%;
+    /* Dark input */
+    --ring: 4 41% 66%;
+    /* Dusty Rose */
+
+    --spotlight-color: 213 36% 32%;
+    /* Dusk Blue */
+    --spotlight-opacity: 0.15;
+
+    * {
+      @apply border-border;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      height: 100%;
+    }
+
+    body {
+      @apply bg-background text-foreground;
+
+      /* Ambient Background System */
+      background-color: hsl(var(--background));
+      background-image:
+        /* Noise Texture */
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E"),
+        /* Top Center Spotlight */
+        radial-gradient(circle at 50% 0%, hsl(var(--spotlight-color) / var(--spotlight-opacity)), transparent 70%);
+      background-attachment: fixed;
+      background-repeat: repeat, no-repeat;
+
+      height: 100%;
+
+      font-feature-settings: "rlig" 1, "calt" 1;
+      font-family: 'Inter', system-ui, sans-serif;
+      text-rendering: optimizeSpeed;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+
+      overscroll-behavior-y: none;
+      touch-action: manipulation;
+    }
+
+    @media screen and (max-width: 768px) {
+
+      input,
+      textarea,
+      select,
+      button {
+        font-size: 16px !important;
+      }
+    }
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  @media print {
+    @page {
+      margin: 0;
+      size: auto;
+    }
+
+    body {
+      background: white !important;
+      color: black !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    .print-hidden {
+      display: none !important;
+    }
+
+    .no-print {
+      display: none !important;
+    }
+  }
+}

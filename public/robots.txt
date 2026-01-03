@@ -1,0 +1,12 @@
+# Robots.txt for nowhile.com
+# Personal Portfolio Website of Ansh Shah
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://nowhile.com/sitemap.xml
+
+# This is a legitimate personal portfolio website
+# Not affiliated with any third-party services
+# Contact: nowhile@icloud.com
