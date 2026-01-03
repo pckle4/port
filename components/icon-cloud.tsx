@@ -117,25 +117,53 @@ export type DynamicCloudProps = {
   forcedTheme?: string
 }
 
-export function IconCloud({ iconSlugs, forcedTheme }: DynamicCloudProps) {
-  const { theme: globalTheme } = useTheme()
-  const theme = forcedTheme || globalTheme
+type IconCloudCoreProps = {
+  iconSlugs: string[]
+  theme: string
+}
+
+// Core component - PURE, no hooks that subscribe to context
+const IconCloudCore = memo(function IconCloudCore({ iconSlugs, theme }: IconCloudCoreProps) {
+  // Resolve system theme here if needed, but only once per mount if we want cache,
+  // or just memoize the result.
+  // Since "system" can change, we actually WANT to listen to media queries if theme is "system",
+  // but NOT if theme is "dark" or "light".
+  
+  const [resolvedTheme, setResolvedTheme] = useState(() => {
+    if (theme === "system") {
+      return typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches 
+        ? "dark" 
+        : "light"
+    }
+    return theme
+  })
+
+  // Update resolved theme if prop changes, but purely.
+  // Actually, if theme prop changes from "dark" to "light", we need to update.
+  useEffect(() => {
+    if (theme === "system") {
+         // Could add listener here if we really wanted live system theme updates
+         // But for now, just initial is fine, or re-check.
+         const media = window.matchMedia("(prefers-color-scheme: dark)")
+         const update = () => setResolvedTheme(media.matches ? "dark" : "light")
+         update() // Set initial
+         media.addEventListener("change", update)
+         return () => media.removeEventListener("change", update)
+    } else {
+        setResolvedTheme(theme)
+    }
+  }, [theme])
 
   const renderedIcons = useMemo(() => {
-    let effectiveTheme = theme
-    if (theme === "system") {
-        effectiveTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
-    }
-
     return iconSlugs.map((slug) => {
       const icon = slugToIcon[slug]
       if (!icon) {
         console.warn(`Icon not found for slug: ${slug}`)
         return null
       }
-      return renderCustomIcon(icon, effectiveTheme)
+      return renderCustomIcon(icon, resolvedTheme)
     }).filter(Boolean)
-  }, [iconSlugs, theme])
+  }, [iconSlugs, resolvedTheme])
 
   return (
     <div className="relative w-full h-full flex items-center justify-center" style={{ contain: "layout style" }}>
@@ -144,5 +172,19 @@ export function IconCloud({ iconSlugs, forcedTheme }: DynamicCloudProps) {
       </Cloud>
     </div>
   )
-}
+})
+
+// Wrapper that calls useTheme()
+const IconCloudWithContext = memo(({ iconSlugs }: { iconSlugs: string[] }) => {
+    const { theme } = useTheme()
+    return <IconCloudCore iconSlugs={iconSlugs} theme={theme || "light"} />
+})
+
+// Main Export which decides which path to take
+export const IconCloud = memo(({ iconSlugs, forcedTheme }: DynamicCloudProps) => {
+  if (forcedTheme) {
+      return <IconCloudCore iconSlugs={iconSlugs} theme={forcedTheme} />
+  }
+  return <IconCloudWithContext iconSlugs={iconSlugs} />
+})
 
