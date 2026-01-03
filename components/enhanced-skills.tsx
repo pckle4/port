@@ -160,22 +160,68 @@ export default function EnhancedSkills() {
   const sectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    // Observer for the skills section visibility (for fade-in animations)
+    const skillsObserver = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true)
-          setShouldRenderCloud(true)
-          observer.disconnect()
+          setShouldRenderCloud(true) // Ensure cloud renders if we load here
         }
       },
       { threshold: 0.2 },
     )
 
+    // Observer for About section - start showing cloud when About comes into view
+    const aboutObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldRenderCloud(true)
+        }
+      },
+      { threshold: 0.3 }, // Show cloud when 30% of About is visible
+    )
+
+    // Observer for Projects section - hide cloud when Projects is fully visible
+    const projectsObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // Hide when scrolling down past skills into projects
+          setShouldRenderCloud(false)
+        } else {
+          // Show again when scrolling back up from projects
+          const aboutSection = document.getElementById("about")
+          const skillsSection = document.getElementById("skills")
+          if (aboutSection || skillsSection) {
+            const rect = skillsSection?.getBoundingClientRect() || aboutSection?.getBoundingClientRect()
+            if (rect && rect.bottom > 0 && rect.top < window.innerHeight) {
+              setShouldRenderCloud(true)
+            }
+          }
+        }
+      },
+      { threshold: 0.5 }, // Hide when 50% of Projects section is visible
+    )
+
+    // Observe sections
     if (sectionRef.current) {
-      observer.observe(sectionRef.current)
+      skillsObserver.observe(sectionRef.current)
     }
 
-    return () => observer.disconnect()
+    const aboutSection = document.getElementById("about")
+    if (aboutSection) {
+      aboutObserver.observe(aboutSection)
+    }
+
+    const projectsSection = document.getElementById("projects")
+    if (projectsSection) {
+      projectsObserver.observe(projectsSection)
+    }
+
+    return () => {
+      skillsObserver.disconnect()
+      aboutObserver.disconnect()
+      projectsObserver.disconnect()
+    }
   }, [])
 
   return (
