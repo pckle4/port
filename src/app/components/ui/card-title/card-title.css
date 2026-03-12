@@ -1,0 +1,3 @@
+﻿.card-title-base {
+  @apply text-lg font-semibold leading-none tracking-tight;
+}

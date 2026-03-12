@@ -1,0 +1,23 @@
+﻿<div class="relative">
+  <button
+    (click)="toggle()"
+    class="flex items-center justify-center w-10 h-10 rounded-full bg-secondary/50 border border-border/50 hover:bg-secondary/80 transition-all duration-300 backdrop-blur-sm group"
+    aria-label="Toggle theme"
+  >
+    <lucide-icon [name]="activeIcon()" class="w-4 h-4 text-foreground transition-all duration-500 group-hover:rotate-[360deg] group-hover:scale-110"></lucide-icon>
+  </button>
+
+  @if (isOpen()) {
+    <div class="absolute right-0 mt-2 p-1 rounded-xl bg-popover border border-border shadow-lg shadow-black/5 z-50 animate-in fade-in zoom-in-95 duration-200 origin-top-right flex flex-row gap-1">
+      @for (t of themes; track t.name) {
+        <button
+          (click)="selectTheme(t.name)"
+          [class]="getButtonClass(t.name)"
+          [title]="t.label"
+        >
+          <lucide-icon [name]="t.icon" class="w-4 h-4"></lucide-icon>
+        </button>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,22 @@
+﻿:host {
+  display: block;
+}
+.contact-input {
+  @apply flex h-10 w-full rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50/80 dark:bg-white/5 px-3 py-2 text-sm text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-400 disabled:cursor-not-allowed disabled:opacity-50 transition-colors;
+}
+.contact-input[type="text"][inputmode="numeric"],
+.contact-input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.contact-input[type="text"][inputmode="numeric"]::-webkit-inner-spin-button,
+.contact-input[type="text"][inputmode="numeric"]::-webkit-outer-spin-button,
+.contact-input[type="number"]::-webkit-inner-spin-button,
+.contact-input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+textarea.contact-input {
+  @apply h-auto;
+}

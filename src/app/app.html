@@ -1,0 +1,17 @@
+﻿<app-toast-provider></app-toast-provider>
+
+@if (isLoading()) {
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-[#faf8f6] dark:bg-[#0a0909]">
+  <app-magic-loader [size]="250" [speed]="1.8" [particleCount]="3" [hueRange]="[0, 0]" [saturation]="0" (onComplete)="onMagicLoaderComplete()"></app-magic-loader>
+</div>
+}
+
+@if (!isLoading()) {
+<div class="min-h-screen bg-transparent font-sans antialiased selection:bg-[#cc8b86] selection:text-white">
+  <app-enhanced-header></app-enhanced-header>
+
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</div>
+}

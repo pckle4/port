@@ -1,0 +1,11 @@
+﻿<div class="relative w-full h-full flex items-center justify-center" style="contain: layout style;">
+  <div [id]="containerIdAttr" style="display:flex;justify-content:center;align-items:center;width:100%;height:100%;padding-top:0;contain:layout style;">
+    <canvas [id]="canvasIdAttr" style="width:100%;max-width:70vh;" width="1000" height="1000">
+      @for (icon of iconElements; track icon.title) {
+        <a [title]="icon.title" style="cursor:pointer;" (click)="$event.preventDefault()">
+          <img [src]="icon.src" [alt]="icon.title" width="40" height="40" />
+        </a>
+      }
+    </canvas>
+  </div>
+</div>

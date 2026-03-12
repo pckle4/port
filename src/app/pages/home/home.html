@@ -1,0 +1,47 @@
+﻿<div class="min-h-screen bg-transparent selection:bg-[#cc8b86] selection:text-white">
+  <div class="scroll-progress" [style.transform]="'scaleX(' + scrollProgress + ')'" style="transform-origin: left;"></div>
+  <main>
+  <app-hero-section></app-hero-section>
+  @defer (on viewport) {
+    <app-about-section></app-about-section>
+  } @loading (minimum 150ms) {
+    <div class="min-h-[50vh] flex items-center justify-center">
+      <app-spinner size="lg"></app-spinner>
+    </div>
+  } @placeholder (minimum 100ms) {
+    <app-section-skeleton variant="text-block"></app-section-skeleton>
+  }
+  @defer (on viewport) {
+    <app-skills-section></app-skills-section>
+  } @loading (minimum 150ms) {
+    <div class="min-h-[50vh] flex items-center justify-center">
+      <app-spinner size="lg"></app-spinner>
+    </div>
+  } @placeholder (minimum 100ms) {
+    <app-section-skeleton variant="card-grid"></app-section-skeleton>
+  }
+  @defer (on viewport) {
+    <app-projects-section></app-projects-section>
+  } @loading (minimum 150ms) {
+    <div class="min-h-[50vh] flex items-center justify-center">
+      <app-spinner size="lg"></app-spinner>
+    </div>
+  } @placeholder (minimum 100ms) {
+    <app-section-skeleton variant="card-grid"></app-section-skeleton>
+  }
+  @defer (on viewport) {
+    <app-contact-section></app-contact-section>
+  } @loading (minimum 150ms) {
+    <div class="min-h-[50vh] flex items-center justify-center">
+      <app-spinner size="lg"></app-spinner>
+    </div>
+  } @placeholder (minimum 100ms) {
+    <app-section-skeleton variant="form"></app-section-skeleton>
+  }
+  @defer (on viewport) {
+    <app-enhanced-footer></app-enhanced-footer>
+  } @placeholder {
+    <div class="h-24"></div>
+  }
+  </main>
+</div>

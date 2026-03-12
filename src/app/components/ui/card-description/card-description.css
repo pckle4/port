@@ -1,0 +1,3 @@
+﻿.card-description-base {
+  @apply text-sm text-muted-foreground;
+}

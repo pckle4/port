@@ -1,0 +1,8 @@
+﻿<button (click)="toggle.emit()" class="p-2 mr-2 hover:bg-muted rounded-full transition-colors"
+  [attr.aria-label]="isOpen ? 'Close menu' : 'Open menu'" [attr.aria-expanded]="isOpen">
+  @if (isOpen) {
+  <lucide-icon name="x" class="h-5 w-5"></lucide-icon>
+  } @else {
+  <lucide-icon name="menu" class="h-5 w-5"></lucide-icon>
+  }
+</button>

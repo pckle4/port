@@ -1,0 +1,144 @@
+﻿<section id="contact" class="py-16 sm:py-20 relative overflow-hidden bg-[#f1f5f9] dark:bg-[#09090b]"
+  style="scroll-margin-top: 96px;">
+  <div class="absolute inset-0 pointer-events-none overflow-hidden">
+    <div
+      class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-indigo-500/10 dark:bg-indigo-500/5 rounded-full blur-3xl -z-10">
+    </div>
+  </div>
+
+  <div #section class="container mx-auto px-4 sm:px-6 relative z-10">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-10 transition-all duration-700" [class.opacity-100]="isVisible()"
+        [class.translate-y-0]="isVisible()" [class.opacity-0]="!isVisible()" [class.translate-y-4]="!isVisible()">
+        <app-badge variant="outline"
+          class="mb-4 border-indigo-500/30 text-indigo-600 dark:border-indigo-400/30 dark:text-indigo-400 bg-indigo-500/5 dark:bg-indigo-500/10">
+          Contact
+        </app-badge>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 tracking-tight text-slate-800 dark:text-white">
+          Get in <span class="text-indigo-500 dark:text-indigo-400">Touch</span>
+        </h2>
+        <p class="text-slate-500 dark:text-slate-400 max-w-lg mx-auto text-sm sm:text-base font-medium">
+          Have a project in mind? Let's build something extraordinary together.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-8 lg:gap-10 items-start">
+
+        <div class="transition-all duration-700 delay-200" [class.opacity-100]="isVisible()"
+          [class.translate-x-0]="isVisible()" [class.opacity-0]="!isVisible()" [class.-translate-x-8]="!isVisible()">
+          <app-terminal-display [isVisible]="isVisible()"></app-terminal-display>
+
+          <div class="mt-6 p-4 rounded-xl bg-white/60 dark:bg-secondary/30 border border-slate-200/80 dark:border-border/50 backdrop-blur-sm">
+            <div class="flex items-center gap-3">
+              <div class="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
+                <lucide-icon name="check-circle" class="w-5 h-5 text-indigo-600 dark:text-indigo-400"></lucide-icon>
+              </div>
+              <div>
+                <h3 class="text-sm font-semibold text-slate-800 dark:text-white">Open for Collaboration</h3>
+                <p class="text-xs text-slate-500 dark:text-muted-foreground">Available for freelance and full-time roles.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="transition-all duration-700 delay-300" [class.opacity-100]="isVisible()"
+          [class.translate-x-0]="isVisible()" [class.opacity-0]="!isVisible()" [class.translate-x-8]="!isVisible()">
+          <div class="rounded-xl border border-slate-200/80 dark:border-white/10 bg-white/80 dark:bg-[#0a0a0a]/50 backdrop-blur-xl shadow-lg overflow-hidden">
+            <div class="p-5 sm:p-6">
+              @if (submitStatus() === 'success') {
+              <div class="py-12 flex flex-col items-center text-center">
+                <div class="w-14 h-14 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
+                  <lucide-icon name="check-circle" class="h-7 w-7 text-green-600 dark:text-green-400"></lucide-icon>
+                </div>
+                <h4 class="text-xl font-bold mb-2 text-slate-800 dark:text-white">Opening Mail Client...</h4>
+                <p class="text-sm text-slate-500 dark:text-muted-foreground mb-4">Your default email app should open with the message pre-filled.</p>
+                <button type="button" (click)="submitStatus.set('idle')"
+                  class="inline-flex items-center justify-center h-9 rounded-md px-3 text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors">
+                  Send Another
+                </button>
+              </div>
+              } @else {
+              <form [formGroup]="contactForm" (ngSubmit)="handleSubmit()" class="space-y-5" novalidate>
+                <input type="text" [value]="hp" (input)="hp = $any($event.target).value" class="hidden" tabIndex="-1" aria-hidden="true" />
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div class="space-y-1.5">
+                    <label for="contact-name" class="text-xs font-medium ml-1 text-slate-700 dark:text-slate-300">Name</label>
+                    <input id="contact-name" formControlName="name" type="text" placeholder="Your name"
+                      class="contact-input"
+                      [class.border-red-500]="f['name'].touched && f['name'].invalid"
+                      [class.dark:border-red-500]="f['name'].touched && f['name'].invalid" />
+                    @if (f['name'].touched && f['name'].errors) {
+                      <span class="text-xs text-red-500 ml-1" role="alert">
+                        @if (f['name'].errors['required']) { Name is required }
+                        @else if (f['name'].errors['minlength']) { At least 2 characters }
+                      </span>
+                    }
+                  </div>
+                  <div class="space-y-1.5">
+                    <label for="contact-email" class="text-xs font-medium ml-1 text-slate-700 dark:text-slate-300">Email</label>
+                    <input id="contact-email" formControlName="email" type="email" placeholder="you&#64;example.com"
+                      class="contact-input"
+                      [class.border-red-500]="f['email'].touched && f['email'].invalid"
+                      [class.dark:border-red-500]="f['email'].touched && f['email'].invalid" />
+                    @if (f['email'].touched && f['email'].errors) {
+                      <span class="text-xs text-red-500 ml-1" role="alert">
+                        @if (f['email'].errors['required']) { Email is required }
+                        @else if (f['email'].errors['email']) { Enter a valid email }
+                      </span>
+                    }
+                  </div>
+                </div>
+
+                <div class="space-y-1.5">
+                  <label for="contact-message" class="text-xs font-medium ml-1 text-slate-700 dark:text-slate-300">Message</label>
+                  <textarea id="contact-message" formControlName="message" rows="4" placeholder="Tell me about your project..."
+                    class="contact-input resize-none min-h-[100px]"
+                    [class.border-red-500]="f['message'].touched && f['message'].invalid"
+                    [class.dark:border-red-500]="f['message'].touched && f['message'].invalid"></textarea>
+                  @if (f['message'].touched && f['message'].errors) {
+                    <span class="text-xs text-red-500 ml-1" role="alert">
+                      @if (f['message'].errors['required']) { Message is required }
+                      @else if (f['message'].errors['minlength']) { At least 10 characters }
+                    </span>
+                  }
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-3">
+                  <div class="flex-1 space-y-1.5">
+                    <label for="contact-captcha" class="text-xs font-medium ml-1 text-slate-500 dark:text-slate-400">
+                      {{ mathCaptcha.question }} = ?
+                    </label>
+                    <div class="relative">
+                      <input id="contact-captcha" formControlName="captcha" type="text" inputmode="numeric"
+                        placeholder="Answer" autocomplete="off"
+                        class="contact-input pr-9 tabular-nums"
+                        [class.border-red-500]="f['captcha'].touched && f['captcha'].invalid && !captchaValid"
+                        [class.border-green-500]="captchaValid"
+                        [class.dark:border-green-500]="captchaValid" />
+                      @if (f['captcha'].value) {
+                      <div class="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 shrink-0">
+                        @if (captchaValid) {
+                          <lucide-icon name="check" class="w-4 h-4 text-green-500"></lucide-icon>
+                        } @else {
+                          <lucide-icon name="x" class="w-4 h-4 text-red-400"></lucide-icon>
+                        }
+                      </div>
+                      }
+                    </div>
+                  </div>
+                  <button type="submit" [disabled]="isSubmitting()"
+                    class="flex-1 inline-flex items-center justify-center h-10 rounded-md px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 disabled:opacity-50 disabled:pointer-events-none shadow-md group relative overflow-hidden transition-all duration-200">
+                    @if (isSubmitting()) { <app-spinner size="sm" class="mr-2"></app-spinner> Sending... }
+                    @else { <span class="mr-2">Send</span> <lucide-icon name="send" class="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5"></lucide-icon> }
+                  </button>
+                </div>
+              </form>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

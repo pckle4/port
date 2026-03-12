@@ -1,0 +1,58 @@
+﻿import { Component, inject, HostListener, ElementRef, signal, computed, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { LucideAngularModule } from 'lucide-angular';
+import { ThemeService } from '../../services/theme.service';
+import { cn } from '../../lib/utils';
+
+@Component({
+  selector: 'app-theme-toggle',
+  standalone: true,
+  imports: [CommonModule, LucideAngularModule],
+  templateUrl: './theme-toggle.html',
+  styleUrls: ['./theme-toggle.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class ThemeToggleComponent {
+  private themeService = inject(ThemeService);
+  private elRef = inject(ElementRef);
+
+  isOpen = signal(false);
+
+  themes = [
+    { name: 'light' as const, icon: 'sun', label: 'Light' },
+    { name: 'dark' as const, icon: 'moon', label: 'Dark' },
+    { name: 'system' as const, icon: 'monitor', label: 'System' },
+  ];
+
+  currentTheme = computed(() => this.themeService.theme());
+  activeIcon = computed(() => {
+    const t = this.themes.find(t => t.name === this.currentTheme());
+    return t ? t.icon : 'monitor';
+  });
+
+  toggle() {
+    this.isOpen.update(v => !v);
+  }
+
+  selectTheme(name: 'light' | 'dark' | 'system') {
+    this.themeService.setTheme(name);
+    this.isOpen.set(false);
+    window.dispatchEvent(new CustomEvent('theme-changed'));
+  }
+
+  getButtonClass(name: string): string {
+    return cn(
+      'flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200',
+      this.currentTheme() === name
+        ? 'bg-accent text-accent-foreground'
+        : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+    );
+  }
+
+  @HostListener('document:mousedown', ['$event'])
+  onClickOutside(event: MouseEvent) {
+    if (this.isOpen() && !this.elRef.nativeElement.contains(event.target)) {
+      this.isOpen.set(false);
+    }
+  }
+}

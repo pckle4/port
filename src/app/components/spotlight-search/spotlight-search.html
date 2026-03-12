@@ -1,0 +1,95 @@
+﻿@if (isOpen) {
+<div class="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh] sm:pt-[20vh] px-4">
+  <div
+    class="fixed inset-0 bg-black/60 backdrop-blur-sm"
+    (click)="onBackdropClick()"
+    style="animation: fadeIn 150ms ease-out"
+    aria-hidden="true"
+  ></div>
+
+  <div
+    class="relative w-full max-w-3xl bg-background/95 dark:bg-[#121212]/95 backdrop-blur-2xl border border-white/20 dark:border-white/10 shadow-2xl rounded-xl overflow-hidden ring-1 ring-white/10"
+    style="animation: slideUp 200ms cubic-bezier(0.16, 1, 0.3, 1)"
+    role="dialog"
+    aria-label="Search commands"
+    aria-modal="true"
+  >
+    <div class="flex items-center px-4 h-12 sm:h-14 gap-3 sm:gap-4">
+      <lucide-icon name="search" class="h-5 w-5 text-muted-foreground/80 shrink-0"></lucide-icon>
+      <input
+        #searchInput
+        class="flex-1 bg-transparent border-none outline-none text-base placeholder:text-muted-foreground/50 text-foreground h-full min-w-0"
+        placeholder="Type command or search..."
+        [value]="query"
+        (input)="onQueryChange($any($event.target).value)"
+        spellcheck="false"
+        autocomplete="off"
+        aria-label="Search commands and actions"
+      />
+      <div class="flex items-center gap-2 shrink-0">
+        @if (query) {
+          <button (click)="clearQuery()" class="p-1 hover:bg-white/10 rounded-full transition-colors" aria-label="Clear search">
+            <lucide-icon name="x" class="h-3.5 w-3.5 text-muted-foreground"></lucide-icon>
+          </button>
+        } @else {
+          <div class="flex items-center gap-2">
+            <div class="hidden sm:flex items-center gap-1.5 px-1.5 py-0.5 rounded bg-white/5 border border-white/10" aria-hidden="true">
+              <span class="text-[10px] font-medium text-muted-foreground">ESC</span>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    @if (query) {
+      <div class="overflow-y-auto border-t border-white/10 dark:border-white/5" #listContainer style="max-height: calc(50vh)" role="listbox" aria-label="Search results">
+        @if (filteredItems.length === 0) {
+          <div class="py-8 text-center text-muted-foreground">
+            <p class="text-sm">No results found for "{{ query }}"</p>
+          </div>
+        } @else {
+          <div class="p-2 space-y-1">
+            @for (item of filteredItems; track item.id; let i = $index) {
+              <div
+                [class]="getItemClass(item, i)"
+                (click)="selectItem(item)"
+                (mouseenter)="hoverItem(i)"
+              >
+                <div class="flex items-center gap-3 overflow-hidden flex-1">
+                  <div [class]="getIconWrapperClass(item, i)">
+                    <lucide-icon [name]="item.icon" class="h-4 w-4"></lucide-icon>
+                  </div>
+                  <div class="truncate min-w-0 flex-1">
+                    <div [class]="getLabelClass(i)">
+                      {{ item.label }}
+                      @if (selectedIndex === i) {
+                        <lucide-icon name="arrow-right" class="h-3 w-3 opacity-60"></lucide-icon>
+                      }
+                    </div>
+                    <div class="text-[11px] truncate text-muted-foreground/60">
+                      {{ item.description }}
+                    </div>
+                  </div>
+                </div>
+                @if (item.secondaryAction) {
+                  <button
+                    [class]="getSecondaryButtonClass(item)"
+                    (click)="handleSecondaryAction(item, $event)"
+                    [title]="item.secondaryAction.label"
+                  >
+                    @if (copiedId === item.id) {
+                      <lucide-icon name="check" class="h-3.5 w-3.5"></lucide-icon>
+                    } @else {
+                      <lucide-icon [name]="item.secondaryAction.icon" class="h-3.5 w-3.5"></lucide-icon>
+                    }
+                  </button>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
+}

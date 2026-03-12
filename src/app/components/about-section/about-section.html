@@ -1,0 +1,94 @@
+﻿<section id="about" class="py-16 sm:py-20 relative overflow-hidden bg-[#f1f5f9] dark:bg-[#09090b] section-divider"
+  style="scroll-margin-top: 96px">
+  <div class="absolute inset-0 opacity-30 dark:opacity-20 pointer-events-none">
+    <div
+      class="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-b from-indigo-500/30 to-transparent dark:from-indigo-500/15 dark:to-transparent blur-3xl">
+    </div>
+    <div
+      class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-t from-amber-400/30 to-transparent dark:from-amber-500/15 dark:to-transparent blur-3xl">
+    </div>
+  </div>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="max-w-5xl mx-auto">
+      <div
+        [ngClass]="['text-center mb-12 transition-all duration-700', isVisible() ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4']">
+        <h2
+          class="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-indigo-400 inline-block mb-3">
+          Behind the Code
+        </h2>
+        <div class="h-1 w-20 bg-gradient-to-r from-indigo-500 to-amber-400 mx-auto rounded-full"></div>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+
+        <div
+          [ngClass]="['order-2 lg:order-1 transition-all duration-1000 delay-200', isVisible() ? 'opacity-100 scale-100' : 'opacity-0 scale-90']">
+          <app-tech-orbit></app-tech-orbit>
+        </div>
+
+        <div class="order-1 lg:order-2 space-y-6">
+
+          <div
+            [ngClass]="['space-y-3 transition-all duration-700 delay-300', isVisible() ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8']">
+            <p class="text-lg font-medium text-foreground leading-relaxed">
+              I'm a <span class="text-indigo-500 dark:text-indigo-400">Computer Engineering Student</span> driven by an
+              insatiable curiosity for how things work under the hood.
+            </p>
+            <p class="text-base text-muted-foreground leading-relaxed">
+              My journey isn't defined by a destination, but by the continuous process of learning. From deciphering
+              complex algorithms to crafting intuitive user interfaces, I treat every challenge as an opportunity to
+              expand my toolkit. I'm currently deep-diving into the modern web stack, exploring the intersection of
+              design and logic.
+            </p>
+          </div>
+
+          <div
+            [ngClass]="['grid grid-cols-1 sm:grid-cols-2 gap-3 transition-all duration-700 delay-500', isVisible() ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4']">
+            <div appCard
+              class="bg-secondary/30 border-indigo-500/30 dark:border-indigo-400/30 hover:bg-secondary/50 transition-colors">
+              <div appCardContent class="p-4 flex items-center gap-4">
+                <div
+                  class="p-2.5 bg-indigo-500/10 dark:bg-indigo-500/20 rounded-lg text-indigo-500 dark:text-indigo-400">
+                  <lucide-icon name="graduation-cap" class="w-5 h-5"></lucide-icon>
+                </div>
+                <div>
+                  <h3 class="font-bold text-foreground text-sm">Student</h3>
+                  <p class="text-xs text-muted-foreground">Computer Engineering</p>
+                </div>
+              </div>
+            </div>
+
+            <div appCard
+              class="bg-secondary/30 border-teal-500/30 dark:border-teal-400/30 hover:bg-secondary/50 transition-colors">
+              <div appCardContent class="p-4 flex items-center gap-4">
+                <div class="p-2.5 bg-teal-500/10 dark:bg-teal-500/20 rounded-lg text-teal-500 dark:text-teal-400">
+                  <lucide-icon name="book-open" class="w-5 h-5"></lucide-icon>
+                </div>
+                <div>
+                  <h3 class="font-bold text-foreground text-sm">Learner</h3>
+                  <p class="text-xs text-muted-foreground">Full Stack Development</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            [ngClass]="['pt-2 transition-all duration-700 delay-700', isVisible() ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4']">
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Core Values</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              @for (item of coreValues; track item.label) {
+              <div
+                class="flex flex-col items-center justify-center p-3 rounded-xl bg-background border border-border/50 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+                <lucide-icon [name]="item.icon" [class]="'w-4 h-4 mb-2 ' + item.color"></lucide-icon>
+                <span class="text-[10px] font-medium">{{item.label}}</span>
+              </div>
+              }
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
