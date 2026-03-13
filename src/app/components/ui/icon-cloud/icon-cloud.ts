@@ -1,4 +1,4 @@
-﻿import { Component, Input, OnInit, OnDestroy, PLATFORM_ID, inject, NgZone, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, PLATFORM_ID, inject, NgZone, AfterViewInit, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ThemeService } from '../../../services/theme.service';
 import {
@@ -123,7 +123,8 @@ let tagCanvasLoaded = false;
   standalone: true,
   imports: [CommonModule],
   templateUrl: './icon-cloud.html',
-  styleUrls: ['./icon-cloud.css']
+  styleUrls: ['./icon-cloud.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
   @Input() iconSlugs: string[] = [];

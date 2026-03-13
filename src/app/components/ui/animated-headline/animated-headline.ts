@@ -1,4 +1,4 @@
-﻿import { Component, Input, OnInit, OnDestroy, PLATFORM_ID, inject, NgZone, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, PLATFORM_ID, inject, NgZone, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
@@ -6,7 +6,8 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './animated-headline.html',
-  styleUrls: ['./animated-headline.css']
+  styleUrls: ['./animated-headline.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AnimatedHeadlineComponent implements OnInit, OnDestroy {
   @Input() words: string[] = [];

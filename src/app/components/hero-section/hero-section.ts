@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, inject, PLATFORM_ID, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
@@ -19,11 +19,18 @@ import { smoothScrollTo } from '../../lib/utils';
     AnimatedHeadlineComponent
   ],
   templateUrl: './hero-section.html',
-  styleUrls: ['./hero-section.css']
+  styleUrls: ['./hero-section.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HeroSectionComponent implements OnInit {
+export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('heroHost') heroHost!: ElementRef<HTMLElement>;
+
   isDesktop = false;
   private platformId = inject(PLATFORM_ID);
+  private cdr = inject(ChangeDetectorRef);
+  private ngZone = inject(NgZone);
+  private rafId: number | null = null;
+  private boundMouseMove?: (e: MouseEvent) => void;
 
   dynamicWords = ["Full Stack Developer", "UI/UX Designer", "Problem Solver", "Creative Thinker"];
 
@@ -36,7 +43,40 @@ export class HeroSectionComponent implements OnInit {
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       this.isDesktop = window.innerWidth >= 768;
+      this.cdr.markForCheck();
     }
+  }
+
+  ngAfterViewInit() {
+    if (!isPlatformBrowser(this.platformId) || !this.isDesktop) return;
+    const el = this.heroHost?.nativeElement;
+    if (!el) return;
+
+    let pendingX = 0;
+    let pendingY = 0;
+
+    this.boundMouseMove = (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect();
+      pendingX = (e.clientX - rect.left - rect.width / 2) / 50;
+      pendingY = (e.clientY - rect.top - rect.height / 2) / 50;
+      if (this.rafId !== null) return;
+      this.rafId = requestAnimationFrame(() => {
+        this.rafId = null;
+        el.style.setProperty('--parallax-x', `${pendingX}px`);
+        el.style.setProperty('--parallax-y', `${pendingY}px`);
+      });
+    };
+
+    this.ngZone.runOutsideAngular(() => {
+      el.addEventListener('mousemove', this.boundMouseMove!, { passive: true });
+    });
+  }
+
+  ngOnDestroy() {
+    if (isPlatformBrowser(this.platformId) && this.heroHost?.nativeElement && this.boundMouseMove) {
+      this.heroHost.nativeElement.removeEventListener('mousemove', this.boundMouseMove);
+    }
+    if (this.rafId !== null) cancelAnimationFrame(this.rafId);
   }
 
   scrollToProjects() {

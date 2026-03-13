@@ -1,9 +1,10 @@
-﻿import {
+import {
   AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
   Input,
+  NgZone,
   OnDestroy,
   OnInit,
   Output,
@@ -43,6 +44,7 @@ export class MagicLoaderComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('magicCanvas') canvasRef!: ElementRef<HTMLCanvasElement>;
 
   private platformId = inject(PLATFORM_ID);
+  private ngZone = inject(NgZone);
   private animationFrameId?: number;
   private completionTimeoutId?: ReturnType<typeof setTimeout>;
   private particles: Particle[] = [];
@@ -64,7 +66,7 @@ export class MagicLoaderComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.setupCanvas();
-    this.animate();
+    this.ngZone.runOutsideAngular(() => this.animate());
   }
 
   ngOnDestroy() {

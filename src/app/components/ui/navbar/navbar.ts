@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, OnDestroy, HostListener, PLATFORM_ID, inject, Injectable, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, PLATFORM_ID, inject, Injectable, ChangeDetectionStrategy, ChangeDetectorRef, NgZone } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { cn } from '../../../lib/utils';
 
@@ -23,6 +23,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private navbarState = inject(NavbarStateService);
   private cdr = inject(ChangeDetectorRef);
+  private ngZone = inject(NgZone);
+  private scrollHandler?: () => void;
 
   get headerClass() {
     return cn(
@@ -42,16 +44,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     );
   }
 
-  @HostListener('window:scroll')
-  onWindowScroll() {
-    if (!isPlatformBrowser(this.platformId)) return;
-    if (!this.ticking) {
-      window.requestAnimationFrame(() => this.updateNavbar());
-      this.ticking = true;
-    }
-  }
-
-  private updateNavbar() {
+  private updateNavbar = () => {
     const currentScrollY = window.scrollY;
     const scrolled = currentScrollY > 50;
 
@@ -73,10 +66,27 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.ticking = false;
 
     if (changed) {
-      this.cdr.markForCheck();
+      this.ngZone.run(() => this.cdr.markForCheck());
     }
+  };
+
+  ngOnInit() {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    const onScroll = () => {
+      if (!this.ticking) {
+        this.ticking = true;
+        requestAnimationFrame(this.updateNavbar);
+      }
+    };
+
+    this.ngZone.runOutsideAngular(() => {
+      window.addEventListener('scroll', onScroll, { passive: true });
+      this.scrollHandler = () => window.removeEventListener('scroll', onScroll);
+    });
   }
 
-  ngOnInit() { }
-  ngOnDestroy() { }
+  ngOnDestroy() {
+    this.scrollHandler?.();
+  }
 }

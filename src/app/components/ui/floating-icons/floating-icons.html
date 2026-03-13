@@ -1,5 +1,4 @@
-﻿<div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none hidden md:block" aria-hidden="true"
-  (mousemove)="onMouseMove($event)" [style.--parallax-x]="parallaxX + 'px'" [style.--parallax-y]="parallaxY + 'px'">
+<div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none hidden md:block" aria-hidden="true">
   @for (item of icons; track $index) {
   <div class="absolute w-6 h-6 transition-transform duration-300" [class]="item.color" [style.top]="item.top"
     [style.left]="item.left" [style.animation]="'float-slow 6s ease-in-out ' + item.delay + ' infinite'"

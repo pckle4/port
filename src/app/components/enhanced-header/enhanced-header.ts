@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, OnDestroy, inject, PLATFORM_ID, ChangeDetectionStrategy, ChangeDetectorRef, NgZone, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, PLATFORM_ID, ChangeDetectionStrategy, ChangeDetectorRef, NgZone, signal } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterLink, NavigationEnd } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
@@ -83,14 +83,24 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
 
     document.addEventListener('keydown', this.keyHandler);
 
+    let rafId: number | null = null;
     const onScroll = () => {
-      if (this.lastScrolledState !== this.navbarState.isScrolled) {
-        this.lastScrolledState = this.navbarState.isScrolled;
-        this.cdr.markForCheck();
-      }
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        if (this.lastScrolledState !== this.navbarState.isScrolled) {
+          this.lastScrolledState = this.navbarState.isScrolled;
+          this.ngZone.run(() => this.cdr.markForCheck());
+        }
+      });
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    this.scrollListener = () => window.removeEventListener('scroll', onScroll);
+    this.ngZone.runOutsideAngular(() => {
+      window.addEventListener('scroll', onScroll, { passive: true });
+      this.scrollListener = () => {
+        window.removeEventListener('scroll', onScroll);
+        if (rafId !== null) cancelAnimationFrame(rafId);
+      };
+    });
 
     this.routeSub = this.router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))

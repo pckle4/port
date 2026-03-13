@@ -1,4 +1,4 @@
-﻿import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, ViewChild, ElementRef, inject, PLATFORM_ID } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, ViewChild, ElementRef, inject, PLATFORM_ID, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
@@ -26,7 +26,8 @@ interface ActionItem {
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './spotlight-search.html',
-  styleUrls: ['./spotlight-search.css']
+  styleUrls: ['./spotlight-search.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SpotlightSearchComponent implements OnInit, OnDestroy {
   @Input() isOpen = false;
@@ -38,6 +39,7 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private router = inject(Router);
   private themeService = inject(ThemeService);
+  private cdr = inject(ChangeDetectorRef);
 
   query = '';
   selectedIndex = 0;
@@ -102,12 +104,14 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
     this.query = value;
     this.selectedIndex = 0;
     this.filterItems();
+    this.cdr.markForCheck();
   }
 
   clearQuery() {
     this.query = '';
     this.filteredItems = [];
     this.selectedIndex = 0;
+    this.cdr.markForCheck();
   }
 
   filterItems() {
@@ -137,6 +141,7 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
     this.filteredItems = [];
     this.selectedIndex = 0;
     this.close.emit();
+    this.cdr.markForCheck();
   }
 
   selectItem(item: ActionItem) {
@@ -149,6 +154,7 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
 
   hoverItem(index: number) {
     this.selectedIndex = index;
+    this.cdr.markForCheck();
   }
 
   handleSecondaryAction(item: ActionItem, e: MouseEvent) {
@@ -164,7 +170,11 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
     e.stopPropagation();
     navigator.clipboard.writeText(text);
     this.copiedId = id;
-    setTimeout(() => this.copiedId = null, 2000);
+    this.cdr.markForCheck();
+    setTimeout(() => {
+      this.copiedId = null;
+      this.cdr.markForCheck();
+    }, 2000);
   }
 
   onBackdropClick() {
