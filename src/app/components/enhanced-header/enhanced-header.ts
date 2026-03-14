@@ -1,4 +1,14 @@
-import { Component, OnInit, OnDestroy, inject, PLATFORM_ID, ChangeDetectionStrategy, ChangeDetectorRef, NgZone, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  inject,
+  PLATFORM_ID,
+  ChangeDetectionStrategy,
+  signal,
+  effect,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterLink, NavigationEnd } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
@@ -12,18 +22,21 @@ import { MobileNavComponent } from '../ui/mobile-nav/mobile-nav';
 import { MobileNavHeaderComponent } from '../ui/mobile-nav-header/mobile-nav-header';
 import { MobileNavToggleComponent } from '../ui/mobile-nav-toggle/mobile-nav-toggle';
 import { MobileNavMenuComponent } from '../ui/mobile-nav-menu/mobile-nav-menu';
-import { NavbarStateService } from '../ui/navbar/navbar';
+import { NavbarStateService } from '../../services/navbar-state.service';
+import { SectionRegistryService } from '../../services/section-registry.service';
 import { ThemeToggleComponent } from '../theme-toggle/theme-toggle';
 import { SpotlightSearchComponent } from '../spotlight-search/spotlight-search';
 import { cn } from '../../lib/utils';
-import { smoothScrollToElement } from '../../lib/utils';
+import { smoothScrollToWithRetry } from '../../lib/utils';
 
-interface NavItem {
+export interface NavItem {
   name: string;
   link: string;
   id: string;
   icon: string;
 }
+
+const NAV_SECTIONS = ['home', 'about', 'skills', 'projects', 'contact'] as const;
 
 @Component({
   selector: 'app-enhanced-header',
@@ -44,20 +57,20 @@ interface NavItem {
   ],
   templateUrl: './enhanced-header.html',
   styleUrls: ['./enhanced-header.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EnhancedHeaderComponent implements OnInit, OnDestroy {
-  private platformId = inject(PLATFORM_ID);
-  private router = inject(Router);
-  private cdr = inject(ChangeDetectorRef);
-  private ngZone = inject(NgZone);
-  navbarState = inject(NavbarStateService);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly router = inject(Router);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly sectionRegistry = inject(SectionRegistryService);
+  readonly state = inject(NavbarStateService);
 
-  activeItem = signal('home');
-  isSearchOpen = signal(false);
-  isMobileMenuOpen = signal(false);
+  readonly activeSection = signal<string>('home');
+  readonly isSearchOpen = signal(false);
+  readonly isMobileMenuOpen = signal(false);
 
-  navigation: NavItem[] = [
+  readonly navigation: NavItem[] = [
     { name: 'Home', link: '/', id: 'home', icon: 'home' },
     { name: 'About', link: '/#about', id: 'about', icon: 'user' },
     { name: 'Skills', link: '/#skills', id: 'skills', icon: 'wrench' },
@@ -66,7 +79,48 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
     { name: 'Resume', link: '/resume', id: 'resume', icon: 'file-text' },
   ];
 
-  private observer?: IntersectionObserver;
+  /** Nav items that stay visible when condensed (logo + resume) */
+  private readonly alwaysVisibleIds = new Set(['home', 'resume']);
+
+  isNavItemHidden(id: string): boolean {
+    return this.state.isCondensed() && !this.alwaysVisibleIds.has(id);
+  }
+
+  getNavItemClass(id: string): string {
+    const hidden = this.state.isCondensed() && !this.alwaysVisibleIds.has(id);
+    const active = this.activeSection() === id;
+
+    return cn(
+      'relative text-sm font-medium transition-all duration-300 ease-out rounded-full overflow-hidden whitespace-nowrap',
+      hidden
+        ? 'w-0 opacity-0 px-0 m-0 pointer-events-none overflow-hidden'
+        : 'w-auto opacity-100 px-3 py-1.5',
+      !hidden && active
+        ? 'text-foreground font-semibold'
+        : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'
+    );
+  }
+
+  getNavItemActiveClass(id: string): string {
+    const hidden = this.state.isCondensed() && !this.alwaysVisibleIds.has(id);
+    if (this.activeSection() !== id || hidden) return '';
+    return 'absolute inset-0 bg-secondary rounded-full -z-10 shadow-sm animate-nav-pill-in';
+  }
+
+  getMobileItemClass(id: string): string {
+    const active = this.activeSection() === id;
+    return cn(
+      'flex items-center gap-3 w-full text-left py-3.5 px-4 rounded-xl transition-all duration-200',
+      active
+        ? 'bg-secondary/80 font-semibold text-foreground'
+        : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground'
+    );
+  }
+
+  private observer: IntersectionObserver | null = null;
+  private routeSub?: Subscription;
+  private sectionSub?: () => void;
+  private retryTimeouts: ReturnType<typeof setTimeout>[] = [];
   private keyHandler = (e: KeyboardEvent) => {
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault();
@@ -74,89 +128,97 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
       this.openSearch();
     }
   };
-  private routeSub?: Subscription;
-  private scrollListener?: () => void;
-  private lastScrolledState = false;
 
-  ngOnInit() {
+  constructor() {
+    effect(() => {
+      this.state.isCondensed();
+      this.state.isVisible();
+      this.activeSection();
+      this.cdr.markForCheck();
+    });
+  }
+
+  ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
 
     document.addEventListener('keydown', this.keyHandler);
-
-    let rafId: number | null = null;
-    const onScroll = () => {
-      if (rafId !== null) return;
-      rafId = requestAnimationFrame(() => {
-        rafId = null;
-        if (this.lastScrolledState !== this.navbarState.isScrolled) {
-          this.lastScrolledState = this.navbarState.isScrolled;
-          this.ngZone.run(() => this.cdr.markForCheck());
-        }
-      });
-    };
-    this.ngZone.runOutsideAngular(() => {
-      window.addEventListener('scroll', onScroll, { passive: true });
-      this.scrollListener = () => {
-        window.removeEventListener('scroll', onScroll);
-        if (rafId !== null) cancelAnimationFrame(rafId);
-      };
-    });
 
     this.routeSub = this.router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
       .subscribe((e) => {
         if (e.urlAfterRedirects === '/resume') {
-          this.activeItem.set('resume');
+          this.activeSection.set('resume');
         } else if (e.urlAfterRedirects === '/' || e.urlAfterRedirects.startsWith('/#')) {
-          this.setupIntersectionObserver();
+          this.scheduleObserverSetup();
         }
       });
 
+    this.sectionSub = this.sectionRegistry.onSectionsReady(() => this.setupSectionObserver());
+
     const url = this.router.url;
     if (url === '/resume') {
-      this.activeItem.set('resume');
+      this.activeSection.set('resume');
     } else {
-      this.setupIntersectionObserver();
+      this.scheduleObserverSetup();
     }
   }
 
-  private setupIntersectionObserver() {
+  /** Schedule observer setup immediately and with retries to catch lazy/deferred content */
+  private scheduleObserverSetup(): void {
+    this.clearRetryTimeouts();
+    this.setupSectionObserver();
+    [150, 400, 800, 1200].forEach((ms) => {
+      this.retryTimeouts.push(
+        setTimeout(() => this.setupSectionObserver(), ms)
+      );
+    });
+  }
+
+  private clearRetryTimeouts(): void {
+    this.retryTimeouts.forEach((t) => clearTimeout(t));
+    this.retryTimeouts = [];
+  }
+
+  private setupSectionObserver(): void {
     this.observer?.disconnect();
 
-    const sections = ['home', 'about', 'skills', 'projects', 'contact'];
     this.observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
+        for (const entry of entries) {
           if (entry.isIntersecting) {
-            this.activeItem.set(entry.target.id);
-            this.cdr.markForCheck();
+            this.activeSection.set(entry.target.id);
+            break;
           }
-        });
+        }
       },
-      { root: null, rootMargin: '-20% 0px -70% 0px', threshold: 0 }
+      {
+        root: null,
+        rootMargin: '-15% 0px -75% 0px',
+        threshold: 0,
+      }
     );
 
-    setTimeout(() => {
-      sections.forEach((id) => {
+    requestAnimationFrame(() => {
+      NAV_SECTIONS.forEach((id) => {
         const el = document.getElementById(id);
         if (el) this.observer!.observe(el);
       });
-    }, 100);
+    });
   }
 
-  handleNavClick(link: string, id: string) {
-    this.activeItem.set(id);
+  handleNavClick(link: string, id: string): void {
+    this.activeSection.set(id);
     this.isMobileMenuOpen.set(false);
-    this.cdr.markForCheck();
 
     if (link.startsWith('/#')) {
       const targetId = link.replace('/#', '');
       const currentUrl = this.router.url.split('#')[0];
 
       if (currentUrl === '/') {
-        const el = document.getElementById(targetId);
-        if (el) smoothScrollToElement(el);
+        this.sectionRegistry.loadAllSections();
+        smoothScrollToWithRetry(targetId, { maxRetries: 25, retryInterval: 100 });
       } else {
+        this.sectionRegistry.loadAllSections();
         this.router.navigate(['/'], { fragment: targetId });
       }
     } else {
@@ -164,59 +226,28 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  getNavItemClass(id: string): string {
-    const isAlwaysVisible = id === 'home' || id === 'resume';
-    const isHidden = this.navbarState.isScrolled && !isAlwaysVisible;
-
-    return cn(
-      'relative text-sm font-medium transition-all duration-500 ease-in-out rounded-full overflow-hidden whitespace-nowrap will-change-[width,opacity]',
-      isHidden ? 'w-0 opacity-0 px-0 m-0 pointer-events-none' : 'w-auto opacity-100 px-3 py-1.5',
-      !isHidden && this.activeItem() === id ? 'text-foreground font-semibold' : 'text-muted-foreground hover:bg-muted/50'
-    );
-  }
-
-  isNavItemHidden(id: string): boolean {
-    const isAlwaysVisible = id === 'home' || id === 'resume';
-    return this.navbarState.isScrolled && !isAlwaysVisible;
-  }
-
-  getNavItemActiveClass(id: string): string {
-    if (this.activeItem() !== id || this.isNavItemHidden(id)) return '';
-    return 'absolute inset-0 bg-secondary rounded-full -z-10 animate-fade-in shadow-sm';
-  }
-
-  getMobileItemClass(id: string): string {
-    return cn(
-      'flex items-center gap-3 w-full text-left py-3 px-2 rounded-lg transition-all',
-      this.activeItem() === id ? 'bg-muted font-semibold' : 'hover:bg-muted'
-    );
-  }
-
-  openSearch() {
+  openSearch(): void {
     this.isSearchOpen.set(true);
-    this.cdr.markForCheck();
   }
 
-  closeSearch() {
+  closeSearch(): void {
     this.isSearchOpen.set(false);
-    this.cdr.markForCheck();
   }
 
-  toggleMobileMenu() {
-    this.isMobileMenuOpen.set(!this.isMobileMenuOpen());
-    this.cdr.markForCheck();
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen.update((v) => !v);
   }
 
-  closeMobileMenu() {
+  closeMobileMenu(): void {
     this.isMobileMenuOpen.set(false);
-    this.cdr.markForCheck();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (isPlatformBrowser(this.platformId)) {
       document.removeEventListener('keydown', this.keyHandler);
     }
-    this.scrollListener?.();
+    this.clearRetryTimeouts();
+    this.sectionSub?.();
     this.observer?.disconnect();
     this.routeSub?.unsubscribe();
   }

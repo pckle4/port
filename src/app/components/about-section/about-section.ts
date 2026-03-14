@@ -1,4 +1,5 @@
-﻿import { Component, ElementRef, OnDestroy, AfterViewInit, PLATFORM_ID, inject, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, ElementRef, OnDestroy, AfterViewInit, PLATFORM_ID, inject, ChangeDetectionStrategy, signal } from '@angular/core';
+import { SectionRegistryService } from '../../services/section-registry.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 import { CardDirective } from '../ui/card';
@@ -18,6 +19,7 @@ export class AboutSectionComponent implements AfterViewInit, OnDestroy {
   private observer?: IntersectionObserver;
   private el = inject(ElementRef);
   private platformId = inject(PLATFORM_ID);
+  private sectionRegistry = inject(SectionRegistryService);
 
   coreValues = [
     { icon: 'brain', label: "Curiosity", color: "text-amber-400" },
@@ -28,6 +30,7 @@ export class AboutSectionComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
+      this.sectionRegistry.register('about');
       this.observer = new IntersectionObserver(
         (entries) => {
           if (entries[0].isIntersecting) {
@@ -42,6 +45,7 @@ export class AboutSectionComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.sectionRegistry.unregister('about');
     this.observer?.disconnect();
   }
 }

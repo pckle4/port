@@ -1,1 +1,13 @@
-﻿
+/* Header & Navbar polish */
+
+/* Smooth focus states for nav items */
+app-enhanced-header button:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Search button hover lift */
+app-enhanced-header [aria-label="Open search (Ctrl+K)"]:hover,
+app-enhanced-header [aria-label="Open search"]:hover {
+  transform: scale(1.05);
+}

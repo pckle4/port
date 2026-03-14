@@ -8,6 +8,7 @@ import { ContactSectionComponent } from '../../components/contact-section/contac
 import { EnhancedFooterComponent } from '../../components/enhanced-footer/enhanced-footer';
 import { SectionSkeletonComponent } from '../../components/ui/section-skeleton/section-skeleton';
 import { SpinnerComponent } from '../../components/ui/spinner/spinner';
+import { SectionRegistryService } from '../../services/section-registry.service';
 
 @Component({
   selector: 'app-home',
@@ -32,6 +33,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private cdr = inject(ChangeDetectorRef);
   private ngZone = inject(NgZone);
+  public sectionRegistry = inject(SectionRegistryService);
   private removeScrollListener?: () => void;
   private rafId: number | null = null;
   private lastProgress = -1;

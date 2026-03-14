@@ -1,4 +1,4 @@
-﻿<app-navbar>
+<app-navbar>
   <app-nav-body>
     <app-navbar-logo>
       <a routerLink="/" class="group relative flex items-center gap-2 font-bold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500/60 rounded-lg px-1 -mx-1" aria-label="Go to homepage">
@@ -19,7 +19,7 @@
         >
           <span [class]="getNavItemActiveClass(item.id)"></span>
           <span class="flex items-center gap-2 relative z-10">
-            <lucide-icon [name]="item.icon" class="h-4 w-4" [class.text-purple-500]="item.id === 'resume' && navbarState.isScrolled"></lucide-icon>
+            <lucide-icon [name]="item.icon" class="h-4 w-4" [class.text-purple-500]="item.id === 'resume' && state.isCondensed()"></lucide-icon>
             {{ item.name }}
           </span>
         </button>

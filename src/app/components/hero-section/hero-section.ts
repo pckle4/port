@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, inject, PLATFORM_ID, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { SectionRegistryService } from '../../services/section-registry.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
 import { GridBackgroundComponent } from '../ui/grid-background/grid-background';
 import { FloatingIconsComponent } from '../ui/floating-icons/floating-icons';
 import { AnimatedHeadlineComponent } from '../ui/animated-headline/animated-headline';
-import { smoothScrollTo } from '../../lib/utils';
+import { smoothScrollToWithRetry } from '../../lib/utils';
 
 @Component({
   selector: 'app-hero-section',
@@ -29,6 +30,7 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private cdr = inject(ChangeDetectorRef);
   private ngZone = inject(NgZone);
+  private sectionRegistry = inject(SectionRegistryService);
   private rafId: number | null = null;
   private boundMouseMove?: (e: MouseEvent) => void;
 
@@ -48,6 +50,9 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.sectionRegistry.register('home');
+    }
     if (!isPlatformBrowser(this.platformId) || !this.isDesktop) return;
     const el = this.heroHost?.nativeElement;
     if (!el) return;
@@ -73,6 +78,9 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.sectionRegistry.unregister('home');
+    }
     if (isPlatformBrowser(this.platformId) && this.heroHost?.nativeElement && this.boundMouseMove) {
       this.heroHost.nativeElement.removeEventListener('mousemove', this.boundMouseMove);
     }
@@ -80,10 +88,12 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   scrollToProjects() {
-    smoothScrollTo('projects');
+    this.sectionRegistry.loadAllSections();
+    smoothScrollToWithRetry('projects');
   }
 
   scrollToAbout() {
-    smoothScrollTo('about');
+    this.sectionRegistry.loadAllSections();
+    smoothScrollToWithRetry('about');
   }
 }

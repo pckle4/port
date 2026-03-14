@@ -1,1 +1,9 @@
-﻿
+/* Navbar glass morphism enhancement */
+app-navbar header {
+  contain: layout style;
+}
+
+app-navbar .inner {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}

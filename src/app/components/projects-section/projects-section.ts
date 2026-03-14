@@ -1,7 +1,8 @@
-﻿import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, AfterViewInit, OnDestroy, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 import { ProjectCardComponent } from './project-card/project-card';
+import { SectionRegistryService } from '../../services/section-registry.service';
 
 @Component({
   selector: 'app-projects-section',
@@ -11,7 +12,22 @@ import { ProjectCardComponent } from './project-card/project-card';
   styleUrls: ['./projects-section.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProjectsSectionComponent {
+export class ProjectsSectionComponent implements AfterViewInit, OnDestroy {
+  private platformId = inject(PLATFORM_ID);
+  private sectionRegistry = inject(SectionRegistryService);
+
+  ngAfterViewInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.sectionRegistry.register('projects');
+    }
+  }
+
+  ngOnDestroy() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.sectionRegistry.unregister('projects');
+    }
+  }
+
   projects = [
     {
       id: "project-link-share",

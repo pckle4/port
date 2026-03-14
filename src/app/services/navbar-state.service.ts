@@ -1,0 +1,100 @@
+import { Injectable, signal, computed, effect, PLATFORM_ID, inject, NgZone } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+
+/** Scroll thresholds for navbar behavior */
+const SCROLL_CONDENSE_THRESHOLD = 48;
+const SCROLL_HIDE_THRESHOLD = 120;
+const SCROLL_HIDE_VELOCITY = 8;
+
+export type ScrollDirection = 'up' | 'down' | 'none';
+
+@Injectable({ providedIn: 'root' })
+export class NavbarStateService {
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly ngZone = inject(NgZone);
+
+  /** Whether user has scrolled past the condense threshold (navbar shrinks) */
+  readonly isCondensed = signal(false);
+
+  /** Whether navbar is visible (hides when scrolling down fast) */
+  readonly isVisible = signal(true);
+
+  /** Scroll progress 0–1 from top to bottom of page */
+  readonly scrollProgress = signal(0);
+
+  /** Current scroll direction */
+  readonly scrollDirection = signal<ScrollDirection>('none');
+
+  /** Last scroll Y for velocity calculation */
+  private lastScrollY = 0;
+  private lastScrollTime = 0;
+  private ticking = false;
+  private rafId: number | null = null;
+  private scrollUnsubscribe?: () => void;
+
+  constructor() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.ngZone.runOutsideAngular(() => this.setupScrollListener());
+    }
+  }
+
+  private setupScrollListener(): void {
+    const onScroll = (): void => {
+      if (this.ticking) return;
+      this.ticking = true;
+      this.rafId = requestAnimationFrame(() => this.updateFromScroll());
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    this.scrollUnsubscribe = () => {
+      window.removeEventListener('scroll', onScroll);
+      if (this.rafId !== null) cancelAnimationFrame(this.rafId);
+    };
+  }
+
+  private updateFromScroll(): void {
+    this.ticking = false;
+    this.rafId = null;
+
+    const scrollY = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const now = performance.now();
+
+    // Scroll progress
+    const progress = docHeight > 0 ? Math.min(1, scrollY / docHeight) : 0;
+    this.scrollProgress.set(progress);
+
+    // Direction (with velocity)
+    const deltaY = scrollY - this.lastScrollY;
+    const deltaTime = Math.max(1, now - this.lastScrollTime);
+    const velocity = deltaY / deltaTime;
+
+    const direction: ScrollDirection =
+      Math.abs(velocity) < 0.5 ? 'none' : velocity > 0 ? 'down' : 'up';
+    this.scrollDirection.set(direction);
+
+    this.lastScrollY = scrollY;
+    this.lastScrollTime = now;
+
+    // Condensed state (navbar shrinks)
+    const condensed = scrollY > SCROLL_CONDENSE_THRESHOLD;
+    if (this.isCondensed() !== condensed) {
+      this.ngZone.run(() => this.isCondensed.set(condensed));
+    }
+
+    // Visibility (hide when scrolling down past threshold)
+    const shouldHide =
+      direction === 'down' &&
+      scrollY > SCROLL_HIDE_THRESHOLD &&
+      Math.abs(deltaY) > SCROLL_HIDE_VELOCITY;
+    const visible = !shouldHide;
+    if (this.isVisible() !== visible) {
+      this.ngZone.run(() => this.isVisible.set(visible));
+    }
+  }
+
+  /** Cleanup when service is destroyed (e.g. in tests) */
+  destroy(): void {
+    this.scrollUnsubscribe?.();
+  }
+}

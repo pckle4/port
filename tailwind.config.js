@@ -73,6 +73,8 @@ module.exports = {
         'spin-slow': 'spin-slow 3s linear infinite',
         'fade-in': 'fade-in 0.5s ease-out',
         'float-slow': 'float-slow 6s ease-in-out infinite',
+        'nav-pill-in': 'nav-pill-in 0.35s cubic-bezier(0.32,0.72,0,1)',
+        'nav-slide-up': 'nav-slide-up 0.4s cubic-bezier(0.32,0.72,0,1)',
       },
       keyframes: {
         'spin-slow': {
@@ -89,6 +91,14 @@ module.exports = {
         },
         shimmer: {
           '100%': { transform: 'translateX(100%)' },
+        },
+        'nav-pill-in': {
+          '0%': { opacity: '0', transform: 'scale(0.92)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        'nav-slide-up': {
+          '0%': { opacity: '0', transform: 'translateY(8px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
         },
       },
     },

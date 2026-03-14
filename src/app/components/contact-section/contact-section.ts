@@ -1,4 +1,5 @@
-﻿import { Component, OnInit, OnDestroy, ElementRef, PLATFORM_ID, inject, ChangeDetectionStrategy, ChangeDetectorRef, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, PLATFORM_ID, inject, ChangeDetectionStrategy, ChangeDetectorRef, signal } from '@angular/core';
+import { SectionRegistryService } from '../../services/section-registry.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LucideAngularModule } from 'lucide-angular';
@@ -35,6 +36,7 @@ export class ContactSectionComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private platformId = inject(PLATFORM_ID);
   private el = inject(ElementRef);
+  private sectionRegistry = inject(SectionRegistryService);
   private cdr = inject(ChangeDetectorRef);
   private observer?: IntersectionObserver;
   private toastService = inject(ToastService);
@@ -55,6 +57,7 @@ export class ContactSectionComponent implements OnInit, OnDestroy {
     });
 
     if (isPlatformBrowser(this.platformId)) {
+      this.sectionRegistry.register('contact');
       this.observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
@@ -121,6 +124,7 @@ export class ContactSectionComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.sectionRegistry.unregister('contact');
     this.observer?.disconnect();
     this.captchaSub?.unsubscribe();
   }

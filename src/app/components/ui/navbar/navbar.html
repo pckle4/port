@@ -1,7 +1,13 @@
-﻿<header [class]="headerClass">
-  <div [class]="innerClass">
+<header [class]="headerClass()">
+  <div [class]="innerClass()" class="relative overflow-hidden">
     <div class="flex h-12 items-center justify-between gap-6">
       <ng-content></ng-content>
     </div>
+    @if (state.isCondensed()) {
+      <div
+        class="absolute bottom-0 left-0 h-0.5 bg-indigo-500/60 dark:bg-indigo-400/50 transition-all duration-300 ease-out"
+        [style.width.%]="state.scrollProgress() * 100">
+      </div>
+    }
   </div>
 </header>

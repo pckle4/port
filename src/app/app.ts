@@ -1,7 +1,9 @@
-﻿import { Component, OnInit, signal, inject, OnDestroy, PLATFORM_ID, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, signal, inject, OnDestroy, PLATFORM_ID, ChangeDetectionStrategy } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { ThemeService } from './services/theme.service';
+import { SectionRegistryService } from './services/section-registry.service';
+import { smoothScrollToWithRetry } from './lib/utils';
 import { MagicLoaderComponent } from './components/ui/magic-loader/magic-loader';
 import { EnhancedHeaderComponent } from './components/enhanced-header/enhanced-header';
 import { ToastProviderComponent } from './components/ui/toast-provider/toast-provider';
@@ -27,6 +29,7 @@ export class App implements OnInit, OnDestroy {
   isLoading = signal(true);
 
   private themeService = inject(ThemeService);
+  private sectionRegistry = inject(SectionRegistryService);
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
   private routerSub?: Subscription;
@@ -46,15 +49,9 @@ export class App implements OnInit, OnDestroy {
     }
   }
 
-  private scrollToFragment(fragment: string, retries = 12) {
-    const el = document.getElementById(fragment);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      return;
-    }
-    if (retries > 0) {
-      setTimeout(() => this.scrollToFragment(fragment, retries - 1), 120);
-    }
+  private scrollToFragment(fragment: string) {
+    this.sectionRegistry.loadAllSections();
+    smoothScrollToWithRetry(fragment, { maxRetries: 30, retryInterval: 100 });
   }
 
   onMagicLoaderComplete() {
