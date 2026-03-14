@@ -1,10 +1,15 @@
 ﻿import { Routes } from '@angular/router';
+import { HomeComponent } from './pages/home/home';
+import { ResumeComponent } from './pages/resume/resume';
+import { TermsComponent } from './pages/terms/terms';
+import { PrivacyComponent } from './pages/privacy/privacy';
+import { NotFoundComponent } from './pages/not-found/not-found';
 
 export const routes: Routes = [
-  { path: '', loadComponent: () => import('./pages/home/home').then(m => m.HomeComponent) },
-  { path: 'resume', loadComponent: () => import('./pages/resume/resume').then(m => m.ResumeComponent) },
-  { path: 'terms', loadComponent: () => import('./pages/terms/terms').then(m => m.TermsComponent) },
-  { path: 'privacy', loadComponent: () => import('./pages/privacy/privacy').then(m => m.PrivacyComponent) },
-  { path: '404', loadComponent: () => import('./pages/not-found/not-found').then(m => m.NotFoundComponent) },
+  { path: '', component: HomeComponent },
+  { path: 'resume', component: ResumeComponent },
+  { path: 'terms', component: TermsComponent },
+  { path: 'privacy', component: PrivacyComponent },
+  { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '404' }
 ];

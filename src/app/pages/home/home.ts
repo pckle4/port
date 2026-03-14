@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, PLATFORM_ID, inject, ChangeDetectionStrategy, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, OnDestroy, OnInit, PLATFORM_ID, inject, ChangeDetectionStrategy, ChangeDetectorRef, NgZone, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HeroSectionComponent } from '../../components/hero-section/hero-section';
 import { AboutSectionComponent } from '../../components/about-section/about-section';
@@ -29,6 +29,7 @@ import { SectionRegistryService } from '../../services/section-registry.service'
 })
 export class HomeComponent implements OnInit, OnDestroy {
   scrollProgress = 0;
+  isLoading = signal(true);
 
   private platformId = inject(PLATFORM_ID);
   private cdr = inject(ChangeDetectorRef);
@@ -42,6 +43,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
+
+    setTimeout(() => {
+      this.isLoading.set(false);
+    }, 1500);
 
     const onScroll = () => {
       if (this.rafId !== null) return;

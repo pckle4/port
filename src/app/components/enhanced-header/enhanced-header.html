@@ -40,19 +40,21 @@
   </app-nav-body>
 
   <app-mobile-nav>
-    <app-mobile-nav-header>
-      <app-mobile-nav-toggle [isOpen]="isMobileMenuOpen()" (toggle)="toggleMobileMenu()"></app-mobile-nav-toggle>
-      <app-navbar-logo>
-        <a routerLink="/" class="flex items-center font-bold group" (click)="closeMobileMenu()">
-          <span class="text-base font-extrabold tracking-tight text-black dark:text-white select-none"
+    <app-mobile-nav-header class="flex items-center justify-between w-full relative">
+      <div class="flex-1 basis-0 min-w-0 flex justify-start z-10 relative">
+        <app-mobile-nav-toggle [isOpen]="isMobileMenuOpen()" (toggle)="toggleMobileMenu()"></app-mobile-nav-toggle>
+      </div>
+      <app-navbar-logo class="flex-1 basis-0 min-w-0 flex justify-center z-10 relative">
+        <a routerLink="/" class="flex items-center font-bold group max-w-full" (click)="closeMobileMenu()">
+          <span class="text-[0.95rem] sm:text-lg font-extrabold tracking-tight text-black dark:text-white select-none whitespace-nowrap truncate"
             style="font-family: 'JetBrains Mono', monospace;">
             NOWHILE<span class="text-indigo-500 animate-pulse">_</span>
           </span>
         </a>
       </app-navbar-logo>
-      <div class="flex items-center gap-2">
-        <button (click)="openSearch()" class="p-2" aria-label="Open search">
-          <lucide-icon name="search" class="h-5 w-5"></lucide-icon>
+      <div class="flex-1 basis-0 min-w-0 flex items-center justify-end gap-0.5 sm:gap-2 z-10 relative">
+        <button (click)="openSearch()" class="p-1.5 sm:p-2" aria-label="Open search">
+          <lucide-icon name="search" class="h-4 w-4 sm:h-5 sm:w-5"></lucide-icon>
         </button>
         <app-theme-toggle></app-theme-toggle>
       </div>

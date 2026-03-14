@@ -128,6 +128,11 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
       this.openSearch();
     }
   };
+  private scrollHandler = () => {
+    if (this.isMobileMenuOpen()) {
+      this.closeMobileMenu();
+    }
+  };
 
   constructor() {
     effect(() => {
@@ -142,6 +147,7 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
     if (!isPlatformBrowser(this.platformId)) return;
 
     document.addEventListener('keydown', this.keyHandler);
+    window.addEventListener('scroll', this.scrollHandler, { passive: true });
 
     this.routeSub = this.router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
@@ -245,6 +251,7 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (isPlatformBrowser(this.platformId)) {
       document.removeEventListener('keydown', this.keyHandler);
+      window.removeEventListener('scroll', this.scrollHandler);
     }
     this.clearRetryTimeouts();
     this.sectionSub?.();

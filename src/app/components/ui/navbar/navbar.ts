@@ -14,6 +14,11 @@ import { NavbarStateService } from '../../../services/navbar-state.service';
 export class NavbarComponent {
   readonly state = inject(NavbarStateService);
 
+  readonly scrollProgressWidth = computed(() => {
+    const clamped = Math.max(0, Math.min(1, this.state.scrollProgress()));
+    return `${clamped * 100}%`;
+  });
+
   readonly headerClass = computed(() => {
     const condensed = this.state.isCondensed();
     const visible = this.state.isVisible();
@@ -21,7 +26,7 @@ export class NavbarComponent {
     return cn(
       'fixed top-4 left-0 right-0 z-50 mx-auto transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]',
       'will-change-[transform,opacity]',
-      condensed ? 'max-w-fit' : 'w-[92%] md:w-[85%] max-w-4xl',
+      condensed ? 'w-[92%] md:w-fit' : 'w-[92%] md:w-[85%] max-w-4xl',
       visible
         ? 'translate-y-0 opacity-100'
         : '-translate-y-[calc(100%+1rem)] opacity-0 pointer-events-none'

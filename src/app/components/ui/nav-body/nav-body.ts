@@ -4,6 +4,9 @@
   selector: 'app-nav-body',
   standalone: true,
   templateUrl: './nav-body.html',
-  styleUrls: ['./nav-body.css']
+  styleUrls: ['./nav-body.css'],
+  host: {
+    'class': 'contents'
+  }
 })
 export class NavBodyComponent { }

@@ -1,14 +1,14 @@
 ﻿<div class="relative">
   <button
     (click)="toggle()"
-    class="flex items-center justify-center w-10 h-10 rounded-full bg-secondary/50 border border-border/50 hover:bg-secondary/80 transition-all duration-300 backdrop-blur-sm group"
+    class="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/10 dark:bg-black/20 border border-gray-200/50 dark:border-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800/80 shadow-sm backdrop-blur-md transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
     aria-label="Toggle theme"
   >
-    <lucide-icon [name]="activeIcon()" class="w-4 h-4 text-foreground transition-all duration-500 group-hover:rotate-[360deg] group-hover:scale-110"></lucide-icon>
+    <lucide-icon [name]="activeIcon()" class="w-4 h-4 text-gray-700 dark:text-gray-300 transition-transform duration-500 group-hover:rotate-[360deg] group-hover:scale-110"></lucide-icon>
   </button>
 
   @if (isOpen()) {
-    <div class="absolute right-0 mt-2 p-1 rounded-xl bg-popover border border-border shadow-lg shadow-black/5 z-50 animate-in fade-in zoom-in-95 duration-200 origin-top-right flex flex-row gap-1">
+    <div class="absolute right-0 mt-3 p-1.5 rounded-2xl bg-white/90 dark:bg-gray-950/90 border border-gray-200/50 dark:border-gray-800/50 shadow-xl shadow-black/5 dark:shadow-black/20 z-50 animate-in fade-in zoom-in-95 duration-200 origin-top-right flex flex-col gap-1 backdrop-blur-xl min-w-[120px]">
       @for (t of themes; track t.name) {
         <button
           (click)="selectTheme(t.name)"
@@ -16,6 +16,7 @@
           [title]="t.label"
         >
           <lucide-icon [name]="t.icon" class="w-4 h-4"></lucide-icon>
+          <span>{{ t.label }}</span>
         </button>
       }
     </div>

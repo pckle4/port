@@ -3,53 +3,37 @@
   <main>
   <app-hero-section></app-hero-section>
   <div id="about" style="scroll-margin-top: 96px">
-    @defer (on viewport; when sectionRegistry.forceLoadAllSections()) {
-      <app-about-section></app-about-section>
-    } @loading (minimum 150ms) {
-      <div class="min-h-[50vh] flex items-center justify-center">
-        <app-spinner size="lg"></app-spinner>
-      </div>
-    } @placeholder (minimum 100ms) {
+    @if (isLoading()) {
       <app-section-skeleton variant="text-block"></app-section-skeleton>
+    } @else {
+      <app-about-section></app-about-section>
     }
   </div>
   <div id="skills" style="scroll-margin-top: 96px">
-    @defer (on viewport; when sectionRegistry.forceLoadAllSections()) {
-      <app-skills-section></app-skills-section>
-    } @loading (minimum 150ms) {
-      <div class="min-h-[50vh] flex items-center justify-center">
-        <app-spinner size="lg"></app-spinner>
-      </div>
-    } @placeholder (minimum 100ms) {
+    @if (isLoading()) {
       <app-section-skeleton variant="card-grid"></app-section-skeleton>
+    } @else {
+      <app-skills-section></app-skills-section>
     }
   </div>
   <div id="projects" style="scroll-margin-top: 96px">
-    @defer (on viewport; when sectionRegistry.forceLoadAllSections()) {
-      <app-projects-section></app-projects-section>
-    } @loading (minimum 150ms) {
-      <div class="min-h-[50vh] flex items-center justify-center">
-        <app-spinner size="lg"></app-spinner>
-      </div>
-    } @placeholder (minimum 100ms) {
+    @if (isLoading()) {
       <app-section-skeleton variant="card-grid"></app-section-skeleton>
+    } @else {
+      <app-projects-section></app-projects-section>
     }
   </div>
   <div id="contact" style="scroll-margin-top: 96px">
-    @defer (on viewport; when sectionRegistry.forceLoadAllSections()) {
-      <app-contact-section></app-contact-section>
-    } @loading (minimum 150ms) {
-      <div class="min-h-[50vh] flex items-center justify-center">
-        <app-spinner size="lg"></app-spinner>
-      </div>
-    } @placeholder (minimum 100ms) {
+    @if (isLoading()) {
       <app-section-skeleton variant="form"></app-section-skeleton>
+    } @else {
+      <app-contact-section></app-contact-section>
     }
   </div>
-  @defer (on viewport; when sectionRegistry.forceLoadAllSections()) {
-    <app-enhanced-footer></app-enhanced-footer>
-  } @placeholder {
+  @if (isLoading()) {
     <div class="h-24"></div>
+  } @else {
+    <app-enhanced-footer></app-enhanced-footer>
   }
   </main>
 </div>

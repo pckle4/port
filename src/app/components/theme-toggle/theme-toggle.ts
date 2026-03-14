@@ -24,9 +24,10 @@ export class ThemeToggleComponent {
     { name: 'system' as const, icon: 'monitor', label: 'System' },
   ];
 
-  currentTheme = computed(() => this.themeService.theme());
+  activeTheme = computed(() => this.themeService.theme());
+
   activeIcon = computed(() => {
-    const t = this.themes.find(t => t.name === this.currentTheme());
+    const t = this.themes.find(t => t.name === this.activeTheme());
     return t ? t.icon : 'monitor';
   });
 
@@ -42,10 +43,10 @@ export class ThemeToggleComponent {
 
   getButtonClass(name: string): string {
     return cn(
-      'flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200',
-      this.currentTheme() === name
-        ? 'bg-accent text-accent-foreground'
-        : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+      'flex items-center gap-2.5 px-3 py-2 w-full text-sm font-medium rounded-xl transition-colors duration-200 cursor-pointer outline-none border-none',
+      this.activeTheme() === name
+        ? 'bg-black/5 dark:bg-white/10 text-indigo-600 dark:text-indigo-400'
+        : 'text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/5'
     );
   }
 
