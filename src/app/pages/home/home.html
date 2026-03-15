@@ -1,39 +1,44 @@
-﻿<div class="min-h-screen bg-transparent selection:bg-[#cc8b86] selection:text-white">
-  <div class="scroll-progress" [style.transform]="'scaleX(' + scrollProgress + ')'" style="transform-origin: left;"></div>
+<div class="min-h-screen bg-transparent selection:bg-cyan-500/30 selection:text-slate-900">
   <main>
-  <app-hero-section></app-hero-section>
-  <div id="about" style="scroll-margin-top: 96px">
-    @if (isLoading()) {
-      <app-section-skeleton variant="text-block"></app-section-skeleton>
-    } @else {
-      <app-about-section></app-about-section>
+    <app-hero-section></app-hero-section>
+
+    <div id="about" style="scroll-margin-top: 96px">
+      @defer (when !isLoading() || sectionRegistry.forceLoadAllSections()) {
+        <app-about-section></app-about-section>
+      } @placeholder {
+        <app-section-skeleton variant="text-block"></app-section-skeleton>
+      }
+    </div>
+
+    <div id="skills" style="scroll-margin-top: 96px">
+      @defer (when !isLoading() || sectionRegistry.forceLoadAllSections()) {
+        <app-skills-section></app-skills-section>
+      } @placeholder {
+        <app-section-skeleton variant="card-grid"></app-section-skeleton>
+      }
+    </div>
+
+    <div id="projects" style="scroll-margin-top: 96px">
+      @defer (when !isLoading() || sectionRegistry.forceLoadAllSections()) {
+        <app-projects-section></app-projects-section>
+      } @placeholder {
+        <app-section-skeleton variant="card-grid"></app-section-skeleton>
+      }
+    </div>
+
+    <div id="contact" style="scroll-margin-top: 96px">
+      @defer (when !isLoading() || sectionRegistry.forceLoadAllSections()) {
+        <app-contact-section></app-contact-section>
+      } @placeholder {
+        <app-section-skeleton variant="form"></app-section-skeleton>
+      }
+    </div>
+
+    @defer (when !isLoading() || sectionRegistry.forceLoadAllSections()) {
+      <app-enhanced-footer></app-enhanced-footer>
+    } @placeholder {
+      <div class="h-24"></div>
     }
-  </div>
-  <div id="skills" style="scroll-margin-top: 96px">
-    @if (isLoading()) {
-      <app-section-skeleton variant="card-grid"></app-section-skeleton>
-    } @else {
-      <app-skills-section></app-skills-section>
-    }
-  </div>
-  <div id="projects" style="scroll-margin-top: 96px">
-    @if (isLoading()) {
-      <app-section-skeleton variant="card-grid"></app-section-skeleton>
-    } @else {
-      <app-projects-section></app-projects-section>
-    }
-  </div>
-  <div id="contact" style="scroll-margin-top: 96px">
-    @if (isLoading()) {
-      <app-section-skeleton variant="form"></app-section-skeleton>
-    } @else {
-      <app-contact-section></app-contact-section>
-    }
-  </div>
-  @if (isLoading()) {
-    <div class="h-24"></div>
-  } @else {
-    <app-enhanced-footer></app-enhanced-footer>
-  }
   </main>
 </div>
+

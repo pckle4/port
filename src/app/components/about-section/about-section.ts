@@ -24,7 +24,7 @@ export class AboutSectionComponent implements AfterViewInit, OnDestroy {
   coreValues = [
     { icon: 'brain', label: "Curiosity", color: "text-amber-400" },
     { icon: 'code', label: "Clean Code", color: "text-teal-500" },
-    { icon: 'heart', label: "Passion", color: "text-indigo-500" },
+    { icon: 'heart', label: "Passion", color: "text-cyan-500" },
     { icon: 'rocket', label: "Growth", color: "text-amber-500" },
   ];
 
@@ -49,3 +49,4 @@ export class AboutSectionComponent implements AfterViewInit, OnDestroy {
     this.observer?.disconnect();
   }
 }
+

@@ -47,7 +47,7 @@ export class ProjectsSectionComponent implements AfterViewInit, OnDestroy {
       tags: ["React", "TypeScript", "Shadcn UI"],
       image: "/images/1x.png",
       links: { demo: "https://resume.nowhile.com", github: "https://github.com/theanshshah" },
-      color: "from-purple-500 to-indigo-500",
+      color: "from-cyan-500 to-teal-500",
       date: "January 2025",
       category: "Productivity"
     },
@@ -75,3 +75,4 @@ export class ProjectsSectionComponent implements AfterViewInit, OnDestroy {
     }
   ];
 }
+

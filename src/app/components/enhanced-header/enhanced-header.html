@@ -4,7 +4,7 @@
       <a routerLink="/" class="group relative flex items-center gap-2 font-bold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500/60 rounded-lg px-1 -mx-1" aria-label="Go to homepage">
         <span class="text-xl font-extrabold tracking-tight text-black dark:text-white select-none transition-all duration-300 group-hover:scale-105"
           style="font-family: 'JetBrains Mono', monospace;">
-          NOWHILE<span class="text-indigo-500 animate-pulse">_</span>
+          NOWHILE<span class="text-cyan-500 animate-pulse">_</span>
         </span>
       </a>
     </app-navbar-logo>
@@ -19,7 +19,7 @@
         >
           <span [class]="getNavItemActiveClass(item.id)"></span>
           <span class="flex items-center gap-2 relative z-10">
-            <lucide-icon [name]="item.icon" class="h-4 w-4" [class.text-purple-500]="item.id === 'resume' && state.isCondensed()"></lucide-icon>
+            <lucide-icon [name]="item.icon" class="h-4 w-4" [class.text-teal-500]="item.id === 'resume' && state.isCondensed()"></lucide-icon>
             {{ item.name }}
           </span>
         </button>
@@ -33,7 +33,7 @@
         title="Search (Ctrl+K)"
         aria-label="Open search (Ctrl+K)"
       >
-        <lucide-icon name="search" class="h-5 w-5 text-gray-600 dark:text-gray-300 group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-all duration-300"></lucide-icon>
+        <lucide-icon name="search" class="h-5 w-5 text-gray-600 dark:text-gray-300 group-hover:text-cyan-500 dark:group-hover:text-cyan-400 transition-all duration-300"></lucide-icon>
       </button>
       <app-theme-toggle></app-theme-toggle>
     </div>
@@ -48,7 +48,7 @@
         <a routerLink="/" class="flex items-center font-bold group max-w-full" (click)="closeMobileMenu()">
           <span class="text-[0.95rem] sm:text-lg font-extrabold tracking-tight text-black dark:text-white select-none whitespace-nowrap truncate"
             style="font-family: 'JetBrains Mono', monospace;">
-            NOWHILE<span class="text-indigo-500 animate-pulse">_</span>
+            NOWHILE<span class="text-cyan-500 animate-pulse">_</span>
           </span>
         </a>
       </app-navbar-logo>
@@ -74,6 +74,7 @@
   </app-mobile-nav>
 </app-navbar>
 
-@if (isSearchOpen()) {
+@defer (when isSearchOpen()) {
   <app-spotlight-search [isOpen]="isSearchOpen()" (close)="closeSearch()"></app-spotlight-search>
 }
+

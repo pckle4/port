@@ -37,8 +37,8 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
   dynamicWords = ["Full Stack Developer", "UI/UX Designer", "Problem Solver", "Creative Thinker"];
 
   socials = [
-    { icon: 'github', href: "https://github.com/theanshshah", color: "text-slate-600 dark:text-slate-300 hover:text-indigo-500 dark:hover:text-white", label: "GitHub Profile" },
-    { icon: 'linkedin', href: "https://linkedin.com/in/anshshahh", color: "text-slate-500 dark:text-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-300", label: "LinkedIn Profile" },
+    { icon: 'github', href: "https://github.com/theanshshah", color: "text-slate-600 dark:text-slate-300 hover:text-cyan-500 dark:hover:text-white", label: "GitHub Profile" },
+    { icon: 'linkedin', href: "https://linkedin.com/in/anshshahh", color: "text-slate-500 dark:text-cyan-400 hover:text-cyan-600 dark:hover:text-cyan-300", label: "LinkedIn Profile" },
     { icon: 'mail', href: "mailto:theanshshah@gmail.com", color: "text-amber-500 dark:text-amber-400 hover:text-amber-600 dark:hover:text-amber-300", label: "Send Email" }
   ];
 
@@ -97,3 +97,4 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
     smoothScrollToWithRetry('about');
   }
 }
+

@@ -104,7 +104,7 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
   getNavItemActiveClass(id: string): string {
     const hidden = this.state.isCondensed() && !this.alwaysVisibleIds.has(id);
     if (this.activeSection() !== id || hidden) return '';
-    return 'absolute inset-0 bg-secondary rounded-full -z-10 shadow-sm animate-nav-pill-in';
+    return 'absolute inset-0 rounded-full -z-10 shadow-sm border border-cyan-500/20 bg-cyan-500/15 animate-nav-pill-in';
   }
 
   getMobileItemClass(id: string): string {
@@ -112,7 +112,7 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
     return cn(
       'flex items-center gap-3 w-full text-left py-3.5 px-4 rounded-xl transition-all duration-200',
       active
-        ? 'bg-secondary/80 font-semibold text-foreground'
+        ? 'bg-cyan-500/10 border border-cyan-500/20 font-semibold text-foreground'
         : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground'
     );
   }

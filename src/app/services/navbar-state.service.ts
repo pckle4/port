@@ -20,9 +20,6 @@ export class NavbarStateService {
   /** Whether navbar is visible */
   readonly isVisible = signal(true);
 
-  /** Scroll progress 0-1 from top to bottom of page */
-  readonly scrollProgress = signal(0);
-
   /** Current scroll direction */
   readonly scrollDirection = signal<ScrollDirection>('none');
 
@@ -58,12 +55,7 @@ export class NavbarStateService {
     this.rafId = null;
 
     const scrollY = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
     const now = performance.now();
-
-    // Scroll progress
-    const progress = docHeight > 0 ? Math.min(1, scrollY / docHeight) : 0;
-    this.scrollProgress.set(progress);
 
     // Direction (with velocity)
     const deltaY = scrollY - this.lastScrollY;

@@ -1,8 +1,8 @@
-﻿<section class="py-16 sm:py-20 relative overflow-hidden bg-[#f1f5f9] dark:bg-[#09090b]"
+<section class="py-16 sm:py-20 relative overflow-hidden bg-[#f1f5f9] dark:bg-[#09090b]"
   style="scroll-margin-top: 96px;">
   <div class="absolute inset-0 pointer-events-none overflow-hidden">
     <div
-      class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-indigo-500/10 dark:bg-indigo-500/5 rounded-full blur-3xl -z-10">
+      class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-cyan-500/10 dark:bg-cyan-500/5 rounded-full blur-3xl -z-10">
     </div>
   </div>
 
@@ -11,11 +11,11 @@
       <div class="text-center mb-10 transition-all duration-700" [class.opacity-100]="isVisible()"
         [class.translate-y-0]="isVisible()" [class.opacity-0]="!isVisible()" [class.translate-y-4]="!isVisible()">
         <app-badge variant="outline"
-          class="mb-4 border-indigo-500/30 text-indigo-600 dark:border-indigo-400/30 dark:text-indigo-400 bg-indigo-500/5 dark:bg-indigo-500/10">
+          class="mb-4 border-cyan-500/30 text-cyan-600 dark:border-cyan-400/30 dark:text-cyan-400 bg-cyan-500/5 dark:bg-cyan-500/10">
           Contact
         </app-badge>
         <h2 class="text-3xl md:text-4xl font-bold mb-4 tracking-tight text-slate-800 dark:text-white">
-          Get in <span class="text-indigo-500 dark:text-indigo-400">Touch</span>
+          Get in <span class="text-cyan-500 dark:text-cyan-400">Touch</span>
         </h2>
         <p class="text-slate-500 dark:text-slate-400 max-w-lg mx-auto text-sm sm:text-base font-medium">
           Have a project in mind? Let's build something extraordinary together.
@@ -30,8 +30,8 @@
 
           <div class="mt-6 p-4 rounded-xl bg-white/60 dark:bg-secondary/30 border border-slate-200/80 dark:border-border/50 backdrop-blur-sm">
             <div class="flex items-center gap-3">
-              <div class="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
-                <lucide-icon name="check-circle" class="w-5 h-5 text-indigo-600 dark:text-indigo-400"></lucide-icon>
+              <div class="p-2 bg-cyan-100 dark:bg-cyan-900/30 rounded-lg">
+                <lucide-icon name="check-circle" class="w-5 h-5 text-cyan-600 dark:text-cyan-400"></lucide-icon>
               </div>
               <div>
                 <h3 class="text-sm font-semibold text-slate-800 dark:text-white">Open for Collaboration</h3>
@@ -128,7 +128,7 @@
                     </div>
                   </div>
                   <button type="submit" [disabled]="isSubmitting()"
-                    class="flex-1 inline-flex items-center justify-center h-10 rounded-md px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 disabled:opacity-50 disabled:pointer-events-none shadow-md group relative overflow-hidden transition-all duration-200">
+                    class="flex-1 inline-flex items-center justify-center h-10 rounded-md px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 disabled:opacity-50 disabled:pointer-events-none shadow-md group relative overflow-hidden transition-all duration-200">
                     @if (isSubmitting()) { <app-spinner size="sm" class="mr-2"></app-spinner> Sending... }
                     @else { <span class="mr-2">Send</span> <lucide-icon name="send" class="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5"></lucide-icon> }
                   </button>
@@ -142,3 +142,4 @@
     </div>
   </div>
 </section>
+

@@ -1,4 +1,4 @@
-﻿@if (hasError) {
+@if (hasError) {
   <div class="flex flex-col items-center justify-center min-h-[50vh] px-6 py-16 text-center">
     <div class="w-16 h-16 rounded-full bg-rose-500/15 dark:bg-rose-500/20 flex items-center justify-center mb-6">
       <lucide-icon name="alert-triangle" class="w-8 h-8 text-rose-500 dark:text-rose-400"></lucide-icon>
@@ -11,7 +11,7 @@
     </p>
     <button
       (click)="reset()"
-      class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white font-medium text-sm transition-all shadow-md hover:shadow-lg"
+      class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-medium text-sm transition-all shadow-md hover:shadow-lg"
     >
       <lucide-icon name="refresh-cw" class="w-4 h-4"></lucide-icon>
       Try Again
@@ -20,3 +20,4 @@
 } @else {
   <ng-content></ng-content>
 }
+

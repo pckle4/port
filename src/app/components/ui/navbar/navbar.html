@@ -3,14 +3,6 @@
     <div class="flex h-12 min-w-0 items-center justify-between gap-2 sm:gap-6">
       <ng-content></ng-content>
     </div>
-    @if (state.isCondensed()) {
-      <div
-        class="absolute inset-x-1 bottom-0 h-0.5 overflow-hidden rounded-b-full pointer-events-none">
-        <div
-          class="h-full bg-indigo-500/60 dark:bg-indigo-400/50 transition-all duration-300 ease-out"
-          [style.width]="scrollProgressWidth()">
-        </div>
-      </div>
-    }
   </div>
 </header>
+

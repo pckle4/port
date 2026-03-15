@@ -1,4 +1,4 @@
-﻿import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ToastData, ToastVariant } from '../../../services/toast.service';
 import { cn } from '../../../lib/utils';
@@ -22,7 +22,7 @@ export class ToastItemComponent implements OnInit, OnDestroy {
     const bgClasses: Record<ToastVariant, string> = {
       success: 'border-teal-500/30 bg-teal-500/10 dark:bg-teal-500/20',
       error: 'border-rose-500/30 bg-rose-500/10 dark:bg-rose-500/20',
-      info: 'border-indigo-500/30 bg-indigo-500/10 dark:bg-indigo-500/20',
+      info: 'border-cyan-500/30 bg-cyan-500/10 dark:bg-cyan-500/20',
     };
 
     return cn(
@@ -45,7 +45,7 @@ export class ToastItemComponent implements OnInit, OnDestroy {
     switch (this.data.variant) {
       case 'success': return 'w-4 h-4 text-teal-500';
       case 'error': return 'w-4 h-4 text-rose-500';
-      case 'info': return 'w-4 h-4 text-indigo-500';
+      case 'info': return 'w-4 h-4 text-cyan-500';
     }
   }
 
@@ -64,3 +64,4 @@ export class ToastItemComponent implements OnInit, OnDestroy {
     setTimeout(() => this.dismiss.emit(this.data.id), 300);
   }
 }
+

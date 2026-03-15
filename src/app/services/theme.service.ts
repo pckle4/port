@@ -1,4 +1,4 @@
-﻿import { Injectable, signal, PLATFORM_ID, inject } from '@angular/core';
+import { Injectable, signal, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 type Theme = 'dark' | 'light' | 'system';
@@ -9,6 +9,10 @@ type Theme = 'dark' | 'light' | 'system';
 export class ThemeService {
   private readonly storageKey = 'angular-ui-theme';
   private platformId = inject(PLATFORM_ID);
+  private systemThemeMedia?: MediaQueryList;
+  private systemThemeListener?: (e: MediaQueryListEvent) => void;
+  private clearThemeSwitchTimer?: ReturnType<typeof setTimeout>;
+  private currentResolvedTheme: 'dark' | 'light' = 'dark';
 
   theme = signal<Theme>('system');
   isDark = signal<boolean>(false);
@@ -23,18 +27,26 @@ export class ThemeService {
       }
 
       if (storedTheme) {
-        this.applyTheme(storedTheme);
+        this.theme.set(storedTheme);
+        this.applyTheme(storedTheme, false);
       } else {
-        this.applyTheme('system');
+        this.theme.set('system');
+        this.applyTheme('system', false);
       }
+
+      this.setupSystemThemeListener();
     }
   }
 
   setTheme(newTheme: Theme) {
+    const previousTheme = this.theme();
     this.theme.set(newTheme);
+
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem(this.storageKey, newTheme);
-      this.applyTheme(newTheme);
+      if (previousTheme !== newTheme) {
+        localStorage.setItem(this.storageKey, newTheme);
+      }
+      this.applyTheme(newTheme, true);
     }
   }
 
@@ -49,20 +61,52 @@ export class ThemeService {
     }
   }
 
-  private applyTheme(theme: Theme) {
+  private resolveTheme(theme: Theme): 'dark' | 'light' {
+    return theme === 'system'
+      ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+      : theme;
+  }
+
+  private setupSystemThemeListener(): void {
+    if (this.systemThemeMedia || !isPlatformBrowser(this.platformId)) return;
+
+    this.systemThemeMedia = window.matchMedia('(prefers-color-scheme: dark)');
+    this.systemThemeListener = () => {
+      if (this.theme() === 'system') {
+        this.applyTheme('system', true);
+      }
+    };
+    this.systemThemeMedia.addEventListener('change', this.systemThemeListener);
+  }
+
+  private applyTheme(theme: Theme, emitEvent: boolean) {
     if (!isPlatformBrowser(this.platformId)) return;
 
     const root = window.document.documentElement;
-    const resolved = theme === 'system'
-      ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-      : theme;
+    const resolved = this.resolveTheme(theme);
+    const changed = this.currentResolvedTheme !== resolved;
 
-    root.style.setProperty('transition', 'background-color 0.3s ease, color 0.3s ease');
-    root.classList.remove('light', 'dark');
-    root.classList.add(resolved);
+    root.classList.add('theme-switching');
+    root.classList.toggle('dark', resolved === 'dark');
+    root.classList.toggle('light', resolved === 'light');
+
     this.isDark.set(resolved === 'dark');
+    this.currentResolvedTheme = resolved;
     root.style.colorScheme = resolved;
 
-    setTimeout(() => root.style.removeProperty('transition'), 350);
+    if (this.clearThemeSwitchTimer) {
+      clearTimeout(this.clearThemeSwitchTimer);
+    }
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => root.classList.remove('theme-switching'));
+    });
+    this.clearThemeSwitchTimer = setTimeout(() => {
+      root.classList.remove('theme-switching');
+    }, 220);
+
+    if (emitEvent && changed) {
+      window.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme: resolved } }));
+    }
   }
 }

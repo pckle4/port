@@ -1,4 +1,4 @@
-﻿import { Component, inject, HostListener, ElementRef, signal, computed, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, HostListener, ElementRef, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 import { ThemeService } from '../../services/theme.service';
@@ -38,14 +38,13 @@ export class ThemeToggleComponent {
   selectTheme(name: 'light' | 'dark' | 'system') {
     this.themeService.setTheme(name);
     this.isOpen.set(false);
-    window.dispatchEvent(new CustomEvent('theme-changed'));
   }
 
   getButtonClass(name: string): string {
     return cn(
       'flex items-center gap-2.5 px-3 py-2 w-full text-sm font-medium rounded-xl transition-colors duration-200 cursor-pointer outline-none border-none',
       this.activeTheme() === name
-        ? 'bg-black/5 dark:bg-white/10 text-indigo-600 dark:text-indigo-400'
+        ? 'bg-black/5 dark:bg-white/10 text-cyan-600 dark:text-cyan-400'
         : 'text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/5'
     );
   }
@@ -57,3 +56,4 @@ export class ThemeToggleComponent {
     }
   }
 }
+

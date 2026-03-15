@@ -1,7 +1,7 @@
-﻿<div class="min-h-screen bg-transparent text-foreground relative overflow-hidden">
+<div class="min-h-screen bg-transparent text-foreground relative overflow-hidden">
 
   <div class="absolute inset-0 -z-20 pointer-events-none overflow-hidden">
-    <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-purple-500/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3"></div>
+    <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-teal-500/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3"></div>
     <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/4"></div>
     <div class="absolute top-1/2 left-1/2 w-[500px] h-[500px] bg-pink-500/5 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2"></div>
     <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px]"></div>
@@ -40,7 +40,7 @@
         <div class="text-center mb-10 transition-all duration-700 delay-100"
           [class.opacity-100]="isVisible" [class.translate-y-0]="isVisible"
           [class.opacity-0]="!isVisible" [class.translate-y-8]="!isVisible">
-          <div class="inline-block p-3 rounded-full bg-gradient-to-br from-purple-500/20 to-blue-500/20 mb-4 backdrop-blur-sm border border-slate-200/50 dark:border-white/10 shadow-xl">
+          <div class="inline-block p-3 rounded-full bg-gradient-to-br from-teal-500/20 to-blue-500/20 mb-4 backdrop-blur-sm border border-slate-200/50 dark:border-white/10 shadow-xl">
             <lucide-icon name="user" class="w-12 h-12 text-foreground/80"></lucide-icon>
           </div>
           <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-4 tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/60">
@@ -49,9 +49,9 @@
 
           <div class="flex flex-wrap justify-center gap-4 text-sm sm:text-base mt-6">
             <a [href]="'mailto:' + resumeData.personalInfo.email"
-              class="group flex items-center text-muted-foreground hover:text-foreground transition-all px-4 py-2 rounded-full bg-white/60 dark:bg-secondary/30 border border-slate-200/80 dark:border-border/50 hover:bg-white dark:hover:bg-secondary/50 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/10">
-              <div class="p-1.5 bg-purple-500/10 rounded-full mr-2 group-hover:bg-purple-500/20 transition-colors">
-                <lucide-icon name="mail" class="h-4 w-4 text-purple-500"></lucide-icon>
+              class="group flex items-center text-muted-foreground hover:text-foreground transition-all px-4 py-2 rounded-full bg-white/60 dark:bg-secondary/30 border border-slate-200/80 dark:border-border/50 hover:bg-white dark:hover:bg-secondary/50 hover:scale-105 hover:shadow-lg hover:shadow-teal-500/10">
+              <div class="p-1.5 bg-teal-500/10 rounded-full mr-2 group-hover:bg-teal-500/20 transition-colors">
+                <lucide-icon name="mail" class="h-4 w-4 text-teal-500"></lucide-icon>
               </div>
               {{ resumeData.personalInfo.email }}
             </a>
@@ -190,13 +190,13 @@
             [class.opacity-100]="isVisible" [class.translate-y-0]="isVisible"
             [class.opacity-0]="!isVisible" [class.translate-y-4]="!isVisible">
             <div class="flex items-center gap-3 mb-4">
-              <div class="p-2.5 bg-purple-100 dark:bg-purple-900/30 rounded-xl shadow-sm">
-                <lucide-icon name="cpu" class="h-5 w-5 text-purple-600 dark:text-purple-400"></lucide-icon>
+              <div class="p-2.5 bg-teal-100 dark:bg-teal-900/30 rounded-xl shadow-sm">
+                <lucide-icon name="cpu" class="h-5 w-5 text-teal-600 dark:text-teal-400"></lucide-icon>
               </div>
               <h3 class="text-xl font-bold text-slate-800 dark:text-white">Technical Skills</h3>
             </div>
 
-            <app-card class="group border-slate-200/80 dark:border-white/10 bg-white/80 dark:bg-[#0a0a0a]/50 backdrop-blur-sm hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/5 transition-all duration-300">
+            <app-card class="group border-slate-200/80 dark:border-white/10 bg-white/80 dark:bg-[#0a0a0a]/50 backdrop-blur-sm hover:border-teal-500/30 hover:shadow-lg hover:shadow-teal-500/5 transition-all duration-300">
               <app-card-content class="p-6 grid gap-6">
                 <div class="flex flex-col md:flex-row gap-4">
                   <div class="w-40 shrink-0 flex items-center gap-2 font-semibold text-sm text-foreground/90">
@@ -367,3 +367,4 @@
 
   <app-enhanced-footer></app-enhanced-footer>
 </div>
+

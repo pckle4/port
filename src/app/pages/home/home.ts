@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, PLATFORM_ID, inject, ChangeDetectionStrategy, ChangeDetectorRef, NgZone, signal, effect } from '@angular/core';
+import { Component, OnDestroy, OnInit, PLATFORM_ID, inject, ChangeDetectionStrategy, signal, effect } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HeroSectionComponent } from '../../components/hero-section/hero-section';
 import { AboutSectionComponent } from '../../components/about-section/about-section';
@@ -26,16 +26,10 @@ import { SectionRegistryService } from '../../services/section-registry.service'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  scrollProgress = 0;
   isLoading = signal(true);
 
   private platformId = inject(PLATFORM_ID);
-  private cdr = inject(ChangeDetectorRef);
-  private ngZone = inject(NgZone);
   public sectionRegistry = inject(SectionRegistryService);
-  private removeScrollListener?: () => void;
-  private rafId: number | null = null;
-  private lastProgress = -1;
   private loadingTimeout?: ReturnType<typeof setTimeout>;
 
   private readonly _forceLoadEffect = effect(() => {
@@ -63,31 +57,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     } else {
       this.loadingTimeout = setTimeout(() => this.finishLoading(), 1500);
     }
-
-    const onScroll = () => {
-      if (this.rafId !== null) return;
-      this.rafId = requestAnimationFrame(() => {
-        this.rafId = null;
-        const scrollTop = window.scrollY;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = docHeight > 0 ? scrollTop / docHeight : 0;
-        if (Math.abs(progress - this.lastProgress) > 0.005 || this.lastProgress < 0) {
-          this.lastProgress = progress;
-          this.scrollProgress = progress;
-          this.ngZone.run(() => this.cdr.markForCheck());
-        }
-      });
-    };
-
-    this.ngZone.runOutsideAngular(() => {
-      window.addEventListener('scroll', onScroll, { passive: true });
-      this.removeScrollListener = () => window.removeEventListener('scroll', onScroll);
-    });
   }
 
   ngOnDestroy() {
-    this.removeScrollListener?.();
-    if (this.rafId !== null) cancelAnimationFrame(this.rafId);
     if (this.loadingTimeout) clearTimeout(this.loadingTimeout);
   }
 }

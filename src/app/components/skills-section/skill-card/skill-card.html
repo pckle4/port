@@ -1,5 +1,5 @@
-﻿<div #card (mousemove)="onMouseMove($event)" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()"
-  class="relative flex flex-col items-start gap-4 overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a]/40 px-6 py-6 shadow-xl backdrop-blur-md transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] hover:shadow-2xl hover:shadow-indigo-500/10 hover:-translate-y-1 dark:bg-[#0a0a0a]/50 will-change-transform group">
+<div #card (mousemove)="onMouseMove($event)" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()"
+  class="relative flex flex-col items-start gap-4 overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a]/40 px-6 py-6 shadow-xl backdrop-blur-md transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] hover:shadow-2xl hover:shadow-cyan-500/10 hover:-translate-y-1 dark:bg-[#0a0a0a]/50 will-change-transform group">
   <div class="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-500"
     [style.opacity]="opacity" [style.background]="gradient"></div>
 
@@ -21,7 +21,7 @@
     <div class="flex flex-wrap gap-2">
       @for (skill of category.skills; track skill) {
       <span
-        class="px-3 py-1 rounded-full text-[11px] font-semibold tracking-wide border border-white/5 bg-white/5 text-gray-300 transition-all duration-300 hover:bg-indigo-500/20 hover:text-white hover:border-indigo-500/40 hover:scale-105 cursor-default">
+        class="px-3 py-1 rounded-full text-[11px] font-semibold tracking-wide border border-white/5 bg-white/5 text-gray-300 transition-all duration-300 hover:bg-cyan-500/20 hover:text-white hover:border-cyan-500/40 hover:scale-105 cursor-default">
         {{ skill }}
       </span>
       }
@@ -33,3 +33,4 @@
     style="mask-image: linear-gradient(black, black) content-box, linear-gradient(black, black); -webkit-mask-image: linear-gradient(black, black) content-box, linear-gradient(black, black); mask-composite: exclude; -webkit-mask-composite: xor; padding: 1px; border-radius: inherit;">
   </div>
 </div>
+

@@ -14,11 +14,6 @@ import { NavbarStateService } from '../../../services/navbar-state.service';
 export class NavbarComponent {
   readonly state = inject(NavbarStateService);
 
-  readonly scrollProgressWidth = computed(() => {
-    const clamped = Math.max(0, Math.min(1, this.state.scrollProgress()));
-    return `${clamped * 100}%`;
-  });
-
   readonly headerClass = computed(() => {
     const condensed = this.state.isCondensed();
     const visible = this.state.isVisible();
@@ -39,8 +34,8 @@ export class NavbarComponent {
     return cn(
       'inner rounded-full border transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] px-6 sm:px-8',
       condensed
-        ? 'bg-white/80 dark:bg-black/70 backdrop-blur-xl shadow-xl shadow-black/5 dark:shadow-white/5 border-black/5 dark:border-white/10 py-2'
-        : 'bg-white/30 dark:bg-black/20 backdrop-blur-md border-transparent shadow-none py-2.5'
+        ? 'bg-white/90 dark:bg-slate-950/75 backdrop-blur-xl shadow-xl shadow-black/5 dark:shadow-cyan-500/10 border-cyan-500/20 dark:border-cyan-400/20 py-2'
+        : 'bg-white/65 dark:bg-slate-950/45 backdrop-blur-md border-white/40 dark:border-white/10 shadow-sm py-2.5'
     );
   });
 }

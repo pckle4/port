@@ -1,4 +1,4 @@
-﻿<div
+<div
   class="w-full rounded-lg bg-[#1a1b26] border border-gray-800 shadow-xl overflow-hidden font-mono text-[10px] sm:text-xs"
   style="contain: content;">
   <div class="bg-[#16161e] px-3 py-2 flex items-center justify-between border-b border-gray-800">
@@ -16,37 +16,38 @@
   <div class="p-4 sm:p-5 h-[240px] sm:h-[300px] overflow-y-auto text-gray-300 relative">
     <div class="space-y-1">
       <div class="flex items-center">
-        <span class="text-indigo-400 dark:text-indigo-400 mr-2">➜</span>
+        <span class="text-cyan-400 dark:text-cyan-400 mr-2">?</span>
         <span class="text-amber-500 dark:text-amber-400 mr-2">~</span>
         <span class="text-slate-400 dark:text-slate-300 font-medium">fetch_contact_info.sh</span>
       </div>
-      <div class="text-green-500 mt-1">✓ Access Granted</div>
+      <div class="text-green-500 mt-1">? Access Granted</div>
 
       @if (showContent) {
       <div class="mt-4 animate-fade-in space-y-1">
         <div class="text-yellow-400">{{ '{' }}</div>
         <div class="pl-4">
-          <span class="text-purple-400">"status"</span>: <span class="text-green-400">"available"</span>,
+          <span class="text-teal-400">"status"</span>: <span class="text-green-400">"available"</span>,
         </div>
         <div class="pl-4">
-          <span class="text-purple-400">"email"</span>: <span class="text-blue-400 cursor-pointer hover:underline"
+          <span class="text-teal-400">"email"</span>: <span class="text-blue-400 cursor-pointer hover:underline"
             (click)="copyEmail()">"ansh&#64;nowhile.com"</span>,
         </div>
         <div class="pl-4">
-          <span class="text-purple-400">"location"</span>: <span class="text-orange-400">"Gujarat, India"</span>,
+          <span class="text-teal-400">"location"</span>: <span class="text-orange-400">"Gujarat, India"</span>,
         </div>
         <div class="pl-4">
-          <span class="text-purple-400">"response_time"</span>: <span class="text-orange-400">"&lt; 24h"</span>
+          <span class="text-teal-400">"response_time"</span>: <span class="text-orange-400">"&lt; 24h"</span>
         </div>
         <div class="text-slate-500 dark:text-slate-400">{{ '}' }}</div>
 
         <div class="flex items-center mt-4">
-          <span class="text-indigo-400 dark:text-indigo-400 mr-2">➜</span>
+          <span class="text-cyan-400 dark:text-cyan-400 mr-2">?</span>
           <span class="text-amber-500 dark:text-amber-400 mr-2">~</span>
-          <span class="w-2 h-4 bg-indigo-500 dark:bg-indigo-400 animate-pulse"></span>
+          <span class="w-2 h-4 bg-cyan-500 dark:bg-cyan-400 animate-pulse"></span>
         </div>
       </div>
       }
     </div>
   </div>
 </div>
+

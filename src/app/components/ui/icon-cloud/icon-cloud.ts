@@ -141,6 +141,7 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
   private themeListener?: () => void;
   private mediaQuery?: MediaQueryList;
   private mediaHandler?: (e: MediaQueryListEvent) => void;
+  private themeRafId: number | null = null;
 
   resolvedTheme = 'dark';
   iconElements: { src: string; title: string }[] = [];
@@ -168,9 +169,13 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
     if (!isPlatformBrowser(this.platformId)) return;
 
     this.themeListener = () => {
-      this.resolveTheme();
-      this.buildIcons();
-      this.restart();
+      if (this.themeRafId !== null) {
+        cancelAnimationFrame(this.themeRafId);
+      }
+      this.themeRafId = requestAnimationFrame(() => {
+        this.themeRafId = null;
+        this.syncThemeAndIcons();
+      });
     };
     window.addEventListener('theme-changed', this.themeListener);
 
@@ -180,9 +185,7 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
       this.mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       this.mediaHandler = () => {
         if (this.themeService.theme() === 'system') {
-          this.resolveTheme();
-          this.buildIcons();
-          this.restart();
+          this.syncThemeAndIcons();
         }
       };
       this.mediaQuery.addEventListener('change', this.mediaHandler);
@@ -218,6 +221,17 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
       }
     } else {
       this.resolvedTheme = stored || 'dark';
+    }
+  }
+
+  private syncThemeAndIcons(): void {
+    const previousTheme = this.resolvedTheme;
+    this.resolveTheme();
+    if (previousTheme === this.resolvedTheme) return;
+
+    this.buildIcons();
+    if (this.hasStarted) {
+      this.restart();
     }
   }
 
@@ -289,11 +303,11 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
     if (!isPlatformBrowser(this.platformId)) return;
     const TC = (window as any).TagCanvas;
     if (!TC) return;
+    if (!this.hasStarted) return;
+
     try {
-      if (this.hasStarted) {
-        TC.Delete(this.canvasId);
-        this.hasStarted = false;
-      }
+      TC.Delete(this.canvasId);
+      this.hasStarted = false;
     } catch (e) {}
     setTimeout(() => this.startTagCanvas(), 100);
   }
@@ -313,6 +327,9 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
       }
       if (this.mediaQuery && this.mediaHandler) {
         this.mediaQuery.removeEventListener('change', this.mediaHandler);
+      }
+      if (this.themeRafId !== null) {
+        cancelAnimationFrame(this.themeRafId);
       }
     }
   }

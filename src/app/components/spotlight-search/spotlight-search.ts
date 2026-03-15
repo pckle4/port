@@ -56,7 +56,7 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.actions = [
       { id: 'home', label: 'Home', description: 'Go back to the landing page', icon: 'home', keywords: ['start', 'index', 'landing', 'main'], perform: () => this.router.navigate(['/']), type: 'nav', color: 'text-blue-500 bg-blue-500/10 border-blue-500/20' },
-      { id: 'about', label: 'About', description: 'Learn more about my background', icon: 'user', keywords: ['bio', 'profile', 'information', 'me', 'who'], perform: () => this.navigateToHash('about'), type: 'nav', color: 'text-indigo-500 bg-indigo-500/10 border-indigo-500/20' },
+      { id: 'about', label: 'About', description: 'Learn more about my background', icon: 'user', keywords: ['bio', 'profile', 'information', 'me', 'who'], perform: () => this.navigateToHash('about'), type: 'nav', color: 'text-cyan-500 bg-cyan-500/10 border-cyan-500/20' },
       { id: 'skills', label: 'Skills & Technologies', description: 'View my technical expertise', icon: 'terminal', keywords: ['tech', 'stack', 'languages', 'tools', 'react', 'node', 'typescript', 'javascript'], perform: () => this.navigateToHash('skills'), type: 'nav', color: 'text-violet-500 bg-violet-500/10 border-violet-500/20' },
       { id: 'projects', label: 'Projects', description: 'Browse my portfolio work', icon: 'briefcase', keywords: ['work', 'case', 'app', 'demo', 'portfolio'], perform: () => this.navigateToHash('projects'), type: 'nav', color: 'text-pink-500 bg-pink-500/10 border-pink-500/20' },
       { id: 'contact', label: 'Contact', description: 'Get in touch with me', icon: 'mail', keywords: ['email', 'message', 'hire', 'reach'], perform: () => this.navigateToHash('contact'), type: 'nav', color: 'text-teal-500 bg-teal-500/10 border-teal-500/20', secondaryAction: { icon: 'copy', label: 'Copy', perform: () => {} } },
@@ -64,14 +64,14 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
       { id: 'tech-react', label: 'React', description: 'Frontend Library', icon: 'code', keywords: ['reactjs', 'frontend', 'ui', 'component'], perform: () => this.navigateToHash('skills'), type: 'tech', color: 'text-cyan-400 bg-cyan-400/10 border-cyan-400/20' },
       { id: 'tech-typescript', label: 'TypeScript', description: 'Type-safe JavaScript', icon: 'code', keywords: ['ts', 'types', 'javascript'], perform: () => this.navigateToHash('skills'), type: 'tech', color: 'text-blue-600 bg-blue-600/10 border-blue-600/20' },
       { id: 'tech-node', label: 'Node.js', description: 'Backend Runtime', icon: 'code', keywords: ['backend', 'javascript', 'server', 'api'], perform: () => this.navigateToHash('skills'), type: 'tech', color: 'text-green-500 bg-green-500/10 border-green-500/20' },
-      { id: 'project-resume', label: 'Resume Generator', description: 'Project: React & TypeScript resume builder', icon: 'layout', keywords: ['resume', 'builder', 'generator', 'project'], perform: () => this.navigateToHash('project-resume'), type: 'project', color: 'text-purple-500 bg-purple-500/10 border-purple-500/20', secondaryAction: { icon: 'globe', label: 'Visit Site', perform: (e) => { e.stopPropagation(); this.openExternal('https://resume.nowhile.com'); } } },
+      { id: 'project-resume', label: 'Resume Generator', description: 'Project: React & TypeScript resume builder', icon: 'layout', keywords: ['resume', 'builder', 'generator', 'project'], perform: () => this.navigateToHash('project-resume'), type: 'project', color: 'text-teal-500 bg-teal-500/10 border-teal-500/20', secondaryAction: { icon: 'globe', label: 'Visit Site', perform: (e) => { e.stopPropagation(); this.openExternal('https://resume.nowhile.com'); } } },
       { id: 'project-link', label: 'Link File Sharing', description: 'Project: Frontend-only React file sharing', icon: 'external-link', keywords: ['url', 'link', 'file', 'sharing', 'frontend', 'react', 'project'], perform: () => this.navigateToHash('project-link-share'), type: 'project', color: 'text-red-500 bg-red-500/10 border-red-500/20', secondaryAction: { icon: 'globe', label: 'Visit Site', perform: (e) => { e.stopPropagation(); this.openExternal('https://l.nowhile.com'); } } },
       { id: 'project-file', label: 'P2P File Transfer', description: 'Project: Secure peer-to-peer file sharing', icon: 'external-link', keywords: ['p2p', 'file', 'transfer', 'sharing', 'project'], perform: () => this.navigateToHash('project-p2p'), type: 'project', color: 'text-blue-400 bg-blue-400/10 border-blue-400/20', secondaryAction: { icon: 'globe', label: 'Visit Site', perform: (e) => { e.stopPropagation(); this.openExternal('https://file.nowhile.com'); } } },
       { id: 'project-qr', label: 'QR Code Generator', description: 'Project: Versatile QR code creator', icon: 'external-link', keywords: ['qr', 'code', 'generator', 'project'], perform: () => this.navigateToHash('project-qr'), type: 'project', color: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20', secondaryAction: { icon: 'globe', label: 'Visit Site', perform: (e) => { e.stopPropagation(); this.openExternal('https://qr.nowhile.com'); } } },
       { id: 'social-github', label: 'GitHub', description: 'Check out my code', icon: 'github', keywords: ['git', 'code', 'repo'], perform: () => this.openExternal('https://github.com/theanshshah'), type: 'social', color: 'text-gray-500 dark:text-gray-400 bg-gray-500/10 border-gray-500/20' },
       { id: 'social-linkedin', label: 'LinkedIn', description: 'Connect professionally', icon: 'linkedin', keywords: ['linkedin', 'job', 'career'], perform: () => this.openExternal('https://linkedin.com/in/anshshahh'), type: 'social', color: 'text-blue-700 bg-blue-700/10 border-blue-700/20' },
-      { id: 'theme-light', label: 'Light Mode', description: 'Switch to light theme', icon: 'sun', keywords: ['light', 'white', 'day', 'theme', 'mode'], perform: () => { this.themeService.setTheme('light'); window.dispatchEvent(new CustomEvent('theme-changed')); }, type: 'action', color: 'text-yellow-500 bg-yellow-500/10 border-yellow-500/20' },
-      { id: 'theme-dark', label: 'Dark Mode', description: 'Switch to dark theme', icon: 'moon', keywords: ['dark', 'black', 'night', 'theme', 'mode'], perform: () => { this.themeService.setTheme('dark'); window.dispatchEvent(new CustomEvent('theme-changed')); }, type: 'action', color: 'text-purple-400 bg-purple-400/10 border-purple-400/20' },
+      { id: 'theme-light', label: 'Light Mode', description: 'Switch to light theme', icon: 'sun', keywords: ['light', 'white', 'day', 'theme', 'mode'], perform: () => this.themeService.setTheme('light'), type: 'action', color: 'text-yellow-500 bg-yellow-500/10 border-yellow-500/20' },
+      { id: 'theme-dark', label: 'Dark Mode', description: 'Switch to dark theme', icon: 'moon', keywords: ['dark', 'black', 'night', 'theme', 'mode'], perform: () => this.themeService.setTheme('dark'), type: 'action', color: 'text-teal-400 bg-teal-400/10 border-teal-400/20' },
     ];
 
     if (isPlatformBrowser(this.platformId) && this.isOpen) {
@@ -191,7 +191,7 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
       'w-full flex items-center justify-between px-3 py-2.5 rounded-lg cursor-pointer group',
       'transition-all duration-150 ease-out',
       this.selectedIndex === index
-        ? 'bg-purple-500/10 dark:bg-purple-500/15 shadow-sm'
+        ? 'bg-teal-500/10 dark:bg-teal-500/15 shadow-sm'
         : 'hover:bg-white/5'
     );
   }
@@ -258,3 +258,4 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
     });
   }
 }
+

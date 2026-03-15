@@ -18,7 +18,7 @@ export class SkillCardComponent {
   mouseY = 0;
 
   get gradient() {
-    return `radial-gradient(600px circle at ${this.mouseX}px ${this.mouseY}px, rgba(99, 102, 241, 0.15), transparent 40%)`;
+    return `radial-gradient(600px circle at ${this.mouseX}px ${this.mouseY}px, rgba(6, 182, 212, 0.18), transparent 40%)`;
   }
 
   get borderGradient() {
