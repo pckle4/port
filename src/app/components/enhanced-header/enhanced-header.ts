@@ -190,11 +190,12 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
 
     this.observer = new IntersectionObserver(
       (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            this.activeSection.set(entry.target.id);
-            break;
-          }
+        const visibleEntries = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => Math.abs(a.boundingClientRect.top) - Math.abs(b.boundingClientRect.top));
+
+        if (visibleEntries.length > 0) {
+          this.activeSection.set(visibleEntries[0].target.id);
         }
       },
       {

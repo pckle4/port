@@ -15,11 +15,28 @@ export function smoothScrollToElement(element: HTMLElement, options: SmoothScrol
 
   const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false
   const { offset = 84, duration = 620 } = options
+  const docEl = document.documentElement
+  const body = document.body
+  const previousDocScrollBehavior = docEl.style.scrollBehavior
+  const previousBodyScrollBehavior = body?.style.scrollBehavior ?? null
+  const restoreScrollBehavior = () => {
+    docEl.style.scrollBehavior = previousDocScrollBehavior
+    if (body && previousBodyScrollBehavior !== null) {
+      body.style.scrollBehavior = previousBodyScrollBehavior
+    }
+  }
+
+  // Prevent CSS `scroll-behavior: smooth` from fighting our frame-by-frame animation.
+  docEl.style.scrollBehavior = "auto"
+  if (body) {
+    body.style.scrollBehavior = "auto"
+  }
 
   if (prefersReducedMotion) {
     const targetRect = element.getBoundingClientRect()
     const targetPosition = targetRect.top + window.pageYOffset - offset
     window.scrollTo({ top: targetPosition, behavior: "auto" })
+    restoreScrollBehavior()
     return
   }
 
@@ -55,6 +72,7 @@ export function smoothScrollToElement(element: HTMLElement, options: SmoothScrol
       // Final correction to ensure exact alignment
       const finalRect = element.getBoundingClientRect()
       window.scrollTo({ top: finalRect.top + window.pageYOffset - offset, behavior: "auto" })
+      restoreScrollBehavior()
     }
   }
 

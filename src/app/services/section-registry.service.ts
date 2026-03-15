@@ -13,7 +13,10 @@ export class SectionRegistryService {
 
   /** Trigger loading of all deferred sections */
   loadAllSections(): void {
-    this.forceLoadAllSections.set(true);
+    if (!this.forceLoadAllSections()) {
+      this.forceLoadAllSections.set(true);
+    }
+    this.notifyListeners();
   }
 
   /** Register a section by id when it mounts (call from ngAfterViewInit). */

@@ -3,10 +3,8 @@
 @tailwind utilities;
 
 @layer base {
-  *,
-  *::before,
-  *::after {
-    transition-property: background-color, border-color;
+  body {
+    transition-property: background-color, color;
     transition-duration: 0.2s;
     transition-timing-function: ease;
   }
@@ -162,11 +160,6 @@
 
     * {
       @apply border-border;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      height: 100%;
     }
 
     body {

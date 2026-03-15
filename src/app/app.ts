@@ -46,6 +46,12 @@ export class App implements OnInit, OnDestroy {
           this.scrollToFragment(fragment);
         }
       });
+
+      // Initial load with hash (e.g. external deep links) can happen before sections mount.
+      const initialFragment = this.router.routerState.snapshot.root.fragment;
+      if (initialFragment) {
+        setTimeout(() => this.scrollToFragment(initialFragment), 0);
+      }
     }
   }
 

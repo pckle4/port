@@ -1,10 +1,11 @@
-import { Injectable, signal, computed, effect, PLATFORM_ID, inject, NgZone } from '@angular/core';
+import { Injectable, signal, PLATFORM_ID, inject, NgZone } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 /** Scroll thresholds for navbar behavior */
-const SCROLL_CONDENSE_THRESHOLD = 48;
-const SCROLL_HIDE_THRESHOLD = 120;
-const SCROLL_HIDE_VELOCITY = 8;
+const SCROLL_CONDENSE_THRESHOLD = 56;
+const SCROLL_HIDE_THRESHOLD = 160;
+const SCROLL_HIDE_DELTA = 18;
+const SCROLL_SHOW_DELTA = -10;
 
 export type ScrollDirection = 'up' | 'down' | 'none';
 
@@ -16,10 +17,10 @@ export class NavbarStateService {
   /** Whether user has scrolled past the condense threshold (navbar shrinks) */
   readonly isCondensed = signal(false);
 
-  /** Whether navbar is visible (hides when scrolling down fast) */
+  /** Whether navbar is visible */
   readonly isVisible = signal(true);
 
-  /** Scroll progress 0–1 from top to bottom of page */
+  /** Scroll progress 0-1 from top to bottom of page */
   readonly scrollProgress = signal(0);
 
   /** Current scroll direction */
@@ -82,12 +83,22 @@ export class NavbarStateService {
       this.ngZone.run(() => this.isCondensed.set(condensed));
     }
 
-    // Visibility (hide when scrolling down past threshold)
-    const shouldHide =
-      direction === 'down' &&
-      scrollY > SCROLL_HIDE_THRESHOLD &&
-      Math.abs(deltaY) > SCROLL_HIDE_VELOCITY;
-    const visible = !shouldHide;
+    // Keep navbar stable on laptop/desktop; only auto-hide on small screens.
+    const isMobileViewport = window.matchMedia('(max-width: 767px)').matches;
+    let visible = true;
+
+    if (isMobileViewport) {
+      if (scrollY <= SCROLL_HIDE_THRESHOLD) {
+        visible = true;
+      } else if (deltaY > SCROLL_HIDE_DELTA && direction === 'down') {
+        visible = false;
+      } else if (deltaY < SCROLL_SHOW_DELTA || direction === 'up') {
+        visible = true;
+      } else {
+        visible = this.isVisible();
+      }
+    }
+
     if (this.isVisible() !== visible) {
       this.ngZone.run(() => this.isVisible.set(visible));
     }

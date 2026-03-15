@@ -29,7 +29,7 @@ const usedIcons = {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes, withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' })),
+    provideRouter(routes, withInMemoryScrolling({ anchorScrolling: 'disabled', scrollPositionRestoration: 'enabled' })),
     provideClientHydration(withEventReplay()),
     { provide: LUCIDE_ICONS, multi: true, useValue: new LucideIconProvider(usedIcons) }
   ]

@@ -17,11 +17,11 @@ export class SkillsSectionComponent implements OnInit, OnDestroy {
   shouldRenderCloud = signal(false);
 
   slugs = [
-    "typescript", "javascript", "react", "nodedotjs", "postgresql",
-    "mongodb", "tailwindcss", "docker", "git", "github",
-    "python", "html5", "css3", "nextdotjs", "vercel",
-    "vite", "figma", "apachekafka", "nginx", "graphql",
-    "redis", "dotnet", "kubernetes", "linux", "android"
+    'typescript', 'javascript', 'react', 'nodedotjs', 'postgresql',
+    'mongodb', 'tailwindcss', 'docker', 'git', 'github',
+    'python', 'html5', 'css3', 'nextdotjs', 'vercel',
+    'vite', 'figma', 'apachekafka', 'nginx', 'graphql',
+    'redis', 'dotnet', 'kubernetes', 'linux', 'android'
   ];
 
   private platformId = inject(PLATFORM_ID);
@@ -31,28 +31,28 @@ export class SkillsSectionComponent implements OnInit, OnDestroy {
 
   skillCategories = [
     {
-      title: "Frontend Development",
-      description: "Architecting pixel-perfect, responsive user interfaces.",
-      skills: ["React", "TypeScript", "Tailwind CSS", "Next.js", "Three.js", "Android"],
-      icon: "🎨",
+      title: 'Frontend Development',
+      description: 'Architecting pixel-perfect, responsive user interfaces.',
+      skills: ['React', 'TypeScript', 'Tailwind CSS', 'Next.js', 'Three.js', 'Android'],
+      icon: '\u{1F3A8}',
     },
     {
-      title: "Backend Architecture",
-      description: "Building scalable, high-performance server-side logic.",
-      skills: ["Node.js", "Express", "PostgreSQL", "MongoDB", "Redis", "C#", ".NET"],
-      icon: "⚙️",
+      title: 'Backend Architecture',
+      description: 'Building scalable, high-performance server-side logic.',
+      skills: ['Node.js', 'Express', 'PostgreSQL', 'MongoDB', 'Redis', 'C#', '.NET'],
+      icon: '\u2699\uFE0F',
     },
     {
-      title: "DevOps & Infrastructure",
-      description: "Streamlining deployment and ensuring reliability.",
-      skills: ["Docker", "Kubernetes", "AWS", "CI/CD", "Linux"],
-      icon: "☁️",
+      title: 'DevOps & Infrastructure',
+      description: 'Streamlining deployment and ensuring reliability.',
+      skills: ['Docker', 'Kubernetes', 'AWS', 'CI/CD', 'Linux'],
+      icon: '\u2601\uFE0F',
     },
     {
-      title: "Design & UX Strategy",
-      description: "Crafting intuitive digital experiences that convert.",
-      skills: ["Figma", "UI/UX", "Prototyping", "Wireframing"],
-      icon: "✨",
+      title: 'Design & UX Strategy',
+      description: 'Crafting intuitive digital experiences that convert.',
+      skills: ['Figma', 'UI/UX', 'Prototyping', 'Wireframing'],
+      icon: '\u2728',
     },
   ];
 
