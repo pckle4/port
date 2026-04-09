@@ -42,6 +42,10 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
   private stableConnectionPointCount = 0;
   private stableConnectionsLocked = false;
   private connectionWarmupUntil = 0;
+  private startTimerId: ReturnType<typeof setTimeout> | null = null;
+  private restartTimerId: ReturnType<typeof setTimeout> | null = null;
+  private sampledIconPoints: GlobeIconPoint[] = [];
+  private lastPointSampleTime = 0;
 
   resolvedTheme = 'dark';
   iconElements: { src: string; title: string }[] = [];
@@ -157,6 +161,8 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
     this.stableConnectionPointCount = 0;
     this.stableConnectionsLocked = false;
     this.connectionWarmupUntil = 0;
+    this.sampledIconPoints = [];
+    this.lastPointSampleTime = 0;
   }
 
   private lastConnectionCalcTime = 0;
@@ -170,9 +176,11 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
 
     const rect = canvas.getBoundingClientRect();
     if (rect.width === 0 || rect.height === 0) {
-      this.globeRafId = requestAnimationFrame(() => {
-        this.globeRafId = null;
-        this.startGlobeAnimation();
+      this.ngZone.runOutsideAngular(() => {
+        this.globeRafId = requestAnimationFrame(() => {
+          this.globeRafId = null;
+          this.startGlobeAnimation();
+        });
       });
       return;
     }
@@ -187,51 +195,66 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
       this.connectionWarmupUntil = performance.now() + 1200;
     }
 
-    const loop = (time: number) => {
-      const elapsed = time - this.globeStartTime;
-      const sampledPoints = this.getIconAnchorPoints(rect.width, rect.height);
-      const iconPoints = sampledPoints.length > 1 ? sampledPoints : this.lastIconPoints;
-      if (sampledPoints.length > 1) {
-        this.lastIconPoints = sampledPoints;
-      }
-      if (iconPoints.length > 1) {
-        const pointCountChanged = this.stableConnectionPointCount !== iconPoints.length;
-        const expectedIconCount = this.iconElements.length;
-        const hasFullPointSample = expectedIconCount > 0 && iconPoints.length >= expectedIconCount;
-        const inWarmup = performance.now() < this.connectionWarmupUntil;
-        const warmupThrottle = inWarmup && (performance.now() - this.lastConnectionCalcTime > 50);
+    // GUARANTEE THIS RUNS OUTSIDE ANGULAR CHANGE DETECTION
+    this.ngZone.runOutsideAngular(() => {
+      const loop = (time: number) => {
+        const elapsed = time - this.globeStartTime;
 
-        const shouldRefreshConnections =
-          this.stableConnections.length === 0 ||
-          pointCountChanged ||
-          !this.stableConnectionsLocked ||
-          warmupThrottle;
+        // Removed the 33ms throttle. Sample points every frame for smooth 60/120fps.
+        let sampledPoints = this.getIconAnchorPoints(rect.width, rect.height);
 
-        if (shouldRefreshConnections) {
-          this.stableConnections = buildStableGlobeConnections(iconPoints);
-          this.stableConnectionPointCount = iconPoints.length;
-          this.lastConnectionCalcTime = performance.now();
+        if (sampledPoints.length > 0) {
+          this.sampledIconPoints = sampledPoints;
+        } else {
+          sampledPoints = this.sampledIconPoints;
         }
 
-        if ((hasFullPointSample || !inWarmup) && this.stableConnections.length > 0) {
-          this.stableConnectionsLocked = true;
+        const iconPoints = sampledPoints.length > 1 ? sampledPoints : this.lastIconPoints;
+        if (sampledPoints.length > 1) {
+          this.lastIconPoints = sampledPoints;
         }
-      } else {
-        this.resetStableConnections();
-      }
 
-      render3DGlobe(
-        ctx,
-        rect.width,
-        rect.height,
-        elapsed,
-        this.resolvedTheme,
-        iconPoints,
-        this.stableConnections
-      );
+        if (iconPoints.length > 1) {
+          const pointCountChanged = this.stableConnectionPointCount !== iconPoints.length;
+          const expectedIconCount = this.iconElements.length;
+          const hasFullPointSample = expectedIconCount > 0 && iconPoints.length >= expectedIconCount;
+          const inWarmup = performance.now() < this.connectionWarmupUntil;
+          const warmupThrottle = inWarmup && (performance.now() - this.lastConnectionCalcTime > 50);
+
+          const shouldRefreshConnections =
+            this.stableConnections.length === 0 ||
+            pointCountChanged ||
+            !this.stableConnectionsLocked ||
+            warmupThrottle;
+
+          if (shouldRefreshConnections) {
+            this.stableConnections = buildStableGlobeConnections(iconPoints);
+            this.stableConnectionPointCount = iconPoints.length;
+            this.lastConnectionCalcTime = performance.now();
+          }
+
+          if ((hasFullPointSample || !inWarmup) && this.stableConnections.length > 0) {
+            this.stableConnectionsLocked = true;
+          }
+        } else {
+          this.resetStableConnections();
+        }
+
+        render3DGlobe(
+          ctx,
+          rect.width,
+          rect.height,
+          elapsed,
+          this.resolvedTheme,
+          iconPoints,
+          this.stableConnections
+        );
+
+        this.globeRafId = requestAnimationFrame(loop);
+      };
+
       this.globeRafId = requestAnimationFrame(loop);
-    };
-    this.globeRafId = requestAnimationFrame(loop);
+    });
   }
 
   private getIconAnchorPoints(overlayWidth: number, overlayHeight: number): GlobeIconPoint[] {
@@ -275,6 +298,8 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
       cancelAnimationFrame(this.globeRafId);
       this.globeRafId = null;
     }
+    this.sampledIconPoints = [];
+    this.lastPointSampleTime = 0;
   }
 
   private startTagCanvas() {
@@ -307,7 +332,11 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
         TC.Resume(this.canvasId);
         this.startGlobeAnimation();
       } else {
-        setTimeout(() => {
+        if (this.startTimerId !== null) {
+          clearTimeout(this.startTimerId);
+        }
+        this.startTimerId = setTimeout(() => {
+          this.startTimerId = null;
           try {
             TC.Start(this.canvasId, this.listId, CLOUD_OPTIONS);
             this.hasStarted = true;
@@ -329,7 +358,7 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
         TC.Pause(this.canvasId);
         this.stopGlobeAnimation();
       }
-    } catch (e) {}
+    } catch (e) { }
   }
 
   private restart() {
@@ -338,7 +367,11 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
     if (!TC) return;
     if (!this.hasStarted) return;
 
-    setTimeout(() => {
+    if (this.restartTimerId !== null) {
+      clearTimeout(this.restartTimerId);
+    }
+    this.restartTimerId = setTimeout(() => {
+      this.restartTimerId = null;
       try {
         TC.Update(this.canvasId);
       } catch (e) {
@@ -359,13 +392,21 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
       }
       this.observer?.disconnect();
       if (this.themeRafId !== null) cancelAnimationFrame(this.themeRafId);
+      if (this.startTimerId !== null) {
+        clearTimeout(this.startTimerId);
+        this.startTimerId = null;
+      }
+      if (this.restartTimerId !== null) {
+        clearTimeout(this.restartTimerId);
+        this.restartTimerId = null;
+      }
       this.stopGlobeAnimation();
       try {
         const TC = (window as any).TagCanvas;
         if (TC && this.hasStarted) {
           TC.Delete(this.canvasId);
         }
-      } catch (e) {}
+      } catch (e) { }
     });
   }
 }
