@@ -1,8 +1,8 @@
-<footer class="bg-[#050505] text-white relative overflow-hidden border-t border-white/10"
+<footer class="bg-black text-zinc-100 relative overflow-hidden border-t border-white/10"
   style="content-visibility: auto">
-  <div class="absolute inset-0 opacity-[0.03]">
+  <div class="absolute inset-0 opacity-[0.04] dark:opacity-[0.03]">
     <div class="absolute inset-0"
-      style="background-image: linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px); background-size: 32px 32px">
+      style="background-image: linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px); background-size: 32px 32px">
     </div>
   </div>
 
@@ -12,22 +12,31 @@
         <div>
           <h3 class="text-2xl md:text-3xl font-extrabold tracking-tight text-white inline-block select-none"
             style="font-family: 'JetBrains Mono', monospace;">
-            ANSH<span class="text-cyan-400">_</span>SHAH
+            ANSH<span class="text-primary/80">_</span>SHAH
           </h3>
-          <div class="h-1 w-10 md:w-12 bg-cyan-500 rounded-full mt-1.5"></div>
+          <div class="h-1 w-10 md:w-12 bg-primary rounded-full mt-1.5"></div>
         </div>
-        <p class="text-gray-400 leading-relaxed text-xs md:text-sm font-medium max-w-md">
+        <p class="text-zinc-400 leading-relaxed text-xs md:text-sm font-medium max-w-md">
           Full-stack developer crafting beautiful digital experiences with modern technologies.
         </p>
       </div>
 
       <div class="md:justify-self-center">
         <div>
-          <p class="text-[11px] text-gray-500 uppercase tracking-wider mb-2.5 font-semibold">Menu</p>
+          <p class="text-[11px] text-zinc-500 uppercase tracking-wider mb-2.5 font-semibold">Menu</p>
           <nav class="flex flex-col items-start gap-2.5" aria-label="Footer menu">
-            <a routerLink="/" fragment="about" class="text-sm text-gray-300 hover:text-white transition-colors duration-200">About</a>
-            <a routerLink="/" fragment="projects" class="text-sm text-gray-300 hover:text-white transition-colors duration-200">Projects</a>
-            <a routerLink="/" fragment="contact" class="text-sm text-gray-300 hover:text-white transition-colors duration-200">Contact</a>
+            <a routerLink="/" fragment="about" class="group inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-white transition-colors duration-200">
+              <lucide-icon name="user" class="h-3.5 w-3.5 text-primary/70 group-hover:text-primary"></lucide-icon>
+              About
+            </a>
+            <a routerLink="/" fragment="projects" class="group inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-white transition-colors duration-200">
+              <lucide-icon name="folder-kanban" class="h-3.5 w-3.5 text-primary/70 group-hover:text-primary"></lucide-icon>
+              Projects
+            </a>
+            <a routerLink="/" fragment="contact" class="group inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-white transition-colors duration-200">
+              <lucide-icon name="message-square" class="h-3.5 w-3.5 text-primary/70 group-hover:text-primary"></lucide-icon>
+              Contact
+            </a>
           </nav>
         </div>
       </div>
@@ -35,29 +44,32 @@
       <div class="space-y-4">
         <app-enhanced-system-info></app-enhanced-system-info>
 
-        <div class="p-3 rounded-lg bg-white/[0.03] border border-white/5">
-          <p class="text-[10px] text-gray-500 uppercase tracking-wider mb-2 font-semibold">Get in touch</p>
-          <div class="space-y-1.5">
-            <a href="mailto:help@nowhile.com"
-              class="flex items-center gap-2 text-xs text-gray-400 hover:text-white transition-colors">
-              <lucide-icon name="mail" class="h-3 w-3 text-cyan-400 shrink-0"></lucide-icon>
-              help&#64;nowhile.com
-            </a>
-            <a href="mailto:legal@nowhile.com"
-              class="flex items-center gap-2 text-xs text-gray-400 hover:text-white transition-colors">
-              <lucide-icon name="shield" class="h-3 w-3 text-cyan-400 shrink-0"></lucide-icon>
-              legal&#64;nowhile.com
-            </a>
+        <div class="relative p-[1px] rounded-lg overflow-hidden group">
+          <div class="absolute inset-[-100%] animate-[spin_8s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,hsl(var(--primary))_100%)]"></div>
+          <div class="relative p-3 rounded-lg bg-black border border-white/10 h-full w-full flex flex-col justify-center">
+            <p class="text-[10px] text-zinc-500 uppercase tracking-wider mb-2 font-semibold">Get in touch</p>
+            <div class="space-y-1.5">
+              <a href="mailto:help@nowhile.com"
+                class="flex items-center gap-2 text-xs text-zinc-400 hover:text-white transition-colors">
+                <lucide-icon name="mail" class="h-3 w-3 text-primary/80 shrink-0"></lucide-icon>
+                help&#64;nowhile.com
+              </a>
+              <a href="mailto:legal@nowhile.com"
+                class="flex items-center gap-2 text-xs text-zinc-400 hover:text-white transition-colors">
+                <lucide-icon name="shield" class="h-3 w-3 text-primary/80 shrink-0"></lucide-icon>
+                legal&#64;nowhile.com
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="border-t border-gray-800/50 mt-6 sm:mt-8 pt-4 md:pt-5">
+    <div class="border-t border-white/10 mt-6 sm:mt-8 pt-4 md:pt-5">
       <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div class="flex flex-col sm:flex-row items-center gap-2 text-xs text-gray-500">
+        <div class="flex flex-col sm:flex-row items-center gap-2 text-xs text-zinc-500">
           <p>&copy; {{currentTime().getFullYear()}} Ansh Shah</p>
-          <span class="hidden sm:inline text-gray-700">&middot;</span>
+          <span class="hidden sm:inline opacity-50">&middot;</span>
           <span class="inline-flex items-center gap-1 leading-none">
             Made with
             <span class="text-red-500 text-xs leading-none">&hearts;</span>
@@ -65,50 +77,50 @@
           </span>
         </div>
 
-        <div class="flex items-center gap-4 text-xs text-gray-500">
-          <a routerLink="/privacy" class="hover:text-gray-300 transition-colors">Privacy Policy</a>
-          <a routerLink="/terms" class="hover:text-gray-300 transition-colors">Terms of Service</a>
+        <div class="flex items-center gap-4 text-xs text-zinc-500">
+          <a routerLink="/privacy" class="inline-flex items-center gap-1 hover:text-white transition-colors">
+            <lucide-icon name="shield-check" class="h-3 w-3"></lucide-icon>
+            Privacy Policy
+          </a>
+          <a routerLink="/terms" class="inline-flex items-center gap-1 hover:text-white transition-colors">
+            <lucide-icon name="file-text" class="h-3 w-3"></lucide-icon>
+            Terms of Service
+          </a>
           <span class="flex items-center gap-1">
             <lucide-icon name="code" class="h-3 w-3"></lucide-icon>
             Open Source
           </span>
         </div>
 
-        <div class="inline-flex items-center px-2 py-0.5 rounded-full bg-gray-900 border border-gray-800 gap-1.5 text-[9px] md:text-[10px] text-gray-500 font-mono">
-          <span>{{formatTime(currentTime())}}</span>
-          <span class="w-1 h-1 bg-gray-700 rounded-full"></span>
-          <span>{{formatDate(currentTime())}}</span>
-          <span class="w-1 h-1 bg-gray-700 rounded-full"></span>
-          <span class="text-green-500/80">IST</span>
+        <div class="flex items-center gap-3">
+          <div class="inline-flex items-center px-2 py-0.5 rounded-full bg-zinc-900 border border-white/10 gap-1.5 text-[9px] md:text-[10px] text-zinc-400 font-mono">
+            <span>{{formatTime(currentTime())}}</span>
+            <span class="w-1 h-1 bg-white/20 rounded-full"></span>
+            <span>{{formatDate(currentTime())}}</span>
+            <span class="w-1 h-1 bg-white/20 rounded-full"></span>
+            <span class="text-primary/90">IST</span>
+          </div>
         </div>
       </div>
 
-      <div class="flex justify-center pt-3">
-        <a href="https://nowhile.com" target="_blank" rel="noopener noreferrer" aria-label="Visit nowhile.com"
-          class="group relative inline-flex h-6 md:h-7 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 transition-transform duration-300 hover:scale-105">
-          <span
-            class="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#000000_0%,#ffffff_50%,#000000_100%)] opacity-50 group-hover:opacity-100 transition-opacity"></span>
-          <span
-            class="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-[#050505] px-3 md:px-4 py-1 text-[9px] md:text-[10px] font-medium text-gray-400 backdrop-blur-3xl transition-colors group-hover:text-white group-hover:bg-black/80">
-            <span class="mr-1.5 flex h-1.5 w-1.5 relative">
-              <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-cyan-500"></span>
-            </span>
-            <span class="font-bold text-cyan-400 group-hover:text-cyan-300 transition-colors">nowhile</span>
-            <lucide-icon name="terminal"
-              class="ml-1.5 h-2.5 w-2.5 md:h-3 md:w-3 text-gray-500 group-hover:text-cyan-400 transition-colors"></lucide-icon>
-          </span>
-        </a>
+      <div class="flex justify-center pt-5">
+        <div class="relative p-[1px] rounded-full overflow-hidden group cursor-pointer" onclick="window.open('https://nowhile.com', '_blank', 'noopener,noreferrer')">
+          <div class="absolute inset-[-100%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,hsl(var(--primary))_100%)]"></div>
+          <div class="relative px-4 py-1.5 rounded-full bg-black border border-white/10 text-[10px] md:text-[11px] text-white font-bold tracking-widest flex items-center justify-center transition-colors hover:bg-zinc-950">
+            NOWHILE
+          </div>
+        </div>
       </div>
     </div>
 
     <button (click)="scrollToTop()"
-      [class]="'fixed bottom-6 right-6 z-50 p-3 rounded-full bg-cyan-500 text-white shadow-lg shadow-cyan-500/30 transition-all duration-300 hover:bg-cyan-600 hover:scale-110 hover:-translate-y-1 ' + (showBackToTop() ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none')"
+      [class]="'group fixed bottom-6 right-6 z-50 btn-primary-icon-action h-11 w-11 ' + (showBackToTop() ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none')"
       aria-label="Back to top">
-      <lucide-icon name="arrow-up" class="h-5 w-5"></lucide-icon>
+      <lucide-icon name="arrow-up" class="h-5 w-5 btn-feedback-icon"></lucide-icon>
     </button>
 
     <div
-      class="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent">
+      class="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary/50 to-transparent">
     </div>
   </div>
 </footer>

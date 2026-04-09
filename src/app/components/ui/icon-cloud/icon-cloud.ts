@@ -1,120 +1,9 @@
-import { Component, Input, OnInit, OnDestroy, PLATFORM_ID, inject, NgZone, AfterViewInit, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, PLATFORM_ID, inject, NgZone, AfterViewInit, OnChanges, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ThemeService } from '../../../services/theme.service';
-import {
-  siTypescript,
-  siJavascript,
-  siReact,
-  siNodedotjs,
-  siPostgresql,
-  siMongodb,
-  siTailwindcss,
-  siDocker,
-  siGit,
-  siGithub,
-  siPython,
-  siHtml5,
-  siCss,
-  siNextdotjs,
-  siVercel,
-  siVite,
-  siFigma,
-  siApachekafka,
-  siNginx,
-  siGraphql,
-  siRedis,
-  siDotnet,
-  siKubernetes,
-  siLinux,
-  siAndroid
-} from 'simple-icons';
-
-type SimpleIcon = { title: string; slug: string; hex: string; path: string; };
-
-const slugToIcon: Record<string, SimpleIcon> = {
-  typescript: siTypescript as any,
-  javascript: siJavascript as any,
-  react: siReact as any,
-  nodedotjs: siNodedotjs as any,
-  postgresql: siPostgresql as any,
-  mongodb: siMongodb as any,
-  tailwindcss: siTailwindcss as any,
-  docker: siDocker as any,
-  git: siGit as any,
-  github: siGithub as any,
-  python: siPython as any,
-  html5: siHtml5 as any,
-  css3: siCss as any,
-  nextdotjs: siNextdotjs as any,
-  vercel: siVercel as any,
-  vite: siVite as any,
-  figma: siFigma as any,
-  apachekafka: siApachekafka as any,
-  nginx: siNginx as any,
-  graphql: siGraphql as any,
-  redis: siRedis as any,
-  dotnet: siDotnet as any,
-  kubernetes: siKubernetes as any,
-  linux: siLinux as any,
-  android: siAndroid as any,
-};
-
-function hexToRgb(hex: string): [number, number, number] {
-  hex = hex.replace('#', '');
-  if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
-  const n = parseInt(hex, 16);
-  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
-}
-function luminance(r: number, g: number, b: number): number {
-  const [rs, gs, bs] = [r, g, b].map(c => {
-    c /= 255;
-    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
-  });
-  return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
-}
-function contrastRatio(hex1: string, hex2: string): number {
-  const [r1, g1, b1] = hexToRgb(hex1);
-  const [r2, g2, b2] = hexToRgb(hex2);
-  const l1 = luminance(r1, g1, b1);
-  const l2 = luminance(r2, g2, b2);
-  const lighter = Math.max(l1, l2);
-  const darker = Math.min(l1, l2);
-  return (lighter + 0.05) / (darker + 0.05);
-}
-
-function renderIconDataUri(icon: SimpleIcon, theme: string): { src: string; title: string } {
-  const bgHex = theme === 'light' ? '#f3f2f1' : '#080510';
-  const fallbackHex = theme === 'light' ? '#6e6e73' : '#ffffff';
-  const minContrastRatio = theme === 'dark' ? 2 : 1.2;
-  const originalHex = '#' + icon.hex;
-  const isAccessible = contrastRatio(bgHex, originalHex) > minContrastRatio;
-  const [r, g, b] = hexToRgb(isAccessible ? originalHex : fallbackHex);
-  const size = 40;
-  const src = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" style="fill: rgb(${r}, ${g}, ${b});" viewBox="0 0 24 24" height="${size}px" width="${size}px"><title>${encodeURIComponent(icon.title)}</title><path d="${icon.path}"></path></svg>`;
-  return { src, title: icon.title };
-}
-
-const CLOUD_OPTIONS: Record<string, any> = {
-  reverse: true,
-  depth: 1,
-  wheelZoom: false,
-  imageScale: 2,
-  activeCursor: 'default',
-  tooltip: 'native',
-  initial: [0.1, -0.1],
-  clickToFront: 500,
-  tooltipDelay: 0,
-  outlineColour: '#0000',
-  maxSpeed: 0.03,
-  minSpeed: 0.01,
-  dragControl: true,
-  decel: 0.98,
-  pinchZoom: false,
-  freezeActive: true,
-  freezeDecel: true,
-  textFont: null,
-  textColour: null,
-};
+import { CLOUD_OPTIONS } from './icon-cloud.config';
+import { renderIconDataUri, slugToIcon } from './icon-cloud.utils';
+import { buildStableGlobeConnections, GlobeConnection, GlobeIconPoint, render3DGlobe } from './globe-renderer';
 
 let tagCanvasLoaded = false;
 
@@ -130,27 +19,40 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
   @Input() iconSlugs: string[] = [];
   @Input() forcedTheme?: string;
 
+  @ViewChild('globeCanvas', { static: false }) globeCanvasRef?: ElementRef<HTMLCanvasElement>;
+
   private platformId = inject(PLATFORM_ID);
   private ngZone = inject(NgZone);
+  private cdr = inject(ChangeDetectorRef);
   private themeService = inject(ThemeService);
 
   private canvasId = 'tc-canvas-' + Math.random().toString(36).slice(2, 9);
   private containerId = 'tc-container-' + Math.random().toString(36).slice(2, 9);
+  private listId = 'tc-list-' + Math.random().toString(36).slice(2, 9);
   private hasStarted = false;
   private observer?: IntersectionObserver;
   private themeListener?: () => void;
   private mediaQuery?: MediaQueryList;
   private mediaHandler?: (e: MediaQueryListEvent) => void;
   private themeRafId: number | null = null;
+  private globeRafId: number | null = null;
+  private globeStartTime: number = 0;
+  private lastIconPoints: GlobeIconPoint[] = [];
+  private stableConnections: GlobeConnection[] = [];
+  private stableConnectionPointCount = 0;
+  private stableConnectionsLocked = false;
+  private connectionWarmupUntil = 0;
 
   resolvedTheme = 'dark';
   iconElements: { src: string; title: string }[] = [];
   canvasIdAttr = '';
   containerIdAttr = '';
+  listIdAttr = '';
 
   ngOnInit() {
     this.canvasIdAttr = this.canvasId;
     this.containerIdAttr = this.containerId;
+    this.listIdAttr = this.listId;
     this.resolveTheme();
     this.buildIcons();
   }
@@ -160,7 +62,7 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
       this.resolveTheme();
       this.buildIcons();
       if (this.hasStarted && isPlatformBrowser(this.platformId)) {
-        this.restart();
+        this.ngZone.runOutsideAngular(() => this.restart());
       }
     }
   }
@@ -177,21 +79,21 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
         this.syncThemeAndIcons();
       });
     };
-    window.addEventListener('theme-changed', this.themeListener);
-
-    window.addEventListener('storage', this.themeListener);
-
-    if (!this.forcedTheme) {
-      this.mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      this.mediaHandler = () => {
-        if (this.themeService.theme() === 'system') {
-          this.syncThemeAndIcons();
-        }
-      };
-      this.mediaQuery.addEventListener('change', this.mediaHandler);
-    }
 
     this.ngZone.runOutsideAngular(() => {
+      window.addEventListener('theme-changed', this.themeListener!);
+      window.addEventListener('storage', this.themeListener!);
+
+      if (!this.forcedTheme) {
+        this.mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        this.mediaHandler = () => {
+          if (this.themeService.theme() === 'system') {
+            this.syncThemeAndIcons();
+          }
+        };
+        this.mediaQuery.addEventListener('change', this.mediaHandler);
+      }
+
       const container = document.getElementById(this.containerId);
       if (!container) return;
 
@@ -219,25 +121,30 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
       } else {
         this.resolvedTheme = 'dark';
       }
-    } else {
-      this.resolvedTheme = stored || 'dark';
+      return;
     }
+    this.resolvedTheme = stored || 'dark';
   }
 
   private syncThemeAndIcons(): void {
-    const previousTheme = this.resolvedTheme;
+    const prev = this.resolvedTheme;
     this.resolveTheme();
-    if (previousTheme === this.resolvedTheme) return;
+    if (prev === this.resolvedTheme) return;
 
-    this.buildIcons();
+    this.ngZone.run(() => {
+      this.buildIcons();
+      this.cdr.markForCheck();
+    });
+
     if (this.hasStarted) {
-      this.restart();
+      this.ngZone.runOutsideAngular(() => this.restart());
     }
   }
 
   private buildIcons() {
+    this.resetStableConnections();
     this.iconElements = this.iconSlugs
-      .map(slug => {
+      .map((slug) => {
         const icon = slugToIcon[slug];
         if (!icon) return null;
         return renderIconDataUri(icon, this.resolvedTheme);
@@ -245,28 +152,151 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
       .filter((x): x is { src: string; title: string } => !!x);
   }
 
-  private startTagCanvas() {
-    this.ngZone.runOutsideAngular(() => {
-      try {
-        if (!tagCanvasLoaded) {
-          const TC = (window as any).TagCanvas;
-          if (!TC) {
-            import('tag-canvas').then((mod) => {
-              if (!(window as any).TagCanvas) {
-                (window as any).TagCanvas = mod.default || mod;
-              }
-              tagCanvasLoaded = true;
-              this.doStart();
-            });
-            return;
-          }
-          tagCanvasLoaded = true;
-        }
-        this.doStart();
-      } catch (e) {
-        console.warn('TagCanvas start failed:', e);
+  private resetStableConnections() {
+    this.stableConnections = [];
+    this.stableConnectionPointCount = 0;
+    this.stableConnectionsLocked = false;
+    this.connectionWarmupUntil = 0;
+  }
+
+  private lastConnectionCalcTime = 0;
+
+  private startGlobeAnimation() {
+    if (this.globeRafId !== null) return;
+    if (!this.globeCanvasRef?.nativeElement) return;
+    const canvas = this.globeCanvasRef.nativeElement;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) {
+      this.globeRafId = requestAnimationFrame(() => {
+        this.globeRafId = null;
+        this.startGlobeAnimation();
+      });
+      return;
+    }
+
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+
+    if (this.globeStartTime === 0) this.globeStartTime = performance.now();
+    if (this.connectionWarmupUntil === 0) {
+      this.connectionWarmupUntil = performance.now() + 1200;
+    }
+
+    const loop = (time: number) => {
+      const elapsed = time - this.globeStartTime;
+      const sampledPoints = this.getIconAnchorPoints(rect.width, rect.height);
+      const iconPoints = sampledPoints.length > 1 ? sampledPoints : this.lastIconPoints;
+      if (sampledPoints.length > 1) {
+        this.lastIconPoints = sampledPoints;
       }
-    });
+      if (iconPoints.length > 1) {
+        const pointCountChanged = this.stableConnectionPointCount !== iconPoints.length;
+        const expectedIconCount = this.iconElements.length;
+        const hasFullPointSample = expectedIconCount > 0 && iconPoints.length >= expectedIconCount;
+        const inWarmup = performance.now() < this.connectionWarmupUntil;
+        const warmupThrottle = inWarmup && (performance.now() - this.lastConnectionCalcTime > 50);
+
+        const shouldRefreshConnections =
+          this.stableConnections.length === 0 ||
+          pointCountChanged ||
+          !this.stableConnectionsLocked ||
+          warmupThrottle;
+
+        if (shouldRefreshConnections) {
+          this.stableConnections = buildStableGlobeConnections(iconPoints);
+          this.stableConnectionPointCount = iconPoints.length;
+          this.lastConnectionCalcTime = performance.now();
+        }
+
+        if ((hasFullPointSample || !inWarmup) && this.stableConnections.length > 0) {
+          this.stableConnectionsLocked = true;
+        }
+      } else {
+        this.resetStableConnections();
+      }
+
+      render3DGlobe(
+        ctx,
+        rect.width,
+        rect.height,
+        elapsed,
+        this.resolvedTheme,
+        iconPoints,
+        this.stableConnections
+      );
+      this.globeRafId = requestAnimationFrame(loop);
+    };
+    this.globeRafId = requestAnimationFrame(loop);
+  }
+
+  private getIconAnchorPoints(overlayWidth: number, overlayHeight: number): GlobeIconPoint[] {
+    try {
+      const TC = (window as any).TagCanvas;
+      const tc = TC?.tc?.[this.canvasId];
+      if (!tc || !Array.isArray(tc.taglist)) return [];
+
+      const canvas = tc.canvas as HTMLCanvasElement | undefined;
+      const cw = canvas?.width || 1000;
+      const ch = canvas?.height || 1000;
+      const xoff = cw / 2 + (tc.offsetX || 0);
+      const yoff = ch / 2 + (tc.offsetY || 0);
+      const maxRadius = tc.max_radius || 100;
+
+      return tc.taglist
+        .map((tag: any) => {
+          if (typeof tag?.x !== 'number' || typeof tag?.y !== 'number') return null;
+          const scale = typeof tag.sc === 'number' ? tag.sc : 1;
+          const ix = xoff + tag.x * scale;
+          const iy = yoff + tag.y * scale;
+          const depthRaw = typeof tag.z === 'number'
+            ? (maxRadius - tag.z) / (2 * maxRadius)
+            : 0.5;
+          const depth = Math.max(0, Math.min(1, depthRaw));
+
+          return {
+            x: (ix / cw) * overlayWidth,
+            y: (iy / ch) * overlayHeight,
+            depth
+          } as GlobeIconPoint;
+        })
+        .filter((p: GlobeIconPoint | null): p is GlobeIconPoint => !!p);
+    } catch {
+      return [];
+    }
+  }
+
+  private stopGlobeAnimation() {
+    if (this.globeRafId !== null) {
+      cancelAnimationFrame(this.globeRafId);
+      this.globeRafId = null;
+    }
+  }
+
+  private startTagCanvas() {
+    try {
+      if (!tagCanvasLoaded) {
+        const TC = (window as any).TagCanvas;
+        if (!TC) {
+          import('tag-canvas').then((mod) => {
+            if (!(window as any).TagCanvas) {
+              (window as any).TagCanvas = mod.default || mod;
+            }
+            tagCanvasLoaded = true;
+            this.doStart();
+          });
+          return;
+        }
+        tagCanvasLoaded = true;
+      }
+      this.doStart();
+    } catch (e) {
+      console.warn('TagCanvas start failed:', e);
+    }
   }
 
   private doStart() {
@@ -275,11 +305,13 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
     try {
       if (this.hasStarted) {
         TC.Resume(this.canvasId);
+        this.startGlobeAnimation();
       } else {
         setTimeout(() => {
           try {
-            TC.Start(this.canvasId, null, CLOUD_OPTIONS);
+            TC.Start(this.canvasId, this.listId, CLOUD_OPTIONS);
             this.hasStarted = true;
+            this.startGlobeAnimation();
           } catch (e) {
             console.warn('TagCanvas.Start failed:', e);
           }
@@ -295,6 +327,7 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
       const TC = (window as any).TagCanvas;
       if (TC && this.hasStarted) {
         TC.Pause(this.canvasId);
+        this.stopGlobeAnimation();
       }
     } catch (e) {}
   }
@@ -305,22 +338,18 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
     if (!TC) return;
     if (!this.hasStarted) return;
 
-    try {
-      TC.Delete(this.canvasId);
-      this.hasStarted = false;
-    } catch (e) {}
-    setTimeout(() => this.startTagCanvas(), 100);
+    setTimeout(() => {
+      try {
+        TC.Update(this.canvasId);
+      } catch (e) {
+        console.warn('TagCanvas update failed:', e);
+      }
+    }, 100);
   }
 
   ngOnDestroy() {
-    if (isPlatformBrowser(this.platformId)) {
-      try {
-        const TC = (window as any).TagCanvas;
-        if (TC && this.hasStarted) {
-          TC.Delete(this.canvasId);
-        }
-      } catch (e) {}
-      if (this.observer) this.observer.disconnect();
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.ngZone.runOutsideAngular(() => {
       if (this.themeListener) {
         window.removeEventListener('theme-changed', this.themeListener);
         window.removeEventListener('storage', this.themeListener);
@@ -328,9 +357,15 @@ export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnC
       if (this.mediaQuery && this.mediaHandler) {
         this.mediaQuery.removeEventListener('change', this.mediaHandler);
       }
-      if (this.themeRafId !== null) {
-        cancelAnimationFrame(this.themeRafId);
-      }
-    }
+      this.observer?.disconnect();
+      if (this.themeRafId !== null) cancelAnimationFrame(this.themeRafId);
+      this.stopGlobeAnimation();
+      try {
+        const TC = (window as any).TagCanvas;
+        if (TC && this.hasStarted) {
+          TC.Delete(this.canvasId);
+        }
+      } catch (e) {}
+    });
   }
 }

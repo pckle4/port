@@ -20,10 +20,10 @@ export class EnhancedFooterComponent implements OnInit, OnDestroy {
   private ngZone = inject(NgZone);
 
   techStack = [
-    { name: "Angular", color: "#DD0031" },
-    { name: "TypeScript", color: "#3178C6" },
-    { name: "Tailwind", color: "#06B6D4" },
-    { name: "Vite", color: "#646CFF" },
+    { name: "Angular", color: "#E83A52" },
+    { name: "TypeScript", color: "#1676F3" },
+    { name: "Tailwind", color: "#13AEDD" },
+    { name: "Vite", color: "#FCA818" },
   ];
 
   quickLinks = [

@@ -1,9 +1,52 @@
-<div class="absolute inset-0 -z-20 h-full w-full bg-[#f8fafc] dark:bg-[#0c0a09]">
+<div class="fixed inset-0 -z-20 h-full w-full bg-transparent pointer-events-none">
+  <!-- Base grid -->
   <div
     class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] opacity-50 sm:opacity-100">
   </div>
+
+  <!-- Shimmer sweep grid lines (dark mode only) — same effect as project card hover -->
+  <div class="absolute inset-0 overflow-hidden hidden dark:block pointer-events-none">
+    <!-- Horizontal shimmer sweeps -->
+    <div class="absolute left-0 right-0 h-[1px] top-[20%] overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.07] to-transparent"
+        style="animation: gridShimmerH 6s ease-in-out infinite;"></div>
+    </div>
+    <div class="absolute left-0 right-0 h-[1px] top-[40%] overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-r from-transparent via-primary/[0.08] to-transparent"
+        style="animation: gridShimmerH 8s ease-in-out 2s infinite;"></div>
+    </div>
+    <div class="absolute left-0 right-0 h-[1px] top-[60%] overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.05] to-transparent"
+        style="animation: gridShimmerH 7s ease-in-out 4s infinite;"></div>
+    </div>
+    <div class="absolute left-0 right-0 h-[1px] top-[80%] overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-r from-transparent via-accent/[0.06] to-transparent"
+        style="animation: gridShimmerH 9s ease-in-out 1s infinite;"></div>
+    </div>
+
+    <!-- Vertical shimmer sweeps -->
+    <div class="absolute top-0 bottom-0 w-[1px] left-[25%] overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.06] to-transparent"
+        style="animation: gridShimmerV 7s ease-in-out 1.5s infinite;"></div>
+    </div>
+    <div class="absolute top-0 bottom-0 w-[1px] left-[50%] overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.06] to-transparent"
+        style="animation: gridShimmerV 9s ease-in-out 3s infinite;"></div>
+    </div>
+    <div class="absolute top-0 bottom-0 w-[1px] left-[75%] overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.04] to-transparent"
+        style="animation: gridShimmerV 8s ease-in-out 5s infinite;"></div>
+    </div>
+  </div>
+
+  <!-- Multi-color glow orbs -->
   <div
-    class="absolute left-0 right-0 top-0 -z-10 m-auto h-[220px] w-[220px] sm:h-[310px] sm:w-[310px] rounded-full bg-[#06b6d4] opacity-20 blur-[60px] sm:blur-[100px]">
+    class="absolute left-[20%] top-[10%] -z-10 h-[180px] w-[180px] sm:h-[260px] sm:w-[260px] rounded-full bg-primary opacity-[0.08] dark:opacity-[0.06] blur-[60px] sm:blur-[100px]">
+  </div>
+  <div
+    class="absolute right-[15%] top-[30%] -z-10 h-[140px] w-[140px] sm:h-[200px] sm:w-[200px] rounded-full bg-accent opacity-[0.07] dark:opacity-[0.04] blur-[50px] sm:blur-[80px]">
+  </div>
+  <div
+    class="absolute left-[50%] bottom-[20%] -z-10 h-[120px] w-[120px] sm:h-[180px] sm:w-[180px] rounded-full bg-secondary opacity-[0.07] dark:opacity-[0.04] blur-[50px] sm:blur-[80px]">
   </div>
 </div>
-

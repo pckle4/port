@@ -27,7 +27,7 @@ import { Subscription } from 'rxjs';
 export class ContactSectionComponent implements OnInit, OnDestroy {
   isVisible = signal(false);
   isSubmitting = signal(false);
-  submitStatus = signal<'idle' | 'success' | 'error'>('idle');
+  submitStatus = signal<'idle' | 'confirm' | 'success' | 'error'>('idle');
 
   mathCaptcha = { question: '', answer: 0 };
   captchaValid = false;
@@ -81,23 +81,31 @@ export class ContactSectionComponent implements OnInit, OnDestroy {
 
   handleSubmit() {
     if (this.hp) { this.submitStatus.set('error'); return; }
-    this.contactForm.markAllAsTouched();
+    
+    if (this.submitStatus() === 'idle') {
+      this.contactForm.markAllAsTouched();
 
-    if (!this.captchaValid) {
-      this.contactForm.get('captcha')!.setErrors({ incorrect: true });
-    }
+      if (!this.captchaValid) {
+        this.contactForm.get('captcha')!.setErrors({ incorrect: true });
+      }
 
-    if (this.contactForm.invalid || !this.captchaValid) {
-      this.submitStatus.set('error');
-      this.toastService.error('Please fix the highlighted fields.');
-      setTimeout(() => { this.submitStatus.set('idle'); this.cdr.markForCheck(); }, 2000);
+      if (this.contactForm.invalid || !this.captchaValid) {
+        this.submitStatus.set('error');
+        this.toastService.error('Please fix the highlighted fields.');
+        setTimeout(() => { this.submitStatus.set('idle'); this.cdr.markForCheck(); }, 2000);
+        return;
+      }
+      
+      this.submitStatus.set('confirm');
+      this.cdr.markForCheck();
       return;
     }
 
-    this.isSubmitting.set(true);
-    this.cdr.markForCheck();
-    try {
-      const { name, email, message } = this.contactForm.value;
+    if (this.submitStatus() === 'confirm') {
+      this.isSubmitting.set(true);
+      this.cdr.markForCheck();
+      try {
+        const { name, email, message } = this.contactForm.value;
       const recipient = 'ansh@nowhile.com';
       const subject = `Portfolio Contact from ${name}`;
       const body = `${message}\n\n------------------------------------------------\nName: ${name}\nEmail: ${email}\nVia: Portfolio`;
@@ -117,9 +125,10 @@ export class ContactSectionComponent implements OnInit, OnDestroy {
       this.submitStatus.set('error');
       this.cdr.markForCheck();
       this.toastService.error('Something went wrong. Please try again.');
-    } finally {
-      this.isSubmitting.set(false);
-      this.cdr.markForCheck();
+      } finally {
+        this.isSubmitting.set(false);
+        this.cdr.markForCheck();
+      }
     }
   }
 

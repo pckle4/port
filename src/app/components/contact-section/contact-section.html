@@ -1,8 +1,8 @@
-<section class="py-16 sm:py-20 relative overflow-hidden bg-[#f1f5f9] dark:bg-[#09090b]"
+<section class="py-16 sm:py-20 relative overflow-hidden bg-background"
   style="scroll-margin-top: 96px;">
   <div class="absolute inset-0 pointer-events-none overflow-hidden">
     <div
-      class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-cyan-500/10 dark:bg-cyan-500/5 rounded-full blur-3xl -z-10">
+      class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-primary/10 dark:bg-primary/5 rounded-full blur-3xl -z-10">
     </div>
   </div>
 
@@ -11,13 +11,13 @@
       <div class="text-center mb-10 transition-all duration-700" [class.opacity-100]="isVisible()"
         [class.translate-y-0]="isVisible()" [class.opacity-0]="!isVisible()" [class.translate-y-4]="!isVisible()">
         <app-badge variant="outline"
-          class="mb-4 border-cyan-500/30 text-cyan-600 dark:border-cyan-400/30 dark:text-cyan-400 bg-cyan-500/5 dark:bg-cyan-500/10">
+          class="mb-4 border-primary/30 text-primary/90 dark:border-primary/80/30 dark:text-primary/80 bg-primary/5 dark:bg-primary/10">
           Contact
         </app-badge>
-        <h2 class="text-3xl md:text-4xl font-bold mb-4 tracking-tight text-slate-800 dark:text-white">
-          Get in <span class="text-cyan-500 dark:text-cyan-400">Touch</span>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 tracking-tight text-foreground">
+          Get in <span class="text-primary dark:text-primary/80">Touch</span>
         </h2>
-        <p class="text-slate-500 dark:text-slate-400 max-w-lg mx-auto text-sm sm:text-base font-medium">
+        <p class="text-muted-foreground max-w-lg mx-auto text-sm sm:text-base font-medium">
           Have a project in mind? Let's build something extraordinary together.
         </p>
       </div>
@@ -28,14 +28,14 @@
           [class.translate-x-0]="isVisible()" [class.opacity-0]="!isVisible()" [class.-translate-x-8]="!isVisible()">
           <app-terminal-display [isVisible]="isVisible()"></app-terminal-display>
 
-          <div class="mt-6 p-4 rounded-xl bg-white/60 dark:bg-secondary/30 border border-slate-200/80 dark:border-border/50 backdrop-blur-sm">
+          <div class="mt-6 p-4 rounded-xl bg-white/60 dark:bg-secondary/30 border border-border/70 dark:border-border/50 backdrop-blur-sm">
             <div class="flex items-center gap-3">
-              <div class="p-2 bg-cyan-100 dark:bg-cyan-900/30 rounded-lg">
-                <lucide-icon name="check-circle" class="w-5 h-5 text-cyan-600 dark:text-cyan-400"></lucide-icon>
+              <div class="p-2 bg-primary/10 dark:bg-primary/20 rounded-lg">
+                <lucide-icon name="check-circle" class="w-5 h-5 text-primary/90 dark:text-primary/80"></lucide-icon>
               </div>
               <div>
-                <h3 class="text-sm font-semibold text-slate-800 dark:text-white">Open for Collaboration</h3>
-                <p class="text-xs text-slate-500 dark:text-muted-foreground">Available for freelance and full-time roles.</p>
+                <h3 class="text-sm font-semibold text-foreground">Open for Collaboration</h3>
+                <p class="text-xs text-muted-foreground">Available for freelance and full-time roles.</p>
               </div>
             </div>
           </div>
@@ -43,18 +43,19 @@
 
         <div class="transition-all duration-700 delay-300" [class.opacity-100]="isVisible()"
           [class.translate-x-0]="isVisible()" [class.opacity-0]="!isVisible()" [class.translate-x-8]="!isVisible()">
-          <div class="rounded-xl border border-slate-200/80 dark:border-white/10 bg-white/80 dark:bg-[#0a0a0a]/50 backdrop-blur-xl shadow-lg overflow-hidden">
+          <div class="rounded-xl border border-border/70 dark:border-border/80 bg-white/80 dark:bg-[#0C1120]/70 backdrop-blur-xl shadow-lg overflow-hidden">
             <div class="p-5 sm:p-6">
               @if (submitStatus() === 'success') {
               <div class="py-12 flex flex-col items-center text-center">
-                <div class="w-14 h-14 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
-                  <lucide-icon name="check-circle" class="h-7 w-7 text-green-600 dark:text-green-400"></lucide-icon>
+                <div class="w-14 h-14 bg-primary/15 dark:bg-primary/20 rounded-full flex items-center justify-center mb-4">
+                  <lucide-icon name="check-circle" class="h-7 w-7 text-primary"></lucide-icon>
                 </div>
-                <h4 class="text-xl font-bold mb-2 text-slate-800 dark:text-white">Opening Mail Client...</h4>
-                <p class="text-sm text-slate-500 dark:text-muted-foreground mb-4">Your default email app should open with the message pre-filled.</p>
+                <h4 class="text-xl font-bold mb-2 text-foreground">Opening Mail Client...</h4>
+                <p class="text-sm text-muted-foreground mb-4">Your default email app should open with the message pre-filled.</p>
                 <button type="button" (click)="submitStatus.set('idle')"
-                  class="inline-flex items-center justify-center h-9 rounded-md px-3 text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors">
-                  Send Another
+                  class="group btn-outline-action h-10 rounded-md px-6 py-2 text-sm mx-auto mt-2 font-medium">
+                  <lucide-icon name="rotate-ccw" class="w-4 h-4 mr-2"></lucide-icon>
+                  <span>Send Another Message</span>
                 </button>
               </div>
               } @else {
@@ -62,51 +63,63 @@
                 <input type="text" [value]="hp" (input)="hp = $any($event.target).value" class="hidden" tabIndex="-1" aria-hidden="true" />
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div class="space-y-1.5">
-                    <label for="contact-name" class="text-xs font-medium ml-1 text-slate-700 dark:text-slate-300">Name</label>
-                    <input id="contact-name" formControlName="name" type="text" placeholder="Your name"
-                      class="contact-input"
-                      [class.border-red-500]="f['name'].touched && f['name'].invalid"
-                      [class.dark:border-red-500]="f['name'].touched && f['name'].invalid" />
-                    @if (f['name'].touched && f['name'].errors) {
-                      <span class="text-xs text-red-500 ml-1" role="alert">
-                        @if (f['name'].errors['required']) { Name is required }
-                        @else if (f['name'].errors['minlength']) { At least 2 characters }
-                      </span>
-                    }
+                  <div class="space-y-1.5 relative">
+                    <label for="contact-name" class="text-xs font-medium ml-1 text-foreground/80">Name</label>
+                    <div class="relative">
+                      <input id="contact-name" formControlName="name" type="text" placeholder="Your name"
+                        class="contact-input pr-28 w-full"
+                        [class.border-red-500]="f['name'].touched && f['name'].invalid"
+                        [class.dark:border-red-500]="f['name'].touched && f['name'].invalid" />
+                      
+                      @if (f['name'].touched && f['name'].errors) {
+                        <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none flex items-center bg-red-500/10 text-red-500 text-[10px] px-1.5 py-0.5 rounded backdrop-blur">
+                          <lucide-icon name="alert-circle" class="w-3 h-3 mr-1"></lucide-icon>
+                          @if (f['name'].errors['required']) { Required }
+                          @else if (f['name'].errors['minlength']) { Too short }
+                        </div>
+                      }
+                    </div>
                   </div>
-                  <div class="space-y-1.5">
-                    <label for="contact-email" class="text-xs font-medium ml-1 text-slate-700 dark:text-slate-300">Email</label>
-                    <input id="contact-email" formControlName="email" type="email" placeholder="you&#64;example.com"
-                      class="contact-input"
-                      [class.border-red-500]="f['email'].touched && f['email'].invalid"
-                      [class.dark:border-red-500]="f['email'].touched && f['email'].invalid" />
-                    @if (f['email'].touched && f['email'].errors) {
-                      <span class="text-xs text-red-500 ml-1" role="alert">
-                        @if (f['email'].errors['required']) { Email is required }
-                        @else if (f['email'].errors['email']) { Enter a valid email }
-                      </span>
+                  <div class="space-y-1.5 relative">
+                    <label for="contact-email" class="text-xs font-medium ml-1 text-foreground/80">Email</label>
+                    <div class="relative">
+                      <input id="contact-email" formControlName="email" type="email" placeholder="you&#64;example.com"
+                        class="contact-input pr-28 w-full"
+                        [class.border-red-500]="f['email'].touched && f['email'].invalid"
+                        [class.dark:border-red-500]="f['email'].touched && f['email'].invalid" />
+                      
+                      @if (f['email'].touched && f['email'].errors) {
+                        <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none flex items-center bg-red-500/10 text-red-500 text-[10px] px-1.5 py-0.5 rounded backdrop-blur">
+                          <lucide-icon name="alert-circle" class="w-3 h-3 mr-1"></lucide-icon>
+                          @if (f['email'].errors['required']) { Required }
+                          @else if (f['email'].errors['email']) { Invalid format }
+                        </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+
+                <div class="space-y-1.5 relative">
+                  <label for="contact-message" class="text-xs font-medium ml-1 text-foreground/80">Message</label>
+                  <div class="relative">
+                    <textarea id="contact-message" formControlName="message" rows="4" placeholder="Tell me about your project..."
+                      class="contact-input resize-none min-h-[100px] w-full"
+                      [class.border-red-500]="f['message'].touched && f['message'].invalid"
+                      [class.dark:border-red-500]="f['message'].touched && f['message'].invalid"></textarea>
+                    
+                    @if (f['message'].touched && f['message'].errors) {
+                      <div class="absolute right-3 top-3 pointer-events-none flex items-center bg-red-500/10 text-red-500 text-[10px] px-1.5 py-0.5 rounded backdrop-blur">
+                        <lucide-icon name="alert-circle" class="w-3 h-3 mr-1"></lucide-icon>
+                        @if (f['message'].errors['required']) { Required }
+                        @else if (f['message'].errors['minlength']) { Needs 10+ chars }
+                      </div>
                     }
                   </div>
                 </div>
 
-                <div class="space-y-1.5">
-                  <label for="contact-message" class="text-xs font-medium ml-1 text-slate-700 dark:text-slate-300">Message</label>
-                  <textarea id="contact-message" formControlName="message" rows="4" placeholder="Tell me about your project..."
-                    class="contact-input resize-none min-h-[100px]"
-                    [class.border-red-500]="f['message'].touched && f['message'].invalid"
-                    [class.dark:border-red-500]="f['message'].touched && f['message'].invalid"></textarea>
-                  @if (f['message'].touched && f['message'].errors) {
-                    <span class="text-xs text-red-500 ml-1" role="alert">
-                      @if (f['message'].errors['required']) { Message is required }
-                      @else if (f['message'].errors['minlength']) { At least 10 characters }
-                    </span>
-                  }
-                </div>
-
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-3">
-                  <div class="flex-1 space-y-1.5">
-                    <label for="contact-captcha" class="text-xs font-medium ml-1 text-slate-500 dark:text-slate-400">
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-4">
+                  <div class="flex-1 space-y-1.5 relative">
+                    <label for="contact-captcha" class="text-xs font-medium ml-1 text-muted-foreground">
                       {{ mathCaptcha.question }} = ?
                     </label>
                     <div class="relative">
@@ -114,23 +127,32 @@
                         placeholder="Answer" autocomplete="off"
                         class="contact-input pr-9 tabular-nums"
                         [class.border-red-500]="f['captcha'].touched && f['captcha'].invalid && !captchaValid"
-                        [class.border-green-500]="captchaValid"
-                        [class.dark:border-green-500]="captchaValid" />
+                        [class.border-primary]="captchaValid"
+                        [class.dark:border-primary]="captchaValid" />
                       @if (f['captcha'].value) {
                       <div class="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 shrink-0">
                         @if (captchaValid) {
-                          <lucide-icon name="check" class="w-4 h-4 text-green-500"></lucide-icon>
+                          <lucide-icon name="check" class="w-4 h-4 text-primary"></lucide-icon>
                         } @else {
                           <lucide-icon name="x" class="w-4 h-4 text-red-400"></lucide-icon>
                         }
                       </div>
                       }
                     </div>
+                    
+                      @if (f['captcha'].touched && f['captcha'].invalid && !captchaValid) {
+                        <span class="absolute -bottom-5 sm:bottom-[-20px] left-1 text-[11px] text-red-500 block leading-tight" role="alert">Please solve correctly</span>
+                      }
+                    
                   </div>
                   <button type="submit" [disabled]="isSubmitting()"
-                    class="flex-1 inline-flex items-center justify-center h-10 rounded-md px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 disabled:opacity-50 disabled:pointer-events-none shadow-md group relative overflow-hidden transition-all duration-200">
-                    @if (isSubmitting()) { <app-spinner size="sm" class="mr-2"></app-spinner> Sending... }
-                    @else { <span class="mr-2">Send</span> <lucide-icon name="send" class="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5"></lucide-icon> }
+                    class="group w-full sm:w-auto relative btn-primary-action h-10 rounded-md px-8 py-2 text-sm font-medium transition-all shadow-primary/25 hover:shadow-primary/40 flex-shrink-0"
+                    [class.bg-green-600]="submitStatus() === 'confirm'"
+                    [class.hover:bg-green-700]="submitStatus() === 'confirm'"
+                    [class.border-green-600]="submitStatus() === 'confirm'">
+                    @if (isSubmitting()) { <app-spinner size="sm" class="mr-2"></app-spinner> Opening Client... }
+                    @else if (submitStatus() === 'confirm') { <span class="mr-2">Click to Continue</span> <lucide-icon name="check-check" class="w-3.5 h-3.5 btn-feedback-icon"></lucide-icon> }
+                    @else { <span class="mr-2">Send Message</span> <lucide-icon name="send" class="w-3.5 h-3.5 btn-feedback-icon"></lucide-icon> }
                   </button>
                 </div>
               </form>

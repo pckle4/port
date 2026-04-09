@@ -3,7 +3,7 @@ import { SectionRegistryService } from '../../services/section-registry.service'
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
-import { GridBackgroundComponent } from '../ui/grid-background/grid-background';
+
 import { FloatingIconsComponent } from '../ui/floating-icons/floating-icons';
 import { AnimatedHeadlineComponent } from '../ui/animated-headline/animated-headline';
 import { smoothScrollToWithRetry } from '../../lib/utils';
@@ -15,7 +15,6 @@ import { smoothScrollToWithRetry } from '../../lib/utils';
     CommonModule,
     RouterLink,
     LucideAngularModule,
-    GridBackgroundComponent,
     FloatingIconsComponent,
     AnimatedHeadlineComponent
   ],
@@ -37,9 +36,9 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
   dynamicWords = ["Full Stack Developer", "UI/UX Designer", "Problem Solver", "Creative Thinker"];
 
   socials = [
-    { icon: 'github', href: "https://github.com/theanshshah", color: "text-slate-600 dark:text-slate-300 hover:text-cyan-500 dark:hover:text-white", label: "GitHub Profile" },
-    { icon: 'linkedin', href: "https://linkedin.com/in/anshshahh", color: "text-slate-500 dark:text-cyan-400 hover:text-cyan-600 dark:hover:text-cyan-300", label: "LinkedIn Profile" },
-    { icon: 'mail', href: "mailto:theanshshah@gmail.com", color: "text-amber-500 dark:text-amber-400 hover:text-amber-600 dark:hover:text-amber-300", label: "Send Email" }
+    { icon: 'github', href: "https://github.com/theanshshah", color: "text-foreground/70 hover:text-primary dark:text-foreground/70 dark:hover:text-primary transition-colors duration-300", label: "GitHub Profile" },
+    { icon: 'linkedin', href: "https://linkedin.com/in/anshshahh", color: "text-foreground/70 hover:text-accent dark:text-foreground/70 dark:hover:text-accent transition-colors duration-300", label: "LinkedIn Profile" },
+    { icon: 'mail', href: "mailto:theanshshah@gmail.com", color: "text-[hsl(var(--light-coral))] hover:text-accent dark:text-[hsl(var(--light-coral))] dark:hover:text-accent transition-colors duration-300", label: "Send Email" }
   ];
 
   ngOnInit() {

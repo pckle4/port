@@ -3,9 +3,9 @@ import { isPlatformBrowser } from '@angular/common';
 
 /** Scroll thresholds for navbar behavior */
 const SCROLL_CONDENSE_THRESHOLD = 56;
-const SCROLL_HIDE_THRESHOLD = 160;
-const SCROLL_HIDE_DELTA = 18;
-const SCROLL_SHOW_DELTA = -10;
+const SCROLL_HIDE_THRESHOLD = 120;
+const SCROLL_HIDE_DELTA = 12;
+const SCROLL_SHOW_DELTA = -3;
 
 export type ScrollDirection = 'up' | 'down' | 'none';
 
@@ -63,7 +63,7 @@ export class NavbarStateService {
     const velocity = deltaY / deltaTime;
 
     const direction: ScrollDirection =
-      Math.abs(velocity) < 0.5 ? 'none' : velocity > 0 ? 'down' : 'up';
+      Math.abs(velocity) < 0.2 ? 'none' : velocity > 0 ? 'down' : 'up';
     this.scrollDirection.set(direction);
 
     this.lastScrollY = scrollY;

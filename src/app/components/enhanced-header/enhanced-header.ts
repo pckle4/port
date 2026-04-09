@@ -104,7 +104,7 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
   getNavItemActiveClass(id: string): string {
     const hidden = this.state.isCondensed() && !this.alwaysVisibleIds.has(id);
     if (this.activeSection() !== id || hidden) return '';
-    return 'absolute inset-0 rounded-full -z-10 shadow-sm border border-cyan-500/20 bg-cyan-500/15 animate-nav-pill-in';
+    return 'absolute inset-0 rounded-full -z-10 shadow-sm border border-primary/20 bg-primary/15 animate-nav-pill-in';
   }
 
   getMobileItemClass(id: string): string {
@@ -112,7 +112,7 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
     return cn(
       'flex items-center gap-3 w-full text-left py-3.5 px-4 rounded-xl transition-all duration-200',
       active
-        ? 'bg-cyan-500/10 border border-cyan-500/20 font-semibold text-foreground'
+        ? 'bg-primary/10 border border-primary/20 font-semibold text-foreground'
         : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground'
     );
   }
@@ -173,7 +173,7 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
   private scheduleObserverSetup(): void {
     this.clearRetryTimeouts();
     this.setupSectionObserver();
-    [150, 400, 800, 1200].forEach((ms) => {
+    [80, 220, 450, 900].forEach((ms) => {
       this.retryTimeouts.push(
         setTimeout(() => this.setupSectionObserver(), ms)
       );
@@ -196,12 +196,29 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
 
         if (visibleEntries.length > 0) {
           this.activeSection.set(visibleEntries[0].target.id);
+          return;
+        }
+
+        const sections = NAV_SECTIONS
+          .map((id) => document.getElementById(id))
+          .filter((el): el is HTMLElement => !!el);
+        if (sections.length === 0) return;
+
+        const nearest = sections
+          .map((el) => ({
+            id: el.id,
+            distance: Math.abs(el.getBoundingClientRect().top - 110)
+          }))
+          .sort((a, b) => a.distance - b.distance)[0];
+
+        if (nearest) {
+          this.activeSection.set(nearest.id);
         }
       },
       {
         root: null,
-        rootMargin: '-15% 0px -75% 0px',
-        threshold: 0,
+        rootMargin: '-18% 0px -62% 0px',
+        threshold: [0, 0.12, 0.35],
       }
     );
 

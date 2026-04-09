@@ -22,6 +22,20 @@ module.exports = {
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
+        cyan: {
+          300: 'hsl(var(--primary) / 0.7)',
+          400: 'hsl(var(--primary) / 0.85)',
+          500: 'hsl(var(--primary))',
+          600: 'hsl(var(--primary) / 0.9)',
+          700: 'hsl(var(--primary) / 0.8)'
+        },
+        amber: {
+          300: 'hsl(var(--accent) / 0.7)',
+          400: 'hsl(var(--accent) / 0.85)',
+          500: 'hsl(var(--accent))',
+          600: 'hsl(var(--accent) / 0.9)',
+          700: 'hsl(var(--accent) / 0.8)'
+        },
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
@@ -50,16 +64,16 @@ module.exports = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
-        'dusk-blue': 'hsl(var(--dusk-blue))',
-        'dusty-lavender': 'hsl(var(--dusty-lavender))',
-        rosewood: 'hsl(var(--rosewood))',
-        'light-coral': 'hsl(var(--light-coral))',
-        'light-bronze': 'hsl(var(--light-bronze))',
+        'dusk-blue': 'hsl(var(--dusk-blue))',       /* Electric Blue */
+        'dusty-lavender': 'hsl(var(--dusty-lavender))', /* Indigo */
+        rosewood: 'hsl(var(--rosewood))',            /* Crimson */
+        'light-coral': 'hsl(var(--light-coral))',   /* Rose */
+        'light-bronze': 'hsl(var(--light-bronze))', /* Sky Cyan */
       },
       backgroundImage: {
-        'fusion-gradient': 'linear-gradient(to right, hsl(var(--dusk-blue)), hsl(var(--dusty-lavender)), hsl(var(--rosewood)), hsl(var(--light-coral)), hsl(var(--light-bronze)))',
-        'radial-faint': 'radial-gradient(circle at 50% -20%, hsl(var(--dusk-blue) / 0.15), transparent 60%)',
-        'mesh-dark': 'radial-gradient(at 0% 0%, hsl(var(--dusk-blue) / 0.1) 0px, transparent 50%), radial-gradient(at 100% 0%, hsl(var(--dusty-lavender) / 0.1) 0px, transparent 50%)',
+        'fusion-gradient': 'linear-gradient(to right, hsl(var(--dusk-blue)), hsl(var(--dusty-lavender)), hsl(var(--rosewood)), hsl(var(--accent)), hsl(var(--light-coral)), hsl(var(--light-bronze)))',
+        'radial-faint': 'radial-gradient(circle at 50% -20%, hsl(var(--dusk-blue) / 0.12), transparent 60%)',
+        'mesh-dark': 'radial-gradient(at 0% 0%, hsl(var(--dusk-blue) / 0.08) 0px, transparent 50%), radial-gradient(at 100% 0%, hsl(var(--dusty-lavender) / 0.08) 0px, transparent 50%)',
       },
       borderRadius: {
         lg: 'var(--radius)',

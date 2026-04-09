@@ -1,11 +1,11 @@
-<section class="py-16 sm:py-20 relative overflow-hidden bg-[#f1f5f9] dark:bg-[#09090b] section-divider"
+<section class="py-16 sm:py-20 relative overflow-hidden bg-background section-divider"
   style="scroll-margin-top: 96px">
   <div class="absolute inset-0 opacity-30 dark:opacity-20 pointer-events-none">
     <div
-      class="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-b from-cyan-500/30 to-transparent dark:from-cyan-500/15 dark:to-transparent blur-3xl">
+      class="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-b from-primary/30 to-transparent dark:from-primary/15 dark:to-transparent blur-3xl">
     </div>
     <div
-      class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-t from-amber-400/30 to-transparent dark:from-amber-500/15 dark:to-transparent blur-3xl">
+      class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-t from-accent/30 to-transparent dark:from-accent/15 dark:to-transparent blur-3xl">
     </div>
   </div>
 
@@ -14,10 +14,10 @@
       <div
         [ngClass]="['text-center mb-12 transition-all duration-700', isVisible() ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4']">
         <h2
-          class="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-cyan-400 inline-block mb-3">
+          class="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80 inline-block mb-3">
           Behind the Code
         </h2>
-        <div class="h-1 w-20 bg-gradient-to-r from-cyan-500 to-amber-400 mx-auto rounded-full"></div>
+        <div class="h-1 w-20 bg-gradient-to-r from-primary to-accent/80 mx-auto rounded-full"></div>
       </div>
 
       <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
@@ -32,7 +32,7 @@
           <div
             [ngClass]="['space-y-3 transition-all duration-700 delay-300', isVisible() ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8']">
             <p class="text-lg font-medium text-foreground leading-relaxed">
-              I'm a <span class="text-cyan-500 dark:text-cyan-400">Computer Engineering Student</span> driven by an
+              I'm a <span class="text-primary dark:text-primary/80">Computer Engineering Student</span> driven by an
               insatiable curiosity for how things work under the hood.
             </p>
             <p class="text-base text-muted-foreground leading-relaxed">
@@ -46,10 +46,10 @@
           <div
             [ngClass]="['grid grid-cols-1 sm:grid-cols-2 gap-3 transition-all duration-700 delay-500', isVisible() ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4']">
             <div appCard
-              class="bg-secondary/30 border-cyan-500/30 dark:border-cyan-400/30 hover:bg-secondary/50 transition-colors">
+              class="bg-secondary/30 border-primary/30 dark:border-primary/80/30 hover:bg-secondary/50 transition-colors">
               <div appCardContent class="p-4 flex items-center gap-4">
                 <div
-                  class="p-2.5 bg-cyan-500/10 dark:bg-cyan-500/20 rounded-lg text-cyan-500 dark:text-cyan-400">
+                  class="p-2.5 bg-primary/10 dark:bg-primary/20 rounded-lg text-primary dark:text-primary/80">
                   <lucide-icon name="graduation-cap" class="w-5 h-5"></lucide-icon>
                 </div>
                 <div>
@@ -60,9 +60,9 @@
             </div>
 
             <div appCard
-              class="bg-secondary/30 border-teal-500/30 dark:border-teal-400/30 hover:bg-secondary/50 transition-colors">
+              class="bg-secondary/30 border-accent/30 dark:border-accent/30 hover:bg-secondary/50 transition-colors">
               <div appCardContent class="p-4 flex items-center gap-4">
-                <div class="p-2.5 bg-teal-500/10 dark:bg-teal-500/20 rounded-lg text-teal-500 dark:text-teal-400">
+                <div class="p-2.5 bg-accent/10 dark:bg-accent/20 rounded-lg text-accent dark:text-accent">
                   <lucide-icon name="book-open" class="w-5 h-5"></lucide-icon>
                 </div>
                 <div>

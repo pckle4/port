@@ -1,4 +1,14 @@
-import { Component, Input, OnInit, OnDestroy, PLATFORM_ID, inject, NgZone, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnDestroy,
+  PLATFORM_ID,
+  inject,
+  NgZone,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
@@ -7,7 +17,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './animated-headline.html',
   styleUrls: ['./animated-headline.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimatedHeadlineComponent implements OnInit, OnDestroy {
   @Input() words: string[] = [];
@@ -21,78 +31,75 @@ export class AnimatedHeadlineComponent implements OnInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private ngZone = inject(NgZone);
   private cdr = inject(ChangeDetectorRef);
-  private timers: any[] = [];
+  private timers: ReturnType<typeof setTimeout>[] = [];
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       this.displayText = this.words[0] || '';
-      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-      this.prefersReducedMotion = mediaQuery.matches;
+      this.cdr.markForCheck();
+
+      const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+      this.prefersReducedMotion = mq.matches;
 
       if (!this.prefersReducedMotion && this.words.length > 0) {
-        this.scheduleTimeout(() => {
+        this.schedule(() => {
           this.isDeleting = true;
           this.tick();
-        }, 2000);
+        }, 2200);
       }
     }
   }
 
   private tick() {
-    const currentWord = this.words[this.currentIndex];
+    const word = this.words[this.currentIndex];
+    // Natural speed variation — smaller jitter for smoother feel
+    const jitter = Math.random() * 18;
+    const speed = this.isDeleting ? 32 + jitter : 68 + jitter;
 
-    const baseDeleteSpeed = 40;
-    const baseTypeSpeed = 80;
-    const jitter = Math.random() * 30;
-    const typingSpeed = this.isDeleting
-      ? baseDeleteSpeed + jitter
-      : baseTypeSpeed + jitter;
-
-    if (!this.isDeleting && this.displayText === currentWord) {
+    // Word fully typed → show highlight, then start deleting
+    if (!this.isDeleting && this.displayText === word) {
       this.showHighlight = true;
-      this.cdr.detectChanges();
+      this.cdr.markForCheck();
 
-      this.scheduleTimeout(() => {
+      this.schedule(() => {
         this.showHighlight = false;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
 
-        this.scheduleTimeout(() => {
+        this.schedule(() => {
           this.isDeleting = true;
           this.tick();
-        }, 350);
-      }, 2200);
+        }, 380);
+      }, 2000);
       return;
     }
 
+    // Word fully deleted → move to next
     if (this.isDeleting && this.displayText === '') {
       this.isDeleting = false;
       this.currentIndex = (this.currentIndex + 1) % this.words.length;
-      this.cdr.detectChanges();
-      this.scheduleTimeout(() => this.tick(), 200);
+      this.cdr.markForCheck();
+      this.schedule(() => this.tick(), 230);
       return;
     }
 
-    if (this.isDeleting) {
-      this.displayText = currentWord.substring(0, this.displayText.length - 1);
-    } else {
-      this.displayText = currentWord.substring(0, this.displayText.length + 1);
-    }
-    this.cdr.detectChanges();
+    this.displayText = this.isDeleting
+      ? word.substring(0, this.displayText.length - 1)
+      : word.substring(0, this.displayText.length + 1);
+    this.cdr.markForCheck();
 
-    this.scheduleTimeout(() => this.tick(), typingSpeed);
+    this.schedule(() => this.tick(), speed);
   }
 
-  private scheduleTimeout(fn: () => void, delay: number) {
+  /** Schedule fn in setTimeout outside Angular zone; re-enter zone before executing. */
+  private schedule(fn: () => void, delay: number) {
     this.ngZone.runOutsideAngular(() => {
-      const timer = setTimeout(() => {
-        this.ngZone.run(fn);
-      }, delay);
-      this.timers.push(timer);
+      const t = setTimeout(() => this.ngZone.run(fn), delay);
+      this.timers.push(t);
     });
   }
 
   ngOnDestroy() {
-    this.timers.forEach(t => clearTimeout(t));
+    this.timers.forEach(clearTimeout);
     this.timers = [];
   }
 }

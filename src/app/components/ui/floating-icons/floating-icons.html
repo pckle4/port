@@ -1,9 +1,9 @@
 <div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none hidden md:block" aria-hidden="true">
   @for (item of icons; track $index) {
-  <div class="absolute w-6 h-6 transition-transform duration-300" [class]="item.color" [style.top]="item.top"
+  <div class="absolute transition-transform duration-300" [class]="item.color + ' ' + item.size" [style.top]="item.top"
     [style.left]="item.left" [style.animation]="'float-slow 6s ease-in-out ' + item.delay + ' infinite'"
     [style.transform]="'translate(calc(var(--parallax-x, 0px) * ' + (($index % 3) + 1) + '), calc(var(--parallax-y, 0px) * ' + (($index % 3) + 1) + '))'">
-    <lucide-icon [name]="item.icon" class="w-6 h-6"></lucide-icon>
+    <lucide-icon [name]="item.icon" [class]="item.size"></lucide-icon>
   </div>
   }
 </div>

@@ -8,6 +8,7 @@ import { ContactSectionComponent } from '../../components/contact-section/contac
 import { EnhancedFooterComponent } from '../../components/enhanced-footer/enhanced-footer';
 import { SectionSkeletonComponent } from '../../components/ui/section-skeleton/section-skeleton';
 import { SectionRegistryService } from '../../services/section-registry.service';
+import { GridBackgroundComponent } from '../../components/ui/grid-background/grid-background';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +20,8 @@ import { SectionRegistryService } from '../../services/section-registry.service'
     ProjectsSectionComponent,
     ContactSectionComponent,
     EnhancedFooterComponent,
-    SectionSkeletonComponent
+    SectionSkeletonComponent,
+    GridBackgroundComponent
   ],
   templateUrl: './home.html',
   styleUrls: ['./home.css'],
@@ -50,6 +52,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if (!isPlatformBrowser(this.platformId)) {
       return;
+    }
+
+    if (window.location.hash.length > 1) {
+      this.sectionRegistry.loadAllSections();
     }
 
     if (this.sectionRegistry.forceLoadAllSections()) {

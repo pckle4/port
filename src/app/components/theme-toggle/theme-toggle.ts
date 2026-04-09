@@ -44,7 +44,7 @@ export class ThemeToggleComponent {
     return cn(
       'flex items-center gap-2.5 px-3 py-2 w-full text-sm font-medium rounded-xl transition-colors duration-200 cursor-pointer outline-none border-none',
       this.activeTheme() === name
-        ? 'bg-black/5 dark:bg-white/10 text-cyan-600 dark:text-cyan-400'
+        ? 'bg-black/5 dark:bg-white/10 text-primary/90 dark:text-primary/80'
         : 'text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/5'
     );
   }

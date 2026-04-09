@@ -36,7 +36,7 @@ export class ProjectsSectionComponent implements AfterViewInit, OnDestroy {
       tags: ["React", "Tailwind CSS", "Web Crypto API"],
       image: "/images/4x.png",
       links: { demo: "https://l.nowhile.com", github: "https://github.com/theanshshah" },
-      color: "from-orange-500 to-red-500",
+      color: "from-[hsl(var(--light-coral))] to-accent",
       date: "November 2025",
       category: "Web App"
     },
@@ -47,7 +47,7 @@ export class ProjectsSectionComponent implements AfterViewInit, OnDestroy {
       tags: ["React", "TypeScript", "Shadcn UI"],
       image: "/images/1x.png",
       links: { demo: "https://resume.nowhile.com", github: "https://github.com/theanshshah" },
-      color: "from-cyan-500 to-teal-500",
+      color: "from-primary to-[hsl(var(--dusty-lavender))]",
       date: "January 2025",
       category: "Productivity"
     },
@@ -58,7 +58,7 @@ export class ProjectsSectionComponent implements AfterViewInit, OnDestroy {
       tags: ["Vanilla JS", "WebRTC", "Socket.io"],
       image: "/images/3x.png",
       links: { demo: "https://file.nowhile.com", github: "https://github.com/theanshshah" },
-      color: "from-blue-500 to-cyan-500",
+      color: "from-[hsl(var(--dusty-lavender))] to-primary",
       date: "January 2025",
       category: "Networking"
     },
@@ -69,7 +69,7 @@ export class ProjectsSectionComponent implements AfterViewInit, OnDestroy {
       tags: ["React", "TypeScript", "Canvas API"],
       image: "/images/2x.png",
       links: { demo: "https://qr.nowhile.com", github: "https://github.com/theanshshah" },
-      color: "from-emerald-500 to-green-500",
+      color: "from-[hsl(var(--light-coral))] to-primary",
       date: "March 2025",
       category: "Utility"
     }

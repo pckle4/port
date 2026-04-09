@@ -22,10 +22,10 @@ export class AboutSectionComponent implements AfterViewInit, OnDestroy {
   private sectionRegistry = inject(SectionRegistryService);
 
   coreValues = [
-    { icon: 'brain', label: "Curiosity", color: "text-amber-400" },
-    { icon: 'code', label: "Clean Code", color: "text-teal-500" },
-    { icon: 'heart', label: "Passion", color: "text-cyan-500" },
-    { icon: 'rocket', label: "Growth", color: "text-amber-500" },
+    { icon: 'brain', label: "Curiosity", color: "text-primary" },
+    { icon: 'code', label: "Clean Code", color: "text-[hsl(var(--dusty-lavender))]" },
+    { icon: 'heart', label: "Passion", color: "text-accent" },
+    { icon: 'rocket', label: "Growth", color: "text-[hsl(var(--light-coral))]" },
   ];
 
   ngAfterViewInit() {

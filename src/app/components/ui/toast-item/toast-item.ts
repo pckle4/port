@@ -20,9 +20,9 @@ export class ToastItemComponent implements OnInit, OnDestroy {
 
   get computedClass() {
     const bgClasses: Record<ToastVariant, string> = {
-      success: 'border-teal-500/30 bg-teal-500/10 dark:bg-teal-500/20',
+      success: 'border-primary/30 bg-primary/10 dark:bg-primary/20',
       error: 'border-rose-500/30 bg-rose-500/10 dark:bg-rose-500/20',
-      info: 'border-cyan-500/30 bg-cyan-500/10 dark:bg-cyan-500/20',
+      info: 'border-accent/30 bg-accent/10 dark:bg-accent/20',
     };
 
     return cn(
@@ -43,9 +43,9 @@ export class ToastItemComponent implements OnInit, OnDestroy {
 
   get iconClass() {
     switch (this.data.variant) {
-      case 'success': return 'w-4 h-4 text-teal-500';
+      case 'success': return 'w-4 h-4 text-primary';
       case 'error': return 'w-4 h-4 text-rose-500';
-      case 'info': return 'w-4 h-4 text-cyan-500';
+      case 'info': return 'w-4 h-4 text-accent';
     }
   }
 
