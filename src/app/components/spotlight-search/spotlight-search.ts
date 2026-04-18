@@ -32,7 +32,21 @@ interface ActionItem {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SpotlightSearchComponent implements OnInit, OnDestroy {
-  @Input() isOpen = false;
+  private _isOpen = false;
+  @Input() 
+  set isOpen(value: boolean) {
+    this._isOpen = value;
+    if (isPlatformBrowser(this.platformId)) {
+      if (value) {
+        this.onOpen();
+      } else {
+        window.removeEventListener('keydown', this.keyHandler);
+        document.body.style.overflow = '';
+      }
+    }
+  }
+  get isOpen() { return this._isOpen; }
+
   @Output() close = new EventEmitter<void>();
 
   @ViewChild('searchInput') inputRef!: ElementRef<HTMLInputElement>;
@@ -48,6 +62,8 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
   selectedIndex = 0;
   copiedId: string | null = null;
   filteredItems: ActionItem[] = [];
+  currentTimeIST: string = '';
+  private timeInterval: any;
 
   private keyHandler = (e: KeyboardEvent) => this.handleKeyDown(e);
 
@@ -74,15 +90,31 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
       { id: 'theme-dark', label: 'Dark Mode', description: 'Switch to dark theme', icon: 'moon', keywords: ['dark', 'black', 'night', 'theme', 'mode'], perform: () => this.themeService.setTheme('dark'), type: 'action', color: 'text-primary bg-primary/10 border-primary/20' },
     ];
 
-    if (isPlatformBrowser(this.platformId) && this.isOpen) {
-      this.onOpen();
+    if (isPlatformBrowser(this.platformId)) {
+      this.updateTime();
+      this.timeInterval = setInterval(() => this.updateTime(), 60000);
+      
+      if (this.isOpen) {
+        this.onOpen();
+      }
     }
+  }
+
+  private updateTime() {
+    this.currentTimeIST = new Date().toLocaleTimeString('en-US', {
+      timeZone: 'Asia/Kolkata',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    }) + ' IST';
+    this.cdr.markForCheck();
   }
 
   ngOnDestroy() {
     if (isPlatformBrowser(this.platformId)) {
       window.removeEventListener('keydown', this.keyHandler);
       document.body.style.overflow = '';
+      if (this.timeInterval) clearInterval(this.timeInterval);
     }
   }
 

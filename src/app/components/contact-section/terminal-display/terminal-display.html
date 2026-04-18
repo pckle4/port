@@ -1,53 +1,53 @@
 <div
-  class="w-full rounded-lg bg-[#06091A] border border-[#1C2E52] shadow-xl overflow-hidden font-mono text-[10px] sm:text-xs"
+  class="w-full rounded-xl bg-[#090b10]/95 backdrop-blur-xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.5)] overflow-hidden font-mono text-[11px] sm:text-[13px]"
   style="contain: content;">
-  <div class="bg-[#0B1225] px-3 py-2 flex items-center justify-between border-b border-[#1C2E52]">
-    <div class="flex space-x-1.5">
-      <div class="w-2.5 h-2.5 rounded-full bg-accent"></div>
-      <div class="w-2.5 h-2.5 rounded-full bg-[hsl(var(--light-coral))]"></div>
-      <div class="w-2.5 h-2.5 rounded-full bg-primary"></div>
+  <div class="bg-[#1a1e29]/80 px-4 py-3 flex items-center justify-between border-b border-white/5">
+    <div class="flex space-x-2">
+      <div class="w-3 h-3 rounded-full bg-[#ff5f56] shadow-sm"></div>
+      <div class="w-3 h-3 rounded-full bg-[#ffbd2e] shadow-sm"></div>
+      <div class="w-3 h-3 rounded-full bg-[#27c93f] shadow-sm"></div>
     </div>
-    <div class="flex items-center gap-1.5 text-gray-500">
-      <lucide-icon name="terminal" class="w-3 h-3"></lucide-icon>
-      <span>zsh</span>
+    <div class="flex items-center gap-1.5 text-slate-400 font-medium text-[10px] sm:text-xs tracking-wide">
+      <lucide-icon name="terminal" class="w-3.5 h-3.5"></lucide-icon>
+      <span>ansh — -zsh — 80x24</span>
     </div>
+    <div class="w-12"></div> <!-- Spacer for exact center alignment -->
   </div>
 
-  <div class="p-4 sm:p-5 h-[240px] sm:h-[300px] overflow-y-auto text-[#C3D1E8] relative">
+  <div class="p-5 sm:p-6 h-[260px] sm:h-[320px] overflow-y-auto text-[#abb2bf] relative leading-relaxed scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
     <div class="space-y-1">
       <div class="flex items-center">
-        <span class="text-primary mr-2">?</span>
-        <span class="text-[hsl(var(--light-coral))] mr-2">~</span>
-        <span class="text-[#b8aea0] font-medium">fetch_contact_info.sh</span>
+        <span class="text-[#98c379] mr-2 font-bold">➜</span>
+        <span class="text-[#61afef] mr-2 font-bold">~</span>
+        <span class="text-[#abb2bf]">./contact_api.sh</span>
       </div>
-      <div class="text-primary mt-1">? Access Granted</div>
+      <div class="text-[#98c379] mt-2 mb-2 tracking-wide text-[10px] sm:text-xs opacity-90">> Handshake established [200 OK]</div>
 
       @if (showContent) {
-      <div class="mt-4 animate-fade-in space-y-1">
-        <div class="text-[hsl(var(--light-coral))]">{{ '{' }}</div>
-        <div class="pl-4">
-          <span class="text-primary">"status"</span>: <span class="text-accent">"available"</span>,
-        </div>
-        <div class="pl-4">
-          <span class="text-primary">"email"</span>: <span class="text-[hsl(var(--dusty-lavender))] cursor-pointer hover:underline"
-            (click)="copyEmail()">"ansh&#64;nowhile.com"</span>,
-        </div>
-        <div class="pl-4">
-          <span class="text-primary">"location"</span>: <span class="text-[hsl(var(--light-coral))]">"Gujarat, India"</span>,
-        </div>
-        <div class="pl-4">
-          <span class="text-primary">"response_time"</span>: <span class="text-[hsl(var(--light-coral))]">"&lt; 24h"</span>
-        </div>
-        <div class="text-[#6680A5]">{{ '}' }}</div>
+      <div class="mt-4 space-y-0.5 whitespace-pre font-mono">
+        @for (line of renderedLines; track $index) {
+          <div>
+            @for (token of line.tokens; track $index) {
+              <span [class]="token.color"
+                    (click)="handleTerminalClick(token)">
+                {{ token.text }}
+              </span>
+            }
+            @if (!finishedTyping && $index === renderedLines.length - 1) {
+              <span class="inline-block w-1.5 h-3.5 bg-white/70 animate-pulse ml-0.5 align-middle"></span>
+            }
+          </div>
+        }
 
-        <div class="flex items-center mt-4">
-          <span class="text-primary mr-2">?</span>
-          <span class="text-[hsl(var(--light-coral))] mr-2">~</span>
-          <span class="w-2 h-4 bg-primary animate-pulse"></span>
+        @if (finishedTyping) {
+        <div class="flex items-center mt-4 animate-fade-in text-[11px] sm:text-[13px]">
+          <span class="text-[#98c379] mr-2 font-bold">➜</span>
+          <span class="text-[#61afef] mr-2 font-bold">~</span>
+          <span class="w-2 h-4 bg-[#e5c07b] animate-pulse"></span>
         </div>
+        }
       </div>
       }
     </div>
   </div>
 </div>
-

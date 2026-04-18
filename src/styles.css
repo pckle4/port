@@ -86,7 +86,8 @@
   }
 
   .hover-glow {
-    @apply transition-shadow duration-300 hover:shadow-[0_0_20px_rgba(22,118,243,0.28)];
+    @apply transition-shadow duration-300;
+    &:hover { box-shadow: 0 0 20px hsl(var(--primary) / 0.28); }
   }
 
   .touch-feedback {
@@ -121,7 +122,7 @@
   }
 
   .touch-highlight {
-    -webkit-tap-highlight-color: rgba(22, 118, 243, 0.2);
+    -webkit-tap-highlight-color: hsl(var(--primary) / 0.2);
   }
 
   .glass {
@@ -166,6 +167,62 @@
     .transition-all {
       transition-property: transform, opacity, box-shadow, filter;
     }
+  }
+
+  /* ── Animations ──────────────────────────────────────────── */
+  .animate-slide-up {
+    animation: slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .animate-gradient-text {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary)) 0%,
+      hsl(var(--dusty-lavender)) 30%,
+      hsl(var(--light-coral)) 60%,
+      hsl(var(--accent)) 100%
+    );
+    background-size: 200% 200%;
+    animation: gradient-flow 4s ease-in-out infinite;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes gradient-flow {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes glow {
+    from { box-shadow: 0 0 10px hsl(var(--primary) / 0.2); }
+    to   { box-shadow: 0 0 25px hsl(var(--primary) / 0.4); }
+  }
+
+  @keyframes shine {
+    0%   { background-position: 200%; }
+    100% { background-position: -200%; }
+  }
+
+  @keyframes pulseRing {
+    0%   { transform: scale(1); opacity: 0.6; }
+    50%  { transform: scale(1.15); opacity: 0.3; }
+    100% { transform: scale(1); opacity: 0.6; }
+  }
+
+  @keyframes float-slow {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
   }
 }
 

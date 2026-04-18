@@ -6,57 +6,57 @@
     </div>
   </div>
 
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-7 pb-6 sm:pt-10 sm:pb-8 relative z-10">
-    <div class="grid md:grid-cols-3 gap-7 md:gap-8 items-start">
-      <div class="space-y-4">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-7 md:pt-10 pb-5 sm:pb-6 md:pb-8 relative z-10">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-7 md:gap-8 items-start">
+      <div class="space-y-3 sm:space-y-4">
         <div>
-          <h3 class="text-2xl md:text-3xl font-extrabold tracking-tight text-white inline-block select-none"
+          <h3 class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white inline-block select-none"
             style="font-family: 'JetBrains Mono', monospace;">
             ANSH<span class="text-primary/80">_</span>SHAH
           </h3>
-          <div class="h-1 w-10 md:w-12 bg-primary rounded-full mt-1.5"></div>
+          <div class="h-1 w-8 sm:w-10 md:w-12 bg-primary rounded-full mt-1.5"></div>
         </div>
-        <p class="text-zinc-400 leading-relaxed text-xs md:text-sm font-medium max-w-md">
+        <p class="text-zinc-400 leading-relaxed text-[11px] sm:text-xs md:text-sm font-medium max-w-md">
           Full-stack developer crafting beautiful digital experiences with modern technologies.
         </p>
       </div>
 
-      <div class="md:justify-self-center">
+      <div class="sm:justify-self-center">
         <div>
-          <p class="text-[11px] text-zinc-500 uppercase tracking-wider mb-2.5 font-semibold">Menu</p>
-          <nav class="flex flex-col items-start gap-2.5" aria-label="Footer menu">
-            <a routerLink="/" fragment="about" class="group inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-white transition-colors duration-200">
-              <lucide-icon name="user" class="h-3.5 w-3.5 text-primary/70 group-hover:text-primary"></lucide-icon>
+          <p class="text-[10px] sm:text-[11px] text-zinc-500 uppercase tracking-wider mb-2 sm:mb-2.5 font-semibold">Menu</p>
+          <nav class="flex flex-row sm:flex-col items-start gap-2 sm:gap-2.5 flex-wrap" aria-label="Footer menu">
+            <a routerLink="/" fragment="about" class="group inline-flex items-center gap-1.5 text-xs sm:text-sm text-zinc-400 hover:text-white transition-colors duration-200">
+              <lucide-icon name="user" class="h-3 w-3 sm:h-3.5 sm:w-3.5 text-primary/70 group-hover:text-primary"></lucide-icon>
               About
             </a>
-            <a routerLink="/" fragment="projects" class="group inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-white transition-colors duration-200">
-              <lucide-icon name="folder-kanban" class="h-3.5 w-3.5 text-primary/70 group-hover:text-primary"></lucide-icon>
+            <a routerLink="/" fragment="projects" class="group inline-flex items-center gap-1.5 text-xs sm:text-sm text-zinc-400 hover:text-white transition-colors duration-200">
+              <lucide-icon name="folder-kanban" class="h-3 w-3 sm:h-3.5 sm:w-3.5 text-primary/70 group-hover:text-primary"></lucide-icon>
               Projects
             </a>
-            <a routerLink="/" fragment="contact" class="group inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-white transition-colors duration-200">
-              <lucide-icon name="message-square" class="h-3.5 w-3.5 text-primary/70 group-hover:text-primary"></lucide-icon>
+            <a routerLink="/" fragment="contact" class="group inline-flex items-center gap-1.5 text-xs sm:text-sm text-zinc-400 hover:text-white transition-colors duration-200">
+              <lucide-icon name="message-square" class="h-3 w-3 sm:h-3.5 sm:w-3.5 text-primary/70 group-hover:text-primary"></lucide-icon>
               Contact
             </a>
           </nav>
         </div>
       </div>
 
-      <div class="space-y-4">
+      <div class="space-y-3 sm:space-y-4 sm:col-span-2 md:col-span-1">
         <app-enhanced-system-info></app-enhanced-system-info>
 
         <div class="relative p-[1px] rounded-lg overflow-hidden group">
           <div class="absolute inset-[-100%] animate-[spin_8s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,hsl(var(--primary))_100%)]"></div>
-          <div class="relative p-3 rounded-lg bg-black border border-white/10 h-full w-full flex flex-col justify-center">
-            <p class="text-[10px] text-zinc-500 uppercase tracking-wider mb-2 font-semibold">Get in touch</p>
-            <div class="space-y-1.5">
+          <div class="relative p-2.5 sm:p-3 rounded-lg bg-black border border-white/10 h-full w-full flex flex-col justify-center">
+            <p class="text-[9px] sm:text-[10px] text-zinc-500 uppercase tracking-wider mb-1.5 sm:mb-2 font-semibold">Get in touch</p>
+            <div class="space-y-1 sm:space-y-1.5">
               <a href="mailto:help@nowhile.com"
-                class="flex items-center gap-2 text-xs text-zinc-400 hover:text-white transition-colors">
-                <lucide-icon name="mail" class="h-3 w-3 text-primary/80 shrink-0"></lucide-icon>
+                class="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs text-zinc-400 hover:text-white transition-colors">
+                <lucide-icon name="mail" class="h-2.5 w-2.5 sm:h-3 sm:w-3 text-primary/80 shrink-0"></lucide-icon>
                 help&#64;nowhile.com
               </a>
               <a href="mailto:legal@nowhile.com"
-                class="flex items-center gap-2 text-xs text-zinc-400 hover:text-white transition-colors">
-                <lucide-icon name="shield" class="h-3 w-3 text-primary/80 shrink-0"></lucide-icon>
+                class="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs text-zinc-400 hover:text-white transition-colors">
+                <lucide-icon name="shield" class="h-2.5 w-2.5 sm:h-3 sm:w-3 text-primary/80 shrink-0"></lucide-icon>
                 legal&#64;nowhile.com
               </a>
             </div>
@@ -65,9 +65,9 @@
       </div>
     </div>
 
-    <div class="border-t border-white/10 mt-6 sm:mt-8 pt-4 md:pt-5">
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div class="flex flex-col sm:flex-row items-center gap-2 text-xs text-zinc-500">
+    <div class="border-t border-white/10 mt-5 sm:mt-6 md:mt-8 pt-3 sm:pt-4 md:pt-5">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-3">
+        <div class="flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs text-zinc-500">
           <p>&copy; {{currentTime().getFullYear()}} Ansh Shah</p>
           <span class="hidden sm:inline opacity-50">&middot;</span>
           <span class="inline-flex items-center gap-1 leading-none">
@@ -77,36 +77,36 @@
           </span>
         </div>
 
-        <div class="flex items-center gap-4 text-xs text-zinc-500">
+        <div class="flex items-center gap-3 sm:gap-4 text-[10px] sm:text-xs text-zinc-500">
           <a routerLink="/privacy" class="inline-flex items-center gap-1 hover:text-white transition-colors">
-            <lucide-icon name="shield-check" class="h-3 w-3"></lucide-icon>
-            Privacy Policy
+            <lucide-icon name="shield-check" class="h-2.5 w-2.5 sm:h-3 sm:w-3"></lucide-icon>
+            Privacy
           </a>
           <a routerLink="/terms" class="inline-flex items-center gap-1 hover:text-white transition-colors">
-            <lucide-icon name="file-text" class="h-3 w-3"></lucide-icon>
-            Terms of Service
+            <lucide-icon name="file-text" class="h-2.5 w-2.5 sm:h-3 sm:w-3"></lucide-icon>
+            Terms
           </a>
           <span class="flex items-center gap-1">
-            <lucide-icon name="code" class="h-3 w-3"></lucide-icon>
+            <lucide-icon name="code" class="h-2.5 w-2.5 sm:h-3 sm:w-3"></lucide-icon>
             Open Source
           </span>
         </div>
 
-        <div class="flex items-center gap-3">
-          <div class="inline-flex items-center px-2 py-0.5 rounded-full bg-zinc-900 border border-white/10 gap-1.5 text-[9px] md:text-[10px] text-zinc-400 font-mono">
+        <div class="flex items-center gap-2 sm:gap-3">
+          <div class="inline-flex items-center px-1.5 sm:px-2 py-0.5 rounded-full bg-zinc-900 border border-white/10 gap-1 sm:gap-1.5 text-[8px] sm:text-[9px] md:text-[10px] text-zinc-400 font-mono">
             <span>{{formatTime(currentTime())}}</span>
-            <span class="w-1 h-1 bg-white/20 rounded-full"></span>
+            <span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-white/20 rounded-full"></span>
             <span>{{formatDate(currentTime())}}</span>
-            <span class="w-1 h-1 bg-white/20 rounded-full"></span>
+            <span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-white/20 rounded-full"></span>
             <span class="text-primary/90">IST</span>
           </div>
         </div>
       </div>
 
-      <div class="flex justify-center pt-5">
+      <div class="flex justify-center pt-4 sm:pt-5">
         <div class="relative p-[1px] rounded-full overflow-hidden group cursor-pointer" onclick="window.open('https://nowhile.com', '_blank', 'noopener,noreferrer')">
           <div class="absolute inset-[-100%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,hsl(var(--primary))_100%)]"></div>
-          <div class="relative px-4 py-1.5 rounded-full bg-black border border-white/10 text-[10px] md:text-[11px] text-white font-bold tracking-widest flex items-center justify-center transition-colors hover:bg-zinc-950">
+          <div class="relative px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-black border border-white/10 text-[9px] sm:text-[10px] md:text-[11px] text-white font-bold tracking-widest flex items-center justify-center transition-colors hover:bg-zinc-950">
             NOWHILE
           </div>
         </div>
@@ -114,9 +114,9 @@
     </div>
 
     <button (click)="scrollToTop()"
-      [class]="'group fixed bottom-6 right-6 z-50 btn-primary-icon-action h-11 w-11 ' + (showBackToTop() ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none')"
+      [class]="'group fixed bottom-5 sm:bottom-6 right-5 sm:right-6 z-50 btn-primary-icon-action h-10 w-10 sm:h-11 sm:w-11 ' + (showBackToTop() ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none')"
       aria-label="Back to top">
-      <lucide-icon name="arrow-up" class="h-5 w-5 btn-feedback-icon"></lucide-icon>
+      <lucide-icon name="arrow-up" class="h-4 w-4 sm:h-5 sm:w-5 btn-feedback-icon"></lucide-icon>
     </button>
 
     <div
@@ -124,4 +124,3 @@
     </div>
   </div>
 </footer>
-

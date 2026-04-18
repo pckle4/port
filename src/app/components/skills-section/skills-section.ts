@@ -14,15 +14,6 @@ import { IconCloudComponent } from '../ui/icon-cloud/icon-cloud';
 })
 export class SkillsSectionComponent implements OnInit, OnDestroy {
   isVisible = signal(false);
-  shouldRenderCloud = signal(false);
-
-  slugs = [
-    'typescript', 'javascript', 'react', 'nodedotjs', 'postgresql',
-    'mongodb', 'tailwindcss', 'docker', 'git', 'github',
-    'python', 'html5', 'css3', 'nextdotjs', 'vercel',
-    'vite', 'figma', 'apachekafka', 'nginx', 'graphql',
-    'redis', 'dotnet', 'kubernetes', 'linux', 'android'
-  ];
 
   private platformId = inject(PLATFORM_ID);
   private el = inject(ElementRef);
@@ -63,10 +54,9 @@ export class SkillsSectionComponent implements OnInit, OnDestroy {
         ([entry]) => {
           if (entry.isIntersecting) {
             this.isVisible.set(true);
-            this.shouldRenderCloud.set(true);
           }
         },
-        { threshold: 0.2 }
+        { threshold: 0.1 }
       );
       this.observer.observe(this.el.nativeElement);
     }

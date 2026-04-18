@@ -1,11 +1,8 @@
-import { Component, Input, OnInit, OnDestroy, PLATFORM_ID, inject, NgZone, AfterViewInit, OnChanges, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, OnInit, OnDestroy, PLATFORM_ID, inject, ChangeDetectionStrategy, NgZone, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import * as THREE from 'three';
 import { ThemeService } from '../../../services/theme.service';
-import { CLOUD_OPTIONS } from './icon-cloud.config';
-import { renderIconDataUri, slugToIcon } from './icon-cloud.utils';
-import { buildStableGlobeConnections, GlobeConnection, GlobeIconPoint, render3DGlobe } from './globe-renderer';
-
-let tagCanvasLoaded = false;
+import { SectionRegistryService } from '../../../services/section-registry.service';
 
 @Component({
   selector: 'app-icon-cloud',
@@ -15,398 +12,288 @@ let tagCanvasLoaded = false;
   styleUrls: ['./icon-cloud.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IconCloudComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
-  @Input() iconSlugs: string[] = [];
-  @Input() forcedTheme?: string;
-
-  @ViewChild('globeCanvas', { static: false }) globeCanvasRef?: ElementRef<HTMLCanvasElement>;
+export class IconCloudComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('cloudContainer') cloudContainer!: ElementRef<HTMLDivElement>;
 
   private platformId = inject(PLATFORM_ID);
   private ngZone = inject(NgZone);
-  private cdr = inject(ChangeDetectorRef);
   private themeService = inject(ThemeService);
+  private sectionRegistry = inject(SectionRegistryService);
 
-  private canvasId = 'tc-canvas-' + Math.random().toString(36).slice(2, 9);
-  private containerId = 'tc-container-' + Math.random().toString(36).slice(2, 9);
-  private listId = 'tc-list-' + Math.random().toString(36).slice(2, 9);
-  private hasStarted = false;
+  private scene!: THREE.Scene;
+  private camera!: THREE.PerspectiveCamera;
+  private renderer!: THREE.WebGLRenderer;
+  private globeGroup!: THREE.Group;
+  
+  private animationFrameId: number | null = null;
+  private isDragging = false;
+  private previousMousePosition = { x: 0, y: 0 };
+  private clock = new THREE.Clock();
+  private currentAxis = new THREE.Vector3(0, 1, 0); // Start with horizontal axis
+  private currentSpeed = 0.15; // Base auto-rotation speed (rad/s)
+
   private observer?: IntersectionObserver;
-  private themeListener?: () => void;
-  private mediaQuery?: MediaQueryList;
-  private mediaHandler?: (e: MediaQueryListEvent) => void;
-  private themeRafId: number | null = null;
-  private globeRafId: number | null = null;
-  private globeStartTime: number = 0;
-  private lastIconPoints: GlobeIconPoint[] = [];
-  private stableConnections: GlobeConnection[] = [];
-  private stableConnectionPointCount = 0;
-  private stableConnectionsLocked = false;
-  private connectionWarmupUntil = 0;
-  private startTimerId: ReturnType<typeof setTimeout> | null = null;
-  private restartTimerId: ReturnType<typeof setTimeout> | null = null;
-  private sampledIconPoints: GlobeIconPoint[] = [];
-  private lastPointSampleTime = 0;
+  private isVisible = false;
 
-  resolvedTheme = 'dark';
-  iconElements: { src: string; title: string }[] = [];
-  canvasIdAttr = '';
-  containerIdAttr = '';
-  listIdAttr = '';
+  private icons = [
+    'typescript', 'javascript', 'react', 'nodedotjs', 'postgresql', 
+    'mongodb', 'tailwindcss', 'docker', 'git', 'github', 
+    'python', 'html5', 'css3', 'nextdotjs', 'vercel', 
+    'vite', 'figma', 'apachekafka', 'nginx', 'graphql', 
+    'redis', 'dotnet', 'kubernetes', 'linux', 'android'
+  ];
 
   ngOnInit() {
-    this.canvasIdAttr = this.canvasId;
-    this.containerIdAttr = this.containerId;
-    this.listIdAttr = this.listId;
-    this.resolveTheme();
-    this.buildIcons();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['iconSlugs'] || changes['forcedTheme']) {
-      this.resolveTheme();
-      this.buildIcons();
-      if (this.hasStarted && isPlatformBrowser(this.platformId)) {
-        this.ngZone.runOutsideAngular(() => this.restart());
-      }
-    }
+    // Basic setup
   }
 
   ngAfterViewInit() {
     if (!isPlatformBrowser(this.platformId)) return;
 
-    this.themeListener = () => {
-      if (this.themeRafId !== null) {
-        cancelAnimationFrame(this.themeRafId);
+    this.initThreeJS();
+    
+    // Visibility observer to pause/resume animation
+    this.observer = new IntersectionObserver((entries) => {
+      this.isVisible = entries[0].isIntersecting;
+      if (this.isVisible) {
+        this.animate();
+      } else if (this.animationFrameId !== null) {
+        cancelAnimationFrame(this.animationFrameId);
+        this.animationFrameId = null;
       }
-      this.themeRafId = requestAnimationFrame(() => {
-        this.themeRafId = null;
-        this.syncThemeAndIcons();
-      });
-    };
+    }, { threshold: 0.1 });
+    
+    this.observer.observe(this.cloudContainer.nativeElement);
+  }
 
+  private initThreeJS() {
     this.ngZone.runOutsideAngular(() => {
-      window.addEventListener('theme-changed', this.themeListener!);
-      window.addEventListener('storage', this.themeListener!);
+      const container = this.cloudContainer.nativeElement;
+      const width = container.clientWidth || 500;
+      const height = container.clientHeight || 500;
 
-      if (!this.forcedTheme) {
-        this.mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        this.mediaHandler = () => {
-          if (this.themeService.theme() === 'system') {
-            this.syncThemeAndIcons();
-          }
-        };
-        this.mediaQuery.addEventListener('change', this.mediaHandler);
-      }
+      this.scene = new THREE.Scene();
+      
+      this.camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
+      this.camera.position.z = 280; // Distance increased (zoomed out to fix clipping)
 
-      const container = document.getElementById(this.containerId);
-      if (!container) return;
+      this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
+      this.renderer.setSize(width, height);
+      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // cap at 2 for performance
+      container.appendChild(this.renderer.domElement);
 
-      this.observer = new IntersectionObserver((entries) => {
-        const isVisible = entries.some(e => e.isIntersecting);
-        if (isVisible) {
-          this.startTagCanvas();
-        } else if (this.hasStarted) {
-          this.pauseTagCanvas();
-        }
-      }, { threshold: 0.1 });
-      this.observer.observe(container);
-    });
-  }
+      this.globeGroup = new THREE.Group();
+      this.scene.add(this.globeGroup);
 
-  private resolveTheme() {
-    if (this.forcedTheme) {
-      this.resolvedTheme = this.forcedTheme;
-      return;
-    }
-    const stored = this.themeService.theme();
-    if (stored === 'system') {
-      if (typeof window !== 'undefined') {
-        this.resolvedTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      } else {
-        this.resolvedTheme = 'dark';
-      }
-      return;
-    }
-    this.resolvedTheme = stored || 'dark';
-  }
+      // Distribute icons on a sphere using Fibonacci lattice
+      const radius = 90; // Reduced radius so icons don't clip out of bounds
+      const phi = Math.PI * (3 - Math.sqrt(5)); // Golden angle
+      
+      const positions: THREE.Vector3[] = [];
 
-  private syncThemeAndIcons(): void {
-    const prev = this.resolvedTheme;
-    this.resolveTheme();
-    if (prev === this.resolvedTheme) return;
+      this.icons.forEach((iconSlug, i) => {
+        const y = 1 - (i / (this.icons.length - 1)) * 2; 
+        const r = Math.sqrt(1 - y * y);
+        const theta = phi * i;
 
-    this.ngZone.run(() => {
-      this.buildIcons();
-      this.cdr.markForCheck();
-    });
+        const x = Math.cos(theta) * r;
+        const z = Math.sin(theta) * r;
+        
+        const pos = new THREE.Vector3(x * radius, y * radius, z * radius);
+        positions.push(pos);
 
-    if (this.hasStarted) {
-      this.ngZone.runOutsideAngular(() => this.restart());
-    }
-  }
-
-  private buildIcons() {
-    this.resetStableConnections();
-    this.iconElements = this.iconSlugs
-      .map((slug) => {
-        const icon = slugToIcon[slug];
-        if (!icon) return null;
-        return renderIconDataUri(icon, this.resolvedTheme);
-      })
-      .filter((x): x is { src: string; title: string } => !!x);
-  }
-
-  private resetStableConnections() {
-    this.stableConnections = [];
-    this.stableConnectionPointCount = 0;
-    this.stableConnectionsLocked = false;
-    this.connectionWarmupUntil = 0;
-    this.sampledIconPoints = [];
-    this.lastPointSampleTime = 0;
-  }
-
-  private lastConnectionCalcTime = 0;
-
-  private startGlobeAnimation() {
-    if (this.globeRafId !== null) return;
-    if (!this.globeCanvasRef?.nativeElement) return;
-    const canvas = this.globeCanvasRef.nativeElement;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const rect = canvas.getBoundingClientRect();
-    if (rect.width === 0 || rect.height === 0) {
-      this.ngZone.runOutsideAngular(() => {
-        this.globeRafId = requestAnimationFrame(() => {
-          this.globeRafId = null;
-          this.startGlobeAnimation();
+        // Create Sprite
+        this.loadIconTexture(iconSlug).then((texture) => {
+          if (!texture) return;
+          const material = new THREE.SpriteMaterial({ map: texture, transparent: true, depthWrite: false });
+          const sprite = new THREE.Sprite(material);
+          sprite.position.copy(pos);
+          sprite.scale.set(18, 18, 1); // Reduced icon size
+          this.globeGroup.add(sprite);
         });
       });
-      return;
-    }
-
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    ctx.scale(dpr, dpr);
-
-    if (this.globeStartTime === 0) this.globeStartTime = performance.now();
-    if (this.connectionWarmupUntil === 0) {
-      this.connectionWarmupUntil = performance.now() + 1200;
-    }
-
-    // GUARANTEE THIS RUNS OUTSIDE ANGULAR CHANGE DETECTION
-    this.ngZone.runOutsideAngular(() => {
-      const loop = (time: number) => {
-        const elapsed = time - this.globeStartTime;
-
-        // Removed the 33ms throttle. Sample points every frame for smooth 60/120fps.
-        let sampledPoints = this.getIconAnchorPoints(rect.width, rect.height);
-
-        if (sampledPoints.length > 0) {
-          this.sampledIconPoints = sampledPoints;
-        } else {
-          sampledPoints = this.sampledIconPoints;
+      
+      // Create connection lines
+      const lineMaterial = new THREE.LineBasicMaterial({ 
+        color: this.themeService.theme() === 'dark' ? 0x94e2f0 : 0xa4ccbe, 
+        transparent: true, 
+        opacity: 0.02 // Ultra low opacity as requested
+      });
+      
+      const lineGeometry = new THREE.BufferGeometry();
+      const points: number[] = [];
+      
+      // Connect each point to its nearest 3 neighbors
+      for (let i = 0; i < positions.length; i++) {
+        const distances = positions.map((p, j) => ({ index: j, dist: positions[i].distanceTo(p) }));
+        distances.sort((a, b) => a.dist - b.dist);
+        
+        for (let j = 1; j <= 3; j++) {
+            points.push(positions[i].x, positions[i].y, positions[i].z);
+            points.push(positions[distances[j].index].x, positions[distances[j].index].y, positions[distances[j].index].z);
         }
+      }
+      
+      lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
+      const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+      this.globeGroup.add(lines);
 
-        const iconPoints = sampledPoints.length > 1 ? sampledPoints : this.lastIconPoints;
-        if (sampledPoints.length > 1) {
-          this.lastIconPoints = sampledPoints;
-        }
+      // Interactive pointer events for drag rotation (Globe interaction)
+      container.style.touchAction = 'none'; // Prevent scroll when dragging globe
+      container.addEventListener('pointerdown', this.onPointerDown);
+      container.addEventListener('pointermove', this.onPointerMove);
+      container.addEventListener('pointerup', this.onPointerUp);
+      container.addEventListener('pointerleave', this.onPointerUp);
+      container.addEventListener('pointercancel', this.onPointerUp);
 
-        if (iconPoints.length > 1) {
-          const pointCountChanged = this.stableConnectionPointCount !== iconPoints.length;
-          const expectedIconCount = this.iconElements.length;
-          const hasFullPointSample = expectedIconCount > 0 && iconPoints.length >= expectedIconCount;
-          const inWarmup = performance.now() < this.connectionWarmupUntil;
-          const warmupThrottle = inWarmup && (performance.now() - this.lastConnectionCalcTime > 50);
-
-          const shouldRefreshConnections =
-            this.stableConnections.length === 0 ||
-            pointCountChanged ||
-            !this.stableConnectionsLocked ||
-            warmupThrottle;
-
-          if (shouldRefreshConnections) {
-            this.stableConnections = buildStableGlobeConnections(iconPoints);
-            this.stableConnectionPointCount = iconPoints.length;
-            this.lastConnectionCalcTime = performance.now();
-          }
-
-          if ((hasFullPointSample || !inWarmup) && this.stableConnections.length > 0) {
-            this.stableConnectionsLocked = true;
-          }
-        } else {
-          this.resetStableConnections();
-        }
-
-        render3DGlobe(
-          ctx,
-          rect.width,
-          rect.height,
-          elapsed,
-          this.resolvedTheme,
-          iconPoints,
-          this.stableConnections
-        );
-
-        this.globeRafId = requestAnimationFrame(loop);
-      };
-
-      this.globeRafId = requestAnimationFrame(loop);
+      // Resize listener
+      window.addEventListener('resize', this.onWindowResize);
     });
   }
 
-  private getIconAnchorPoints(overlayWidth: number, overlayHeight: number): GlobeIconPoint[] {
+  private async loadIconTexture(slug: string): Promise<THREE.Texture | null> {
+    // The skills section is now permanently dark, so we force dark mode icon colors
+    const isDark = true; 
+                  
+    // Some icons are invisible against dark backgrounds (black on dark grey)
+    // We override their color to ensure visibility while mostly using original brand colors
+    const colorOverrides: Record<string, string> = {
+      nextdotjs: isDark ? 'ffffff' : '000000',
+      github: isDark ? 'ffffff' : '181717',
+      express: isDark ? 'ffffff' : '000000',
+      vercel: isDark ? 'ffffff' : '000000'
+    };
+                  
     try {
-      const TC = (window as any).TagCanvas;
-      const tc = TC?.tc?.[this.canvasId];
-      if (!tc || !Array.isArray(tc.taglist)) return [];
-
-      const canvas = tc.canvas as HTMLCanvasElement | undefined;
-      const cw = canvas?.width || 1000;
-      const ch = canvas?.height || 1000;
-      const xoff = cw / 2 + (tc.offsetX || 0);
-      const yoff = ch / 2 + (tc.offsetY || 0);
-      const maxRadius = tc.max_radius || 100;
-
-      return tc.taglist
-        .map((tag: any) => {
-          if (typeof tag?.x !== 'number' || typeof tag?.y !== 'number') return null;
-          const scale = typeof tag.sc === 'number' ? tag.sc : 1;
-          const ix = xoff + tag.x * scale;
-          const iy = yoff + tag.y * scale;
-          const depthRaw = typeof tag.z === 'number'
-            ? (maxRadius - tag.z) / (2 * maxRadius)
-            : 0.5;
-          const depth = Math.max(0, Math.min(1, depthRaw));
-
-          return {
-            x: (ix / cw) * overlayWidth,
-            y: (iy / ch) * overlayHeight,
-            depth
-          } as GlobeIconPoint;
-        })
-        .filter((p: GlobeIconPoint | null): p is GlobeIconPoint => !!p);
+      return new Promise((resolve) => {
+        const loader = new THREE.TextureLoader();
+        const customColor = colorOverrides[slug];
+        // If a custom color is specified, use it. Otherwise omit color param to get original brand color!
+        const url = customColor ? `https://cdn.simpleicons.org/${slug}/${customColor}` : `https://cdn.simpleicons.org/${slug}`;
+        
+        loader.load(url, (texture: THREE.Texture) => {
+            texture.colorSpace = THREE.SRGBColorSpace;
+            resolve(texture);
+        }, undefined, () => {
+            resolve(null);
+        });
+      });
     } catch {
-      return [];
+      return null;
     }
   }
 
-  private stopGlobeAnimation() {
-    if (this.globeRafId !== null) {
-      cancelAnimationFrame(this.globeRafId);
-      this.globeRafId = null;
-    }
-    this.sampledIconPoints = [];
-    this.lastPointSampleTime = 0;
-  }
+  private animate() {
+    if (!this.isVisible) return;
 
-  private startTagCanvas() {
-    try {
-      if (!tagCanvasLoaded) {
-        const TC = (window as any).TagCanvas;
-        if (!TC) {
-          import('tag-canvas').then((mod) => {
-            if (!(window as any).TagCanvas) {
-              (window as any).TagCanvas = mod.default || mod;
-            }
-            tagCanvasLoaded = true;
-            this.doStart();
-          });
-          return;
-        }
-        tagCanvasLoaded = true;
-      }
-      this.doStart();
-    } catch (e) {
-      console.warn('TagCanvas start failed:', e);
-    }
-  }
+    this.ngZone.runOutsideAngular(() => {
+      this.animationFrameId = requestAnimationFrame(this.animate.bind(this));
 
-  private doStart() {
-    const TC = (window as any).TagCanvas;
-    if (!TC) return;
-    try {
-      if (this.hasStarted) {
-        TC.Resume(this.canvasId);
-        this.startGlobeAnimation();
+      // Advanced Physics calculation using Delta Time (ignores framerate drops)
+      const dt = Math.min(this.clock.getDelta(), 0.1); 
+
+      if (this.isDragging) {
+        // Friction applies while holding to give the globe a buttery 'weight'
+        this.currentSpeed *= Math.exp(-8 * dt);
       } else {
-        if (this.startTimerId !== null) {
-          clearTimeout(this.startTimerId);
+        // Natural friction coasting
+        this.currentSpeed *= Math.exp(-1.2 * dt);
+        
+        // Auto-rotation stays purely on the EXACT axis the user left it at!
+        // No changing directions.
+        const idleSpeed = 0.2; // Smooth rad/s
+        if (this.currentSpeed < idleSpeed) {
+           this.currentSpeed += (idleSpeed - this.currentSpeed) * dt * 5.0; // Soft minimum speed cap
         }
-        this.startTimerId = setTimeout(() => {
-          this.startTimerId = null;
-          try {
-            TC.Start(this.canvasId, this.listId, CLOUD_OPTIONS);
-            this.hasStarted = true;
-            this.startGlobeAnimation();
-          } catch (e) {
-            console.warn('TagCanvas.Start failed:', e);
-          }
-        }, 50);
       }
-    } catch (e) {
-      console.warn('TagCanvas operation failed:', e);
+        
+      // Execute momentum rotation flawlessly without gimbal lock
+      if (this.currentSpeed > 0) {
+        const q = new THREE.Quaternion().setFromAxisAngle(this.currentAxis, this.currentSpeed * dt);
+        this.globeGroup.quaternion.premultiply(q);
+      }
+
+      this.renderer.render(this.scene, this.camera);
+    });
+  }
+
+  private onPointerDown = (event: PointerEvent) => {
+    // Stop physics immediately when grabbing
+    this.isDragging = true;
+    this.currentSpeed = 0; 
+    
+    // Reset clock to avoid huge elapsed time jumps after releasing
+    this.clock.getDelta(); 
+    
+    this.previousMousePosition = { x: event.clientX, y: event.clientY };
+    const container = this.cloudContainer.nativeElement;
+    if (container.setPointerCapture) {
+      container.setPointerCapture(event.pointerId);
     }
-  }
+  };
 
-  private pauseTagCanvas() {
-    try {
-      const TC = (window as any).TagCanvas;
-      if (TC && this.hasStarted) {
-        TC.Pause(this.canvasId);
-        this.stopGlobeAnimation();
-      }
-    } catch (e) { }
-  }
-
-  private restart() {
-    if (!isPlatformBrowser(this.platformId)) return;
-    const TC = (window as any).TagCanvas;
-    if (!TC) return;
-    if (!this.hasStarted) return;
-
-    if (this.restartTimerId !== null) {
-      clearTimeout(this.restartTimerId);
+  private onPointerMove = (event: PointerEvent) => {
+    if (!this.isDragging) return;
+    const deltaX = event.clientX - this.previousMousePosition.x;
+    const deltaY = event.clientY - this.previousMousePosition.y;
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    
+    if (distance > 0) {
+      // Rotation axis is perpendicular to drag direction mathematically
+      const axis = new THREE.Vector3(deltaY, deltaX, 0).normalize();
+      
+      // Update momentum direction smoothly
+      this.currentAxis.lerp(axis, 0.8).normalize();
+      
+      // Inject physical momentum rather than snapping rotation.
+      // This produces an ultra-smooth, buttery drag feeling like rolling a heavy physical marble.
+      this.currentSpeed += distance * 0.15; 
     }
-    this.restartTimerId = setTimeout(() => {
-      this.restartTimerId = null;
-      try {
-        TC.Update(this.canvasId);
-      } catch (e) {
-        console.warn('TagCanvas update failed:', e);
-      }
-    }, 100);
-  }
+    
+    this.previousMousePosition = { x: event.clientX, y: event.clientY };
+  };
+
+  private onPointerUp = (event: PointerEvent) => {
+    this.isDragging = false;
+    const container = this.cloudContainer.nativeElement;
+    if (container.hasPointerCapture && container.hasPointerCapture(event.pointerId)) {
+      container.releasePointerCapture(event.pointerId);
+    }
+  };
+
+  private onWindowResize = () => {
+    if (!this.cloudContainer) return;
+    const container = this.cloudContainer.nativeElement;
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    
+    if (width === 0 || height === 0) return;
+
+    this.camera.aspect = width / height;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(width, height);
+  };
 
   ngOnDestroy() {
     if (!isPlatformBrowser(this.platformId)) return;
-    this.ngZone.runOutsideAngular(() => {
-      if (this.themeListener) {
-        window.removeEventListener('theme-changed', this.themeListener);
-        window.removeEventListener('storage', this.themeListener);
-      }
-      if (this.mediaQuery && this.mediaHandler) {
-        this.mediaQuery.removeEventListener('change', this.mediaHandler);
-      }
-      this.observer?.disconnect();
-      if (this.themeRafId !== null) cancelAnimationFrame(this.themeRafId);
-      if (this.startTimerId !== null) {
-        clearTimeout(this.startTimerId);
-        this.startTimerId = null;
-      }
-      if (this.restartTimerId !== null) {
-        clearTimeout(this.restartTimerId);
-        this.restartTimerId = null;
-      }
-      this.stopGlobeAnimation();
-      try {
-        const TC = (window as any).TagCanvas;
-        if (TC && this.hasStarted) {
-          TC.Delete(this.canvasId);
-        }
-      } catch (e) { }
-    });
+    this.observer?.disconnect();
+    
+    if (this.animationFrameId !== null) {
+      cancelAnimationFrame(this.animationFrameId);
+    }
+    
+    this.scene?.clear();
+    this.renderer?.dispose();
+    
+    window.removeEventListener('resize', this.onWindowResize);
+    
+    const container = this.cloudContainer?.nativeElement;
+    if (container) {
+      container.removeEventListener('pointerdown', this.onPointerDown);
+      container.removeEventListener('pointermove', this.onPointerMove);
+      container.removeEventListener('pointerup', this.onPointerUp);
+      container.removeEventListener('pointerleave', this.onPointerUp);
+      container.removeEventListener('pointercancel', this.onPointerUp);
+    }
   }
 }

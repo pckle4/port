@@ -29,8 +29,8 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(22, 118, 243, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(22, 118, 243, 0.07) 1px, transparent 1px);
+    linear-gradient(hsl(var(--primary) / 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(var(--primary) / 0.07) 1px, transparent 1px);
   background-size: 60px 60px;
   mask-image: radial-gradient(ellipse 90% 75% at 50% 5%, black 15%, transparent 85%);
   -webkit-mask-image: radial-gradient(ellipse 90% 75% at 50% 5%, black 15%, transparent 85%);
@@ -42,9 +42,9 @@
   background: linear-gradient(
     108deg,
     transparent 10%,
-    rgba(22, 118, 243, 0.13) 35%,
-    rgba(95, 92, 224, 0.09) 50%,
-    rgba(22, 118, 243, 0.06) 62%,
+    hsl(var(--primary) / 0.13) 35%,
+    hsl(var(--dusty-lavender) / 0.09) 50%,
+    hsl(var(--primary) / 0.06) 62%,
     transparent 82%
   );
   background-size: 250% 100%;
@@ -58,6 +58,14 @@
   8%   { opacity: 1; }
   88%  { opacity: 1; }
   100% { background-position: -40% 0; opacity: 0; }
+}
+
+/* Disable shimmer on mobile for performance */
+@media (max-width: 640px) {
+  .hero-grid-shimmer {
+    animation: none;
+    opacity: 0;
+  }
 }
 
 /* ── Scroll indicator bob ───────────────────────────────────────── */
