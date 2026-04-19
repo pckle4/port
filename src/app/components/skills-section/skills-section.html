@@ -7,8 +7,8 @@
 
   <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
     <div class="max-w-7xl mx-auto">
-      <div [class]="isVisible() ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
-        class="transition-all duration-1000 text-center lg:text-left mb-8 sm:mb-10 lg:mb-12">
+      <div [class]="isVisible() ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 sm:translate-y-8'"
+        class="transition-all duration-500 sm:duration-1000 text-center lg:text-left mb-8 sm:mb-10 lg:mb-12">
         <h2
           class="text-2xl sm:text-3xl md:text-5xl font-bold mb-3 sm:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-slate-100 to-primary">
           Skills & Technologies
@@ -24,8 +24,8 @@
         <!-- Skill Cards (left on desktop, bottom on mobile) -->
         <div class="lg:col-span-7 space-y-6 sm:space-y-8 order-2 lg:order-1">
 
-          <div [class]="isVisible() ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
-            class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 transition-all duration-1000 delay-200">
+          <div [class]="isVisible() ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 sm:translate-y-8'"
+            class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 transition-all duration-500 sm:duration-1000 sm:delay-200">
             @for (category of skillCategories; track category.title) {
               <app-skill-card [category]="category"></app-skill-card>
             }
@@ -35,9 +35,9 @@
         <!-- Icon Orbit (right on desktop, top on mobile) -->
         <div class="lg:col-span-5 order-1 lg:order-2 flex justify-center items-center">
           <div
-            class="relative w-full max-w-[300px] sm:max-w-[380px] lg:max-w-[500px] xl:max-w-[560px] transition-all duration-1000 delay-300"
+            class="relative w-full max-w-[300px] sm:max-w-[380px] lg:max-w-[500px] xl:max-w-[560px] transition-all duration-500 sm:duration-1000 sm:delay-300"
             [class.opacity-100]="isVisible()" [class.scale-100]="isVisible()" [class.opacity-0]="!isVisible()"
-            [class.scale-90]="!isVisible()">
+            [class.scale-95]="!isVisible()" [class.sm:scale-90]="!isVisible()">
 
             <div class="relative p-[1px] rounded-2xl overflow-hidden group">
               <div class="absolute inset-[-100%] animate-[spin_8s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,hsl(var(--primary))_100%)]"></div>

@@ -1,5 +1,5 @@
 <div [id]="project.id"
-  class="group relative flex flex-col rounded-xl border border-border/70 dark:border-border/80 bg-white/85 dark:bg-[#0C1120]/80 shadow-sm hover:shadow-xl hover:shadow-primary/10 dark:hover:shadow-primary/10 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-2 overflow-hidden h-full will-change-transform scroll-mt-24">
+  class="group relative flex flex-col rounded-xl border border-border/70 dark:border-border/80 bg-white/85 dark:bg-[#0C1120]/80 shadow-sm hover:shadow-xl hover:shadow-primary/10 dark:hover:shadow-primary/10 transition-all duration-300 sm:duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-2 overflow-hidden h-full will-change-transform scroll-mt-24">
 
   <div class="absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
     <div
@@ -21,9 +21,9 @@
 
   <!-- Image -->
   <div
-    class="relative w-full aspect-[16/10] sm:aspect-video overflow-hidden border-b border-border/70 dark:border-border/80 bg-[#ECF0F8]/60 dark:bg-black/20 group-hover:brightness-105 transition-all duration-700">
+    class="relative w-full aspect-[16/10] sm:aspect-video overflow-hidden border-b border-border/70 dark:border-border/80 bg-[#ECF0F8]/60 dark:bg-black/20 group-hover:brightness-105 transition-all duration-300 sm:duration-700">
     <div
-      class="absolute inset-0 transition-transform duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-110">
+      class="absolute inset-0 transition-transform duration-500 sm:duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-110">
       <img [src]="project.image" [alt]="project.title" class="w-full h-full object-cover" loading="lazy" />
     </div>
 

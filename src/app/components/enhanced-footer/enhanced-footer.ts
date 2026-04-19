@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, OnDestroy, HostListener, PLATFORM_ID, inject, ChangeDetectionStrategy, signal, NgZone } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, PLATFORM_ID, inject, ChangeDetectionStrategy, signal, NgZone } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 import { RouterLink } from '@angular/router';
