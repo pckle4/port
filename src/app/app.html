@@ -1,6 +1,4 @@
-﻿<app-toast-provider></app-toast-provider>
-
-@if (isLoading()) {
+﻿@if (isLoading()) {
 <div class="fixed inset-0 z-50 flex items-center justify-center bg-[#F4F5F8] dark:bg-[#0B0E19]">
   <app-magic-loader [size]="250" [speed]="1.8" [particleCount]="3" [hueRange]="[0, 0]" [saturation]="0" (onComplete)="onMagicLoaderComplete()"></app-magic-loader>
 </div>

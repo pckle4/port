@@ -1,13 +1,31 @@
-import { Component, OnInit, OnDestroy, ElementRef, PLATFORM_ID, inject, ChangeDetectionStrategy, ChangeDetectorRef, signal } from '@angular/core';
-import { SectionRegistryService } from '../../services/section-registry.service';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ElementRef,
+  PLATFORM_ID,
+  inject,
+  ChangeDetectionStrategy,
+  signal,
+  computed
+} from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { LucideAngularModule } from 'lucide-angular';
-import { TerminalDisplayComponent } from './terminal-display/terminal-display';
-import { BadgeComponent } from '../ui/badge/badge';
-import { SpinnerComponent } from '../ui/spinner/spinner';
-import { ToastService } from '../../services/toast.service';
 import { Subscription } from 'rxjs';
+import { SectionRegistryService } from '../../services/section-registry.service';
+import { TerminalDisplayComponent } from './terminal-display/terminal-display';
+import { SpinnerComponent } from '../ui/spinner/spinner';
+
+type SubmitStatus = 'idle' | 'success' | 'error';
+type CaptchaMode = 'code' | 'math';
+
+interface CaptchaChallenge {
+  mode: CaptchaMode;
+  prompt: string;
+  answer: string;
+  hint: string;
+}
 
 @Component({
   selector: 'app-contact-section',
@@ -17,7 +35,6 @@ import { Subscription } from 'rxjs';
     ReactiveFormsModule,
     LucideAngularModule,
     TerminalDisplayComponent,
-    BadgeComponent,
     SpinnerComponent
   ],
   templateUrl: './contact-section.html',
@@ -27,33 +44,56 @@ import { Subscription } from 'rxjs';
 export class ContactSectionComponent implements OnInit, OnDestroy {
   isVisible = signal(false);
   isSubmitting = signal(false);
-  submitStatus = signal<'idle' | 'confirm' | 'success' | 'error'>('idle');
+  submitStatus = signal<SubmitStatus>('idle');
+  formMessage = signal('');
+  captchaState = signal<'idle' | 'valid' | 'invalid'>('idle');
+  captchaAttempts = signal(0);
+  captchaChallenge = signal<CaptchaChallenge>({
+    mode: 'code',
+    prompt: 'Type the security code exactly as shown',
+    answer: 'ABCDE',
+    hint: 'Letters and numbers only'
+  });
+  captchaDisplay = computed(() => this.captchaChallenge().answer.split('').join(' '));
 
-  mathCaptcha = { question: '', answer: 0 };
-  captchaValid = false;
   hp = '';
 
   private fb = inject(FormBuilder);
   private platformId = inject(PLATFORM_ID);
   private el = inject(ElementRef);
   private sectionRegistry = inject(SectionRegistryService);
-  private cdr = inject(ChangeDetectorRef);
   private observer?: IntersectionObserver;
-  private toastService = inject(ToastService);
   private captchaSub?: Subscription;
 
-  contactForm: FormGroup = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(2)]],
+  contactForm = this.fb.nonNullable.group({
+    name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(60)]],
     email: ['', [Validators.required, Validators.email]],
-    message: ['', [Validators.required, Validators.minLength(10)]],
+    subject: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+    message: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(2000)]],
     captcha: ['', [Validators.required]]
   });
 
+  get f() {
+    return this.contactForm.controls;
+  }
+
   ngOnInit() {
-    this.generateMathCaptcha();
-    this.captchaSub = this.contactForm.get('captcha')!.valueChanges.subscribe(value => {
-      this.captchaValid = parseInt(value) === this.mathCaptcha.answer;
-      this.cdr.markForCheck();
+    this.generateCaptcha();
+
+    this.captchaSub = this.f.captcha.valueChanges.subscribe((value) => {
+      const normalized = this.normalizeCaptcha(value);
+      if (!normalized) {
+        this.captchaState.set('idle');
+        this.clearCaptchaIncorrectError();
+        return;
+      }
+
+      if (this.isCaptchaAnswerCorrect(value)) {
+        this.captchaState.set('valid');
+        this.clearCaptchaIncorrectError();
+      } else {
+        this.captchaState.set('invalid');
+      }
     });
 
     if (isPlatformBrowser(this.platformId)) {
@@ -62,7 +102,6 @@ export class ContactSectionComponent implements OnInit, OnDestroy {
         ([entry]) => {
           if (entry.isIntersecting) {
             this.isVisible.set(true);
-            this.cdr.markForCheck();
           }
         },
         { threshold: 0.1 }
@@ -71,65 +110,144 @@ export class ContactSectionComponent implements OnInit, OnDestroy {
     }
   }
 
-  generateMathCaptcha() {
-    const num1 = Math.floor(Math.random() * 10) + 1;
-    const num2 = Math.floor(Math.random() * 10) + 1;
-    this.mathCaptcha = { question: `${num1} + ${num2}`, answer: num1 + num2 };
-  }
-
-  get f() { return this.contactForm.controls; }
-
   handleSubmit() {
-    if (this.hp) { this.submitStatus.set('error'); return; }
-    
-    if (this.submitStatus() === 'idle') {
-      this.contactForm.markAllAsTouched();
-
-      if (!this.captchaValid) {
-        this.contactForm.get('captcha')!.setErrors({ incorrect: true });
-      }
-
-      if (this.contactForm.invalid || !this.captchaValid) {
-        this.submitStatus.set('error');
-        this.toastService.error('Please fix the highlighted fields.');
-        setTimeout(() => { this.submitStatus.set('idle'); this.cdr.markForCheck(); }, 2000);
-        return;
-      }
-      
-      this.submitStatus.set('confirm');
-      this.cdr.markForCheck();
+    if (this.hp.trim()) {
+      this.submitStatus.set('error');
+      this.formMessage.set('Security check failed. Please refresh and try again.');
       return;
     }
 
-    if (this.submitStatus() === 'confirm') {
-      this.isSubmitting.set(true);
-      this.cdr.markForCheck();
-      try {
-        const { name, email, message } = this.contactForm.value;
-      const recipient = 'ansh@nowhile.com';
-      const subject = `Portfolio Contact from ${name}`;
-      const body = `${message}\n\n------------------------------------------------\nName: ${name}\nEmail: ${email}\nVia: Portfolio`;
+    this.contactForm.markAllAsTouched();
 
-      window.location.href = `mailto:${encodeURIComponent(recipient)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}&reply-to=${encodeURIComponent(email)}`;
+    const captchaCorrect = this.isCaptchaAnswerCorrect(this.f.captcha.value);
+    if (!captchaCorrect) {
+      this.setCaptchaIncorrectError();
+      this.captchaState.set('invalid');
+      this.captchaAttempts.update((attempts) => attempts + 1);
+    }
+
+    if (this.contactForm.invalid || !captchaCorrect) {
+      this.submitStatus.set('error');
+      this.formMessage.set('Please fix the highlighted fields and complete verification.');
+
+      if (this.captchaAttempts() >= 2) {
+        this.refreshCaptcha();
+        this.formMessage.set('Captcha refreshed after multiple failed attempts.');
+      }
+
+      return;
+    }
+
+    this.submitStatus.set('idle');
+    this.formMessage.set('');
+    this.isSubmitting.set(true);
+
+    try {
+      const { name, email, subject, message } = this.contactForm.getRawValue();
+      const recipient = 'ansh@nowhile.com';
+      const finalSubject = `Portfolio Brief: ${subject} (from ${name})`;
+      const body = [
+        'Hi Ansh,',
+        '',
+        message,
+        '',
+        '---',
+        `Name: ${name}`,
+        `Email: ${email}`,
+        'Sent from: Portfolio Contact Form'
+      ].join('\n');
+
+      if (isPlatformBrowser(this.platformId)) {
+        window.location.href = `mailto:${encodeURIComponent(recipient)}?subject=${encodeURIComponent(finalSubject)}&body=${encodeURIComponent(body)}&reply-to=${encodeURIComponent(email)}`;
+      }
 
       this.submitStatus.set('success');
-      this.cdr.markForCheck();
-      this.toastService.success('Opening your mail client...');
-      setTimeout(() => {
-        this.contactForm.reset();
-        this.generateMathCaptcha();
-        this.submitStatus.set('idle');
-        this.cdr.markForCheck();
-      }, 5000);
+      this.formMessage.set('Your email draft has been prepared in your default mail app.');
+
+      this.contactForm.reset();
+      this.refreshCaptcha();
     } catch {
       this.submitStatus.set('error');
-      this.cdr.markForCheck();
-      this.toastService.error('Something went wrong. Please try again.');
-      } finally {
-        this.isSubmitting.set(false);
-        this.cdr.markForCheck();
-      }
+      this.formMessage.set('Something went wrong while preparing your message. Please try again.');
+    } finally {
+      this.isSubmitting.set(false);
     }
+  }
+
+  refreshCaptcha() {
+    this.generateCaptcha();
+    this.f.captcha.reset('');
+    this.f.captcha.markAsPristine();
+    this.f.captcha.markAsUntouched();
+    this.clearCaptchaIncorrectError();
+    this.captchaState.set('idle');
+  }
+
+  startNewMessage() {
+    this.submitStatus.set('idle');
+    this.formMessage.set('');
+    this.contactForm.markAsPristine();
+    this.contactForm.markAsUntouched();
+  }
+
+  private generateCaptcha() {
+    const useCodeMode = Math.random() > 0.4;
+
+    if (useCodeMode) {
+      const code = this.createCaptchaCode(5);
+      this.captchaChallenge.set({
+        mode: 'code',
+        prompt: 'Type the security code exactly as shown',
+        answer: code,
+        hint: 'Case-insensitive, no spaces needed'
+      });
+    } else {
+      const left = Math.floor(Math.random() * 15) + 4;
+      const right = Math.floor(Math.random() * 8) + 2;
+      const addMode = Math.random() > 0.5;
+      const answer = addMode ? left + right : left - right;
+      const symbol = addMode ? '+' : '-';
+
+      this.captchaChallenge.set({
+        mode: 'math',
+        prompt: `Solve this: ${left} ${symbol} ${right}`,
+        answer: String(answer),
+        hint: 'Numbers only'
+      });
+    }
+
+    this.captchaAttempts.set(0);
+  }
+
+  private createCaptchaCode(length: number): string {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    return Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+  }
+
+  private normalizeCaptcha(value: string): string {
+    return (value ?? '').replace(/\s+/g, '').trim().toUpperCase();
+  }
+
+  private isCaptchaAnswerCorrect(input: string): boolean {
+    const expected = this.normalizeCaptcha(this.captchaChallenge().answer);
+    const received = this.normalizeCaptcha(input);
+    return !!received && received === expected;
+  }
+
+  private setCaptchaIncorrectError(): void {
+    const currentErrors = this.f.captcha.errors ?? {};
+    this.f.captcha.setErrors({ ...currentErrors, incorrect: true });
+  }
+
+  private clearCaptchaIncorrectError(): void {
+    const currentErrors = this.f.captcha.errors;
+    if (!currentErrors || !currentErrors['incorrect']) {
+      return;
+    }
+
+    const { incorrect, ...rest } = currentErrors;
+    void incorrect;
+    this.f.captcha.setErrors(Object.keys(rest).length ? rest : null);
   }
 
   ngOnDestroy() {

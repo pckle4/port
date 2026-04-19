@@ -6,7 +6,7 @@
   </div>
 
   <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-    <div class="max-w-7xl mx-auto transform scale-[0.85]">
+    <div class="max-w-7xl mx-auto">
       <div [class]="isVisible() ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
         class="transition-all duration-1000 text-center lg:text-left mb-8 sm:mb-10 lg:mb-12">
         <h2
@@ -35,14 +35,14 @@
         <!-- Icon Orbit (right on desktop, top on mobile) -->
         <div class="lg:col-span-5 order-1 lg:order-2 flex justify-center items-center">
           <div
-            class="relative w-full max-w-[260px] sm:max-w-[320px] lg:max-w-[420px] xl:max-w-[480px] transition-all duration-1000 delay-300"
+            class="relative w-full max-w-[300px] sm:max-w-[380px] lg:max-w-[500px] xl:max-w-[560px] transition-all duration-1000 delay-300"
             [class.opacity-100]="isVisible()" [class.scale-100]="isVisible()" [class.opacity-0]="!isVisible()"
             [class.scale-90]="!isVisible()">
 
-            <div class="relative p-[1px] rounded-2xl overflow-hidden group transform scale-95">
+            <div class="relative p-[1px] rounded-2xl overflow-hidden group">
               <div class="absolute inset-[-100%] animate-[spin_8s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,hsl(var(--primary))_100%)]"></div>
-              <div class="relative rounded-[15px] bg-[#0a0a0a] border border-white/10 p-1 sm:p-2 md:p-3 w-full h-full flex items-center justify-center min-h-[180px] sm:min-h-[220px] lg:min-h-[280px] xl:min-h-[320px]">
-                <app-icon-cloud class="transform scale-90"></app-icon-cloud>
+              <div class="relative rounded-[15px] bg-[#0a0a0a] border border-white/10 p-0.5 sm:p-1 md:p-2 w-full h-full flex items-center justify-center min-h-[250px] sm:min-h-[320px] lg:min-h-[400px] xl:min-h-[460px]">
+                <app-icon-cloud class="w-full h-full"></app-icon-cloud>
               </div>
             </div>
 

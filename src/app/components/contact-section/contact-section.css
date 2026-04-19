@@ -1,23 +1,17 @@
 :host {
   display: block;
 }
-.contact-input {
-  @apply flex h-10 w-full rounded-lg border border-border/70 dark:border-border/80 bg-secondary/35 dark:bg-white/5 px-3 py-2 text-sm text-foreground dark:text-foreground placeholder:text-muted-foreground dark:placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary dark:focus:border-primary disabled:cursor-not-allowed disabled:opacity-50 transition-colors;
-}
-.contact-input[type="text"][inputmode="numeric"],
-.contact-input[type="number"] {
-  -moz-appearance: textfield;
-  appearance: textfield;
+
+.visually-hidden-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 
-.contact-input[type="text"][inputmode="numeric"]::-webkit-inner-spin-button,
-.contact-input[type="text"][inputmode="numeric"]::-webkit-outer-spin-button,
-.contact-input[type="number"]::-webkit-inner-spin-button,
-.contact-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+.captcha-glyph {
+  letter-spacing: 0.35rem;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
-textarea.contact-input {
-  @apply h-auto;
-}
-

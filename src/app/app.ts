@@ -6,7 +6,6 @@ import { SectionRegistryService } from './services/section-registry.service';
 import { smoothScrollToWithRetry } from './lib/utils';
 import { MagicLoaderComponent } from './components/ui/magic-loader/magic-loader';
 import { EnhancedHeaderComponent } from './components/enhanced-header/enhanced-header';
-import { ToastProviderComponent } from './components/ui/toast-provider/toast-provider';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
@@ -16,8 +15,7 @@ import { Subscription } from 'rxjs';
   imports: [
     RouterOutlet,
     MagicLoaderComponent,
-    EnhancedHeaderComponent,
-    ToastProviderComponent
+    EnhancedHeaderComponent
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',

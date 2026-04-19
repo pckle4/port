@@ -71,11 +71,15 @@ export class IconCloudComponent implements OnInit, AfterViewInit, OnDestroy {
       const container = this.cloudContainer.nativeElement;
       const width = container.clientWidth || 500;
       const height = container.clientHeight || 500;
+      const baseSize = Math.max(260, Math.min(width, height));
+      // Increase icon cloud footprint without making individual icons much larger.
+      const globeRadius = Math.max(88, Math.min(baseSize * 0.42, 170));
+      const iconSize = Math.max(14, Math.min(baseSize * 0.07, 20));
 
       this.scene = new THREE.Scene();
       
       this.camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
-      this.camera.position.z = 280; // Distance increased (zoomed out to fix clipping)
+      this.camera.position.z = Math.max(255, globeRadius * 2.75);
 
       this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
       this.renderer.setSize(width, height);
@@ -86,7 +90,7 @@ export class IconCloudComponent implements OnInit, AfterViewInit, OnDestroy {
       this.scene.add(this.globeGroup);
 
       // Distribute icons on a sphere using Fibonacci lattice
-      const radius = 90; // Reduced radius so icons don't clip out of bounds
+      const radius = globeRadius;
       const phi = Math.PI * (3 - Math.sqrt(5)); // Golden angle
       
       const positions: THREE.Vector3[] = [];
@@ -108,7 +112,7 @@ export class IconCloudComponent implements OnInit, AfterViewInit, OnDestroy {
           const material = new THREE.SpriteMaterial({ map: texture, transparent: true, depthWrite: false });
           const sprite = new THREE.Sprite(material);
           sprite.position.copy(pos);
-          sprite.scale.set(18, 18, 1); // Reduced icon size
+          sprite.scale.set(iconSize, iconSize, 1);
           this.globeGroup.add(sprite);
         });
       });

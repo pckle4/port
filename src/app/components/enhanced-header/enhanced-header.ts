@@ -234,20 +234,31 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
     this.activeSection.set(id);
     this.isMobileMenuOpen.set(false);
 
+    if (id === 'home') {
+      const currentPath = this.router.url.split('#')[0];
+      if (currentPath === '/') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        this.router.navigate(['/']);
+      }
+      return;
+    }
+
     if (link.startsWith('/#')) {
       const targetId = link.replace('/#', '');
-      const currentUrl = this.router.url.split('#')[0];
+      this.sectionRegistry.loadAllSections();
+      const currentPath = this.router.url.split('#')[0];
 
-      if (currentUrl === '/') {
-        this.sectionRegistry.loadAllSections();
+      if (currentPath === '/') {
         smoothScrollToWithRetry(targetId, { maxRetries: 25, retryInterval: 100 });
+        void this.router.navigate([], { fragment: targetId, replaceUrl: true });
       } else {
-        this.sectionRegistry.loadAllSections();
-        this.router.navigate(['/'], { fragment: targetId });
+        void this.router.navigate(['/'], { fragment: targetId });
       }
-    } else {
-      this.router.navigate([link]);
+      return;
     }
+
+    void this.router.navigate([link]);
   }
 
   openSearch(): void {

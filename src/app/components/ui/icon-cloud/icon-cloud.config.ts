@@ -1,1 +1,0 @@
-// Deprecated file - logic moved to icon-cloud.ts
