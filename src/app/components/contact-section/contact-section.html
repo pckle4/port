@@ -1,4 +1,4 @@
-<section class="relative overflow-hidden bg-background py-16 sm:py-20" style="scroll-margin-top: 96px;">
+<section class="relative overflow-hidden bg-background py-12 sm:py-16 md:py-20" style="scroll-margin-top: 96px;">
   <div class="pointer-events-none absolute inset-0">
     <div class="absolute -top-20 left-1/2 h-[24rem] w-[24rem] -translate-x-1/2 rounded-full bg-primary/10 blur-3xl"></div>
     <div class="absolute bottom-0 right-0 h-[18rem] w-[18rem] rounded-full bg-cyan-400/10 blur-3xl"></div>
@@ -19,51 +19,81 @@
         </p>
       </div>
 
-      <div class="grid grid-cols-1 items-start gap-7 lg:grid-cols-2 lg:gap-10">
-        <div class="transition-all duration-500 sm:duration-700 sm:delay-150" [class.translate-x-0]="isVisible()" [class.opacity-100]="isVisible()"
+      <div class="grid grid-cols-1 items-start gap-6 sm:gap-7 lg:grid-cols-2 lg:gap-10">
+        <div class="order-2 lg:order-1 transition-all duration-500 sm:duration-700 sm:delay-150" [class.translate-x-0]="isVisible()" [class.opacity-100]="isVisible()"
           [class.-translate-x-4]="!isVisible()" [class.sm:-translate-x-8]="!isVisible()" [class.opacity-0]="!isVisible()">
           <app-terminal-display [isVisible]="isVisible()"></app-terminal-display>
 
-          <div class="mt-5 rounded-2xl border border-primary/20 bg-gradient-to-br from-card/95 via-card/80 to-primary/10 p-4 sm:p-5 shadow-[0_12px_35px_-24px_hsl(var(--primary)/0.8)] backdrop-blur">
-            <div class="mb-3 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-primary">
-              <lucide-icon name="sparkles" class="h-3.5 w-3.5"></lucide-icon>
-              Engagement Snapshot
-            </div>
+          <div class="mt-5 relative p-[1px] rounded-2xl overflow-hidden shadow-2xl group/block">
+            <div class="absolute inset-0 bg-gradient-to-br from-[#0c1120] to-[#04060c] z-0"></div>
+            <div class="relative z-10 p-5 sm:p-6 backdrop-blur-xl h-full flex flex-col">
+              
+              <!-- Hacker Header -->
+              <div class="flex items-center justify-between mb-4">
+                <div class="inline-flex items-center gap-2 rounded-md border border-primary/30 bg-primary/20 px-2.5 py-1 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-widest text-primary shadow-[0_0_15px_rgba(var(--primary)/0.15)]">
+                  <lucide-icon name="terminal-square" class="h-3.5 w-3.5"></lucide-icon>
+                  Engagement_Protocol
+                </div>
+                <div class="flex gap-1.5 opacity-40">
+                  <span class="w-2.5 h-2.5 rounded-full bg-red-400"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                </div>
+              </div>
 
-            <h3 class="text-sm font-semibold text-foreground sm:text-base">What happens after you message me</h3>
-            <div class="mt-3 grid grid-cols-3 gap-2 text-center">
-              <div class="rounded-lg border border-border/70 bg-background/65 px-2 py-2">
-                <p class="text-[10px] uppercase tracking-[0.08em] text-muted-foreground">Response</p>
-                <p class="mt-1 text-sm font-semibold text-foreground">&lt;24h</p>
+              <!-- Rotating Cards Grid -->
+              <div class="mt-1 grid grid-cols-3 gap-2.5 sm:gap-3 text-center">
+                <!-- Response -->
+                <div class="relative p-[1px] rounded-xl overflow-hidden group/card bg-black/40">
+                  <div class="absolute inset-[-100%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,hsl(var(--primary))_100%)] opacity-40 group-hover/card:opacity-100 transition-opacity duration-300"></div>
+                  <div class="relative h-full w-full rounded-[11px] bg-[#0a0f1d] border border-white/5 py-3.5 flex flex-col items-center justify-center transition-colors group-hover/card:bg-[#0c1223]">
+                    <lucide-icon name="zap" class="h-4 w-4 text-primary/80 mb-2"></lucide-icon>
+                    <p class="text-[8px] sm:text-[9px] font-mono tracking-widest text-zinc-500 uppercase">Response</p>
+                    <p class="mt-0.5 text-xs sm:text-sm font-bold font-mono text-zinc-200 tracking-wider">&lt;24H</p>
+                  </div>
+                </div>
+
+                <!-- Signal -->
+                <div class="relative p-[1px] rounded-xl overflow-hidden group/card bg-black/40">
+                  <div class="absolute inset-[-100%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,hsl(var(--accent))_100%)] opacity-40 group-hover/card:opacity-100 transition-opacity duration-300" style="animation-delay: -1.5s"></div>
+                  <div class="relative h-full w-full rounded-[11px] bg-[#0a0f1d] border border-white/5 py-3.5 flex flex-col items-center justify-center transition-colors group-hover/card:bg-[#0c1223]">
+                    <lucide-icon name="radio" class="h-4 w-4 text-accent/80 mb-2"></lucide-icon>
+                    <p class="text-[8px] sm:text-[9px] font-mono tracking-widest text-zinc-500 uppercase">Signal</p>
+                    <p class="mt-0.5 text-[10px] sm:text-xs font-bold font-mono text-zinc-200 tracking-wider">CLEAR</p>
+                  </div>
+                </div>
+
+                <!-- Security -->
+                <div class="relative p-[1px] rounded-xl overflow-hidden group/card bg-black/40">
+                  <div class="absolute inset-[-100%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,hsl(var(--light-coral))_100%)] opacity-40 group-hover/card:opacity-100 transition-opacity duration-300" style="animation-delay: -3s"></div>
+                  <div class="relative h-full w-full rounded-[11px] bg-[#0a0f1d] border border-white/5 py-3.5 flex flex-col items-center justify-center transition-colors group-hover/card:bg-[#0c1223]">
+                    <lucide-icon name="shield-check" class="h-4 w-4 text-[hsl(var(--light-coral))]/80 mb-2"></lucide-icon>
+                    <p class="text-[8px] sm:text-[9px] font-mono tracking-widest text-zinc-500 uppercase">Security</p>
+                    <p class="mt-0.5 text-[10px] sm:text-[11px] sm:text-xs font-bold font-mono text-zinc-200 tracking-wider">SECURE</p>
+                  </div>
+                </div>
               </div>
-              <div class="rounded-lg border border-border/70 bg-background/65 px-2 py-2">
-                <p class="text-[10px] uppercase tracking-[0.08em] text-muted-foreground">Signal</p>
-                <p class="mt-1 text-sm font-semibold text-foreground">Clear brief</p>
-              </div>
-              <div class="rounded-lg border border-border/70 bg-background/65 px-2 py-2">
-                <p class="text-[10px] uppercase tracking-[0.08em] text-muted-foreground">Security</p>
-                <p class="mt-1 text-sm font-semibold text-foreground">Captcha</p>
+
+              <!-- Terminal List -->
+              <div class="mt-5 space-y-2.5 font-mono text-[10px] sm:text-[11px] text-zinc-400">
+                <div class="flex items-start gap-2.5">
+                  <span class="text-primary font-bold opacity-80 mt-0.5">></span>
+                  <p class="leading-relaxed">Initial system response guaranteed within <span class="text-zinc-200 font-semibold">24 hours</span>.</p>
+                </div>
+                <div class="flex items-start gap-2.5">
+                  <span class="text-primary font-bold opacity-80 mt-0.5">></span>
+                  <p class="leading-relaxed">Incoming packets analyzed for clear scope &amp; outcomes.</p>
+                </div>
+                <div class="flex items-start gap-2.5">
+                  <span class="text-primary font-bold opacity-80 mt-0.5">></span>
+                  <p class="leading-relaxed">Transmission encrypted via strict <span class="text-[hsl(var(--light-coral))] font-semibold">anti-bot</span> verification.</p>
+                </div>
               </div>
             </div>
-
-            <ul class="mt-3 space-y-2.5 text-xs text-muted-foreground sm:text-sm">
-              <li class="flex items-start gap-2">
-                <lucide-icon name="clock-3" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary"></lucide-icon>
-                Initial response usually within 24 hours.
-              </li>
-              <li class="flex items-start gap-2">
-                <lucide-icon name="target" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary"></lucide-icon>
-                I review scope, expected outcomes, and delivery timelines before replying.
-              </li>
-              <li class="flex items-start gap-2">
-                <lucide-icon name="shield-check" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary"></lucide-icon>
-                Your submission is validated and protected with anti-spam verification.
-              </li>
-            </ul>
           </div>
         </div>
 
-        <div class="transition-all duration-500 sm:duration-700 sm:delay-300" [class.translate-x-0]="isVisible()" [class.opacity-100]="isVisible()"
+        <div class="order-1 lg:order-2 transition-all duration-500 sm:duration-700 sm:delay-300" [class.translate-x-0]="isVisible()" [class.opacity-100]="isVisible()"
           [class.translate-x-4]="!isVisible()" [class.sm:translate-x-8]="!isVisible()" [class.opacity-0]="!isVisible()">
           <div class="overflow-hidden rounded-2xl border border-border/70 bg-card/70 shadow-xl backdrop-blur-xl">
             <div class="border-b border-border/60 bg-gradient-to-r from-primary/10 via-transparent to-cyan-500/10 px-5 py-4 sm:px-6">

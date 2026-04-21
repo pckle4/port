@@ -4,7 +4,6 @@ import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { ThemeService } from './services/theme.service';
 import { SectionRegistryService } from './services/section-registry.service';
 import { smoothScrollToWithRetry } from './lib/utils';
-import { MagicLoaderComponent } from './components/ui/magic-loader/magic-loader';
 import { EnhancedHeaderComponent } from './components/enhanced-header/enhanced-header';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -14,7 +13,6 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [
     RouterOutlet,
-    MagicLoaderComponent,
     EnhancedHeaderComponent
   ],
   templateUrl: './app.html',
@@ -23,8 +21,6 @@ import { Subscription } from 'rxjs';
 })
 export class App implements OnInit, OnDestroy {
   protected readonly title = signal('my-app');
-
-  isLoading = signal(true);
 
   private themeService = inject(ThemeService);
   private sectionRegistry = inject(SectionRegistryService);
@@ -56,10 +52,6 @@ export class App implements OnInit, OnDestroy {
   private scrollToFragment(fragment: string) {
     this.sectionRegistry.loadAllSections();
     smoothScrollToWithRetry(fragment, { maxRetries: 30, retryInterval: 100 });
-  }
-
-  onMagicLoaderComplete() {
-    this.isLoading.set(false);
   }
 
   ngOnDestroy() {

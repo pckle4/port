@@ -14,7 +14,7 @@
   <div class="container mx-auto text-center max-w-5xl relative z-10">
 
     <!-- Open to Work Badge -->
-    <div class="mb-6 sm:mb-8 -mt-2 md:mt-4 flex justify-center animate-slide-up relative z-20">
+    <div class="mb-10 sm:mb-12 md:mb-6 lg:mb-4 -mt-4 md:mt-2 flex justify-center animate-slide-up relative z-20">
       <div
         class="group relative inline-flex overflow-hidden rounded-full p-[2px] transition-all duration-500 hover:scale-105 hover:shadow-[0_0_2rem_-0.5rem_rgba(217,140,115,0.45)]">
         <span
@@ -31,14 +31,14 @@
     </div>
 
     <!-- Greeting -->
-    <div class="mb-2 sm:mb-3 flex items-center justify-center space-x-2 text-muted-foreground animate-slide-up"
+    <div class="mb-4 sm:mb-5 md:mb-3 flex items-center justify-center space-x-2 text-muted-foreground animate-slide-up"
       style="animation-delay: 100ms">
-      <span class="text-base sm:text-lg font-light tracking-wide">👋 Hi there, I'm</span>
+      <span class="text-lg sm:text-xl font-medium tracking-wide">👋 Hi there, I'm</span>
     </div>
 
     <!-- Name -->
     <h1
-      class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-4 sm:mb-5 tracking-tight relative inline-block animate-slide-up select-none pointer-events-none"
+      class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[6rem] font-black mb-6 sm:mb-8 md:mb-4 lg:mb-3 tracking-tight relative inline-block animate-slide-up select-none pointer-events-none leading-none"
       style="animation-delay: 200ms">
       <span class="animate-gradient-text hero-name-gradient">Ansh Shah</span>
       <lucide-icon name="sparkles"
@@ -47,30 +47,30 @@
 
     <!-- Dynamic Headline -->
     <div
-      class="h-12 sm:h-16 md:h-20 lg:h-24 flex items-center justify-center mb-4 sm:mb-5 text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-900 dark:text-white animate-slide-up select-none pointer-events-none"
+      class="h-16 sm:h-20 md:h-24 lg:h-28 flex items-center justify-center mb-8 sm:mb-10 md:mb-6 lg:mb-5 text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-900 dark:text-white animate-slide-up select-none pointer-events-none"
       style="animation-delay: 300ms">
       <app-animated-headline [words]="dynamicWords"></app-animated-headline>
     </div>
 
     <!-- Description -->
-    <p class="mb-6 sm:mb-8 text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed animate-slide-up text-balance"
+    <p class="mb-10 sm:mb-12 md:mb-8 lg:mb-6 text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed animate-slide-up text-balance"
       style="animation-delay: 400ms">
-      Building <span class="text-primary dark:text-primary font-semibold">digital masterpieces 🎨</span> that
+      Building <span class="text-primary dark:text-primary font-bold">digital masterpieces 🎨</span> that
       seamlessly blend
-      <span class="inline-block relative font-medium text-foreground mx-1">
+      <span class="inline-block relative font-bold text-foreground px-1 mx-1 z-10 group cursor-default">
         complex logic 🧠
-        <span class="absolute bottom-0.5 sm:bottom-1 left-0 w-full h-[2px] sm:h-[3px] bg-gradient-to-r from-primary/45 via-accent/35 to-[hsl(var(--light-bronze))]/45 -z-10 rounded-full"></span>
+        <span class="absolute bottom-0 sm:bottom-1 left-0 w-full h-[40%] bg-gradient-to-r from-primary/30 via-accent/20 to-[hsl(var(--light-bronze))]/30 -z-10 rounded-sm group-hover:h-full group-hover:opacity-60 transition-all duration-300"></span>
       </span>
       with
-      <span class="inline-block relative font-medium text-foreground mx-1">
+      <span class="inline-block relative font-bold text-foreground px-1 mx-1 z-10 group cursor-default">
         elegant aesthetics ✨
-        <span class="absolute bottom-0.5 sm:bottom-1 left-0 w-full h-[2px] sm:h-[3px] bg-gradient-to-r from-[hsl(var(--light-coral))]/40 via-accent/35 to-[hsl(var(--dusty-lavender))]/40 -z-10 rounded-full"></span>
+        <span class="absolute bottom-0 sm:bottom-1 left-0 w-full h-[40%] bg-gradient-to-r from-[hsl(var(--light-coral))]/30 via-accent/20 to-[hsl(var(--dusty-lavender))]/30 -z-10 rounded-sm group-hover:h-full group-hover:opacity-60 transition-all duration-300"></span>
       </span>.
     </p>
 
     <!-- CTA Buttons -->
     <div
-      class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center mb-8 sm:mb-10 px-4 sm:px-0 animate-slide-up safe-area-inset"
+      class="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center mb-10 sm:mb-12 md:mb-8 lg:mb-6 px-4 sm:px-0 animate-slide-up safe-area-inset"
       style="animation-delay: 500ms">
 
       <!-- Primary CTA -->

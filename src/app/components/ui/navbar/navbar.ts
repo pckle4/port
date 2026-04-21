@@ -21,7 +21,7 @@ export class NavbarComponent {
     return cn(
       'fixed top-4 left-0 right-0 z-50 mx-auto transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]',
       'will-change-[transform,opacity]',
-      condensed ? 'w-[92%] md:w-fit' : 'w-[92%] md:w-[85%] max-w-4xl',
+      condensed ? 'w-[92%] md:w-fit' : 'w-[92%] md:w-[75%] max-w-3xl',
       visible
         ? 'translate-y-0 opacity-100'
         : '-translate-y-[calc(100%+1rem)] opacity-0 pointer-events-none'
@@ -34,8 +34,8 @@ export class NavbarComponent {
     return cn(
       'inner rounded-full border transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] px-6 sm:px-8',
       condensed
-        ? 'bg-white/92 dark:bg-[#060A16]/88 backdrop-blur-xl shadow-xl shadow-black/5 dark:shadow-black/35 border-primary/20 dark:border-white/20 py-2'
-        : 'bg-white/72 dark:bg-[#060A16]/78 backdrop-blur-md border-white/40 dark:border-white/10 shadow-sm py-2.5'
+        ? 'bg-white/95 dark:bg-[#060A16]/95 backdrop-blur-xl shadow-xl shadow-black/5 dark:shadow-black/35 border-primary/20 dark:border-white/20 py-2'
+        : 'bg-white/90 dark:bg-[#060A16]/90 backdrop-blur-md border-white/40 dark:border-white/10 shadow-sm py-2.5'
     );
   });
 }

@@ -4,42 +4,22 @@
     <app-hero-section></app-hero-section>
 
     <div id="about" style="scroll-margin-top: 96px">
-      @defer (when !isLoading() || sectionRegistry.forceLoadAllSections()) {
-        <app-about-section></app-about-section>
-      } @placeholder {
-        <app-section-skeleton variant="text-block"></app-section-skeleton>
-      }
+      <app-about-section></app-about-section>
     </div>
 
     <div id="skills" style="scroll-margin-top: 96px">
-      @defer (when !isLoading() || sectionRegistry.forceLoadAllSections()) {
-        <app-skills-section></app-skills-section>
-      } @placeholder {
-        <app-section-skeleton variant="card-grid"></app-section-skeleton>
-      }
+      <app-skills-section></app-skills-section>
     </div>
 
     <div id="projects" style="scroll-margin-top: 96px">
-      @defer (when !isLoading() || sectionRegistry.forceLoadAllSections()) {
-        <app-projects-section></app-projects-section>
-      } @placeholder {
-        <app-section-skeleton variant="card-grid"></app-section-skeleton>
-      }
+      <app-projects-section></app-projects-section>
     </div>
 
     <div id="contact" style="scroll-margin-top: 96px">
-      @defer (when !isLoading() || sectionRegistry.forceLoadAllSections()) {
-        <app-contact-section></app-contact-section>
-      } @placeholder {
-        <app-section-skeleton variant="form"></app-section-skeleton>
-      }
+      <app-contact-section></app-contact-section>
     </div>
 
-    @defer (when !isLoading() || sectionRegistry.forceLoadAllSections()) {
-      <app-enhanced-footer></app-enhanced-footer>
-    } @placeholder {
-      <div class="h-24"></div>
-    }
+    <app-enhanced-footer></app-enhanced-footer>
   </main>
 </div>
 
