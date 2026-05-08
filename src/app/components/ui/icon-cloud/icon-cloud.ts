@@ -38,7 +38,7 @@ export class IconCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   private icons = [
     'typescript', 'javascript', 'react', 'nodedotjs', 'postgresql', 
     'mongodb', 'tailwindcss', 'docker', 'git', 'github', 
-    'python', 'html5', 'css3', 'nextdotjs', 'vercel', 
+    'python', 'html5', 'css', 'nextdotjs', 'vercel', 
     'vite', 'figma', 'apachekafka', 'nginx', 'graphql', 
     'redis', 'dotnet', 'kubernetes', 'linux', 'android'
   ];

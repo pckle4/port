@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, OnDestroy, ElementRef, PLATFORM_ID, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, PLATFORM_ID, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
@@ -40,7 +40,7 @@ interface ResumeLeadership {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResumeComponent implements OnInit, OnDestroy {
-  isVisible = false;
+  isVisible = true;
   downloadState: 'idle' | 'downloading' | 'done' = 'idle';
 
   resumeData = {
@@ -152,7 +152,6 @@ export class ResumeComponent implements OnInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private el = inject(ElementRef);
   private cdr = inject(ChangeDetectorRef);
-  private observer?: IntersectionObserver;
 
   splitSkills(str: string): string[] {
     return str.split(',').map(s => s.trim());
@@ -164,17 +163,7 @@ export class ResumeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
-      this.observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            this.isVisible = true;
-            this.cdr.markForCheck();
-            this.observer?.disconnect();
-          }
-        },
-        { threshold: 0.1 }
-      );
-      this.observer.observe(this.el.nativeElement);
+      this.cdr.markForCheck();
     }
   }
 
@@ -201,6 +190,5 @@ export class ResumeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.observer?.disconnect();
   }
 }

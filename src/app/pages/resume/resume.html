@@ -49,21 +49,21 @@
 
           <div class="flex flex-wrap justify-center gap-4 text-sm sm:text-base mt-6">
             <a [href]="'mailto:' + resumeData.personalInfo.email"
-              class="group flex items-center text-muted-foreground hover:text-foreground transition-all px-4 py-2 rounded-full bg-white/60 dark:bg-secondary/30 border border-slate-200/80 dark:border-border/50 hover:bg-white dark:hover:bg-secondary/50 hover:scale-105 hover:shadow-lg hover:shadow-primary/15">
+              class="group flex items-center text-muted-foreground hover:text-foreground transition-all px-4 py-2 rounded-full bg-white/60 dark:bg-[hsl(var(--card))] border border-slate-200/80 dark:border-border/50 hover:bg-white dark:hover:bg-secondary/50 hover:scale-105 hover:shadow-lg hover:shadow-primary/15">
               <div class="p-1.5 bg-primary/10 rounded-full mr-2 group-hover:bg-primary/20 transition-colors">
                 <lucide-icon name="mail" class="h-4 w-4 text-primary"></lucide-icon>
               </div>
               {{ resumeData.personalInfo.email }}
             </a>
             <a [href]="'https://' + resumeData.personalInfo.linkedin" target="_blank" rel="noopener noreferrer"
-              class="group flex items-center text-muted-foreground hover:text-[hsl(var(--dusty-lavender))] transition-all px-4 py-2 rounded-full bg-white/60 dark:bg-secondary/30 border border-border/70 dark:border-border/50 hover:bg-white dark:hover:bg-secondary/50 hover:scale-105 hover:shadow-lg hover:shadow-[hsl(var(--dusty-lavender))]/15">
+              class="group flex items-center text-muted-foreground hover:text-[hsl(var(--dusty-lavender))] transition-all px-4 py-2 rounded-full bg-white/60 dark:bg-[hsl(var(--card))] border border-border/70 dark:border-border/50 hover:bg-white dark:hover:bg-secondary/50 hover:scale-105 hover:shadow-lg hover:shadow-[hsl(var(--dusty-lavender))]/15">
               <div class="p-1.5 bg-[hsl(var(--dusty-lavender))]/10 rounded-full mr-2 group-hover:bg-[hsl(var(--dusty-lavender))]/20 transition-colors">
                 <lucide-icon name="linkedin" class="h-4 w-4 text-[hsl(var(--dusty-lavender))]"></lucide-icon>
               </div>
               LinkedIn
             </a>
             <a [href]="'https://' + resumeData.personalInfo.github" target="_blank" rel="noopener noreferrer"
-              class="group flex items-center text-muted-foreground hover:text-foreground transition-all px-4 py-2 rounded-full bg-white/60 dark:bg-secondary/30 border border-border/70 dark:border-border/50 hover:bg-white dark:hover:bg-secondary/50 hover:scale-105 hover:shadow-lg hover:shadow-gray-500/10">
+              class="group flex items-center text-muted-foreground hover:text-foreground transition-all px-4 py-2 rounded-full bg-white/60 dark:bg-[hsl(var(--card))] border border-border/70 dark:border-border/50 hover:bg-white dark:hover:bg-secondary/50 hover:scale-105 hover:shadow-lg hover:shadow-gray-500/10">
               <div class="p-1.5 bg-gray-500/10 rounded-full mr-2 group-hover:bg-gray-500/20 transition-colors">
                 <lucide-icon name="github" class="h-4 w-4 text-foreground"></lucide-icon>
               </div>
@@ -136,7 +136,7 @@
               <div class="p-2.5 bg-primary/15 dark:bg-primary/20 rounded-xl shadow-sm">
                 <lucide-icon name="briefcase" class="h-5 w-5 text-primary dark:text-primary"></lucide-icon>
               </div>
-              <h3 class="text-xl font-bold text-slate-800 dark:text-white">Experience 👔</h3>
+              <h3 class="text-xl font-bold text-foreground dark:text-white">Experience 👔</h3>
             </div>
 
             <div class="grid gap-4">
@@ -207,7 +207,7 @@
                   </div>
                   <div class="flex flex-wrap gap-2">
                     @for (skill of splitSkills(resumeData.technicalSkills.languages); track skill) {
-                      <span class="px-2.5 py-1 rounded-full text-xs bg-accent/10 border border-accent/20 text-accent dark:text-accent">
+                      <span class="px-2.5 py-1 rounded-full text-xs bg-warning-amber/10 dark:bg-warning-amber/10 border border-warning-amber/20 dark:border-warning-amber/20 text-[#A66C00] dark:text-[#FFB833]">
                         {{ skill }}
                       </span>
                     }
@@ -261,7 +261,7 @@
               <div class="p-2.5 bg-accent/15 dark:bg-accent/20 rounded-xl shadow-sm">
                 <lucide-icon name="rocket" class="h-5 w-5 text-accent dark:text-accent"></lucide-icon>
               </div>
-              <h3 class="text-xl font-bold text-slate-800 dark:text-white">Projects 🚀</h3>
+              <h3 class="text-xl font-bold text-foreground dark:text-white">Projects 🚀</h3>
             </div>
 
             <div class="grid gap-4">
@@ -270,14 +270,14 @@
                   <app-card-content class="p-5">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
                       <div class="flex items-center gap-3 flex-wrap">
-                        <div class="p-2 rounded-lg bg-secondary group-hover:bg-accent/10 group-hover:text-accent transition-colors">
+                        <div class="p-2 rounded-lg bg-secondary group-hover:bg-primary/10 dark:group-hover:bg-accent/10 group-hover:text-primary dark:group-hover:text-accent transition-colors">
                           <lucide-icon [name]="project.icon" class="h-5 w-5"></lucide-icon>
                         </div>
                         <div>
-                          <h4 class="font-bold text-lg text-foreground group-hover:text-accent dark:group-hover:text-accent transition-colors flex items-center gap-2">
+                          <h4 class="font-bold text-lg text-foreground group-hover:text-primary dark:group-hover:text-accent transition-colors flex items-center gap-2">
                             {{ project.title }}
                             <a [href]="project.link" target="_blank" rel="noopener noreferrer"
-                              class="inline-flex items-center justify-center p-1 rounded-full text-muted-foreground hover:text-accent hover:bg-accent/10 transition-colors"
+                              class="inline-flex items-center justify-center p-1 rounded-full text-muted-foreground hover:text-primary dark:hover:text-accent hover:bg-primary/10 dark:hover:bg-accent/10 transition-colors"
                               title="View Live">
                               <lucide-icon name="external-link" class="h-3.5 w-3.5"></lucide-icon>
                             </a>

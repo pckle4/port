@@ -16,17 +16,12 @@
     <!-- Open to Work Badge -->
     <div class="mb-10 sm:mb-12 md:mb-6 lg:mb-4 -mt-4 md:mt-2 flex justify-center animate-slide-up relative z-20">
       <div
-        class="group relative inline-flex overflow-hidden rounded-full p-[2px] transition-all duration-500 hover:scale-105 hover:shadow-[0_0_2rem_-0.5rem_rgba(217,140,115,0.45)]">
-        <span
-          class="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] sm:animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#1676F3_0%,#0C4CC7_20%,#5F5CE0_38%,#EB3357_56%,#FCA818_74%,#13AEDD_90%,#1676F3_100%)]"></span>
-        <div
-          class="relative inline-flex h-full w-full cursor-default items-center justify-center rounded-full px-4 sm:px-5 py-1.5 sm:py-2 text-xs sm:text-sm font-medium bg-white dark:bg-[#0C1120] backdrop-blur-3xl">
-          <lucide-icon name="zap"
-            class="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 text-accent dark:text-accent fill-accent dark:fill-accent"></lucide-icon>
-          <span class="text-foreground dark:text-foreground font-semibold">Open to Work</span>
-          <lucide-icon name="chevron-right"
-            class="w-3.5 h-3.5 sm:w-4 sm:h-4 ml-1 sm:ml-1.5 text-primary dark:text-primary group-hover:translate-x-0.5 transition-transform"></lucide-icon>
-        </div>
+        class="group relative inline-flex overflow-hidden rounded-sketchy-1 px-4 sm:px-5 py-1.5 sm:py-2 transition-all duration-300 hover:-translate-y-1 hover:-rotate-2 border-2 border-warning-amber bg-[#FBF7F0] dark:bg-[hsl(var(--card))] shadow-stamp dark:shadow-glow-charcoal cursor-default items-center justify-center gap-2">
+        <lucide-icon name="zap"
+          class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-warning-amber fill-warning-amber animate-pulse"></lucide-icon>
+        <span class="text-foreground font-handwriting text-lg font-bold">Open to Work</span>
+        <lucide-icon name="chevron-right"
+          class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground group-hover:translate-x-1 transition-transform"></lucide-icon>
       </div>
     </div>
 
@@ -38,16 +33,16 @@
 
     <!-- Name -->
     <h1
-      class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[6rem] font-black mb-6 sm:mb-8 md:mb-4 lg:mb-3 tracking-tight relative inline-block animate-slide-up select-none pointer-events-none leading-none"
+      class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[6rem] font-display font-black mb-6 sm:mb-8 md:mb-4 lg:mb-3 tracking-tight relative inline-block animate-slide-up select-none pointer-events-none leading-none"
       style="animation-delay: 200ms">
-      <span class="animate-gradient-text hero-name-gradient">Ansh Shah</span>
-      <lucide-icon name="sparkles"
-        class="absolute -top-2 sm:-top-3 -right-4 sm:-right-6 w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-accent hidden sm:block animate-pulse"></lucide-icon>
+      <span class="text-foreground">Ansh Shah</span>
+      <lucide-icon name="pencil"
+        class="absolute -top-2 sm:-top-3 -right-4 sm:-right-6 w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-warning-amber hidden sm:block animate-pulse"></lucide-icon>
     </h1>
 
     <!-- Dynamic Headline -->
     <div
-      class="h-16 sm:h-20 md:h-24 lg:h-28 flex items-center justify-center mb-8 sm:mb-10 md:mb-6 lg:mb-5 text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-900 dark:text-white animate-slide-up select-none pointer-events-none"
+      class="h-16 sm:h-20 md:h-24 lg:h-28 flex items-center justify-center mb-8 sm:mb-10 md:mb-6 lg:mb-5 text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-display font-bold text-foreground animate-slide-up select-none pointer-events-none"
       style="animation-delay: 300ms">
       <app-animated-headline [words]="dynamicWords"></app-animated-headline>
     </div>
@@ -55,16 +50,19 @@
     <!-- Description -->
     <p class="mb-10 sm:mb-12 md:mb-8 lg:mb-6 text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed animate-slide-up text-balance"
       style="animation-delay: 400ms">
-      Building <span class="text-primary dark:text-primary font-bold">digital masterpieces 🎨</span> that
+      Building <span class="inline-block relative font-bold text-foreground px-1 z-10 group cursor-default">
+        digital masterpieces 🎨
+        <span class="absolute inset-0 w-full h-full bg-destructive/30 dark:bg-destructive/40 -z-10 rounded-sm group-hover:opacity-80 transition-all duration-300"></span>
+      </span> that
       seamlessly blend
       <span class="inline-block relative font-bold text-foreground px-1 mx-1 z-10 group cursor-default">
         complex logic 🧠
-        <span class="absolute bottom-0 sm:bottom-1 left-0 w-full h-[40%] bg-gradient-to-r from-primary/30 via-accent/20 to-[hsl(var(--light-bronze))]/30 -z-10 rounded-sm group-hover:h-full group-hover:opacity-60 transition-all duration-300"></span>
+        <span class="absolute inset-0 w-full h-full bg-warning-amber/30 dark:bg-warning-amber/40 -z-10 rounded-sm group-hover:opacity-80 transition-all duration-300"></span>
       </span>
       with
       <span class="inline-block relative font-bold text-foreground px-1 mx-1 z-10 group cursor-default">
         elegant aesthetics ✨
-        <span class="absolute bottom-0 sm:bottom-1 left-0 w-full h-[40%] bg-gradient-to-r from-[hsl(var(--light-coral))]/30 via-accent/20 to-[hsl(var(--dusty-lavender))]/30 -z-10 rounded-sm group-hover:h-full group-hover:opacity-60 transition-all duration-300"></span>
+        <span class="absolute inset-0 w-full h-full bg-action-blue/30 dark:bg-primary/40 -z-10 rounded-sm group-hover:opacity-80 transition-all duration-300"></span>
       </span>.
     </p>
 
@@ -75,19 +73,16 @@
 
       <!-- Primary CTA -->
       <button (click)="scrollToProjects()"
-        class="group btn-primary-action w-full sm:w-auto min-w-[160px] sm:min-w-[180px] h-11 sm:h-12 text-sm sm:text-base touch-feedback">
-        <lucide-icon name="code" class="mr-2 h-4 w-4 relative z-10"></lucide-icon>
-        <span class="relative z-10">View Work</span>
-        <lucide-icon name="chevron-right"
-          class="ml-1 h-4 w-4 btn-feedback-icon relative z-10"></lucide-icon>
+        class="group font-handwriting text-xl font-medium bg-warning-amber text-[#121826] dark:text-[#0C0C0E] rounded-sketchy-2 shadow-stamp dark:shadow-glow-accent hover:shadow-stamp-hover dark:hover:shadow-glow-accent hover:-rotate-1 transition-all w-full sm:w-auto min-w-[160px] sm:min-w-[180px] h-12 sm:h-14 flex items-center justify-center touch-feedback z-10 border-2 border-transparent">
+        <lucide-icon name="pen-tool" class="mr-2 h-5 w-5 relative z-10"></lucide-icon>
+        <span class="relative z-10 pt-1">View Work</span>
       </button>
 
       <!-- Secondary CTA -->
       <a routerLink="/resume"
-        class="group btn-outline-action w-full sm:w-auto min-w-[160px] sm:min-w-[180px] h-11 sm:h-12 text-sm sm:text-base touch-feedback">
-        <lucide-icon name="download" class="mr-2 h-4 w-4 relative z-10"></lucide-icon>
+        class="group font-sans border-2 border-action-blue/50 dark:border-primary/50 text-action-blue dark:text-primary bg-transparent border-dashed rounded-sketchy-3 hover:bg-action-blue hover:text-white dark:hover:bg-primary/10 dark:hover:text-primary transition-all w-full sm:w-auto min-w-[160px] sm:min-w-[180px] h-12 sm:h-14 flex items-center justify-center text-sm sm:text-base touch-feedback z-10">
+        <lucide-icon name="file-text" class="mr-2 h-4 w-4 relative z-10"></lucide-icon>
         <span class="relative z-10">Resume</span>
-        <lucide-icon name="arrow-up-right" class="ml-1 h-4 w-4 btn-feedback-icon relative z-10"></lucide-icon>
       </a>
     </div>
 

@@ -86,6 +86,10 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
     return this.state.isCondensed() && !this.alwaysVisibleIds.has(id);
   }
 
+  isActive(id: string): boolean {
+    return this.activeSection() === id;
+  }
+
   getNavItemClass(id: string): string {
     const hidden = this.state.isCondensed() && !this.alwaysVisibleIds.has(id);
     const active = this.activeSection() === id;
@@ -96,15 +100,15 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
         ? 'w-0 opacity-0 px-0 m-0 pointer-events-none overflow-hidden'
         : 'w-auto opacity-100 px-3 py-1.5',
       !hidden && active
-        ? 'text-foreground font-semibold'
-        : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'
+        ? 'text-foreground font-semibold dark:text-primary'
+        : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground dark:text-[#9E9EA6]'
     );
   }
 
   getNavItemActiveClass(id: string): string {
     const hidden = this.state.isCondensed() && !this.alwaysVisibleIds.has(id);
     if (this.activeSection() !== id || hidden) return '';
-    return 'absolute inset-0 rounded-full -z-10 shadow-sm border border-primary/20 bg-primary/15 animate-nav-pill-in';
+    return 'absolute inset-0 rounded-full -z-10 shadow-sm border border-primary/20 bg-primary/15 dark:bg-primary/12 animate-nav-pill-in';
   }
 
   getMobileItemClass(id: string): string {

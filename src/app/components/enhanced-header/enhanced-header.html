@@ -1,10 +1,10 @@
 <app-navbar>
   <app-nav-body>
     <app-navbar-logo>
-      <a routerLink="/" class="group relative flex items-center gap-2 font-bold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500/60 rounded-lg px-1 -mx-1" aria-label="Go to homepage">
-        <span class="text-xl font-extrabold tracking-tight text-black dark:text-white select-none transition-all duration-300 group-hover:scale-105"
-          style="font-family: 'JetBrains Mono', monospace;">
-          NOWHILE<span class="text-primary animate-pulse">_</span>
+      <a routerLink="/" class="group relative flex items-center gap-2 font-bold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500/60 rounded-lg px-2 py-1 -mx-1" aria-label="Go to homepage">
+        <lucide-icon name="pen-tool" class="w-5 h-5 text-action-blue -rotate-12 group-hover:rotate-12 transition-transform"></lucide-icon>
+        <span class="text-2xl font-handwriting font-bold tracking-tight text-foreground select-none transition-all duration-300 group-hover:scale-105">
+          Ansh<span class="text-warning-amber">.</span>
         </span>
       </a>
     </app-navbar-logo>
@@ -18,9 +18,14 @@
           [tabIndex]="isNavItemHidden(item.id) ? -1 : 0"
           [attr.aria-hidden]="isNavItemHidden(item.id) ? true : null"
         >
-          <span [class]="getNavItemActiveClass(item.id)"></span>
+          <!-- Using a sketchy underline via CSS/SVG class for active state -->
+          @if (isActive(item.id)) {
+            <svg class="absolute -bottom-1 left-0 w-full h-2 text-warning-amber/70" viewBox="0 0 100 12" preserveAspectRatio="none">
+              <path d="M0,8 C30,0 70,12 100,5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+          }
           <span class="flex items-center gap-2 relative z-10">
-            <lucide-icon [name]="item.icon" class="h-4 w-4" [class.text-primary]="item.id === 'resume' && state.isCondensed()"></lucide-icon>
+            <lucide-icon [name]="item.icon" class="h-4 w-4" [class.text-action-blue]="isActive(item.id)"></lucide-icon>
             {{ item.name }}
           </span>
         </button>
@@ -30,11 +35,11 @@
     <div class="flex items-center gap-4">
       <button
         (click)="openSearch()"
-        class="p-2 hover:bg-secondary/70 dark:hover:bg-secondary/60 rounded-lg transition-all duration-300 group hover:scale-110"
+        class="p-2 hover:bg-warning-amber/10 rounded-sketchy-2 border border-transparent hover:border-warning-amber/30 transition-all duration-300 group hover:rotate-2"
         title="Search (Ctrl+K)"
         aria-label="Open search (Ctrl+K)"
       >
-        <lucide-icon name="search" class="h-5 w-5 text-muted-foreground dark:text-muted-foreground group-hover:text-primary dark:group-hover:text-primary transition-all duration-300"></lucide-icon>
+        <lucide-icon name="search" class="h-5 w-5 text-muted-foreground group-hover:text-action-blue transition-all duration-300"></lucide-icon>
       </button>
       <app-theme-toggle></app-theme-toggle>
     </div>
@@ -46,15 +51,15 @@
         <app-mobile-nav-toggle [isOpen]="isMobileMenuOpen()" (toggle)="toggleMobileMenu()"></app-mobile-nav-toggle>
       </div>
       <app-navbar-logo class="flex-1 basis-0 min-w-0 flex justify-center z-10 relative">
-        <a routerLink="/" class="flex items-center font-bold group max-w-full" (click)="closeMobileMenu()">
-          <span class="text-[0.95rem] sm:text-lg font-extrabold tracking-tight text-black dark:text-white select-none whitespace-nowrap truncate"
-            style="font-family: 'JetBrains Mono', monospace;">
-            NOWHILE<span class="text-primary animate-pulse">_</span>
+        <a routerLink="/" class="flex items-center gap-2 font-bold group max-w-full" (click)="closeMobileMenu()">
+          <lucide-icon name="pen-tool" class="w-4 h-4 text-action-blue"></lucide-icon>
+          <span class="text-xl font-handwriting font-bold tracking-tight text-foreground select-none whitespace-nowrap truncate">
+            Ansh<span class="text-warning-amber">.</span>
           </span>
         </a>
       </app-navbar-logo>
       <div class="flex-1 basis-0 min-w-0 flex items-center justify-end gap-0.5 sm:gap-2 z-10 relative">
-        <button (click)="openSearch()" class="p-1.5 sm:p-2" aria-label="Open search">
+        <button (click)="openSearch()" class="p-1.5 sm:p-2 hover:bg-warning-amber/10 rounded-sketchy-1" aria-label="Open search">
           <lucide-icon name="search" class="h-4 w-4 sm:h-5 sm:w-5"></lucide-icon>
         </button>
         <app-theme-toggle></app-theme-toggle>
@@ -68,8 +73,13 @@
           [class]="getMobileItemClass(item.id)"
           (click)="handleNavClick(item.link, item.id)"
         >
-          <lucide-icon [name]="item.icon" class="h-4 w-4"></lucide-icon>
-          <span class="text-lg">{{ item.name }}</span>
+          <div class="flex items-center gap-3">
+            <lucide-icon [name]="item.icon" class="h-4 w-4" [class.text-action-blue]="isActive(item.id)"></lucide-icon>
+            <span class="text-lg font-medium" [class.font-bold]="isActive(item.id)">{{ item.name }}</span>
+          </div>
+          @if (isActive(item.id)) {
+            <lucide-icon name="pencil" class="w-4 h-4 text-warning-amber animate-pulse"></lucide-icon>
+          }
         </button>
       }
     </app-mobile-nav-menu>

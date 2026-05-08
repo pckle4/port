@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, inject, PLATFORM_ID, ChangeDetectionStrategy, ChangeDetectorRef, signal, NgZone } from '@angular/core';
+import { Component, OnInit, inject, PLATFORM_ID, ChangeDetectionStrategy, ChangeDetectorRef, signal, NgZone } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 
@@ -66,17 +66,17 @@ export class EnhancedSystemInfoComponent implements OnInit {
 
     this.ngZone.runOutsideAngular(async () => {
       try {
-        const response = await fetch('https://ipwho.is/');
+        const response = await fetch('https://ipapi.co/json/');
         const data = await response.json();
 
         this.ngZone.run(() => {
-          if (data.success) {
+          if (data && data.ip && !data.error) {
             this.systemInfo.set({
               ip: data.ip,
-              isp: data.connection?.isp || data.connection?.org || 'Unknown ISP',
+              isp: data.org || data.asn || 'Protected ISP',
               region: data.region_code || 'UNK',
-              city: data.city || 'Unknown City',
-              country: data.country || 'Unknown Country',
+              city: data.city || 'Protected City',
+              country: data.country_name || 'Protected Location',
             });
           } else {
             this.fetchFallback();
@@ -86,15 +86,7 @@ export class EnhancedSystemInfoComponent implements OnInit {
         });
       } catch {
         this.ngZone.run(() => {
-          this.systemInfo.set({
-            ip: 'Connection Error',
-            isp: 'Unknown',
-            region: 'ERR',
-            city: 'Unknown',
-            country: 'Unknown',
-          });
-          this.isLoading.set(false);
-          this.cdr.markForCheck();
+          this.fetchFallback();
         });
       }
     });
@@ -105,20 +97,22 @@ export class EnhancedSystemInfoComponent implements OnInit {
       const fallback = await fetch('https://api.ipify.org?format=json');
       const fallbackData = await fallback.json();
       this.systemInfo.set({
-        ip: fallbackData.ip,
-        isp: 'Unknown ISP',
+        ip: fallbackData.ip || 'Protected IP',
+        isp: 'Protected ISP',
         region: 'UNK',
-        city: 'Unknown',
-        country: 'Unknown',
+        city: 'Protected Location',
+        country: 'Protected Network',
       });
     } catch {
       this.systemInfo.set({
-        ip: 'Connection Error',
-        isp: 'Unknown',
-        region: 'ERR',
-        city: 'Unknown',
-        country: 'Unknown',
+        ip: 'Network Protected',
+        isp: 'Private Network',
+        region: 'SEC',
+        city: 'Local',
+        country: 'Local',
       });
     }
+    this.isLoading.set(false);
+    this.cdr.markForCheck();
   }
 }

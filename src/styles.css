@@ -1,13 +1,109 @@
+@import '@fontsource/cascadia-code/400.css';
+@import '@fontsource/cascadia-code/600.css';
+@import '@fontsource/cascadia-code/700.css';
+
+/* Replace variable font with standard for simpler deployment or import variable if available */
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/700.css';
+@import '@fontsource/jetbrains-mono/800.css';
+
+@import '@fontsource/caveat/400.css';
+@import '@fontsource/caveat/500.css';
+@import '@fontsource/caveat/700.css';
+
+@import '@fontsource/vt323/400.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --background: 40 50% 96%; /* #FBF7F0 Warm Paper */
+    --foreground: 222 35% 11%; /* #121826 Deep Navy */
+
+    --card: 40 50% 96%;
+    --card-foreground: 222 35% 11%;
+
+    --popover: 40 50% 96%;
+    --popover-foreground: 222 35% 11%;
+
+    --primary: 214 91% 52%; /* #1676F3 Action Blue */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 38 96% 54%; /* #FBA818 Warning Amber */
+    --secondary-foreground: 222 35% 11%;
+
+    --muted: 38 41% 85%; /* #E8DCC8 Kraft Paper */
+    --muted-foreground: 240 6% 45%; /* #6B6B78 Pencil Graphite */
+
+    --accent: 47 100% 88%; /* #FFF3C4 Sticky Note Yellow */
+    --accent-foreground: 222 35% 11%;
+
+    --destructive: 330 71% 58%; /* #DF4994 Magenta Accent */
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 38 41% 85%;
+    --input: 38 41% 85%;
+    --ring: 214 91% 52%;
+    --dusk-blue: 214 91% 52%;
+    --dusty-lavender: 241 68% 62%;
+    --rosewood: 348 82% 56%;
+    --light-coral: 330 70% 58%;
+    --light-bronze: 194 84% 47%;
+    --spotlight-color: 214 91% 52%;
+    --spotlight-opacity: 0.06;
+    --noise-opacity: 0.03;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --noise-opacity: 0.05;
+    --background: 240 7% 8%; /* #0C0C0E */
+    --foreground: 240 6% 93%; /* #EDEDEF */
+
+    --card: 240 4% 9%; /* #161618 */
+    --card-foreground: 240 6% 93%; /* #EDEDEF */
+
+    --popover: 240 4% 9%;
+    --popover-foreground: 240 6% 93%;
+
+    --primary: 211 100% 65%; /* #4DA3FF */
+    --primary-foreground: 240 7% 8%; /* #0C0C0E */
+
+    --secondary: 39 100% 60%; /* #FFB833 */
+    --secondary-foreground: 240 7% 8%; /* #0C0C0E */
+
+    --muted: 240 5% 19%; /* #2E2E33 */
+    --muted-foreground: 240 4% 63%; /* #9E9EA6 */
+
+    --accent: 43 31% 18%; /* #3D3520 Sticky Note */
+    --accent-foreground: 240 6% 93%;
+
+    --destructive: 333 83% 66%; /* #F062A0 */
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 5% 19%; /* #2E2E33 */
+    --input: 240 5% 19%;
+    --ring: 211 100% 65%; /* #4DA3FF */
+    --dusk-blue: 211 100% 65%;
+    --dusty-lavender: 241 65% 70%;
+    --rosewood: 333 83% 66%;
+    --light-coral: 333 83% 66%;
+    --light-bronze: 39 100% 60%;
+    --spotlight-color: 211 100% 65%;
+    --spotlight-opacity: 0.1;
+  }
+
   html,
   body {
     width: 100%;
     max-width: 100%;
     overflow-x: clip;
+    background-color: theme('colors.warm-paper'); /* Hardcode fallback */
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
   }
 
   app-root,
@@ -22,6 +118,17 @@
     transition-property: background-color, color;
     transition-duration: 0.2s;
     transition-timing-function: ease;
+    background-image:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' style='opacity: var(--noise-opacity)'/%3E%3C/svg%3E"),
+      radial-gradient(circle at 50% 0%, hsl(var(--spotlight-color) / var(--spotlight-opacity)), transparent 70%);
+    background-repeat: repeat, no-repeat;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: 'Cascadia Code', 'Outfit', 'Inter', system-ui, sans-serif;
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior-y: none;
+    touch-action: manipulation;
   }
 
   html.theme-switching *,
@@ -30,6 +137,30 @@
     transition: none !important;
     animation: none !important;
   }
+
+  /* Smooth theme change animation */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.4s;
+  }
+
+  [data-theme="dark"]::view-transition-old(root) {
+    animation: fadeOut 0.3s ease;
+  }
+
+  [data-theme="dark"]::view-transition-new(root) {
+    animation: fadeIn 0.3s ease;
+  }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @layer utilities {
@@ -226,145 +357,3 @@
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  :root {
-    --background: 220 14% 97%; /* Pearl White */
-    --foreground: 222 35% 11%; /* Deep Navy Black */
-    --card: 220 18% 94%; /* Silver Pearl */
-    --card-foreground: 222 35% 11%;
-    --popover: 220 14% 97%;
-    --popover-foreground: 222 35% 11%;
-    --primary: 214 90% 52%; /* Electric Blue */
-    --primary-foreground: 0 0% 100%;
-    --secondary: 220 16% 89%; /* Light Cool Gray */
-    --secondary-foreground: 222 35% 11%;
-    --accent: 38 97% 54%; /* Vivid Amber Gold */
-    --accent-foreground: 222 35% 11%;
-    --muted: 220 14% 92%;
-    --muted-foreground: 220 12% 42%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 220 16% 80%;
-    --input: 220 16% 80%;
-    --ring: 214 90% 52%;
-    --dusk-blue: 214 90% 52%;     /* Electric Blue */
-    --dusty-lavender: 241 68% 62%; /* Indigo */
-    --rosewood: 348 82% 56%;      /* Crimson */
-    --light-coral: 330 70% 58%;   /* Rose */
-    --light-bronze: 194 84% 47%;  /* Sky Cyan */
-    --radius: 0.5rem;
-    --spotlight-color: 214 90% 52%;
-    --spotlight-opacity: 0.08;
-  }
-
-  .dark {
-    --background: 0 0% 0%;
-    --foreground: 213 20% 92%;
-    --card: 0 0% 3%;
-    --card-foreground: 213 20% 92%;
-    --popover: 0 0% 3%;
-    --popover-foreground: 213 20% 92%;
-    --primary: 214 88% 62%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 222 20% 18%;
-    --secondary-foreground: 213 20% 92%;
-    --muted: 222 18% 15%;
-    --muted-foreground: 215 15% 60%;
-    --accent: 38 95% 60%;
-    --accent-foreground: 222 30% 8%;
-    --destructive: 0 63% 47%;
-    --destructive-foreground: 213 20% 92%;
-    --border: 222 18% 22%;
-    --input: 222 18% 22%;
-    --ring: 214 88% 62%;
-    --dusk-blue: 214 88% 62%;      /* Bright Electric Blue */
-    --dusty-lavender: 241 65% 70%; /* Bright Indigo */
-    --rosewood: 348 80% 62%;       /* Bright Crimson */
-    --light-coral: 330 68% 65%;    /* Bright Rose */
-    --light-bronze: 194 82% 56%;   /* Bright Sky Cyan */
-
-    --spotlight-color: 214 88% 62%;
-    --spotlight-opacity: 0.10;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-
-    background-color: hsl(var(--background));
-    background-image:
-      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E"),
-      radial-gradient(circle at 50% 0%, hsl(var(--spotlight-color) / var(--spotlight-opacity)), transparent 70%);
-    background-repeat: repeat, no-repeat;
-
-    height: 100%;
-
-    font-feature-settings: "rlig" 1, "calt" 1;
-    font-family: 'Cascadia Code', 'Outfit', 'Inter', system-ui, sans-serif;
-    text-rendering: optimizeSpeed;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
-    overscroll-behavior-y: none;
-    touch-action: manipulation;
-  }
-
-  @media screen and (max-width: 768px) {
-    input,
-    textarea,
-    select,
-    button {
-      font-size: 16px !important;
-    }
-  }
-
-  .text-balance {
-    text-wrap: balance;
-  }
-
-  .line-clamp-1 {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-  }
-
-  .line-clamp-2 {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-  }
-
-  .line-clamp-3 {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-  }
-
-  @media print {
-    @page {
-      margin: 0;
-      size: auto;
-    }
-
-    body {
-      background: white !important;
-      color: black !important;
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-    }
-
-    .print-hidden {
-      display: none !important;
-    }
-
-    .no-print {
-      display: none !important;
-    }
-  }
-}

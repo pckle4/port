@@ -139,15 +139,32 @@
         </div>
       </section>
 
+      <section aria-labelledby="educational-purpose" class="scroll-mt-24">
+        <h2 id="educational-purpose" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
+          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">08</span>
+          Educational Purpose & Ownership
+        </h2>
+        <div class="pl-0 sm:pl-11 mt-4">
+          <p>
+            The domain <strong>nowhile.com</strong> is wholly owned and operated by <strong>Ansh Shah</strong>. All content displayed on this website is intended strictly for <strong>educational and demonstrative purposes</strong>. Assets, design patterns, or mock data may be fetched or taken from publicly available internet sources for project demonstrations. For any disputes, takedown requests, or legal queries, please contact our legal liaison immediately.
+          </p>
+        </div>
+      </section>
+
       <footer class="mt-16 pt-8 border-t border-border/40 text-center sm:text-left">
         <h2 class="text-lg font-semibold text-foreground mb-4">Legal Liaison &amp; Escalation</h2>
         <p class="text-muted-foreground mb-4">
           For policy escalations, authorization queries, or legal triage, transmit inquiries to the designated endpoint:
         </p>
-        <a href="mailto:legal@nowhile.com" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ring-offset-background">
-          <lucide-icon name="mail-check" class="h-4 w-4"></lucide-icon>
-          legal&#64;nowhile.com
-        </a>
+        <div class="flex items-center gap-3 justify-center sm:justify-start">
+          <a href="mailto:legal@nowhile.com" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ring-offset-background">
+            <lucide-icon name="mail-check" class="h-4 w-4"></lucide-icon>
+            legal@nowhile.com
+          </a>
+          <button (click)="copyEmail()" class="inline-flex items-center justify-center p-2.5 rounded-lg border border-border/50 hover:bg-secondary/50 text-muted-foreground hover:text-foreground transition-colors" [title]="isCopied ? 'Copied!' : 'Copy to clipboard'">
+            <lucide-icon [name]="isCopied ? 'check' : 'copy'" class="h-4 w-4"></lucide-icon>
+          </button>
+        </div>
       </footer>
 
     </div>

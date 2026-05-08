@@ -2,21 +2,18 @@ import { Component, ElementRef, OnDestroy, AfterViewInit, PLATFORM_ID, inject, C
 import { SectionRegistryService } from '../../services/section-registry.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
-import { CardDirective } from '../ui/card';
-import { CardContentDirective } from '../ui/card-content';
 import { TechOrbitComponent } from '../tech-orbit/tech-orbit';
 
 @Component({
   selector: 'app-about-section',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule, CardDirective, CardContentDirective, TechOrbitComponent],
+  imports: [CommonModule, LucideAngularModule, TechOrbitComponent],
   templateUrl: './about-section.html',
   styleUrls: ['./about-section.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AboutSectionComponent implements AfterViewInit, OnDestroy {
-  isVisible = signal(false);
-  private observer?: IntersectionObserver;
+  isVisible = signal(true);
   private el = inject(ElementRef);
   private platformId = inject(PLATFORM_ID);
   private sectionRegistry = inject(SectionRegistryService);
@@ -31,22 +28,11 @@ export class AboutSectionComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
       this.sectionRegistry.register('about');
-      this.observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting) {
-            this.isVisible.set(true);
-            this.observer?.disconnect();
-          }
-        },
-        { threshold: 0.1, rootMargin: "50px" }
-      );
-      this.observer.observe(this.el.nativeElement);
     }
   }
 
   ngOnDestroy() {
     this.sectionRegistry.unregister('about');
-    this.observer?.disconnect();
   }
 }
 

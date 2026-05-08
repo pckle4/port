@@ -95,9 +95,9 @@
 
         <div class="order-1 lg:order-2 transition-all duration-500 sm:duration-700 sm:delay-300" [class.translate-x-0]="isVisible()" [class.opacity-100]="isVisible()"
           [class.translate-x-4]="!isVisible()" [class.sm:translate-x-8]="!isVisible()" [class.opacity-0]="!isVisible()">
-          <div class="overflow-hidden rounded-2xl border border-border/70 bg-card/70 shadow-xl backdrop-blur-xl">
-            <div class="border-b border-border/60 bg-gradient-to-r from-primary/10 via-transparent to-cyan-500/10 px-5 py-4 sm:px-6">
-              <h3 class="text-base font-semibold text-foreground sm:text-lg">Project Brief</h3>
+          <div class="overflow-hidden rounded-sketchy-2 border-[1.5px] border-dashed border-border/80 bg-warm-paper dark:bg-card/70 shadow-stamp backdrop-blur-xl rotate-[0.5deg]">
+            <div class="border-b-[1.5px] border-dashed border-border/80 bg-sticky-note-yellow/40 dark:bg-primary/10 px-5 py-4 sm:px-6">
+              <h3 class="text-base font-bold font-handwriting tracking-wide text-foreground sm:text-2xl">Project Brief</h3>
               <p class="mt-1 text-xs text-muted-foreground sm:text-sm">
                 The clearer your context, the better the first reply.
               </p>
@@ -113,7 +113,7 @@
                   <p class="mt-2 text-sm text-muted-foreground">{{ formMessage() }}</p>
 
                   <button type="button" (click)="startNewMessage()"
-                    class="mt-4 inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition hover:border-primary/50 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40">
+                    class="mt-4 inline-flex items-center gap-2 rounded-sketchy-3 border-[1.5px] border-dashed border-border bg-background px-4 py-2 text-sm font-bold text-foreground transition hover:border-primary/50 hover:text-primary hover:-translate-y-0.5 hover:shadow-stamp-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40">
                     <lucide-icon name="pen-line" class="h-4 w-4"></lucide-icon>
                     Write another message
                   </button>
@@ -124,9 +124,9 @@
 
                   <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div class="space-y-1.5">
-                      <label for="contact-name" class="text-xs font-semibold uppercase tracking-[0.06em] text-foreground/90">Name</label>
+                      <label for="contact-name" class="text-xs font-bold uppercase tracking-[0.06em] text-foreground/90 font-mono">Name</label>
                       <input id="contact-name" formControlName="name" type="text" placeholder="Jane Doe"
-                        class="w-full rounded-xl border border-input bg-background/70 px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/10"
+                        class="w-full rounded-sketchy-3 border-[1.5px] border-dashed border-input dark:border-[#2E2E33] bg-background/70 dark:bg-[#1A1A1E] px-3.5 py-2.5 text-sm text-foreground dark:text-[#EDEDEF] outline-none transition focus:border-primary focus:shadow-stamp-subtle dark:focus:border-primary dark:focus:shadow-glow-focus"
                         [class.border-red-500]="f['name'].touched && f['name'].invalid" [class.focus:border-red-500]="f['name'].touched && f['name'].invalid" />
                       @if (f['name'].touched && f['name'].errors) {
                         <p class="text-xs font-medium text-red-500">
@@ -138,9 +138,9 @@
                     </div>
 
                     <div class="space-y-1.5">
-                      <label for="contact-email" class="text-xs font-semibold uppercase tracking-[0.06em] text-foreground/90">Email</label>
+                      <label for="contact-email" class="text-xs font-bold uppercase tracking-[0.06em] text-foreground/90 font-mono">Email</label>
                       <input id="contact-email" formControlName="email" type="email" placeholder="you@company.com"
-                        class="w-full rounded-xl border border-input bg-background/70 px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/10"
+                        class="w-full rounded-sketchy-3 border-[1.5px] border-dashed border-input dark:border-[#2E2E33] bg-background/70 dark:bg-[#1A1A1E] px-3.5 py-2.5 text-sm text-foreground dark:text-[#EDEDEF] outline-none transition focus:border-primary focus:shadow-stamp-subtle dark:focus:border-primary dark:focus:shadow-glow-focus"
                         [class.border-red-500]="f['email'].touched && f['email'].invalid" [class.focus:border-red-500]="f['email'].touched && f['email'].invalid" />
                       @if (f['email'].touched && f['email'].errors) {
                         <p class="text-xs font-medium text-red-500">
@@ -152,9 +152,9 @@
                   </div>
 
                   <div class="space-y-1.5">
-                    <label for="contact-subject" class="text-xs font-semibold uppercase tracking-[0.06em] text-foreground/90">Subject</label>
+                    <label for="contact-subject" class="text-xs font-bold uppercase tracking-[0.06em] text-foreground/90 font-mono">Subject</label>
                     <input id="contact-subject" formControlName="subject" type="text" placeholder="New product landing page"
-                      class="w-full rounded-xl border border-input bg-background/70 px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/10"
+                      class="w-full rounded-sketchy-3 border-[1.5px] border-dashed border-input dark:border-[#2E2E33] bg-background/70 dark:bg-[#1A1A1E] px-3.5 py-2.5 text-sm text-foreground dark:text-[#EDEDEF] outline-none transition focus:border-primary focus:shadow-stamp-subtle dark:focus:border-primary dark:focus:shadow-glow-focus"
                       [class.border-red-500]="f['subject'].touched && f['subject'].invalid" [class.focus:border-red-500]="f['subject'].touched && f['subject'].invalid" />
                     @if (f['subject'].touched && f['subject'].errors) {
                       <p class="text-xs font-medium text-red-500">
@@ -166,10 +166,10 @@
                   </div>
 
                   <div class="space-y-1.5">
-                    <label for="contact-message" class="text-xs font-semibold uppercase tracking-[0.06em] text-foreground/90">Message</label>
+                    <label for="contact-message" class="text-xs font-bold uppercase tracking-[0.06em] text-foreground/90 font-mono">Message</label>
                     <textarea id="contact-message" formControlName="message" rows="5"
                       placeholder="What are you building, who is it for, and what timeline are you aiming for?"
-                      class="w-full resize-y rounded-xl border border-input bg-background/70 px-3.5 py-3 text-sm text-foreground outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/10"
+                      class="w-full resize-y rounded-sketchy-1 border-[1.5px] border-dashed border-input dark:border-[#2E2E33] bg-background/70 dark:bg-[#1A1A1E] px-3.5 py-3 text-sm text-foreground dark:text-[#EDEDEF] outline-none transition focus:border-primary focus:shadow-stamp-subtle dark:focus:border-primary dark:focus:shadow-glow-focus"
                       [class.border-red-500]="f['message'].touched && f['message'].invalid" [class.focus:border-red-500]="f['message'].touched && f['message'].invalid"></textarea>
                     <div class="flex items-center justify-between">
                       @if (f['message'].touched && f['message'].errors) {
@@ -184,7 +184,7 @@
                     </div>
                   </div>
 
-                  <div class="space-y-3 rounded-xl border border-border/70 bg-background/40 p-3.5 sm:p-4">
+                  <div class="space-y-3 rounded-sketchy-1 border-[1.5px] border-dashed border-border/70 dark:border-terminal-green/50 bg-kraft-paper/30 dark:bg-[#0A0A0C] p-3.5 sm:p-4 rotate-1 dark:rotate-0 dark:rounded-none">
                     <div class="flex items-start justify-between gap-3">
                       <div>
                         <p class="text-xs font-semibold uppercase tracking-[0.06em] text-foreground/90">Captcha verification</p>
@@ -197,7 +197,7 @@
                       </button>
                     </div>
 
-                    <div class="rounded-lg border border-primary/20 bg-slate-950 px-3 py-2.5 text-center text-sm font-bold text-cyan-200">
+                    <div class="rounded-sketchy-3 dark:rounded-none border-2 border-primary dark:border-terminal-green bg-slate-950 px-3 py-2.5 text-center text-sm font-bold text-terminal-green font-retro uppercase tracking-widest shadow-stamp dark:shadow-glow-terminal">
                       @if (captchaChallenge().mode === 'code') {
                         <span class="captcha-glyph">{{ captchaDisplay() }}</span>
                       } @else {
@@ -206,11 +206,11 @@
                     </div>
 
                     <div class="space-y-1.5">
-                      <label for="contact-captcha" class="text-xs font-semibold uppercase tracking-[0.06em] text-foreground/90">Your answer</label>
+                      <label for="contact-captcha" class="text-xs font-bold uppercase tracking-[0.06em] text-foreground/90 font-mono">Your answer</label>
                       <div class="relative">
                         <input id="contact-captcha" formControlName="captcha" type="text" inputmode="text" autocomplete="off"
                           placeholder="Enter captcha answer"
-                          class="w-full rounded-xl border border-input bg-background/70 px-3.5 py-2.5 pr-10 text-sm text-foreground outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/10"
+                          class="w-full rounded-sketchy-3 dark:rounded-none border-[1.5px] border-dashed dark:border-solid border-input dark:border-[#2E2E33] bg-background/70 dark:bg-[#1A1A1E] px-3.5 py-2.5 pr-10 text-sm text-foreground dark:text-terminal-green outline-none transition focus:border-primary dark:focus:border-terminal-green focus:shadow-stamp-subtle dark:focus:shadow-glow-terminal"
                           [class.border-red-500]="(f['captcha'].touched && f['captcha'].invalid) || captchaState() === 'invalid'"
                           [class.focus:border-red-500]="(f['captcha'].touched && f['captcha'].invalid) || captchaState() === 'invalid'"
                           [class.border-emerald-500]="captchaState() === 'valid'"
@@ -242,13 +242,14 @@
                   }
 
                   <button type="submit" [disabled]="isSubmitting()"
-                    class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50">
+                    class="group inline-flex w-full items-center justify-center gap-2 rounded-sketchy-3 bg-primary dark:bg-[#4DA3FF] px-4 py-3 text-sm font-bold font-mono text-white dark:text-[#0C0C0E] shadow-[0_8px_24px_-8px_rgba(22,118,243,0.5)] dark:shadow-glow-cta transition-all hover:bg-[#0D5FD8] dark:hover:bg-[#6BB5FF] hover:-translate-y-0.5 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline-none border-[1.5px] border-transparent relative overflow-hidden">
+                    <div class="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.15)] rounded-sketchy-3 pointer-events-none"></div>
                     @if (isSubmitting()) {
                       <app-spinner size="sm"></app-spinner>
-                      Preparing draft...
+                      <span class="relative z-10">Preparing draft...</span>
                     } @else {
-                      <lucide-icon name="send" class="h-4 w-4"></lucide-icon>
-                      Send message
+                      <lucide-icon name="send" class="h-4 w-4 relative z-10 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></lucide-icon>
+                      <span class="relative z-10">Send message</span>
                     }
                   </button>
                 </form>

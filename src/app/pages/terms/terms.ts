@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { EnhancedHeaderComponent } from '../../components/enhanced-header/enhanced-header';
@@ -15,4 +15,15 @@ import { LucideAngularModule } from 'lucide-angular';
 })
 export class TermsComponent {
   lastUpdated = 'April 19, 2026';
+  isCopied = false;
+
+  async copyEmail() {
+    try {
+      await navigator.clipboard.writeText('legal@nowhile.com');
+      this.isCopied = true;
+      setTimeout(() => this.isCopied = false, 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  }
 }

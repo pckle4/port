@@ -42,7 +42,7 @@ interface CaptchaChallenge {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContactSectionComponent implements OnInit, OnDestroy {
-  isVisible = signal(false);
+  isVisible = signal(true);
   isSubmitting = signal(false);
   submitStatus = signal<SubmitStatus>('idle');
   formMessage = signal('');
@@ -62,7 +62,6 @@ export class ContactSectionComponent implements OnInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private el = inject(ElementRef);
   private sectionRegistry = inject(SectionRegistryService);
-  private observer?: IntersectionObserver;
   private captchaSub?: Subscription;
 
   contactForm = this.fb.nonNullable.group({
@@ -98,15 +97,6 @@ export class ContactSectionComponent implements OnInit, OnDestroy {
 
     if (isPlatformBrowser(this.platformId)) {
       this.sectionRegistry.register('contact');
-      this.observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            this.isVisible.set(true);
-          }
-        },
-        { threshold: 0.1 }
-      );
-      this.observer.observe(this.el.nativeElement);
     }
   }
 
@@ -252,7 +242,6 @@ export class ContactSectionComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sectionRegistry.unregister('contact');
-    this.observer?.disconnect();
     this.captchaSub?.unsubscribe();
   }
 }

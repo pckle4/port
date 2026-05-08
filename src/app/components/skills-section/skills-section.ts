@@ -13,12 +13,11 @@ import { IconCloudComponent } from '../ui/icon-cloud/icon-cloud';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkillsSectionComponent implements OnInit, OnDestroy {
-  isVisible = signal(false);
+  isVisible = signal(true);
 
   private platformId = inject(PLATFORM_ID);
   private el = inject(ElementRef);
   private sectionRegistry = inject(SectionRegistryService);
-  private observer?: IntersectionObserver;
 
   skillCategories = [
     {
@@ -50,20 +49,10 @@ export class SkillsSectionComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       this.sectionRegistry.register('skills');
-      this.observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            this.isVisible.set(true);
-          }
-        },
-        { threshold: 0.1 }
-      );
-      this.observer.observe(this.el.nativeElement);
     }
   }
 
   ngOnDestroy() {
     this.sectionRegistry.unregister('skills');
-    this.observer?.disconnect();
   }
 }

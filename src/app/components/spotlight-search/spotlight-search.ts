@@ -134,6 +134,7 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
   onOpen() {
     window.addEventListener('keydown', this.keyHandler);
     document.body.style.overflow = 'hidden';
+    this.filterItems(); // Ensure default items populate
     setTimeout(() => this.inputRef?.nativeElement?.focus(), 50);
   }
 
@@ -146,14 +147,18 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
 
   clearQuery() {
     this.query = '';
-    this.filteredItems = [];
+    this.filterItems();
     this.selectedIndex = 0;
     this.cdr.markForCheck();
   }
 
   filterItems() {
     const q = this.query.toLowerCase().trim();
-    if (!q) { this.filteredItems = []; return; }
+    if (!q) { 
+      // Show default actions (e.g., first 5 or specific navigation ones)
+      this.filteredItems = this.actions.filter(a => a.type === 'nav' || a.type === 'action').slice(0, 6);
+      return; 
+    }
 
     const scored = this.actions.map(item => {
       let score = 0;
