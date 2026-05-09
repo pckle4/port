@@ -114,7 +114,7 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
   getMobileItemClass(id: string): string {
     const active = this.activeSection() === id;
     return cn(
-      'flex items-center gap-3 w-full text-left py-3.5 px-4 rounded-xl transition-all duration-200',
+      'flex items-center gap-2 w-full text-left py-2.5 px-3 rounded-lg transition-all duration-200',
       active
         ? 'bg-action-blue/10 border border-action-blue/20 dark:bg-[#4DA3FF]/10 dark:border-[#4DA3FF]/20 font-semibold text-action-blue dark:text-[#4DA3FF]'
         : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground dark:text-[#9E9EA6] dark:hover:bg-[#1A1A1E] dark:hover:text-[#EDEDEF]'

@@ -3,7 +3,7 @@
     <app-navbar-logo>
       <a routerLink="/" class="group relative flex items-center gap-2 font-bold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500/60 rounded-lg px-2 py-1 -mx-1" aria-label="Go to homepage">
         <lucide-icon name="pen-tool" class="w-5 h-5 text-action-blue -rotate-12 group-hover:rotate-12 transition-transform"></lucide-icon>
-        <span class="text-2xl font-handwriting font-bold tracking-tight text-foreground select-none transition-all duration-300 group-hover:scale-105">
+        <span class="text-xl font-handwriting font-bold tracking-tight text-foreground select-none transition-all duration-300 group-hover:scale-105">
           Ansh<span class="text-warning-amber">.</span>
         </span>
       </a>
@@ -53,7 +53,7 @@
       <app-navbar-logo class="flex-1 basis-0 min-w-0 flex justify-center z-10 relative">
         <a routerLink="/" class="flex items-center gap-2 font-bold group max-w-full" (click)="closeMobileMenu()">
           <lucide-icon name="pen-tool" class="w-4 h-4 text-action-blue"></lucide-icon>
-          <span class="text-xl font-handwriting font-bold tracking-tight text-foreground select-none whitespace-nowrap truncate">
+          <span class="text-lg font-handwriting font-bold tracking-tight text-foreground select-none whitespace-nowrap truncate">
             Ansh<span class="text-warning-amber">.</span>
           </span>
         </a>
@@ -73,9 +73,9 @@
           [class]="getMobileItemClass(item.id)"
           (click)="handleNavClick(item.link, item.id)"
         >
-          <div class="flex items-center gap-3">
+          <div class="flex items-center gap-2">
             <lucide-icon [name]="item.icon" class="h-4 w-4" [class.text-action-blue]="isActive(item.id)"></lucide-icon>
-            <span class="text-lg font-medium" [class.font-bold]="isActive(item.id)">{{ item.name }}</span>
+            <span class="text-base font-medium" [class.font-bold]="isActive(item.id)">{{ item.name }}</span>
           </div>
           @if (isActive(item.id)) {
             <lucide-icon name="pencil" class="w-4 h-4 text-warning-amber animate-pulse"></lucide-icon>
