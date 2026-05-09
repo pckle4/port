@@ -95,13 +95,13 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
     const active = this.activeSection() === id;
 
     return cn(
-      'relative text-sm font-medium transition-all duration-300 ease-out rounded-full overflow-hidden whitespace-nowrap',
+      'relative text-sm font-medium transition-all duration-300 ease-out rounded-full overflow-hidden whitespace-nowrap font-mono flex items-center',
       hidden
-        ? 'w-0 opacity-0 px-0 m-0 pointer-events-none overflow-hidden'
+        ? 'w-0 opacity-0 px-0 m-0 pointer-events-none'
         : 'w-auto opacity-100 px-3 py-1.5',
       !hidden && active
-        ? 'text-foreground font-semibold dark:text-primary'
-        : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground dark:text-[#9E9EA6]'
+        ? 'bg-action-blue/10 dark:bg-[#4DA3FF]/12 text-action-blue dark:text-[#4DA3FF] font-semibold'
+        : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground dark:text-[#9E9EA6] dark:hover:text-[#EDEDEF]'
     );
   }
 
@@ -116,8 +116,8 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
     return cn(
       'flex items-center gap-3 w-full text-left py-3.5 px-4 rounded-xl transition-all duration-200',
       active
-        ? 'bg-primary/10 border border-primary/20 font-semibold text-foreground'
-        : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground'
+        ? 'bg-action-blue/10 border border-action-blue/20 dark:bg-[#4DA3FF]/10 dark:border-[#4DA3FF]/20 font-semibold text-action-blue dark:text-[#4DA3FF]'
+        : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground dark:text-[#9E9EA6] dark:hover:bg-[#1A1A1E] dark:hover:text-[#EDEDEF]'
     );
   }
 

@@ -9,7 +9,7 @@
       </a>
     </app-navbar-logo>
 
-    <nav class="flex items-center gap-1">
+    <nav class="flex items-center gap-2">
       @for (item of navigation; track item.id) {
         <button
           type="button"
@@ -20,12 +20,12 @@
         >
           <!-- Using a sketchy underline via CSS/SVG class for active state -->
           @if (isActive(item.id)) {
-            <svg class="absolute -bottom-1 left-0 w-full h-2 text-warning-amber/70" viewBox="0 0 100 12" preserveAspectRatio="none">
+            <svg class="absolute -bottom-0.5 left-1 w-[calc(100%-8px)] h-2 text-action-blue/70 dark:text-[#4DA3FF]/70" viewBox="0 0 100 12" preserveAspectRatio="none">
               <path d="M0,8 C30,0 70,12 100,5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
             </svg>
           }
           <span class="flex items-center gap-2 relative z-10">
-            <lucide-icon [name]="item.icon" class="h-4 w-4" [class.text-action-blue]="isActive(item.id)"></lucide-icon>
+            <lucide-icon [name]="item.icon" class="h-4 w-4" [class.text-action-blue]="isActive(item.id)" [class.dark:text-[#4DA3FF]]="isActive(item.id)"></lucide-icon>
             {{ item.name }}
           </span>
         </button>
