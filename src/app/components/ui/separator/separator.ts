@@ -1,4 +1,4 @@
-﻿import { Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { cn } from '../../../lib/utils';
 
@@ -16,8 +16,8 @@ export class SeparatorComponent {
 
   get computedClass() {
     return cn(
-      "separator-base",
-      this.orientation === 'horizontal' ? "separator-horizontal" : "separator-vertical",
+      "shrink-0 bg-border",
+      this.orientation === 'horizontal' ? "h-[1px] w-full" : "h-full w-[1px]",
       this.class
     );
   }

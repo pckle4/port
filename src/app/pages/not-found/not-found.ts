@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
@@ -8,7 +8,10 @@ import { LucideAngularModule } from 'lucide-angular';
   standalone: true,
   imports: [CommonModule, RouterLink, LucideAngularModule],
   templateUrl: './not-found.html',
-  styleUrls: ['./not-found.css']
+  styleUrls: ['./not-found.css'],
+  host: {
+    'class': 'block'
+  }
 })
 export class NotFoundComponent implements OnInit, OnDestroy {
   currentTime = new Date();

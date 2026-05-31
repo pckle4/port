@@ -88,6 +88,14 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
       { id: 'social-linkedin', label: 'LinkedIn', description: 'Connect professionally', icon: 'linkedin', keywords: ['linkedin', 'job', 'career'], perform: () => this.openExternal('https://linkedin.com/in/anshshahh'), type: 'social', color: 'text-[hsl(var(--dusty-lavender))] bg-[hsl(var(--dusty-lavender))]/10 border-[hsl(var(--dusty-lavender))]/20' },
       { id: 'theme-light', label: 'Light Mode', description: 'Switch to light theme', icon: 'sun', keywords: ['light', 'white', 'day', 'theme', 'mode'], perform: () => this.themeService.setTheme('light'), type: 'action', color: 'text-[hsl(var(--light-coral))] bg-[hsl(var(--light-coral))]/10 border-[hsl(var(--light-coral))]/20' },
       { id: 'theme-dark', label: 'Dark Mode', description: 'Switch to dark theme', icon: 'moon', keywords: ['dark', 'black', 'night', 'theme', 'mode'], perform: () => this.themeService.setTheme('dark'), type: 'action', color: 'text-primary bg-primary/10 border-primary/20' },
+      
+      // New specific tech and smart keywords
+      { id: 'tech-angular', label: 'Angular', description: 'Frontend Framework', icon: 'code', keywords: ['angular', 'framework', 'frontend', 'components'], perform: () => this.navigateToHash('skills'), type: 'tech', color: 'text-red-500 bg-red-500/10 border-red-500/20' },
+      { id: 'tech-tailwind', label: 'Tailwind CSS', description: 'Utility-first CSS', icon: 'pen-tool', keywords: ['tailwind', 'css', 'styles', 'design', 'ui'], perform: () => this.navigateToHash('skills'), type: 'tech', color: 'text-cyan-400 bg-cyan-400/10 border-cyan-400/20' },
+      { id: 'tech-html', label: 'HTML & Web Standards', description: 'Core Web Tech', icon: 'layout', keywords: ['html', 'dom', 'web', 'markup'], perform: () => this.navigateToHash('skills'), type: 'tech', color: 'text-orange-500 bg-orange-500/10 border-orange-500/20' },
+      { id: 'ui-ux', label: 'UI/UX Design', description: 'My design philosophy', icon: 'palette', keywords: ['design', 'ui', 'ux', 'user', 'interface', 'experience', 'aesthetic'], perform: () => this.navigateToHash('about'), type: 'action', color: 'text-[hsl(var(--dusty-lavender))] bg-[hsl(var(--dusty-lavender))]/10 border-[hsl(var(--dusty-lavender))]/20' },
+      { id: 'education', label: 'Education', description: 'Computer Engineering Student', icon: 'graduation-cap', keywords: ['student', 'degree', 'university', 'college', 'learn', 'engineering', 'computer'], perform: () => this.navigateToHash('about'), type: 'action', color: 'text-warning-amber bg-warning-amber/10 border-warning-amber/20' },
+      { id: 'hire-me', label: 'Hire Me', description: 'Open to Work / Freelance', icon: 'zap', keywords: ['hire', 'work', 'freelance', 'job', 'contract', 'available'], perform: () => this.navigateToHash('contact'), type: 'action', color: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20' },
     ];
 
     if (isPlatformBrowser(this.platformId)) {
@@ -155,20 +163,52 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
   filterItems() {
     const q = this.query.toLowerCase().trim();
     if (!q) { 
-      // Show default actions (e.g., first 5 or specific navigation ones)
-      this.filteredItems = this.actions.filter(a => a.type === 'nav' || a.type === 'action').slice(0, 6);
+      // Empty state - no quick actions per user request
+      this.filteredItems = [];
       return; 
     }
+
+    const queryChars = q.split('');
 
     const scored = this.actions.map(item => {
       let score = 0;
       const label = item.label.toLowerCase();
-      if (label === q) score = 100;
-      else if (label.startsWith(q)) score = 80;
-      else if (label.includes(q)) score = 60;
-      else if (item.keywords.some(k => k.startsWith(q))) score = 40;
-      else if (item.keywords.some(k => k.includes(q))) score = 30;
-      else if (item.description.toLowerCase().includes(q)) score = 20;
+      const desc = item.description.toLowerCase();
+      
+      // Exact / Prefix matches
+      if (label === q) score += 100;
+      else if (label.startsWith(q)) score += 80;
+      else if (label.includes(q)) score += 60;
+      
+      // Fuzzy match on label (e.g. "rct" matches "react")
+      let charIdx = 0;
+      let fuzzyMatchCount = 0;
+      let lastMatchIdx = -1;
+      let sequentialMatches = 0;
+      
+      for (let i = 0; i < label.length && charIdx < queryChars.length; i++) {
+        if (label[i] === queryChars[charIdx]) {
+          fuzzyMatchCount++;
+          if (lastMatchIdx === i - 1) sequentialMatches++;
+          lastMatchIdx = i;
+          charIdx++;
+        }
+      }
+      
+      if (fuzzyMatchCount === queryChars.length) {
+         score += 40 + (sequentialMatches * 5); 
+      }
+      
+      // Keyword matching
+      item.keywords.forEach(k => {
+         if (k === q) score += 70;
+         else if (k.startsWith(q)) score += 50;
+         else if (k.includes(q)) score += 30;
+      });
+      
+      // Description fallback
+      if (desc.includes(q)) score += 20;
+
       return { item, score };
     });
 

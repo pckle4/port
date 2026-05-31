@@ -1,4 +1,4 @@
-﻿import { Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { cn } from '../../../lib/utils';
 
@@ -13,6 +13,6 @@ export class CardTitleComponent {
   @Input() class: string = '';
 
   get computedClass() {
-    return cn("card-title-base", this.class);
+    return cn("text-lg font-semibold leading-none tracking-tight", this.class);
   }
 }

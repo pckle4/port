@@ -120,12 +120,12 @@
                 </div>
               } @else {
                 <form [formGroup]="contactForm" (ngSubmit)="handleSubmit()" class="space-y-4 sm:space-y-5" novalidate>
-                  <input type="text" [value]="hp" (input)="hp = $any($event.target).value" class="visually-hidden-hp" tabindex="-1" aria-hidden="true" />
+                  <input type="text" [value]="hp" (input)="hp = $any($event.target).value" class="sr-only" tabindex="-1" aria-hidden="true" />
 
                   <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div class="space-y-1.5">
                       <label for="contact-name" class="text-xs font-bold uppercase tracking-[0.06em] text-foreground/90 font-mono">Name</label>
-                      <input id="contact-name" formControlName="name" type="text" placeholder="Jane Doe"
+                      <input id="contact-name" formControlName="name" type="text"
                         class="w-full rounded-sketchy-3 border-[1.5px] border-dashed border-input dark:border-[#2E2E33] bg-background/70 dark:bg-[#1A1A1E] px-3.5 py-2.5 text-sm text-foreground dark:text-[#EDEDEF] outline-none transition focus:border-primary focus:shadow-stamp-subtle dark:focus:border-primary dark:focus:shadow-glow-focus"
                         [class.border-red-500]="f['name'].touched && f['name'].invalid" [class.focus:border-red-500]="f['name'].touched && f['name'].invalid" />
                       @if (f['name'].touched && f['name'].errors) {
@@ -139,7 +139,7 @@
 
                     <div class="space-y-1.5">
                       <label for="contact-email" class="text-xs font-bold uppercase tracking-[0.06em] text-foreground/90 font-mono">Email</label>
-                      <input id="contact-email" formControlName="email" type="email" placeholder="you@company.com"
+                      <input id="contact-email" formControlName="email" type="email"
                         class="w-full rounded-sketchy-3 border-[1.5px] border-dashed border-input dark:border-[#2E2E33] bg-background/70 dark:bg-[#1A1A1E] px-3.5 py-2.5 text-sm text-foreground dark:text-[#EDEDEF] outline-none transition focus:border-primary focus:shadow-stamp-subtle dark:focus:border-primary dark:focus:shadow-glow-focus"
                         [class.border-red-500]="f['email'].touched && f['email'].invalid" [class.focus:border-red-500]="f['email'].touched && f['email'].invalid" />
                       @if (f['email'].touched && f['email'].errors) {
@@ -153,7 +153,7 @@
 
                   <div class="space-y-1.5">
                     <label for="contact-subject" class="text-xs font-bold uppercase tracking-[0.06em] text-foreground/90 font-mono">Subject</label>
-                    <input id="contact-subject" formControlName="subject" type="text" placeholder="New product landing page"
+                    <input id="contact-subject" formControlName="subject" type="text"
                       class="w-full rounded-sketchy-3 border-[1.5px] border-dashed border-input dark:border-[#2E2E33] bg-background/70 dark:bg-[#1A1A1E] px-3.5 py-2.5 text-sm text-foreground dark:text-[#EDEDEF] outline-none transition focus:border-primary focus:shadow-stamp-subtle dark:focus:border-primary dark:focus:shadow-glow-focus"
                       [class.border-red-500]="f['subject'].touched && f['subject'].invalid" [class.focus:border-red-500]="f['subject'].touched && f['subject'].invalid" />
                     @if (f['subject'].touched && f['subject'].errors) {
@@ -168,7 +168,6 @@
                   <div class="space-y-1.5">
                     <label for="contact-message" class="text-xs font-bold uppercase tracking-[0.06em] text-foreground/90 font-mono">Message</label>
                     <textarea id="contact-message" formControlName="message" rows="5"
-                      placeholder="What are you building, who is it for, and what timeline are you aiming for?"
                       class="w-full resize-y rounded-sketchy-1 border-[1.5px] border-dashed border-input dark:border-[#2E2E33] bg-background/70 dark:bg-[#1A1A1E] px-3.5 py-3 text-sm text-foreground dark:text-[#EDEDEF] outline-none transition focus:border-primary focus:shadow-stamp-subtle dark:focus:border-primary dark:focus:shadow-glow-focus"
                       [class.border-red-500]="f['message'].touched && f['message'].invalid" [class.focus:border-red-500]="f['message'].touched && f['message'].invalid"></textarea>
                     <div class="flex items-center justify-between">
@@ -197,9 +196,9 @@
                       </button>
                     </div>
 
-                    <div class="rounded-sketchy-3 dark:rounded-none border-2 border-primary dark:border-terminal-green bg-slate-950 px-3 py-2.5 text-center text-sm font-bold text-terminal-green font-retro uppercase tracking-widest shadow-stamp dark:shadow-glow-terminal">
+                    <div class="rounded-sketchy-3 dark:rounded-none border-2 border-primary dark:border-terminal-green bg-slate-950 px-3 py-2.5 text-center text-base font-bold text-terminal-green font-mono uppercase tracking-widest shadow-stamp dark:shadow-glow-terminal">
                       @if (captchaChallenge().mode === 'code') {
-                        <span class="captcha-glyph">{{ captchaDisplay() }}</span>
+                        <span class="tracking-[0.25rem] uppercase whitespace-nowrap">{{ captchaDisplay() }}</span>
                       } @else {
                         <span>{{ captchaChallenge().prompt }}</span>
                       }

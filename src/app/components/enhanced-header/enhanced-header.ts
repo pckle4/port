@@ -95,7 +95,7 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
     const active = this.activeSection() === id;
 
     return cn(
-      'relative text-sm font-medium transition-all duration-300 ease-out rounded-full overflow-hidden whitespace-nowrap font-mono flex items-center',
+      'relative text-sm font-medium transition-all duration-300 ease-out rounded-full overflow-hidden whitespace-nowrap font-mono flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
       hidden
         ? 'w-0 opacity-0 px-0 m-0 pointer-events-none'
         : 'w-auto opacity-100 px-3 py-1.5',

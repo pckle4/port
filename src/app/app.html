@@ -1,13 +1,8 @@
-<!-- Noise Texture Overlay (Film Grain / Paper Texture) -->
-<svg class="pointer-events-none fixed inset-0 z-50 h-full w-full opacity-[0.04] mix-blend-overlay">
-  <filter id="noise">
-    <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch" />
-  </filter>
-  <rect width="100%" height="100%" filter="url(#noise)" />
-</svg>
-
+<!-- Noise Texture is handled efficiently in styles.css background -->
 <div class="min-h-screen bg-background font-sans antialiased text-foreground selection:bg-highlighter-pink selection:text-deep-navy relative">
-  <app-enhanced-header></app-enhanced-header>
+  @if (!isNotFoundPage()) {
+    <app-enhanced-header></app-enhanced-header>
+  }
 
   <main>
     <router-outlet></router-outlet>

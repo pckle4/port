@@ -11,7 +11,7 @@
         </a>
       </nav>
       <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
-        Privacy <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Policy</span>
+        Privacy <span class="text-primary">Policy</span>
       </h1>
       <p class="text-base sm:text-lg text-muted-foreground flex items-center gap-2">
         <lucide-icon name="calendar" class="h-4 w-4"></lucide-icon>
@@ -123,7 +123,13 @@
         </h2>
         <div class="pl-0 sm:pl-11 mt-4">
           <p>
-            The domain <strong>nowhile.com</strong> is wholly owned and operated by <strong>Ansh Shah</strong>. All content displayed on this website is intended strictly for <strong>educational and demonstrative purposes</strong>. Assets, design patterns, or mock data may be fetched or taken from publicly available internet sources for project demonstrations. For any disputes, takedown requests, or legal queries, please contact our legal liaison immediately.
+            The domain <strong>nowhile.com</strong> is wholly owned and operated by <strong>Ansh Shah</strong>. All content displayed on this website is intended strictly for <strong>educational and demonstrative purposes</strong>.
+          </p>
+          <p class="mt-4">
+            We explicitly declare that we do not own many of the placeholder images, generic graphical assets, icons, or design layouts used throughout the System. These materials have been sourced from publicly available internet resources, open-source libraries, and design communities strictly as structural demonstrations and aesthetic references. 
+          </p>
+          <p class="mt-4">
+            No copyright infringement is intended, and we do not claim original ownership of referenced third-party materials. We have not maliciously copied or plagiarized any specific individual's proprietary work for commercial gain. For any disputes, takedown requests under the Digital Millennium Copyright Act (DMCA) or equivalent international frameworks, or general legal queries regarding asset attribution, please contact our legal liaison immediately.
           </p>
         </div>
       </section>
@@ -138,8 +144,8 @@
             <lucide-icon name="shield-check" class="h-4 w-4"></lucide-icon>
             legal@nowhile.com
           </a>
-          <button (click)="copyEmail()" class="inline-flex items-center justify-center p-2.5 rounded-lg border border-border/50 hover:bg-secondary/50 text-muted-foreground hover:text-foreground transition-colors" [title]="isCopied ? 'Copied!' : 'Copy to clipboard'">
-            <lucide-icon [name]="isCopied ? 'check' : 'copy'" class="h-4 w-4"></lucide-icon>
+          <button (click)="copyEmail()" class="inline-flex items-center justify-center p-2.5 rounded-lg border border-border/50 hover:bg-secondary/50 text-muted-foreground hover:text-foreground transition-colors" [title]="isCopied() ? 'Copied!' : 'Copy to clipboard'">
+            <lucide-icon [name]="isCopied() ? 'check' : 'copy'" class="h-4 w-4"></lucide-icon>
           </button>
         </div>
       </footer>
@@ -148,4 +154,8 @@
   </article>
 </main>
 
-<app-enhanced-footer></app-enhanced-footer>
+@defer (on viewport) {
+  <app-enhanced-footer></app-enhanced-footer>
+} @placeholder {
+  <div class="h-32 w-full"></div>
+}

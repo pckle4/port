@@ -3,6 +3,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import * as THREE from 'three';
 import { ThemeService } from '../../../services/theme.service';
 import { SectionRegistryService } from '../../../services/section-registry.service';
+import { SiteDataService } from '../../../services/site-data.service';
 
 @Component({
   selector: 'app-icon-cloud',
@@ -10,7 +11,10 @@ import { SectionRegistryService } from '../../../services/section-registry.servi
   imports: [CommonModule],
   templateUrl: './icon-cloud.html',
   styleUrls: ['./icon-cloud.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'class': 'block w-full h-full'
+  }
 })
 export class IconCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('cloudContainer') cloudContainer!: ElementRef<HTMLDivElement>;
@@ -19,6 +23,7 @@ export class IconCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   private ngZone = inject(NgZone);
   private themeService = inject(ThemeService);
   private sectionRegistry = inject(SectionRegistryService);
+  private siteDataService = inject(SiteDataService);
 
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
@@ -35,13 +40,7 @@ export class IconCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   private observer?: IntersectionObserver;
   private isVisible = false;
 
-  private icons = [
-    'typescript', 'javascript', 'react', 'nodedotjs', 'postgresql', 
-    'mongodb', 'tailwindcss', 'docker', 'git', 'github', 
-    'python', 'html5', 'css', 'nextdotjs', 'vercel', 
-    'vite', 'figma', 'apachekafka', 'nginx', 'graphql', 
-    'redis', 'dotnet', 'kubernetes', 'linux', 'android'
-  ];
+  private icons = this.siteDataService.data().cloudIcons;
 
   ngOnInit() {
     // Basic setup
@@ -72,9 +71,9 @@ export class IconCloudComponent implements OnInit, AfterViewInit, OnDestroy {
       const width = container.clientWidth || 500;
       const height = container.clientHeight || 500;
       const baseSize = Math.max(260, Math.min(width, height));
-      // Increase icon cloud footprint without making individual icons much larger.
-      const globeRadius = Math.max(88, Math.min(baseSize * 0.42, 170));
-      const iconSize = Math.max(14, Math.min(baseSize * 0.07, 20));
+      // Scale down icon cloud footprint as requested
+      const globeRadius = Math.max(60, Math.min(baseSize * 0.32, 120));
+      const iconSize = Math.max(10, Math.min(baseSize * 0.05, 15));
 
       this.scene = new THREE.Scene();
       
@@ -106,15 +105,17 @@ export class IconCloudComponent implements OnInit, AfterViewInit, OnDestroy {
         const pos = new THREE.Vector3(x * radius, y * radius, z * radius);
         positions.push(pos);
 
-        // Create Sprite
-        this.loadIconTexture(iconSlug).then((texture) => {
-          if (!texture) return;
-          const material = new THREE.SpriteMaterial({ map: texture, transparent: true, depthWrite: false });
-          const sprite = new THREE.Sprite(material);
-          sprite.position.copy(pos);
-          sprite.scale.set(iconSize, iconSize, 1);
-          this.globeGroup.add(sprite);
-        });
+        // Stagger texture loading to prevent network stalling (30ms delay per icon)
+        setTimeout(() => {
+          this.loadIconTexture(iconSlug).then((texture) => {
+            if (!texture) return;
+            const material = new THREE.SpriteMaterial({ map: texture, transparent: true, depthWrite: false });
+            const sprite = new THREE.Sprite(material);
+            sprite.position.copy(pos);
+            sprite.scale.set(iconSize, iconSize, 1);
+            this.globeGroup.add(sprite);
+          });
+        }, i * 30);
       });
       
       // Create connection lines
@@ -156,11 +157,8 @@ export class IconCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private async loadIconTexture(slug: string): Promise<THREE.Texture | null> {
-    // The skills section is now permanently dark, so we force dark mode icon colors
     const isDark = true; 
                   
-    // Some icons are invisible against dark backgrounds (black on dark grey)
-    // We override their color to ensure visibility while mostly using original brand colors
     const colorOverrides: Record<string, string> = {
       nextdotjs: isDark ? 'ffffff' : '000000',
       github: isDark ? 'ffffff' : '181717',
@@ -169,18 +167,48 @@ export class IconCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     };
                   
     try {
+      const customColor = colorOverrides[slug];
+      const url = customColor ? `https://cdn.simpleicons.org/${slug}/${customColor}` : `https://cdn.simpleicons.org/${slug}`;
+      
+      const response = await fetch(url);
+      let svgText = await response.text();
+      
+      // Ensure the SVG has explicit width and height, otherwise WebGL will fail to rasterize it
+      // resulting in INVALID_VALUE: texSubImage2D: bad image
+      if (!svgText.includes('width=')) {
+        svgText = svgText.replace('<svg ', '<svg width="256" height="256" ');
+      }
+      
+      const blob = new Blob([svgText], { type: 'image/svg+xml' });
+      const blobUrl = URL.createObjectURL(blob);
+      
       return new Promise((resolve) => {
-        const loader = new THREE.TextureLoader();
-        const customColor = colorOverrides[slug];
-        // If a custom color is specified, use it. Otherwise omit color param to get original brand color!
-        const url = customColor ? `https://cdn.simpleicons.org/${slug}/${customColor}` : `https://cdn.simpleicons.org/${slug}`;
-        
-        loader.load(url, (texture: THREE.Texture) => {
-            texture.colorSpace = THREE.SRGBColorSpace;
-            resolve(texture);
-        }, undefined, () => {
-            resolve(null);
-        });
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = 256;
+          canvas.height = 256;
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+             ctx.drawImage(img, 0, 0, 256, 256);
+             const texture = new THREE.CanvasTexture(canvas);
+             texture.colorSpace = THREE.SRGBColorSpace;
+             if (this.renderer) {
+               texture.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+             }
+             URL.revokeObjectURL(blobUrl);
+             resolve(texture);
+          } else {
+             URL.revokeObjectURL(blobUrl);
+             resolve(null);
+          }
+        };
+        img.onerror = () => {
+          URL.revokeObjectURL(blobUrl);
+          resolve(null);
+        };
+        img.src = blobUrl;
       });
     } catch {
       return null;

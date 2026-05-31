@@ -1,17 +1,1 @@
-:host {
-  display: block;
-}
 
-.visually-hidden-hp {
-  position: absolute;
-  left: -9999px;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
-.captcha-glyph {
-  letter-spacing: 0.35rem;
-  text-transform: uppercase;
-  white-space: nowrap;
-}

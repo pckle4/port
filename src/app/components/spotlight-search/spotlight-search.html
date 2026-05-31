@@ -46,15 +46,12 @@
     </div>
 
       <div class="overflow-y-auto border-t border-white/10 dark:border-white/5" #listContainer style="max-height: calc(50vh)" role="listbox" aria-label="Search results">
-        @if (filteredItems.length === 0) {
+        @if (filteredItems.length === 0 && query) {
           <div class="py-8 text-center text-muted-foreground">
             <p class="text-sm">No results found for "{{ query }}"</p>
           </div>
         } @else {
           <div class="p-2 space-y-1">
-            @if (!query) {
-              <div class="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Quick Actions</div>
-            }
             @for (item of filteredItems; track item.id; let i = $index) {
               <div
                 [class]="getItemClass(item, i)"

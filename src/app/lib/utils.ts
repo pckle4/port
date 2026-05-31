@@ -73,6 +73,12 @@ export function smoothScrollToElement(element: HTMLElement, options: SmoothScrol
       const finalRect = element.getBoundingClientRect()
       window.scrollTo({ top: finalRect.top + window.pageYOffset - offset, behavior: "auto" })
       restoreScrollBehavior()
+      
+      // Flash highlight
+      element.classList.remove('animate-flash-highlight'); // reset if already flashing
+      void element.offsetWidth; // trigger reflow
+      element.classList.add('animate-flash-highlight');
+      setTimeout(() => element.classList.remove('animate-flash-highlight'), 1600);
     }
   }
 

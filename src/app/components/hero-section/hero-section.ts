@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, inject, PLATFORM_ID, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { SectionRegistryService } from '../../services/section-registry.service';
+import { SiteDataService } from '../../services/site-data.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
@@ -20,7 +21,10 @@ import { smoothScrollToWithRetry } from '../../lib/utils';
   ],
   templateUrl: './hero-section.html',
   styleUrls: ['./hero-section.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'class': 'block'
+  }
 })
 export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('heroHost') heroHost!: ElementRef<HTMLElement>;
@@ -30,16 +34,13 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
   private ngZone = inject(NgZone);
   private sectionRegistry = inject(SectionRegistryService);
+  private siteDataService = inject(SiteDataService);
   private rafId: number | null = null;
   private boundMouseMove?: (e: MouseEvent) => void;
-
-  dynamicWords = ["Full Stack Developer", "UI/UX Designer", "Problem Solver", "Creative Thinker"];
-
-  socials = [
-    { icon: 'github', href: "https://github.com/theanshshah", color: "text-foreground/70 hover:text-primary dark:text-foreground/70 dark:hover:text-primary transition-colors duration-300", label: "GitHub Profile" },
-    { icon: 'linkedin', href: "https://linkedin.com/in/anshshahh", color: "text-foreground/70 hover:text-accent dark:text-foreground/70 dark:hover:text-accent transition-colors duration-300", label: "LinkedIn Profile" },
-    { icon: 'mail', href: "mailto:theanshshah@gmail.com", color: "text-[hsl(var(--light-coral))] hover:text-accent dark:text-[hsl(var(--light-coral))] dark:hover:text-accent transition-colors duration-300", label: "Send Email" }
-  ];
+  
+  heroData = this.siteDataService.data().hero;
+  dynamicWords = this.heroData.dynamicWords;
+  socials = this.heroData.socials;
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {

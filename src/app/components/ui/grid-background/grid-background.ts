@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,6 +6,9 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './grid-background.html',
-  styleUrls: ['./grid-background.css']
+  styleUrls: ['./grid-background.css'],
+  host: {
+    'class': 'contents'
+  }
 })
 export class GridBackgroundComponent { }

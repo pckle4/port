@@ -17,10 +17,12 @@ interface ResumeProject {
 
 interface ResumeExperience {
   company: string;
-  role: string;
-  duration: string;
   location: string;
-  points: string[];
+  roles: {
+    title: string;
+    duration: string;
+    points: string[];
+  }[];
 }
 
 interface ResumeLeadership {
@@ -69,13 +71,25 @@ export class ResumeComponent implements OnInit, OnDestroy {
     experience: [
       {
         company: "MRI Software",
-        role: "Software Engineering Intern",
-        duration: "Jan 2026 – Present",
         location: "India",
-        points: [
-          "Developing and maintaining enterprise-grade property management solutions using Java Spring Boot microservices and Angular frontend applications, contributing to scalable payment processing workflows.",
-          "Collaborating with cross-functional engineering teams to design RESTful APIs, implement business logic layers, and optimize database queries for high-throughput transaction processing.",
-        ],
+        roles: [
+          {
+            title: "Software Engineer I",
+            duration: "May 2026 – Present",
+            points: [
+              "Developing and maintaining enterprise-grade property management solutions using Java Spring Boot microservices and Angular frontend applications, contributing to scalable payment processing workflows.",
+              "Collaborating with cross-functional engineering teams to design RESTful APIs, implement business logic layers, and optimize database queries for high-throughput transaction processing.",
+            ]
+          },
+          {
+            title: "Software Engineering Intern",
+            duration: "Jan 2026 – May 2026",
+            points: [
+              "Completed comprehensive internship program focusing on full-stack development and agile methodologies.",
+              "Assisted in building scalable backend services and responsive frontend components for property management software.",
+            ]
+          }
+        ]
       },
     ] as ResumeExperience[],
     technicalSkills: {

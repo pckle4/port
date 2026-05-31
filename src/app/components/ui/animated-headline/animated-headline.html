@@ -1,13 +1,28 @@
-<span class="headline-host relative inline-block select-none pointer-events-none" [class.hl]="showHighlight">
+<span class="relative inline-block select-none pointer-events-none">
   <!-- Highlight sweep background -->
-  <span class="headline-bg absolute inset-0 -z-10 rounded" aria-hidden="true"></span>
+  <span class="absolute inset-0 -z-10 rounded bg-[linear-gradient(135deg,#0C4CC7,#1676F3,#5F5CE0)] dark:bg-[linear-gradient(135deg,#3B82F6,#60A5FA,#A78BFA)] origin-left transition-[transform,box-shadow] duration-[550ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] will-change-transform"
+        [class.scale-x-0]="!showHighlight"
+        [class.scale-x-100]="showHighlight"
+        [class.shadow-[0_4px_28px_-6px_rgba(22,118,243,0.65)]]="showHighlight"
+        aria-hidden="true"></span>
 
-  <!-- Text layers: gradient (default) cross-fades to solid white when highlighted -->
+  <!-- Text layers: solid color cross-fades to contrasting color when highlighted -->
   <span class="inline-block relative font-extrabold tracking-tight">
-    <span class="headline-grad">{{ displayText }}</span>
-    <span class="headline-solid absolute inset-0 flex items-center justify-center" aria-hidden="true">{{ displayText }}</span>
+    <span class="block text-primary dark:text-[#4DA3FF] transition-opacity duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] will-change-opacity"
+          [class.opacity-100]="!showHighlight"
+          [class.opacity-0]="showHighlight"
+          [class.delay-[40ms]]]="showHighlight">
+      {{ displayText }}
+    </span>
+    <span class="absolute inset-0 flex items-center justify-center text-white dark:text-black transition-opacity duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] will-change-opacity whitespace-nowrap pointer-events-none"
+          [class.opacity-0]="!showHighlight"
+          [class.opacity-100]="showHighlight"
+          [class.delay-[70ms]]]="showHighlight"
+          aria-hidden="true">
+      {{ displayText }}
+    </span>
   </span>
 
   <!-- Blinking cursor -->
-  <span class="headline-cursor motion-reduce:hidden" aria-hidden="true">|</span>
+  <span class="text-primary dark:text-primary/80 font-light ml-[2px] inline-block animate-[headline-blink_1.05s_cubic-bezier(0.4,0,0.6,1)_infinite] will-change-opacity motion-reduce:hidden" aria-hidden="true">|</span>
 </span>

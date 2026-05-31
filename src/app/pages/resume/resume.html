@@ -147,37 +147,45 @@
                       <lucide-icon name="building-2" class="h-24 w-24 text-primary"></lucide-icon>
                     </div>
                     <div class="relative z-10">
-                      <div class="flex flex-col md:flex-row justify-between md:items-start gap-2 mb-3">
+                      <div class="flex flex-col md:flex-row justify-between md:items-start gap-2 mb-4">
                         <div>
-                          <h4 class="font-bold text-lg md:text-xl text-foreground/90">
+                          <h4 class="font-bold text-xl md:text-2xl text-foreground/90">
                             {{ exp.company }}
                           </h4>
-                          <div class="flex items-center gap-2 mt-1">
-                            <span class="inline-block w-1.5 h-1.5 rounded-full bg-primary"></span>
-                            <p class="text-muted-foreground font-medium">{{ exp.role }}</p>
-                          </div>
-                        </div>
-                        <div class="text-right flex flex-col items-start md:items-end mt-2 md:mt-0">
-                          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary dark:text-primary border border-primary/25 dark:border-primary/30 mb-2">
-                            <lucide-icon name="calendar" class="w-3 h-3 mr-1.5"></lucide-icon>
-                            {{ exp.duration }}
-                          </span>
-                          <span class="flex items-center text-xs text-muted-foreground">
+                          <span class="flex items-center text-xs text-muted-foreground mt-1">
                             <lucide-icon name="map-pin" class="h-3 w-3 mr-1"></lucide-icon>
                             {{ exp.location }}
                           </span>
                         </div>
                       </div>
-                      <div class="pl-2 border-l-2 border-primary/20 group-hover:border-primary/50 transition-colors ml-1 mt-3">
-                        <ul class="space-y-2">
-                          @for (point of exp.points; track point) {
-                            <li class="text-sm text-muted-foreground leading-relaxed flex items-start">
-                              <lucide-icon name="check-circle-2" class="w-3.5 h-3.5 mr-2 mt-1 text-primary/70 shrink-0"></lucide-icon>
-                              <span class="opacity-90">{{ point }}</span>
-                            </li>
-                          }
-                        </ul>
+
+                      <div class="relative border-l-2 border-primary/30 dark:border-primary/50 group-hover:border-primary/60 transition-colors ml-2 mt-4 space-y-6">
+                        @for (role of exp.roles; track role.title) {
+                          <div class="relative pl-6">
+                            <!-- Timeline dot -->
+                            <div class="absolute -left-[4px] top-1.5 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-primary/20 dark:ring-primary/30"></div>
+                            
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                              <h5 class="font-bold text-lg text-foreground/80 flex items-center gap-2">
+                                {{ role.title }}
+                              </h5>
+                              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary dark:text-primary border border-primary/25 dark:border-primary/30">
+                                <lucide-icon name="calendar" class="w-3 h-3 mr-1.5"></lucide-icon>
+                                {{ role.duration }}
+                              </span>
+                            </div>
+                            <ul class="space-y-2">
+                              @for (point of role.points; track point) {
+                                <li class="text-sm text-muted-foreground leading-relaxed flex items-start">
+                                  <lucide-icon name="check-circle-2" class="w-3.5 h-3.5 mr-2 mt-1 text-primary/70 shrink-0"></lucide-icon>
+                                  <span class="opacity-90">{{ point }}</span>
+                                </li>
+                              }
+                            </ul>
+                          </div>
+                        }
                       </div>
+
                     </div>
                   </app-card-content>
                 </app-card>
@@ -207,7 +215,7 @@
                   </div>
                   <div class="flex flex-wrap gap-2">
                     @for (skill of splitSkills(resumeData.technicalSkills.languages); track skill) {
-                      <span class="px-2.5 py-1 rounded-full text-xs bg-warning-amber/10 dark:bg-warning-amber/10 border border-warning-amber/20 dark:border-warning-amber/20 text-[#A66C00] dark:text-[#FFB833]">
+                      <span class="px-2.5 py-1 rounded-full text-xs bg-secondary/15 dark:bg-secondary/10 border border-secondary/30 dark:border-secondary/20 text-secondary-foreground dark:text-secondary">
                         {{ skill }}
                       </span>
                     }
@@ -258,26 +266,26 @@
             [class.opacity-100]="isVisible" [class.translate-y-0]="isVisible"
             [class.opacity-0]="!isVisible" [class.translate-y-4]="!isVisible">
             <div class="flex items-center gap-3 mb-4">
-              <div class="p-2.5 bg-accent/15 dark:bg-accent/20 rounded-xl shadow-sm">
-                <lucide-icon name="rocket" class="h-5 w-5 text-accent dark:text-accent"></lucide-icon>
+              <div class="p-2.5 bg-secondary/15 dark:bg-secondary/20 rounded-xl shadow-sm">
+                <lucide-icon name="rocket" class="h-5 w-5 text-secondary-foreground dark:text-secondary"></lucide-icon>
               </div>
               <h3 class="text-xl font-bold text-foreground dark:text-white">Projects 🚀</h3>
             </div>
 
             <div class="grid gap-4">
               @for (project of resumeData.projects; track project.title) {
-                <app-card class="group border-border/70 dark:border-white/10 bg-white/80 dark:bg-[#0C1120]/70 backdrop-blur-sm hover:border-accent/35 hover:shadow-md transition-all duration-300">
+                <app-card class="group border-border/70 dark:border-white/10 bg-white/80 dark:bg-[#0C1120]/70 backdrop-blur-sm hover:border-secondary/35 dark:hover:border-secondary/35 hover:shadow-md transition-all duration-300">
                   <app-card-content class="p-5">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
                       <div class="flex items-center gap-3 flex-wrap">
-                        <div class="p-2 rounded-lg bg-secondary group-hover:bg-primary/10 dark:group-hover:bg-accent/10 group-hover:text-primary dark:group-hover:text-accent transition-colors">
+                        <div class="p-2 rounded-lg bg-secondary/20 group-hover:bg-primary/10 dark:group-hover:bg-secondary/10 group-hover:text-primary dark:group-hover:text-secondary text-secondary-foreground dark:text-secondary transition-colors">
                           <lucide-icon [name]="project.icon" class="h-5 w-5"></lucide-icon>
                         </div>
                         <div>
-                          <h4 class="font-bold text-lg text-foreground group-hover:text-primary dark:group-hover:text-accent transition-colors flex items-center gap-2">
+                          <h4 class="font-bold text-lg text-foreground group-hover:text-primary dark:group-hover:text-secondary transition-colors flex items-center gap-2">
                             {{ project.title }}
                             <a [href]="project.link" target="_blank" rel="noopener noreferrer"
-                              class="inline-flex items-center justify-center p-1 rounded-full text-muted-foreground hover:text-primary dark:hover:text-accent hover:bg-primary/10 dark:hover:bg-accent/10 transition-colors"
+                              class="inline-flex items-center justify-center p-1 rounded-full text-muted-foreground hover:text-primary dark:hover:text-secondary hover:bg-primary/10 dark:hover:bg-secondary/10 transition-colors"
                               title="View Live">
                               <lucide-icon name="external-link" class="h-3.5 w-3.5"></lucide-icon>
                             </a>
@@ -285,23 +293,23 @@
                           <p class="text-xs text-muted-foreground mt-0.5">{{ project.tech }}</p>
                         </div>
                       </div>
-                      <span class="text-xs font-medium text-muted-foreground bg-secondary/50 px-2.5 py-1 rounded-full border border-border/50 self-start sm:self-center flex items-center">
+                      <span class="text-xs font-medium text-muted-foreground bg-secondary/10 dark:bg-secondary/20 px-2.5 py-1 rounded-full border border-border/50 self-start sm:self-center flex items-center">
                         <lucide-icon name="calendar" class="w-3 h-3 mr-1.5 opacity-70"></lucide-icon>
                         {{ project.date }}
                       </span>
                     </div>
-                    <div class="pl-2 border-l-2 border-accent/20 group-hover:border-accent/50 transition-colors ml-4 sm:ml-6 mt-3">
+                    <div class="pl-2 border-l-2 border-secondary/30 dark:border-secondary/20 group-hover:border-secondary/60 dark:group-hover:border-secondary/50 transition-colors ml-4 sm:ml-6 mt-3">
                       <ul class="space-y-2">
                         @for (point of project.points; track point) {
                           <li class="text-sm text-muted-foreground leading-relaxed flex items-start">
-                            <lucide-icon name="check-circle-2" class="w-3.5 h-3.5 mr-2 mt-1 text-accent/70 shrink-0"></lucide-icon>
+                            <lucide-icon name="check-circle-2" class="w-3.5 h-3.5 mr-2 mt-1 text-secondary-foreground dark:text-secondary/70 shrink-0"></lucide-icon>
                             <span class="opacity-90">{{ point }}</span>
                           </li>
                         }
                       </ul>
                       <div class="flex flex-wrap gap-2 mt-3">
                         @for (tag of splitTechTags(project.tech); track tag) {
-                          <span class="text-[10px] uppercase tracking-wide px-2 py-1 rounded-full bg-accent/10 text-accent dark:text-accent border border-accent/20 dark:border-accent/30">
+                          <span class="text-[10px] uppercase tracking-wide px-2 py-1 rounded-full bg-secondary/10 dark:bg-secondary/10 text-secondary-foreground dark:text-secondary border border-secondary/30 dark:border-secondary/30">
                             {{ tag }}
                           </span>
                         }
@@ -365,6 +373,10 @@
     </div>
   </section>
 
-  <app-enhanced-footer></app-enhanced-footer>
+  @defer (on viewport) {
+    <app-enhanced-footer></app-enhanced-footer>
+  } @placeholder {
+    <div class="h-32 w-full"></div>
+  }
 </div>
 

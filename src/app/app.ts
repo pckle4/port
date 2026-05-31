@@ -28,13 +28,18 @@ export class App implements OnInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private routerSub?: Subscription;
 
+  isNotFoundPage = signal(false);
+
   ngOnInit() {
     this.themeService.initTheme();
 
     if (isPlatformBrowser(this.platformId)) {
       this.routerSub = this.router.events.pipe(
         filter(event => event instanceof NavigationEnd)
-      ).subscribe(() => {
+      ).subscribe((event: any) => {
+        // Hide header on 404 page
+        this.isNotFoundPage.set(event.urlAfterRedirects.includes('/404'));
+        
         const fragment = this.router.routerState.snapshot.root.fragment;
         if (fragment) {
           this.scrollToFragment(fragment);

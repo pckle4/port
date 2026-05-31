@@ -1,13 +1,13 @@
-﻿<button
+<button
   type="button"
   (click)="toggle.emit()"
-  class="mobile-nav-toggle"
+  class="group relative inline-flex items-center justify-center w-10 h-10 rounded-full border-[1.5px] border-border bg-background shadow-[0_4px_14px_rgba(0,0,0,0.08)] transition-[transform,background-color,box-shadow,border-color] duration-[220ms] ease-[ease] outline-none hover:-translate-y-[1px] hover:border-primary/50 hover:shadow-[0_8px_20px_rgba(0,0,0,0.12)] active:scale-96 focus-visible:shadow-[0_0_0_3px_hsl(var(--primary)/0.25)]"
   [class.is-open]="isOpen"
   [attr.aria-label]="isOpen ? 'Close menu' : 'Open menu'"
   [attr.aria-expanded]="isOpen"
 >
   <span class="sr-only">{{ isOpen ? 'Close menu' : 'Open menu' }}</span>
-  <span class="hamburger-line line-1" aria-hidden="true"></span>
-  <span class="hamburger-line line-2" aria-hidden="true"></span>
-  <span class="hamburger-line line-3" aria-hidden="true"></span>
+  <span class="absolute block w-[18px] h-[2.6px] rounded-full bg-foreground transition-[transform,opacity,background-color] duration-[220ms] ease-[ease] -translate-y-[5px]" [class.!translate-y-0]="isOpen" [class.rotate-45]="isOpen" aria-hidden="true"></span>
+  <span class="absolute block w-[18px] h-[2.6px] rounded-full bg-foreground transition-[transform,opacity,background-color] duration-[220ms] ease-[ease] translate-y-0" [class.opacity-0]="isOpen" aria-hidden="true"></span>
+  <span class="absolute block w-[18px] h-[2.6px] rounded-full bg-foreground transition-[transform,opacity,background-color] duration-[220ms] ease-[ease] translate-y-[5px]" [class.!translate-y-0]="isOpen" [class.-rotate-45]="isOpen" aria-hidden="true"></span>
 </button>

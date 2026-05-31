@@ -1,4 +1,4 @@
-﻿import { Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { cn } from '../../../lib/utils';
 
@@ -13,6 +13,6 @@ export class CardFooterComponent {
   @Input() class: string = '';
 
   get computedClass() {
-    return cn("card-footer-base", this.class);
+    return cn("flex items-center p-6 pt-0", this.class);
   }
 }

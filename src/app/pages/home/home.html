@@ -4,22 +4,42 @@
     <app-hero-section></app-hero-section>
 
     <div id="about" style="scroll-margin-top: 96px">
-      <app-about-section></app-about-section>
+      @defer (on viewport) {
+        <app-about-section></app-about-section>
+      } @placeholder {
+        <div class="h-64 sm:h-96 w-full rounded-xl bg-card/5 animate-pulse"></div>
+      }
     </div>
 
     <div id="skills" style="scroll-margin-top: 96px">
-      <app-skills-section></app-skills-section>
+      @defer (on viewport) {
+        <app-skills-section></app-skills-section>
+      } @placeholder {
+        <div class="h-64 sm:h-96 w-full rounded-xl bg-card/5 animate-pulse mt-20"></div>
+      }
     </div>
 
     <div id="projects" style="scroll-margin-top: 96px">
-      <app-projects-section></app-projects-section>
+      @defer (on viewport) {
+        <app-projects-section></app-projects-section>
+      } @placeholder {
+        <div class="h-64 sm:h-96 w-full rounded-xl bg-card/5 animate-pulse mt-20"></div>
+      }
     </div>
 
     <div id="contact" style="scroll-margin-top: 96px">
-      <app-contact-section></app-contact-section>
+      @defer (on viewport) {
+        <app-contact-section></app-contact-section>
+      } @placeholder {
+        <div class="h-64 sm:h-96 w-full rounded-xl bg-card/5 animate-pulse mt-20"></div>
+      }
     </div>
 
-    <app-enhanced-footer></app-enhanced-footer>
+    @defer (on viewport) {
+      <app-enhanced-footer></app-enhanced-footer>
+    } @placeholder {
+      <div class="h-32 w-full"></div>
+    }
   </main>
 </div>
 

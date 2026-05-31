@@ -3,6 +3,7 @@ import { SectionRegistryService } from '../../services/section-registry.service'
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SkillCardComponent } from './skill-card/skill-card';
 import { IconCloudComponent } from '../ui/icon-cloud/icon-cloud';
+import { SiteDataService } from '../../services/site-data.service';
 
 @Component({
   selector: 'app-skills-section',
@@ -18,33 +19,9 @@ export class SkillsSectionComponent implements OnInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private el = inject(ElementRef);
   private sectionRegistry = inject(SectionRegistryService);
+  private siteDataService = inject(SiteDataService);
 
-  skillCategories = [
-    {
-      title: 'Frontend Development',
-      description: 'Architecting pixel-perfect, responsive user interfaces.',
-      skills: ['React', 'TypeScript', 'Tailwind CSS', 'Next.js', 'Three.js', 'Android'],
-      icon: '\u{1F3A8}',
-    },
-    {
-      title: 'Backend Architecture',
-      description: 'Building scalable, high-performance server-side logic.',
-      skills: ['Node.js', 'Express', 'PostgreSQL', 'MongoDB', 'Redis', 'C#', '.NET'],
-      icon: '\u2699\uFE0F',
-    },
-    {
-      title: 'DevOps & Infrastructure',
-      description: 'Streamlining deployment and ensuring reliability.',
-      skills: ['Docker', 'Kubernetes', 'AWS', 'CI/CD', 'Linux'],
-      icon: '\u2601\uFE0F',
-    },
-    {
-      title: 'Design & UX Strategy',
-      description: 'Crafting intuitive digital experiences that convert.',
-      skills: ['Figma', 'UI/UX', 'Prototyping', 'Wireframing'],
-      icon: '\u2728',
-    },
-  ];
+  skillCategories = this.siteDataService.data().skillCategories;
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
