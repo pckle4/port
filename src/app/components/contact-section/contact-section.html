@@ -1,7 +1,7 @@
-<section class="relative overflow-hidden bg-background py-12 sm:py-16 md:py-20" style="scroll-margin-top: 96px;">
+<section class="relative overflow-hidden bg-background py-12 sm:py-8 md:py-10" style="scroll-margin-top: 96px;">
   <div class="pointer-events-none absolute inset-0">
     <div class="absolute -top-20 left-1/2 h-[24rem] w-[24rem] -translate-x-1/2 rounded-full bg-primary/10 blur-3xl"></div>
-    <div class="absolute bottom-0 right-0 h-[18rem] w-[18rem] rounded-full bg-cyan-400/10 blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 h-[18rem] w-[18rem] rounded-full bg-primary/10 blur-3xl"></div>
   </div>
 
   <div class="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
@@ -37,7 +37,7 @@
                 <div class="flex gap-1.5 opacity-40">
                   <span class="w-2.5 h-2.5 rounded-full bg-red-400"></span>
                   <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-primary/80"></span>
                 </div>
               </div>
 
@@ -105,8 +105,8 @@
 
             <div class="p-5 sm:p-6">
               @if (submitStatus() === 'success') {
-                <div class="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-5 text-center">
-                  <div class="mx-auto mb-3 inline-flex h-11 w-11 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-500">
+                <div class="rounded-xl border border-primary/30 bg-primary/10 p-5 text-center">
+                  <div class="mx-auto mb-3 inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary/20 text-primary">
                     <lucide-icon name="check-circle-2" class="h-6 w-6"></lucide-icon>
                   </div>
                   <h4 class="text-lg font-semibold text-foreground">Draft ready</h4>
@@ -183,7 +183,7 @@
                     </div>
                   </div>
 
-                  <div class="space-y-3 rounded-sketchy-1 border-[1.5px] border-dashed border-border/70 dark:border-terminal-green/50 bg-kraft-paper/30 dark:bg-[#0A0A0C] p-3.5 sm:p-4 rotate-1 dark:rotate-0 dark:rounded-none">
+                  <div class="space-y-3 rounded-sketchy-1 border-[1.5px] border-dashed border-border/70 dark:border-terminal-accent/50 bg-kraft-paper/30 dark:bg-background p-3.5 sm:p-4 rotate-1 dark:rotate-0 dark:rounded-none">
                     <div class="flex items-start justify-between gap-3">
                       <div>
                         <p class="text-xs font-semibold uppercase tracking-[0.06em] text-foreground/90">Captcha verification</p>
@@ -196,7 +196,7 @@
                       </button>
                     </div>
 
-                    <div class="rounded-sketchy-3 dark:rounded-none border-2 border-primary dark:border-terminal-green bg-slate-950 px-3 py-2.5 text-center text-base font-bold text-terminal-green font-mono uppercase tracking-widest shadow-stamp dark:shadow-glow-terminal">
+                    <div class="rounded-sketchy-3 dark:rounded-none border-2 border-primary dark:border-terminal-accent bg-background px-3 py-2.5 text-center text-base font-bold text-terminal-accent font-mono uppercase tracking-widest shadow-stamp dark:shadow-glow-terminal">
                       @if (captchaChallenge().mode === 'code') {
                         <span class="tracking-[0.25rem] uppercase whitespace-nowrap">{{ captchaDisplay() }}</span>
                       } @else {
@@ -209,14 +209,14 @@
                       <div class="relative">
                         <input id="contact-captcha" formControlName="captcha" type="text" inputmode="text" autocomplete="off"
                           placeholder="Enter captcha answer"
-                          class="w-full rounded-sketchy-3 dark:rounded-none border-[1.5px] border-dashed dark:border-solid border-input dark:border-[#2E2E33] bg-background/70 dark:bg-[#1A1A1E] px-3.5 py-2.5 pr-10 text-sm text-foreground dark:text-terminal-green outline-none transition focus:border-primary dark:focus:border-terminal-green focus:shadow-stamp-subtle dark:focus:shadow-glow-terminal"
+                          class="w-full rounded-sketchy-3 dark:rounded-none border-[1.5px] border-dashed dark:border-solid border-input dark:border-border bg-background/70 dark:bg-background px-3.5 py-2.5 pr-10 text-sm text-foreground dark:text-terminal-accent outline-none transition focus:border-primary dark:focus:border-terminal-accent focus:shadow-stamp-subtle dark:focus:shadow-glow-terminal"
                           [class.border-red-500]="(f['captcha'].touched && f['captcha'].invalid) || captchaState() === 'invalid'"
                           [class.focus:border-red-500]="(f['captcha'].touched && f['captcha'].invalid) || captchaState() === 'invalid'"
-                          [class.border-emerald-500]="captchaState() === 'valid'"
-                          [class.focus:border-emerald-500]="captchaState() === 'valid'" />
+                          [class.border-primary]="captchaState() === 'valid'"
+                          [class.focus:border-primary]="captchaState() === 'valid'" />
 
                         @if (captchaState() === 'valid') {
-                          <lucide-icon name="check-circle-2" class="pointer-events-none absolute right-3 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-emerald-500"></lucide-icon>
+                          <lucide-icon name="check-circle-2" class="pointer-events-none absolute right-3 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-primary"></lucide-icon>
                         } @else if (captchaState() === 'invalid') {
                           <lucide-icon name="triangle-alert" class="pointer-events-none absolute right-3 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-red-500"></lucide-icon>
                         }

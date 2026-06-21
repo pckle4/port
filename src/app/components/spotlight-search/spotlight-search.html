@@ -45,7 +45,7 @@
       </div>
     </div>
 
-      <div class="overflow-y-auto border-t border-white/10 dark:border-white/5" #listContainer style="max-height: calc(50vh)" role="listbox" aria-label="Search results">
+      <div class="overflow-y-auto border-t border-white/10 dark:border-border" #listContainer style="max-height: calc(50vh)" role="listbox" aria-label="Search results">
         @if (filteredItems.length === 0 && query) {
           <div class="py-8 text-center text-muted-foreground">
             <p class="text-sm">No results found for "{{ query }}"</p>

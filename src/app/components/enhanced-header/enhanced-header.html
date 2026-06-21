@@ -9,18 +9,25 @@
       </a>
     </app-navbar-logo>
 
-    <nav class="flex items-center gap-2">
+    <nav class="flex items-center gap-2 relative" #navContainer (mouseleave)="onNavLeave()">
+      <div
+        #hoverPill
+        class="absolute transition-all duration-300 ease-out bg-muted/50 dark:bg-[#1A1A1E] rounded-full pointer-events-none opacity-0 z-0 origin-top-left"
+        style="transform: translate3d(0, 0, 0); width: 0; height: 0; top: 0; left: 0;"
+      ></div>
       @for (item of navigation; track item.id) {
         <button
+          #navItem
           type="button"
           [class]="getNavItemClass(item.id)"
           (click)="handleNavClick(item.link, item.id)"
+          (mouseenter)="onNavHover(item.id, navItem)"
           [tabIndex]="isNavItemHidden(item.id) ? -1 : 0"
           [attr.aria-hidden]="isNavItemHidden(item.id) ? true : null"
         >
           <!-- Using a sketchy underline via CSS/SVG class for active state -->
           @if (isActive(item.id)) {
-            <svg class="absolute -bottom-0.5 left-1 w-[calc(100%-8px)] h-2 text-action-blue/70 dark:text-[#4DA3FF]/70" viewBox="0 0 100 12" preserveAspectRatio="none">
+            <svg class="absolute -bottom-0.5 left-1 w-[calc(100%-8px)] h-2 text-action-blue/70 dark:text-[#4DA3FF]/70 z-10" viewBox="0 0 100 12" preserveAspectRatio="none">
               <path d="M0,8 C30,0 70,12 100,5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
             </svg>
           }

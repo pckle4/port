@@ -7,6 +7,96 @@ import { SectionRegistryService } from '../../services/section-registry.service'
 import { cn } from '../../lib/utils';
 import { smoothScrollToWithRetry } from '../../lib/utils';
 
+// DATA STRUCTURE: Stack for O(1) History Navigation (LIFO)
+class NavigationStack<T> {
+  private items: T[] = [];
+  push(item: T) { this.items.push(item); }
+  pop(): T | undefined { return this.items.pop(); }
+  peek(): T | undefined { return this.items.length > 0 ? this.items[this.items.length - 1] : undefined; }
+  isEmpty(): boolean { return this.items.length === 0; }
+  clear() { this.items = []; }
+}
+
+// DATA STRUCTURE: Trie (Suffix Tree) for O(L) Autocomplete
+class TrieNode {
+  children: Map<string, TrieNode> = new Map();
+  items: Set<ActionItem> = new Set();
+}
+
+class ActionTrie {
+  root = new TrieNode();
+
+  build(actions: ActionItem[]) {
+    this.root = new TrieNode();
+    for (const action of actions) {
+      this.indexText(action.label, action);
+      this.indexText(action.description, action);
+      for (const keyword of action.keywords) {
+        this.indexText(keyword, action);
+      }
+    }
+  }
+
+  private indexText(text: string, item: ActionItem) {
+    const words = text.toLowerCase().split(/[\s-]+/);
+    for (const word of words) {
+      if (word.length > 0) {
+        // Insert suffixes for partial substring matching
+        for (let i = 0; i < word.length; i++) {
+          const suffix = word.substring(i);
+          let node = this.root;
+          for (const char of suffix) {
+            if (!node.children.has(char)) {
+              node.children.set(char, new TrieNode());
+            }
+            node = node.children.get(char)!;
+            node.items.add(item);
+          }
+        }
+      }
+    }
+  }
+
+  search(query: string): ActionItem[] {
+    const qWords = query.toLowerCase().trim().split(/[\s-]+/);
+    if (qWords.length === 0) return [];
+    
+    let resultSets: Set<ActionItem>[] = [];
+    
+    for (const word of qWords) {
+      if (word.length === 0) continue;
+      let node = this.root;
+      let found = true;
+      for (const char of word) {
+        if (!node.children.has(char)) {
+          found = false;
+          break;
+        }
+        node = node.children.get(char)!;
+      }
+      if (found) {
+        resultSets.push(node.items);
+      } else {
+        return []; // word not found
+      }
+    }
+    
+    if (resultSets.length === 0) return [];
+    
+    let finalSet = new Set(resultSets[0]);
+    for (let i = 1; i < resultSets.length; i++) {
+      const currentSet = resultSets[i];
+      for (const item of finalSet) {
+        if (!currentSet.has(item)) {
+          finalSet.delete(item);
+        }
+      }
+    }
+    
+    return Array.from(finalSet);
+  }
+}
+
 interface ActionItem {
   id: string;
   label: string;
@@ -65,6 +155,11 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
   currentTimeIST: string = '';
   private timeInterval: any;
 
+  // DATA STRUCTURE: Stack instance
+  private historyStack = new NavigationStack<{ query: string, items: ActionItem[] }>();
+  // DATA STRUCTURE: Trie instance
+  private searchTrie = new ActionTrie();
+
   private keyHandler = (e: KeyboardEvent) => this.handleKeyDown(e);
 
   actions: ActionItem[] = [];
@@ -88,15 +183,20 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
       { id: 'social-linkedin', label: 'LinkedIn', description: 'Connect professionally', icon: 'linkedin', keywords: ['linkedin', 'job', 'career'], perform: () => this.openExternal('https://linkedin.com/in/anshshahh'), type: 'social', color: 'text-[hsl(var(--dusty-lavender))] bg-[hsl(var(--dusty-lavender))]/10 border-[hsl(var(--dusty-lavender))]/20' },
       { id: 'theme-light', label: 'Light Mode', description: 'Switch to light theme', icon: 'sun', keywords: ['light', 'white', 'day', 'theme', 'mode'], perform: () => this.themeService.setTheme('light'), type: 'action', color: 'text-[hsl(var(--light-coral))] bg-[hsl(var(--light-coral))]/10 border-[hsl(var(--light-coral))]/20' },
       { id: 'theme-dark', label: 'Dark Mode', description: 'Switch to dark theme', icon: 'moon', keywords: ['dark', 'black', 'night', 'theme', 'mode'], perform: () => this.themeService.setTheme('dark'), type: 'action', color: 'text-primary bg-primary/10 border-primary/20' },
+      { id: 'privacy', label: 'Privacy Policy', description: 'View the privacy policy', icon: 'shield', keywords: ['privacy', 'policy', 'data', 'legal'], perform: () => this.router.navigate(['/privacy']), type: 'nav', color: 'text-[hsl(var(--dusty-lavender))] bg-[hsl(var(--dusty-lavender))]/10 border-[hsl(var(--dusty-lavender))]/20' },
+      { id: 'terms', label: 'Terms of Service', description: 'View the terms of service', icon: 'file-text', keywords: ['terms', 'service', 'conditions', 'legal'], perform: () => this.router.navigate(['/terms']), type: 'nav', color: 'text-accent bg-accent/10 border-accent/20' },
       
       // New specific tech and smart keywords
       { id: 'tech-angular', label: 'Angular', description: 'Frontend Framework', icon: 'code', keywords: ['angular', 'framework', 'frontend', 'components'], perform: () => this.navigateToHash('skills'), type: 'tech', color: 'text-red-500 bg-red-500/10 border-red-500/20' },
-      { id: 'tech-tailwind', label: 'Tailwind CSS', description: 'Utility-first CSS', icon: 'pen-tool', keywords: ['tailwind', 'css', 'styles', 'design', 'ui'], perform: () => this.navigateToHash('skills'), type: 'tech', color: 'text-cyan-400 bg-cyan-400/10 border-cyan-400/20' },
+      { id: 'tech-tailwind', label: 'Tailwind CSS', description: 'Utility-first CSS', icon: 'pen-tool', keywords: ['tailwind', 'css', 'styles', 'design', 'ui'], perform: () => this.navigateToHash('skills'), type: 'tech', color: 'text-primary bg-primary/10 border-primary/20' },
       { id: 'tech-html', label: 'HTML & Web Standards', description: 'Core Web Tech', icon: 'layout', keywords: ['html', 'dom', 'web', 'markup'], perform: () => this.navigateToHash('skills'), type: 'tech', color: 'text-orange-500 bg-orange-500/10 border-orange-500/20' },
       { id: 'ui-ux', label: 'UI/UX Design', description: 'My design philosophy', icon: 'palette', keywords: ['design', 'ui', 'ux', 'user', 'interface', 'experience', 'aesthetic'], perform: () => this.navigateToHash('about'), type: 'action', color: 'text-[hsl(var(--dusty-lavender))] bg-[hsl(var(--dusty-lavender))]/10 border-[hsl(var(--dusty-lavender))]/20' },
       { id: 'education', label: 'Education', description: 'Computer Engineering Student', icon: 'graduation-cap', keywords: ['student', 'degree', 'university', 'college', 'learn', 'engineering', 'computer'], perform: () => this.navigateToHash('about'), type: 'action', color: 'text-warning-amber bg-warning-amber/10 border-warning-amber/20' },
-      { id: 'hire-me', label: 'Hire Me', description: 'Open to Work / Freelance', icon: 'zap', keywords: ['hire', 'work', 'freelance', 'job', 'contract', 'available'], perform: () => this.navigateToHash('contact'), type: 'action', color: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20' },
+      { id: 'hire-me', label: 'Hire Me', description: 'Open to Work / Freelance', icon: 'zap', keywords: ['hire', 'work', 'freelance', 'job', 'contract', 'available'], perform: () => this.navigateToHash('contact'), type: 'action', color: 'text-primary bg-primary/10 border-primary/20' },
     ];
+
+    // Build the Trie for O(L) searches
+    this.searchTrie.build(this.actions);
 
     if (isPlatformBrowser(this.platformId)) {
       this.updateTime();
@@ -154,6 +254,10 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
   }
 
   clearQuery() {
+    // Push current state to stack before clearing
+    if (this.query.trim().length > 0) {
+      this.historyStack.push({ query: this.query, items: [...this.filteredItems] });
+    }
     this.query = '';
     this.filterItems();
     this.selectedIndex = 0;
@@ -163,14 +267,16 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
   filterItems() {
     const q = this.query.toLowerCase().trim();
     if (!q) { 
-      // Empty state - no quick actions per user request
       this.filteredItems = [];
       return; 
     }
 
-    const queryChars = q.split('');
+    // O(L) Lookup using Suffix Trie
+    const matchedItems = this.searchTrie.search(q);
 
-    const scored = this.actions.map(item => {
+    // Compute scores only on the O(L) subset
+    const queryChars = q.split('');
+    const scored = matchedItems.map(item => {
       let score = 0;
       const label = item.label.toLowerCase();
       const desc = item.description.toLowerCase();
@@ -222,6 +328,7 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
     this.query = '';
     this.filteredItems = [];
     this.selectedIndex = 0;
+    this.historyStack.clear();
     this.close.emit();
     this.cdr.markForCheck();
   }
@@ -302,6 +409,14 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
       e.preventDefault();
       this.selectedIndex = (this.selectedIndex + 1) % len;
       this.scrollToSelected();
+    } else if (e.key === 'Backspace' && this.query === '') {
+      if (!this.historyStack.isEmpty()) {
+        const prevState = this.historyStack.pop()!;
+        this.query = prevState.query;
+        this.filteredItems = prevState.items;
+        this.selectedIndex = 0;
+        this.cdr.markForCheck();
+      }
     } else if (e.key === 'ArrowUp' && len > 0) {
       e.preventDefault();
       this.selectedIndex = (this.selectedIndex - 1 + len) % len;

@@ -13,6 +13,6 @@ export class CardComponent {
   @Input() class: string = '';
 
   get computedClass() {
-    return cn("rounded-xl border bg-white/80 dark:bg-[#0a0a0a]/50 text-card-foreground shadow-sm border-slate-200/80 dark:border-white/10 backdrop-blur-xl relative overflow-hidden", this.class);
+    return cn("rounded-xl border bg-white/80 dark:bg-[#0a0a0a]/50 text-card-foreground shadow-sm border-slate-200/80 dark:border-border backdrop-blur-xl relative overflow-hidden", this.class);
   }
 }

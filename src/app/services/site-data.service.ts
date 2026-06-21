@@ -25,7 +25,7 @@ export class SiteDataService {
       {
         title: 'Backend Architecture',
         description: 'Building scalable, high-performance server-side logic.',
-        skills: ['Node.js', 'Express', 'PostgreSQL', 'MongoDB', 'Redis', 'C#', '.NET'],
+        skills: ['Node.js', 'Express', 'PostgreSQL', 'MongoDB', 'Redis', 'C#', '.NET', 'Spring Boot', 'Java'],
         icon: '⚙️',
       },
       {
@@ -39,6 +39,12 @@ export class SiteDataService {
         description: 'Crafting intuitive digital experiences that convert.',
         skills: ['Figma', 'UI/UX', 'Prototyping', 'Wireframing'],
         icon: '🪄',
+      },
+      {
+        title: 'AI & Machine Learning',
+        description: 'Implementing intelligent models, Deep Learning, and LLMs.',
+        skills: ['Python', 'TensorFlow', 'PyTorch', 'Machine Learning', 'Deep Learning', 'LLMs', 'Scikit-learn'],
+        icon: '🧠',
       }
     ],
     cloudIcons: [
@@ -46,7 +52,8 @@ export class SiteDataService {
       'mongodb', 'tailwindcss', 'docker', 'git', 'github', 
       'python', 'html5', 'css', 'nextdotjs', 'vercel', 
       'vite', 'figma', 'apachekafka', 'nginx', 'graphql', 
-      'redis', 'dotnet', 'kubernetes', 'linux', 'android'
+      'redis', 'dotnet', 'kubernetes', 'linux', 'android',
+      'springboot', 'spring', 'tensorflow', 'pytorch', 'scikitlearn', 'openai', 'huggingface', 'java'
     ]
   });
 

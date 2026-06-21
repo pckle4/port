@@ -8,6 +8,8 @@ import {
   signal,
   effect,
   ChangeDetectorRef,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterLink, NavigationEnd } from '@angular/router';
@@ -65,6 +67,12 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly sectionRegistry = inject(SectionRegistryService);
   readonly state = inject(NavbarStateService);
+
+  @ViewChild('hoverPill') hoverPill!: ElementRef<HTMLDivElement>;
+  @ViewChild('navContainer') navContainer!: ElementRef<HTMLElement>;
+
+  // DATA STRUCTURE: Map for O(1) DOM Rect caching of nav menu items
+  private rectCache = new Map<string, DOMRect>();
 
   readonly activeSection = signal<string>('home');
   readonly isSearchOpen = signal(false);
@@ -137,6 +145,40 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
       this.closeMobileMenu();
     }
   };
+  
+  private resizeHandler = () => {
+    // Invalidate the cache on window resize
+    this.rectCache.clear();
+  };
+
+  onNavHover(id: string, element: HTMLButtonElement) {
+    if (!this.hoverPill || !this.navContainer) return;
+    
+    let rect = this.rectCache.get(id);
+    if (!rect) {
+      // First time hover, calculate and cache in O(1) map
+      rect = element.getBoundingClientRect();
+      this.rectCache.set(id, rect);
+    }
+    
+    // We also need container rect to calculate relative offset
+    // This is cheap because container is same for all
+    const containerRect = this.navContainer.nativeElement.getBoundingClientRect();
+    
+    const left = rect.left - containerRect.left;
+    const top = rect.top - containerRect.top;
+    
+    const pill = this.hoverPill.nativeElement;
+    pill.style.width = `${rect.width}px`;
+    pill.style.height = `${rect.height}px`;
+    pill.style.transform = `translate3d(${left}px, ${top}px, 0)`;
+    pill.style.opacity = '1';
+  }
+  
+  onNavLeave() {
+    if (!this.hoverPill) return;
+    this.hoverPill.nativeElement.style.opacity = '0';
+  }
 
   constructor() {
     effect(() => {
@@ -152,6 +194,7 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
 
     document.addEventListener('keydown', this.keyHandler);
     window.addEventListener('scroll', this.scrollHandler, { passive: true });
+    window.addEventListener('resize', this.resizeHandler, { passive: true });
 
     this.routeSub = this.router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
@@ -285,6 +328,7 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
     if (isPlatformBrowser(this.platformId)) {
       document.removeEventListener('keydown', this.keyHandler);
       window.removeEventListener('scroll', this.scrollHandler);
+      window.removeEventListener('resize', this.resizeHandler);
     }
     this.clearRetryTimeouts();
     this.sectionSub?.();

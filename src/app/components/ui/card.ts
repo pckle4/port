@@ -11,7 +11,7 @@ export class CardDirective {
   @HostBinding('class')
   get hostClass() {
     return cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm bg-[#0a0a0a]/40 dark:bg-[#0a0a0a]/50 border-white/10 dark:border-white/5 backdrop-blur-xl relative overflow-hidden group",
+      "rounded-lg border bg-card text-card-foreground shadow-sm bg-[#0a0a0a]/40 dark:bg-[#0a0a0a]/50 border-white/10 dark:border-border backdrop-blur-xl relative overflow-hidden group",
       this.class
     );
   }

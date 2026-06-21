@@ -4,7 +4,7 @@
     <app-hero-section></app-hero-section>
 
     <div id="about" style="scroll-margin-top: 96px">
-      @defer (on viewport) {
+      @defer (on viewport; prefetch on idle) {
         <app-about-section></app-about-section>
       } @placeholder {
         <div class="h-64 sm:h-96 w-full rounded-xl bg-card/5 animate-pulse"></div>
@@ -12,30 +12,30 @@
     </div>
 
     <div id="skills" style="scroll-margin-top: 96px">
-      @defer (on viewport) {
+      @defer (on viewport; prefetch on idle) {
         <app-skills-section></app-skills-section>
       } @placeholder {
-        <div class="h-64 sm:h-96 w-full rounded-xl bg-card/5 animate-pulse mt-20"></div>
+        <div class="h-64 sm:h-96 w-full rounded-xl bg-card/5 animate-pulse mt-10"></div>
       }
     </div>
 
     <div id="projects" style="scroll-margin-top: 96px">
-      @defer (on viewport) {
+      @defer (on viewport; prefetch on idle) {
         <app-projects-section></app-projects-section>
       } @placeholder {
-        <div class="h-64 sm:h-96 w-full rounded-xl bg-card/5 animate-pulse mt-20"></div>
+        <div class="h-64 sm:h-96 w-full rounded-xl bg-card/5 animate-pulse mt-10"></div>
       }
     </div>
 
     <div id="contact" style="scroll-margin-top: 96px">
-      @defer (on viewport) {
+      @defer (on viewport; prefetch on idle) {
         <app-contact-section></app-contact-section>
       } @placeholder {
-        <div class="h-64 sm:h-96 w-full rounded-xl bg-card/5 animate-pulse mt-20"></div>
+        <div class="h-64 sm:h-96 w-full rounded-xl bg-card/5 animate-pulse mt-10"></div>
       }
     </div>
 
-    @defer (on viewport) {
+    @defer (on viewport; prefetch on idle) {
       <app-enhanced-footer></app-enhanced-footer>
     } @placeholder {
       <div class="h-32 w-full"></div>

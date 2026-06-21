@@ -1,370 +1,308 @@
-<div class="min-h-screen bg-transparent text-foreground relative overflow-hidden">
+<div class="min-h-screen bg-background text-foreground relative overflow-hidden font-sans">
 
-  <div class="absolute inset-0 -z-20 pointer-events-none overflow-hidden">
-    <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3"></div>
-    <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[hsl(var(--dusty-lavender))]/10 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/4"></div>
-    <div class="absolute top-1/2 left-1/2 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2"></div>
-    <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+  <!-- Aura Background -->
+  <div class="absolute inset-0 -z-20 pointer-events-none overflow-hidden bg-background">
+    <div class="absolute top-0 right-0 w-[900px] h-[900px] aura-glow-1 rounded-full blur-[100px] -translate-y-1/3 translate-x-1/4"></div>
+    <div class="absolute bottom-0 left-0 w-[700px] h-[700px] aura-glow-2 rounded-full blur-[120px] translate-y-1/4 -translate-x-1/4"></div>
+    <div class="absolute inset-0 bg-[linear-gradient(to_right,var(--primary)_1px,transparent_1px),linear-gradient(to_bottom,var(--primary)_1px,transparent_1px)] bg-[size:32px_32px] opacity-[0.05] dark:opacity-100 dark:bg-[linear-gradient(to_right,#5E00FF08_1px,transparent_1px),linear-gradient(to_bottom,#5E00FF08_1px,transparent_1px)]"></div>
   </div>
 
   <section class="py-12 pt-28 sm:pt-32 relative">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
       <div class="max-w-4xl mx-auto">
 
-        <div class="mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 transition-all duration-700"
+        <!-- Top Navigation -->
+        <div class="mb-12 flex flex-col sm:flex-row items-center justify-between gap-4 transition-all duration-700"
           [class.opacity-100]="isVisible" [class.translate-y-0]="isVisible"
           [class.opacity-0]="!isVisible" [class.translate-y-4]="!isVisible">
           <a routerLink="/"
-            class="group btn-outline-action px-4 py-2 text-sm">
-            <lucide-icon name="arrow-left" class="h-4 w-4 mr-2 transition-transform group-hover:-translate-x-1"></lucide-icon>
-            Back to Portfolio
+            class="group flex items-center px-5 py-2.5 rounded-full bg-black/5 dark:bg-white/5 hover:bg-primary/20 border border-black/10 dark:border-white/10 hover:border-primary/50 transition-all text-sm font-medium mono-capsule">
+            <lucide-icon name="arrow-left" class="h-4 w-4 mr-2 transition-transform group-hover:-translate-x-1 text-secondary"></lucide-icon>
+            Back to Hub
           </a>
 
-          <button (click)="handleDownload()" [disabled]="downloadState === 'downloading'"
-            class="group min-w-[180px] px-6 py-2.5 font-semibold text-sm"
-            [class]="downloadState === 'done'
-              ? 'btn-primary-action min-w-[180px]'
-              : 'btn-neutral-action min-w-[180px]'">
-            @if (downloadState === 'idle') {
-              <lucide-icon name="download" class="h-4 w-4 mr-2 btn-feedback-icon"></lucide-icon> Download Resume
+          <button (click)="handleDownload()" [disabled]="downloadState() === 'downloading'"
+            class="group min-w-[180px] px-6 py-2.5 rounded-full font-bold text-sm mono-capsule transition-all duration-300 shadow-[0_0_20px_rgba(106,140,116,0.2)] hover:shadow-[0_0_30px_rgba(106,140,116,0.4)] dark:shadow-[0_0_20px_rgba(255,107,158,0.2)] dark:hover:shadow-[0_0_30px_rgba(255,107,158,0.4)]"
+            [class]="downloadState() === 'done'
+              ? 'bg-secondary text-secondary-foreground border-transparent'
+              : 'bg-primary/20 text-secondary border border-secondary/50 hover:bg-secondary hover:text-background'">
+            @if (downloadState() === 'idle') {
+              <span class="flex items-center justify-center"><lucide-icon name="download" class="h-4 w-4 mr-2"></lucide-icon> Download PDF</span>
             }
-            @if (downloadState === 'downloading') {
-              <lucide-icon name="loader-2" class="h-4 w-4 mr-2 animate-spin"></lucide-icon> Downloading...
+            @if (downloadState() === 'downloading') {
+              <span class="flex items-center justify-center"><lucide-icon name="loader-2" class="h-4 w-4 mr-2 animate-spin"></lucide-icon> Processing...</span>
             }
-            @if (downloadState === 'done') {
-              <lucide-icon name="check" class="h-4 w-4 mr-2"></lucide-icon> Downloaded!
+            @if (downloadState() === 'done') {
+              <span class="flex items-center justify-center"><lucide-icon name="check" class="h-4 w-4 mr-2"></lucide-icon> Acquired</span>
             }
           </button>
         </div>
 
-        <div class="text-center mb-10 transition-all duration-700 delay-100"
+        <!-- Header Profile -->
+        <div class="text-center mb-16 transition-all duration-700 delay-100"
           [class.opacity-100]="isVisible" [class.translate-y-0]="isVisible"
           [class.opacity-0]="!isVisible" [class.translate-y-8]="!isVisible">
-          <div class="inline-block p-3 rounded-full bg-gradient-to-br from-primary/25 to-accent/25 mb-4 backdrop-blur-sm border border-border/50 dark:border-white/10 shadow-xl">
-            <lucide-icon name="user" class="w-12 h-12 text-foreground/80"></lucide-icon>
-          </div>
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-4 tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/60">
+          
+          <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black mb-6 tracking-tighter bg-clip-text text-transparent bg-gradient-to-br from-zinc-800 via-zinc-900 to-primary/60 dark:from-white dark:via-white/90 font-display">
             {{ resumeData.personalInfo.name }}
           </h1>
 
-          <div class="flex flex-wrap justify-center gap-4 text-sm sm:text-base mt-6">
+          <div class="flex flex-wrap justify-center gap-4 text-sm mt-8 mono-capsule">
             <a [href]="'mailto:' + resumeData.personalInfo.email"
-              class="group flex items-center text-muted-foreground hover:text-foreground transition-all px-4 py-2 rounded-full bg-white/60 dark:bg-[hsl(var(--card))] border border-slate-200/80 dark:border-border/50 hover:bg-white dark:hover:bg-secondary/50 hover:scale-105 hover:shadow-lg hover:shadow-primary/15">
-              <div class="p-1.5 bg-primary/10 rounded-full mr-2 group-hover:bg-primary/20 transition-colors">
-                <lucide-icon name="mail" class="h-4 w-4 text-primary"></lucide-icon>
-              </div>
+              class="group flex items-center text-muted-foreground hover:text-zinc-900 dark:hover:text-white transition-all px-5 py-2.5 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 hover:border-primary/40 hover:bg-primary/10">
+              <lucide-icon name="mail" class="h-4 w-4 text-primary mr-2 group-hover:scale-110 transition-transform"></lucide-icon>
               {{ resumeData.personalInfo.email }}
             </a>
             <a [href]="'https://' + resumeData.personalInfo.linkedin" target="_blank" rel="noopener noreferrer"
-              class="group flex items-center text-muted-foreground hover:text-[hsl(var(--dusty-lavender))] transition-all px-4 py-2 rounded-full bg-white/60 dark:bg-[hsl(var(--card))] border border-border/70 dark:border-border/50 hover:bg-white dark:hover:bg-secondary/50 hover:scale-105 hover:shadow-lg hover:shadow-[hsl(var(--dusty-lavender))]/15">
-              <div class="p-1.5 bg-[hsl(var(--dusty-lavender))]/10 rounded-full mr-2 group-hover:bg-[hsl(var(--dusty-lavender))]/20 transition-colors">
-                <lucide-icon name="linkedin" class="h-4 w-4 text-[hsl(var(--dusty-lavender))]"></lucide-icon>
-              </div>
+              class="group flex items-center text-muted-foreground hover:text-zinc-900 dark:hover:text-white transition-all px-5 py-2.5 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 hover:border-secondary/40 hover:bg-secondary/10">
+              <lucide-icon name="linkedin" class="h-4 w-4 text-secondary mr-2 group-hover:scale-110 transition-transform"></lucide-icon>
               LinkedIn
             </a>
             <a [href]="'https://' + resumeData.personalInfo.github" target="_blank" rel="noopener noreferrer"
-              class="group flex items-center text-muted-foreground hover:text-foreground transition-all px-4 py-2 rounded-full bg-white/60 dark:bg-[hsl(var(--card))] border border-border/70 dark:border-border/50 hover:bg-white dark:hover:bg-secondary/50 hover:scale-105 hover:shadow-lg hover:shadow-gray-500/10">
-              <div class="p-1.5 bg-gray-500/10 rounded-full mr-2 group-hover:bg-gray-500/20 transition-colors">
-                <lucide-icon name="github" class="h-4 w-4 text-foreground"></lucide-icon>
-              </div>
+              class="group flex items-center text-muted-foreground hover:text-zinc-900 dark:hover:text-white transition-all px-5 py-2.5 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 hover:border-zinc-900 dark:hover:border-white/40 hover:bg-zinc-900/10 dark:hover:bg-white/10">
+              <lucide-icon name="github" class="h-4 w-4 text-zinc-900 dark:text-white mr-2 group-hover:scale-110 transition-transform"></lucide-icon>
               GitHub
             </a>
           </div>
         </div>
 
-        <div class="grid gap-8">
+        <div class="grid gap-10">
 
+          <!-- Education Section -->
           <div class="transition-all duration-700 delay-200"
             [class.opacity-100]="isVisible" [class.translate-y-0]="isVisible"
             [class.opacity-0]="!isVisible" [class.translate-y-4]="!isVisible">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="p-2.5 bg-[hsl(var(--dusty-lavender))]/15 dark:bg-[hsl(var(--dusty-lavender))]/20 rounded-xl shadow-sm">
-                <lucide-icon name="book-open" class="h-5 w-5 text-[hsl(var(--dusty-lavender))] dark:text-[hsl(var(--dusty-lavender))]"></lucide-icon>
-              </div>
-              <h3 class="text-xl font-bold text-foreground">Education 🎓</h3>
+            
+            <div class="flex items-center gap-3 mb-6">
+              <div class="h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent flex-grow"></div>
+              <h3 class="text-2xl font-bold text-foreground font-display uppercase tracking-widest px-4">Education</h3>
+              <div class="h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent flex-grow"></div>
             </div>
 
-            <app-card class="group overflow-hidden border-border/70 dark:border-white/10 bg-white/80 dark:bg-[#0C1120]/70 backdrop-blur-sm hover:border-[hsl(var(--dusty-lavender))]/35 hover:shadow-lg hover:shadow-[hsl(var(--dusty-lavender))]/10 transition-all duration-300">
-              <app-card-content class="p-6 relative">
-                <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-20 transition-all duration-500 transform group-hover:rotate-12 group-hover:scale-125">
-                  <lucide-icon name="graduation-cap" class="h-24 w-24 text-[hsl(var(--dusty-lavender))]"></lucide-icon>
+            <div class="resume-card rounded-2xl p-8 relative overflow-hidden">
+              <div class="absolute -right-10 -top-10 opacity-5 pointer-events-none">
+                <lucide-icon name="graduation-cap" class="h-48 w-48 text-primary"></lucide-icon>
+              </div>
+              
+              <div class="relative z-10 flex flex-col md:flex-row justify-between md:items-start gap-4 mb-6">
+                <div>
+                  <h4 class="font-bold text-xl md:text-2xl text-foreground font-display">{{ resumeData.education.institution }}</h4>
+                  <p class="text-secondary font-medium mt-1">{{ resumeData.education.degree }}</p>
                 </div>
-                <div class="relative z-10">
-                  <div class="flex flex-col md:flex-row justify-between md:items-start gap-2 mb-4">
+                <div class="text-left md:text-right flex flex-col items-start md:items-end">
+                  <span class="mono-capsule text-[10px] bg-primary/20 text-primary border border-primary/30 px-3 py-1 rounded-full mb-2 whitespace-nowrap">
+                    {{ resumeData.education.duration }}
+                  </span>
+                  <span class="text-sm text-muted-foreground flex items-center">
+                    <lucide-icon name="map-pin" class="h-3 w-3 mr-1"></lucide-icon> {{ resumeData.education.location }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="mt-6">
+                <p class="mono-capsule text-[10px] text-muted-foreground mb-3">Core Infrastructure</p>
+                <div class="flex flex-wrap gap-2">
+                  @for (course of resumeData.coursework; track course) {
+                    <span class="px-3 py-1.5 rounded-md text-xs font-medium bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-zinc-700 dark:text-white/80 hover:bg-primary/20 hover:text-primary transition-colors cursor-default">
+                      {{ course }}
+                    </span>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Experience Section -->
+          <div class="transition-all duration-700 delay-300"
+            [class.opacity-100]="isVisible" [class.translate-y-0]="isVisible"
+            [class.opacity-0]="!isVisible" [class.translate-y-4]="!isVisible">
+            
+            <div class="flex items-center gap-3 mb-6">
+              <div class="h-px bg-gradient-to-r from-transparent via-secondary/50 to-transparent flex-grow"></div>
+              <h3 class="text-2xl font-bold text-foreground font-display uppercase tracking-widest px-4">Experience</h3>
+              <div class="h-px bg-gradient-to-r from-transparent via-secondary/50 to-transparent flex-grow"></div>
+            </div>
+
+            <div class="grid gap-6">
+              @for (exp of resumeData.experience; track exp.company) {
+                <div class="resume-card rounded-2xl p-8">
+                  <div class="flex flex-col md:flex-row justify-between md:items-start gap-4 mb-8">
                     <div>
-                      <h3 class="font-bold text-lg md:text-xl text-foreground/90">{{ resumeData.education.institution }}</h3>
-                      <div class="flex items-center gap-2 mt-1">
-                        <span class="inline-block w-1.5 h-1.5 rounded-full bg-[hsl(var(--dusty-lavender))]"></span>
-                        <p class="text-muted-foreground font-medium">{{ resumeData.education.degree }}</p>
-                      </div>
-                    </div>
-                    <div class="text-right flex flex-col items-start md:items-end mt-2 md:mt-0">
-                      <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-[hsl(var(--dusty-lavender))]/10 text-[hsl(var(--dusty-lavender))] dark:text-[hsl(var(--dusty-lavender))] border border-[hsl(var(--dusty-lavender))]/25 dark:border-[hsl(var(--dusty-lavender))]/35 mb-2">
-                        <lucide-icon name="calendar" class="w-3 h-3 mr-1.5"></lucide-icon>
-                        {{ resumeData.education.duration }}
-                      </span>
-                      <span class="flex items-center text-xs text-muted-foreground">
-                        <lucide-icon name="map-pin" class="h-3 w-3 mr-1"></lucide-icon>
-                        {{ resumeData.education.location }}
+                      <h4 class="font-bold text-2xl text-foreground font-display">{{ exp.company }}</h4>
+                      <span class="text-sm text-muted-foreground mt-1 flex items-center">
+                        <lucide-icon name="map-pin" class="h-3 w-3 mr-1 text-secondary"></lucide-icon> {{ exp.location }}
                       </span>
                     </div>
                   </div>
 
-                  <div class="mt-6">
-                    <p class="text-xs uppercase tracking-wider font-semibold text-muted-foreground mb-3 flex items-center gap-2">
-                      <lucide-icon name="layers" class="h-3 w-3"></lucide-icon>
-                      Relevant Coursework
-                    </p>
+                  <div class="relative border-l border-primary/30 ml-3 space-y-8">
+                    @for (role of exp.roles; track role.title) {
+                      <div class="relative pl-8">
+                        <div class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-secondary shadow-[0_0_10px_var(--secondary)]"></div>
+                        
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                          <h5 class="font-bold text-lg text-primary">{{ role.title }}</h5>
+                          <span class="mono-capsule font-semibold text-[10px] bg-black/5 dark:bg-white/5 text-zinc-700 dark:text-muted-foreground border border-black/20 dark:border-white/10 px-3 py-1 rounded-full whitespace-nowrap">
+                            {{ role.duration }}
+                          </span>
+                        </div>
+                        <ul class="space-y-3">
+                          @for (point of role.points; track point) {
+                            <li class="text-sm text-zinc-700 dark:text-white/70 leading-relaxed flex items-start">
+                              <span class="text-secondary mr-3 mt-0.5 opacity-80">▹</span>
+                              {{ point }}
+                            </li>
+                          }
+                        </ul>
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Technical Skills Section -->
+          <div class="transition-all duration-700 delay-400"
+            [class.opacity-100]="isVisible" [class.translate-y-0]="isVisible"
+            [class.opacity-0]="!isVisible" [class.translate-y-4]="!isVisible">
+            
+            <div class="flex items-center gap-3 mb-6">
+              <div class="h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent flex-grow"></div>
+              <h3 class="text-2xl font-bold text-foreground font-display uppercase tracking-widest px-4">Arsenal</h3>
+              <div class="h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent flex-grow"></div>
+            </div>
+
+            <div class="resume-card rounded-2xl p-8 grid gap-8">
+              <div class="flex flex-col md:flex-row gap-6 items-start md:items-center">
+                <div class="w-32 shrink-0 text-secondary mono-capsule text-xs tracking-widest">Languages</div>
+                <div class="flex flex-wrap gap-2">
+                  @for (skill of splitSkills(resumeData.technicalSkills.languages); track skill) {
+                    <span class="px-3 py-1.5 rounded-md text-xs font-semibold bg-primary/10 border border-primary/30 text-primary dark:text-primary-foreground hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">
+                      {{ skill }}
+                    </span>
+                  }
+                </div>
+              </div>
+              <div class="h-px bg-black/5 dark:bg-white/5"></div>
+              <div class="flex flex-col md:flex-row gap-6 items-start md:items-center">
+                <div class="w-32 shrink-0 text-secondary mono-capsule text-xs tracking-widest">Tools</div>
+                <div class="flex flex-wrap gap-2">
+                  @for (skill of splitSkills(resumeData.technicalSkills.tools); track skill) {
+                    <span class="px-3 py-1.5 rounded-md text-xs font-semibold bg-black/5 dark:bg-white/5 border border-black/20 dark:border-white/10 text-zinc-800 dark:text-white/80 hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
+                      {{ skill }}
+                    </span>
+                  }
+                </div>
+              </div>
+              <div class="h-px bg-black/5 dark:bg-white/5"></div>
+              <div class="flex flex-col md:flex-row gap-6 items-start md:items-center">
+                <div class="w-32 shrink-0 text-secondary mono-capsule text-xs tracking-widest">Tech</div>
+                <div class="flex flex-wrap gap-2">
+                  @for (skill of splitSkills(resumeData.technicalSkills.technologies); track skill) {
+                    <span class="px-3 py-1.5 rounded-md text-xs font-semibold bg-secondary/10 border border-secondary/30 text-secondary dark:text-secondary-foreground hover:bg-secondary/20 dark:hover:bg-secondary/30 transition-colors">
+                      {{ skill }}
+                    </span>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Projects Section -->
+          <div class="transition-all duration-700 delay-500"
+            [class.opacity-100]="isVisible" [class.translate-y-0]="isVisible"
+            [class.opacity-0]="!isVisible" [class.translate-y-4]="!isVisible">
+            
+            <div class="flex items-center gap-3 mb-6">
+              <div class="h-px bg-gradient-to-r from-transparent via-secondary/50 to-transparent flex-grow"></div>
+              <h3 class="text-2xl font-bold text-foreground font-display uppercase tracking-widest px-4">Deployments</h3>
+              <div class="h-px bg-gradient-to-r from-transparent via-secondary/50 to-transparent flex-grow"></div>
+            </div>
+
+            <div class="grid gap-6">
+              @for (project of resumeData.projects; track project.title) {
+                <div class="resume-card rounded-2xl p-8 group">
+                  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                    <div class="flex items-center gap-4">
+                      <div class="p-3 rounded-xl bg-black/5 dark:bg-white/5 group-hover:bg-primary/20 text-muted-foreground group-hover:text-primary transition-colors">
+                        <lucide-icon [name]="project.icon" class="h-6 w-6"></lucide-icon>
+                      </div>
+                      <div>
+                        <h4 class="font-bold text-xl text-foreground font-display flex items-center gap-3">
+                          {{ project.title }}
+                          <a [href]="project.link" target="_blank" rel="noopener noreferrer"
+                            class="text-secondary hover:text-zinc-900 dark:hover:text-white transition-colors" title="View Live">
+                            <lucide-icon name="external-link" class="h-4 w-4"></lucide-icon>
+                          </a>
+                        </h4>
+                      </div>
+                    </div>
+                    <span class="mono-capsule text-[10px] bg-black/5 dark:bg-white/5 text-muted-foreground border border-black/10 dark:border-white/10 px-3 py-1 rounded-full self-start sm:self-center">
+                      {{ project.date }}
+                    </span>
+                  </div>
+                  
+                  <div class="pl-0 sm:pl-[60px] mt-4">
+                    <ul class="space-y-3 mb-6">
+                      @for (point of project.points; track point) {
+                        <li class="text-sm text-zinc-700 dark:text-white/70 leading-relaxed flex items-start">
+                          <span class="text-primary mr-3 mt-0.5 opacity-80">▹</span>
+                          {{ point }}
+                        </li>
+                      }
+                    </ul>
                     <div class="flex flex-wrap gap-2">
-                      @for (course of resumeData.coursework; track course) {
-                        <span class="inline-flex items-center px-2.5 py-1.5 rounded-md text-xs font-medium bg-secondary/40 dark:bg-secondary/50 border border-border/60 dark:border-border/50 text-foreground/70 dark:text-foreground/80 hover:bg-secondary/60 dark:hover:bg-secondary transition-colors cursor-default">
-                          {{ course }}
+                      @for (tag of splitTechTags(project.tech); track tag) {
+                        <span class="text-[10px] mono-capsule px-2.5 py-1 rounded-md font-semibold bg-secondary/10 text-secondary border border-secondary/30 dark:border-secondary/20">
+                          {{ tag }}
                         </span>
                       }
                     </div>
                   </div>
                 </div>
-              </app-card-content>
-            </app-card>
-          </div>
-
-          <div class="transition-all duration-700"
-            [style.transition-delay]="'300ms'"
-            [class.opacity-100]="isVisible" [class.translate-y-0]="isVisible"
-            [class.opacity-0]="!isVisible" [class.translate-y-4]="!isVisible">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="p-2.5 bg-primary/15 dark:bg-primary/20 rounded-xl shadow-sm">
-                <lucide-icon name="briefcase" class="h-5 w-5 text-primary dark:text-primary"></lucide-icon>
-              </div>
-              <h3 class="text-xl font-bold text-foreground dark:text-white">Experience 👔</h3>
-            </div>
-
-            <div class="grid gap-4">
-              @for (exp of resumeData.experience; track exp.company) {
-                <app-card class="group border-border/70 dark:border-white/10 bg-white/80 dark:bg-[#0C1120]/70 backdrop-blur-sm hover:border-primary/35 hover:shadow-lg hover:shadow-primary/12 transition-all duration-300">
-                  <app-card-content class="p-6 relative">
-                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-20 transition-all duration-500 transform group-hover:rotate-12 group-hover:scale-125">
-                      <lucide-icon name="building-2" class="h-24 w-24 text-primary"></lucide-icon>
-                    </div>
-                    <div class="relative z-10">
-                      <div class="flex flex-col md:flex-row justify-between md:items-start gap-2 mb-4">
-                        <div>
-                          <h4 class="font-bold text-xl md:text-2xl text-foreground/90">
-                            {{ exp.company }}
-                          </h4>
-                          <span class="flex items-center text-xs text-muted-foreground mt-1">
-                            <lucide-icon name="map-pin" class="h-3 w-3 mr-1"></lucide-icon>
-                            {{ exp.location }}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div class="relative border-l-2 border-primary/30 dark:border-primary/50 group-hover:border-primary/60 transition-colors ml-2 mt-4 space-y-6">
-                        @for (role of exp.roles; track role.title) {
-                          <div class="relative pl-6">
-                            <!-- Timeline dot -->
-                            <div class="absolute -left-[4px] top-1.5 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-primary/20 dark:ring-primary/30"></div>
-                            
-                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-                              <h5 class="font-bold text-lg text-foreground/80 flex items-center gap-2">
-                                {{ role.title }}
-                              </h5>
-                              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary dark:text-primary border border-primary/25 dark:border-primary/30">
-                                <lucide-icon name="calendar" class="w-3 h-3 mr-1.5"></lucide-icon>
-                                {{ role.duration }}
-                              </span>
-                            </div>
-                            <ul class="space-y-2">
-                              @for (point of role.points; track point) {
-                                <li class="text-sm text-muted-foreground leading-relaxed flex items-start">
-                                  <lucide-icon name="check-circle-2" class="w-3.5 h-3.5 mr-2 mt-1 text-primary/70 shrink-0"></lucide-icon>
-                                  <span class="opacity-90">{{ point }}</span>
-                                </li>
-                              }
-                            </ul>
-                          </div>
-                        }
-                      </div>
-
-                    </div>
-                  </app-card-content>
-                </app-card>
               }
             </div>
           </div>
 
-          <div class="transition-all duration-700"
-            [style.transition-delay]="'400ms'"
+          <!-- Leadership Section -->
+          <div class="transition-all duration-700 delay-600"
             [class.opacity-100]="isVisible" [class.translate-y-0]="isVisible"
             [class.opacity-0]="!isVisible" [class.translate-y-4]="!isVisible">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="p-2.5 bg-primary/15 dark:bg-primary/20 rounded-xl shadow-sm">
-                <lucide-icon name="cpu" class="h-5 w-5 text-primary dark:text-primary"></lucide-icon>
-              </div>
-              <h3 class="text-xl font-bold text-foreground">Technical Skills 💻</h3>
-            </div>
-
-            <app-card class="group border-border/70 dark:border-white/10 bg-white/80 dark:bg-[#0C1120]/70 backdrop-blur-sm hover:border-primary/35 hover:shadow-lg hover:shadow-primary/12 transition-all duration-300">
-              <app-card-content class="p-6 grid gap-6">
-                <div class="flex flex-col md:flex-row gap-4">
-                  <div class="w-40 shrink-0 flex items-center gap-2 font-semibold text-sm text-foreground/90">
-                    <div class="p-1.5 bg-accent/10 dark:bg-accent/20 rounded-lg">
-                      <lucide-icon name="terminal" class="h-4 w-4 text-accent"></lucide-icon>
-                    </div>
-                    Languages
-                  </div>
-                  <div class="flex flex-wrap gap-2">
-                    @for (skill of splitSkills(resumeData.technicalSkills.languages); track skill) {
-                      <span class="px-2.5 py-1 rounded-full text-xs bg-secondary/15 dark:bg-secondary/10 border border-secondary/30 dark:border-secondary/20 text-secondary-foreground dark:text-secondary">
-                        {{ skill }}
-                      </span>
-                    }
-                  </div>
-                </div>
-
-                <div class="h-px bg-border/40"></div>
-
-                <div class="flex flex-col md:flex-row gap-4">
-                  <div class="w-40 shrink-0 flex items-center gap-2 font-semibold text-sm text-foreground/90">
-                    <div class="p-1.5 bg-[hsl(var(--light-coral))]/15 dark:bg-[hsl(var(--light-coral))]/20 rounded-lg">
-                      <lucide-icon name="wrench" class="h-4 w-4 text-[hsl(var(--light-coral))]"></lucide-icon>
-                    </div>
-                    Tools
-                  </div>
-                  <div class="flex flex-wrap gap-2">
-                    @for (skill of splitSkills(resumeData.technicalSkills.tools); track skill) {
-                      <span class="px-2.5 py-1 rounded-full text-xs bg-[hsl(var(--light-coral))]/10 border border-[hsl(var(--light-coral))]/20 text-[hsl(var(--light-coral))] dark:text-[hsl(var(--light-coral))]">
-                        {{ skill }}
-                      </span>
-                    }
-                  </div>
-                </div>
-
-                <div class="h-px bg-border/40"></div>
-
-                <div class="flex flex-col md:flex-row gap-4">
-                  <div class="w-40 shrink-0 flex items-center gap-2 font-semibold text-sm text-foreground/90">
-                    <div class="p-1.5 bg-[hsl(var(--dusty-lavender))]/12 dark:bg-[hsl(var(--dusty-lavender))]/18 rounded-lg">
-                      <lucide-icon name="globe" class="h-4 w-4 text-primary"></lucide-icon>
-                    </div>
-                    Technologies
-                  </div>
-                  <div class="flex flex-wrap gap-2">
-                    @for (skill of splitSkills(resumeData.technicalSkills.technologies); track skill) {
-                      <span class="px-2.5 py-1 rounded-full text-xs bg-primary/5 border border-primary/20 text-primary/90 dark:text-primary/70">
-                        {{ skill }}
-                      </span>
-                    }
-                  </div>
-                </div>
-              </app-card-content>
-            </app-card>
-          </div>
-
-          <div class="transition-all duration-700"
-            [style.transition-delay]="'500ms'"
-            [class.opacity-100]="isVisible" [class.translate-y-0]="isVisible"
-            [class.opacity-0]="!isVisible" [class.translate-y-4]="!isVisible">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="p-2.5 bg-secondary/15 dark:bg-secondary/20 rounded-xl shadow-sm">
-                <lucide-icon name="rocket" class="h-5 w-5 text-secondary-foreground dark:text-secondary"></lucide-icon>
-              </div>
-              <h3 class="text-xl font-bold text-foreground dark:text-white">Projects 🚀</h3>
-            </div>
-
-            <div class="grid gap-4">
-              @for (project of resumeData.projects; track project.title) {
-                <app-card class="group border-border/70 dark:border-white/10 bg-white/80 dark:bg-[#0C1120]/70 backdrop-blur-sm hover:border-secondary/35 dark:hover:border-secondary/35 hover:shadow-md transition-all duration-300">
-                  <app-card-content class="p-5">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
-                      <div class="flex items-center gap-3 flex-wrap">
-                        <div class="p-2 rounded-lg bg-secondary/20 group-hover:bg-primary/10 dark:group-hover:bg-secondary/10 group-hover:text-primary dark:group-hover:text-secondary text-secondary-foreground dark:text-secondary transition-colors">
-                          <lucide-icon [name]="project.icon" class="h-5 w-5"></lucide-icon>
-                        </div>
-                        <div>
-                          <h4 class="font-bold text-lg text-foreground group-hover:text-primary dark:group-hover:text-secondary transition-colors flex items-center gap-2">
-                            {{ project.title }}
-                            <a [href]="project.link" target="_blank" rel="noopener noreferrer"
-                              class="inline-flex items-center justify-center p-1 rounded-full text-muted-foreground hover:text-primary dark:hover:text-secondary hover:bg-primary/10 dark:hover:bg-secondary/10 transition-colors"
-                              title="View Live">
-                              <lucide-icon name="external-link" class="h-3.5 w-3.5"></lucide-icon>
-                            </a>
-                          </h4>
-                          <p class="text-xs text-muted-foreground mt-0.5">{{ project.tech }}</p>
-                        </div>
-                      </div>
-                      <span class="text-xs font-medium text-muted-foreground bg-secondary/10 dark:bg-secondary/20 px-2.5 py-1 rounded-full border border-border/50 self-start sm:self-center flex items-center">
-                        <lucide-icon name="calendar" class="w-3 h-3 mr-1.5 opacity-70"></lucide-icon>
-                        {{ project.date }}
-                      </span>
-                    </div>
-                    <div class="pl-2 border-l-2 border-secondary/30 dark:border-secondary/20 group-hover:border-secondary/60 dark:group-hover:border-secondary/50 transition-colors ml-4 sm:ml-6 mt-3">
-                      <ul class="space-y-2">
-                        @for (point of project.points; track point) {
-                          <li class="text-sm text-muted-foreground leading-relaxed flex items-start">
-                            <lucide-icon name="check-circle-2" class="w-3.5 h-3.5 mr-2 mt-1 text-secondary-foreground dark:text-secondary/70 shrink-0"></lucide-icon>
-                            <span class="opacity-90">{{ point }}</span>
-                          </li>
-                        }
-                      </ul>
-                      <div class="flex flex-wrap gap-2 mt-3">
-                        @for (tag of splitTechTags(project.tech); track tag) {
-                          <span class="text-[10px] uppercase tracking-wide px-2 py-1 rounded-full bg-secondary/10 dark:bg-secondary/10 text-secondary-foreground dark:text-secondary border border-secondary/30 dark:border-secondary/30">
-                            {{ tag }}
-                          </span>
-                        }
-                      </div>
-                    </div>
-                  </app-card-content>
-                </app-card>
-              }
-            </div>
-          </div>
-
-          <div class="transition-all duration-700"
-            [style.transition-delay]="'600ms'"
-            [class.opacity-100]="isVisible" [class.translate-y-0]="isVisible"
-            [class.opacity-0]="!isVisible" [class.translate-y-4]="!isVisible">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="p-2.5 bg-[hsl(var(--light-coral))]/15 dark:bg-[hsl(var(--light-coral))]/20 rounded-xl shadow-sm">
-                <lucide-icon name="trophy" class="h-5 w-5 text-[hsl(var(--light-coral))] dark:text-[hsl(var(--light-coral))]"></lucide-icon>
-              </div>
-              <h3 class="text-xl font-bold text-foreground">Leadership</h3>
+            
+            <div class="flex items-center gap-3 mb-6">
+              <div class="h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent flex-grow"></div>
+              <h3 class="text-2xl font-bold text-foreground font-display uppercase tracking-widest px-4">Leadership</h3>
+              <div class="h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent flex-grow"></div>
             </div>
 
             @for (item of resumeData.leadership; track item.title) {
-              <app-card class="border-border/70 dark:border-white/10 bg-white/80 dark:bg-[#0C1120]/70 backdrop-blur-sm hover:border-[hsl(var(--light-coral))]/35 hover:shadow-md transition-all duration-300">
-                <app-card-content class="p-6">
-                  <div class="flex flex-col sm:flex-row justify-between gap-2 mb-4">
-                    <div>
-                      <h4 class="font-bold text-lg flex items-center gap-2">
-                        {{ item.title }}
-                        <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-[hsl(var(--light-coral))]/12 text-[hsl(var(--light-coral))] dark:text-[hsl(var(--light-coral))] border border-[hsl(var(--light-coral))]/25 dark:border-[hsl(var(--light-coral))]/35">
-                          {{ item.role }}
-                        </span>
-                      </h4>
-                      <p class="text-sm text-muted-foreground mt-1 flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
-                        {{ item.org }}
-                      </p>
-                    </div>
-                    <div class="text-right flex items-center gap-2">
-                      <span class="inline-flex items-center text-xs font-medium text-muted-foreground bg-secondary px-2.5 py-1 rounded-md border border-border/50">
-                        <lucide-icon name="calendar" class="w-3 h-3 mr-1.5 opacity-70"></lucide-icon>
-                        {{ item.date }}
+              <div class="resume-card rounded-2xl p-8 border-l-4 border-l-secondary">
+                <div class="flex flex-col sm:flex-row justify-between gap-4 mb-6">
+                  <div>
+                    <h4 class="font-bold text-xl text-foreground font-display flex items-center gap-3">
+                      {{ item.title }}
+                      <span class="mono-capsule text-[10px] px-2.5 py-1 rounded-full font-semibold bg-primary/20 text-primary border border-primary/30">
+                        {{ item.role }}
                       </span>
-                    </div>
+                    </h4>
+                    <p class="text-sm text-zinc-600 dark:text-muted-foreground mt-2 font-medium">{{ item.org }}</p>
                   </div>
-                  <ul class="space-y-2 mt-3">
-                    @for (point of item.points; track point) {
-                      <li class="text-sm text-muted-foreground leading-relaxed flex items-start">
-                        <lucide-icon name="star" class="w-3.5 h-3.5 mr-2 mt-1 text-[hsl(var(--light-coral))] shrink-0 fill-[hsl(var(--light-coral))]"></lucide-icon>
-                        {{ point }}
-                      </li>
-                    }
-                  </ul>
-                </app-card-content>
-              </app-card>
+                  <div class="text-left sm:text-right">
+                    <span class="mono-capsule text-[10px] bg-black/5 dark:bg-white/5 text-muted-foreground border border-black/10 dark:border-white/10 px-3 py-1 rounded-full">
+                      {{ item.date }}
+                    </span>
+                  </div>
+                </div>
+                <ul class="space-y-3">
+                  @for (point of item.points; track point) {
+                    <li class="text-sm text-zinc-700 dark:text-white/70 leading-relaxed flex items-start">
+                      <span class="text-secondary mr-3 mt-0.5 opacity-80">▹</span>
+                      {{ point }}
+                    </li>
+                  }
+                </ul>
+              </div>
             }
           </div>
 
@@ -379,4 +317,3 @@
     <div class="h-32 w-full"></div>
   }
 </div>
-

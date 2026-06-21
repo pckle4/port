@@ -1,10 +1,8 @@
-import { Component, OnInit, OnDestroy, ElementRef, PLATFORM_ID, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, PLATFORM_ID, inject, ChangeDetectionStrategy, ChangeDetectorRef, signal } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
 import { EnhancedFooterComponent } from '../../components/enhanced-footer/enhanced-footer';
-import { CardComponent } from '../../components/ui/card/card';
-import { CardContentComponent } from '../../components/ui/card-content/card-content';
 
 interface ResumeProject {
   title: string;
@@ -36,14 +34,14 @@ interface ResumeLeadership {
 @Component({
   selector: 'app-resume',
   standalone: true,
-  imports: [CommonModule, RouterLink, LucideAngularModule, EnhancedFooterComponent, CardComponent, CardContentComponent],
+  imports: [CommonModule, RouterLink, LucideAngularModule, EnhancedFooterComponent],
   templateUrl: './resume.html',
   styleUrls: ['./resume.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResumeComponent implements OnInit, OnDestroy {
   isVisible = true;
-  downloadState: 'idle' | 'downloading' | 'done' = 'idle';
+  downloadState = signal<'idle' | 'downloading' | 'done'>('idle');
 
   resumeData = {
     personalInfo: {
@@ -93,9 +91,9 @@ export class ResumeComponent implements OnInit, OnDestroy {
       },
     ] as ResumeExperience[],
     technicalSkills: {
-      languages: "Java, C, C#, HTML/CSS, JavaScript, TypeScript, C++, SQL",
-      tools: "VS Code, Eclipse, Android Studio, Git, Docker, Kubernetes",
-      technologies: "Linux, GitHub, WordPress, React, Node.js, .NET, Next.js",
+      languages: "Java, C, C#, HTML/CSS, JavaScript, TypeScript, C++, SQL, Python",
+      tools: "VS Code, Eclipse, Android Studio, Git, Docker, Kubernetes, Scikit-learn, PyTorch, TensorFlow",
+      technologies: "Linux, GitHub, WordPress, React, Node.js, .NET, Next.js, Spring, Spring Boot, Artificial Intelligence, Machine Learning, Deep Learning, LLMs",
     },
     projects: [
       {
@@ -182,10 +180,9 @@ export class ResumeComponent implements OnInit, OnDestroy {
   }
 
   async handleDownload() {
-    if (this.downloadState !== 'idle') return;
+    if (this.downloadState() !== 'idle') return;
 
-    this.downloadState = 'downloading';
-    this.cdr.markForCheck();
+    this.downloadState.set('downloading');
 
     const link = document.createElement('a');
     link.href = '/resume.pdf';
@@ -194,13 +191,32 @@ export class ResumeComponent implements OnInit, OnDestroy {
     link.click();
     document.body.removeChild(link);
 
-    await new Promise(resolve => setTimeout(resolve, 800));
-    this.downloadState = 'done';
-    this.cdr.markForCheck();
+    // FIX: Browser doesn't emit 'cancel' events for downloads.
+    // Instead, listen for the window to regain focus after the "Save As" dialog closes.
+    const resetDownloadState = () => {
+      if (this.downloadState() !== 'downloading') return;
+      this.downloadState.set('done');
+      setTimeout(() => {
+        this.downloadState.set('idle');
+      }, 2000);
+    };
 
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    this.downloadState = 'idle';
-    this.cdr.markForCheck();
+    const onFocus = () => {
+      window.removeEventListener('focus', onFocus);
+      setTimeout(resetDownloadState, 300); // Slight delay for smooth UX
+    };
+
+    if (isPlatformBrowser(this.platformId)) {
+      window.addEventListener('focus', onFocus);
+
+      // Fallback: If auto-download occurred without dialog
+      setTimeout(() => {
+        window.removeEventListener('focus', onFocus);
+        resetDownloadState();
+      }, 2500);
+    } else {
+      setTimeout(resetDownloadState, 800);
+    }
   }
 
   ngOnDestroy() {
