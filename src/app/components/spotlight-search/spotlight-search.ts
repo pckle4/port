@@ -3,11 +3,9 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
 import { ThemeService } from '../../services/theme.service';
-import { SectionRegistryService } from '../../services/section-registry.service';
-import { cn } from '../../lib/utils';
-import { smoothScrollToWithRetry } from '../../lib/utils';
+import { SiteDataService } from '../../services/site-data.service';
+import { animate } from 'animejs';
 
-// DATA STRUCTURE: Stack for O(1) History Navigation (LIFO)
 class NavigationStack<T> {
   private items: T[] = [];
   push(item: T) { this.items.push(item); }
@@ -17,7 +15,6 @@ class NavigationStack<T> {
   clear() { this.items = []; }
 }
 
-// DATA STRUCTURE: Trie (Suffix Tree) for O(L) Autocomplete
 class TrieNode {
   children: Map<string, TrieNode> = new Map();
   items: Set<ActionItem> = new Set();
@@ -30,7 +27,6 @@ class ActionTrie {
     this.root = new TrieNode();
     for (const action of actions) {
       this.indexText(action.label, action);
-      this.indexText(action.description, action);
       for (const keyword of action.keywords) {
         this.indexText(keyword, action);
       }
@@ -41,7 +37,6 @@ class ActionTrie {
     const words = text.toLowerCase().split(/[\s-]+/);
     for (const word of words) {
       if (word.length > 0) {
-        // Insert suffixes for partial substring matching
         for (let i = 0; i < word.length; i++) {
           const suffix = word.substring(i);
           let node = this.root;
@@ -77,7 +72,7 @@ class ActionTrie {
       if (found) {
         resultSets.push(node.items);
       } else {
-        return []; // word not found
+        return [];
       }
     }
     
@@ -97,20 +92,20 @@ class ActionTrie {
   }
 }
 
-interface ActionItem {
+export interface ActionItem {
   id: string;
   label: string;
-  description: string;
   icon: string;
   keywords: string[];
   perform: () => void;
-  type: 'nav' | 'file' | 'project' | 'social' | 'action' | 'tech';
-  color: string;
-  secondaryAction?: {
-    icon: string;
-    label: string;
-    perform: (e: MouseEvent) => void;
-  };
+  type: 'nav' | 'project' | 'social' | 'action' | 'tech';
+  shortcut?: string;
+  globalIndex?: number;
+}
+
+export interface CommandGroup {
+  heading: string;
+  items: ActionItem[];
 }
 
 @Component({
@@ -141,95 +136,75 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
 
   @ViewChild('searchInput') inputRef!: ElementRef<HTMLInputElement>;
   @ViewChild('listContainer') listRef!: ElementRef<HTMLDivElement>;
+  @ViewChild('activeIndicator') indicatorRef!: ElementRef<HTMLDivElement>;
+  @ViewChild('backdrop') backdropRef!: ElementRef<HTMLDivElement>;
+  @ViewChild('dialog') dialogRef!: ElementRef<HTMLDivElement>;
 
   private platformId = inject(PLATFORM_ID);
   private router = inject(Router);
   private themeService = inject(ThemeService);
-  private sectionRegistry = inject(SectionRegistryService);
+  private siteDataService = inject(SiteDataService);
   private cdr = inject(ChangeDetectorRef);
 
   query = '';
   selectedIndex = 0;
-  copiedId: string | null = null;
   filteredItems: ActionItem[] = [];
-  currentTimeIST: string = '';
-  private timeInterval: any;
+  filteredGroups: CommandGroup[] = [];
 
-  // DATA STRUCTURE: Stack instance
   private historyStack = new NavigationStack<{ query: string, items: ActionItem[] }>();
-  // DATA STRUCTURE: Trie instance
   private searchTrie = new ActionTrie();
-
   private keyHandler = (e: KeyboardEvent) => this.handleKeyDown(e);
 
   actions: ActionItem[] = [];
 
   ngOnInit() {
     this.actions = [
-      { id: 'home', label: 'Home', description: 'Go back to the landing page', icon: 'home', keywords: ['start', 'index', 'landing', 'main'], perform: () => this.router.navigate(['/']), type: 'nav', color: 'text-[hsl(var(--dusty-lavender))] bg-[hsl(var(--dusty-lavender))]/10 border-[hsl(var(--dusty-lavender))]/20' },
-      { id: 'about', label: 'About', description: 'Learn more about my background', icon: 'user', keywords: ['bio', 'profile', 'information', 'me', 'who'], perform: () => this.navigateToHash('about'), type: 'nav', color: 'text-primary bg-primary/10 border-primary/20' },
-      { id: 'skills', label: 'Skills & Technologies', description: 'View my technical expertise', icon: 'terminal', keywords: ['tech', 'stack', 'languages', 'tools', 'react', 'node', 'typescript', 'javascript'], perform: () => this.navigateToHash('skills'), type: 'nav', color: 'text-accent bg-accent/10 border-accent/20' },
-      { id: 'projects', label: 'Projects', description: 'Browse my portfolio work', icon: 'briefcase', keywords: ['work', 'case', 'app', 'demo', 'portfolio'], perform: () => this.navigateToHash('projects'), type: 'nav', color: 'text-[hsl(var(--light-coral))] bg-[hsl(var(--light-coral))]/10 border-[hsl(var(--light-coral))]/20' },
-      { id: 'contact', label: 'Contact', description: 'Get in touch with me', icon: 'mail', keywords: ['email', 'message', 'hire', 'reach'], perform: () => this.navigateToHash('contact'), type: 'nav', color: 'text-primary bg-primary/10 border-primary/20', secondaryAction: { icon: 'copy', label: 'Copy', perform: () => {} } },
-      { id: 'resume', label: 'View Resume', description: 'View my professional resume', icon: 'file-text', keywords: ['cv', 'view', 'read', 'job', 'pdf'], perform: () => this.router.navigate(['/resume']), type: 'file', color: 'text-accent bg-accent/10 border-accent/20', secondaryAction: { icon: 'download', label: 'PDF', perform: () => { const link = document.createElement('a'); link.href = '/resume.pdf'; link.download = 'Ansh_Shah_Resume.pdf'; link.click(); } } },
-      { id: 'tech-react', label: 'React', description: 'Frontend Library', icon: 'code', keywords: ['reactjs', 'frontend', 'ui', 'component'], perform: () => this.navigateToHash('skills'), type: 'tech', color: 'text-primary/80 bg-primary/80/10 border-primary/80/20' },
-      { id: 'tech-typescript', label: 'TypeScript', description: 'Type-safe JavaScript', icon: 'code', keywords: ['ts', 'types', 'javascript'], perform: () => this.navigateToHash('skills'), type: 'tech', color: 'text-[hsl(var(--dusty-lavender))] bg-[hsl(var(--dusty-lavender))]/10 border-[hsl(var(--dusty-lavender))]/20' },
-      { id: 'tech-node', label: 'Node.js', description: 'Backend Runtime', icon: 'code', keywords: ['backend', 'javascript', 'server', 'api'], perform: () => this.navigateToHash('skills'), type: 'tech', color: 'text-primary bg-primary/10 border-primary/20' },
-      { id: 'project-resume', label: 'Resume Generator', description: 'Project: React & TypeScript resume builder', icon: 'layout', keywords: ['resume', 'builder', 'generator', 'project'], perform: () => this.navigateToHash('project-resume'), type: 'project', color: 'text-primary bg-primary/10 border-primary/20', secondaryAction: { icon: 'globe', label: 'Visit Site', perform: (e) => { e.stopPropagation(); this.openExternal('https://resume.nowhile.com'); } } },
-      { id: 'project-link', label: 'Link File Sharing', description: 'Project: Frontend-only React file sharing', icon: 'external-link', keywords: ['url', 'link', 'file', 'sharing', 'frontend', 'react', 'project'], perform: () => this.navigateToHash('project-link-share'), type: 'project', color: 'text-accent bg-accent/10 border-accent/20', secondaryAction: { icon: 'globe', label: 'Visit Site', perform: (e) => { e.stopPropagation(); this.openExternal('https://l.nowhile.com'); } } },
-      { id: 'project-file', label: 'P2P File Transfer', description: 'Project: Secure peer-to-peer file sharing', icon: 'external-link', keywords: ['p2p', 'file', 'transfer', 'sharing', 'project'], perform: () => this.navigateToHash('project-p2p'), type: 'project', color: 'text-[hsl(var(--dusty-lavender))] bg-[hsl(var(--dusty-lavender))]/10 border-[hsl(var(--dusty-lavender))]/20', secondaryAction: { icon: 'globe', label: 'Visit Site', perform: (e) => { e.stopPropagation(); this.openExternal('https://file.nowhile.com'); } } },
-      { id: 'project-qr', label: 'QR Code Generator', description: 'Project: Versatile QR code creator', icon: 'external-link', keywords: ['qr', 'code', 'generator', 'project'], perform: () => this.navigateToHash('project-qr'), type: 'project', color: 'text-[hsl(var(--light-coral))] bg-[hsl(var(--light-coral))]/10 border-[hsl(var(--light-coral))]/20', secondaryAction: { icon: 'globe', label: 'Visit Site', perform: (e) => { e.stopPropagation(); this.openExternal('https://qr.nowhile.com'); } } },
-      { id: 'social-github', label: 'GitHub', description: 'Check out my code', icon: 'github', keywords: ['git', 'code', 'repo'], perform: () => this.openExternal('https://github.com/theanshshah'), type: 'social', color: 'text-gray-500 dark:text-gray-400 bg-gray-500/10 border-gray-500/20' },
-      { id: 'social-linkedin', label: 'LinkedIn', description: 'Connect professionally', icon: 'linkedin', keywords: ['linkedin', 'job', 'career'], perform: () => this.openExternal('https://linkedin.com/in/anshshahh'), type: 'social', color: 'text-[hsl(var(--dusty-lavender))] bg-[hsl(var(--dusty-lavender))]/10 border-[hsl(var(--dusty-lavender))]/20' },
-      { id: 'theme-light', label: 'Light Mode', description: 'Switch to light theme', icon: 'sun', keywords: ['light', 'white', 'day', 'theme', 'mode'], perform: () => this.themeService.setTheme('light'), type: 'action', color: 'text-[hsl(var(--light-coral))] bg-[hsl(var(--light-coral))]/10 border-[hsl(var(--light-coral))]/20' },
-      { id: 'theme-dark', label: 'Dark Mode', description: 'Switch to dark theme', icon: 'moon', keywords: ['dark', 'black', 'night', 'theme', 'mode'], perform: () => this.themeService.setTheme('dark'), type: 'action', color: 'text-primary bg-primary/10 border-primary/20' },
-      { id: 'privacy', label: 'Privacy Policy', description: 'View the privacy policy', icon: 'shield', keywords: ['privacy', 'policy', 'data', 'legal'], perform: () => this.router.navigate(['/privacy']), type: 'nav', color: 'text-[hsl(var(--dusty-lavender))] bg-[hsl(var(--dusty-lavender))]/10 border-[hsl(var(--dusty-lavender))]/20' },
-      { id: 'terms', label: 'Terms of Service', description: 'View the terms of service', icon: 'file-text', keywords: ['terms', 'service', 'conditions', 'legal'], perform: () => this.router.navigate(['/terms']), type: 'nav', color: 'text-accent bg-accent/10 border-accent/20' },
+      { id: 'home', label: 'Home', icon: 'home', keywords: ['start', 'index', 'landing', 'main'], perform: () => this.router.navigate(['/']), type: 'nav', shortcut: 'H' },
+      { id: 'about', label: 'About', icon: 'user', keywords: ['bio', 'profile', 'information', 'me', 'who'], perform: () => this.navigateToHash('about'), type: 'nav' },
+      { id: 'skills', label: 'Skills & Technologies', icon: 'terminal', keywords: ['tech', 'stack', 'languages', 'tools'], perform: () => this.navigateToHash('skills'), type: 'nav' },
+      { id: 'projects', label: 'Projects', icon: 'briefcase', keywords: ['work', 'case', 'app', 'demo', 'portfolio'], perform: () => this.navigateToHash('projects'), type: 'nav', shortcut: 'P' },
+      { id: 'contact', label: 'Contact', icon: 'mail', keywords: ['email', 'message', 'hire', 'reach'], perform: () => this.navigateToHash('contact'), type: 'nav', shortcut: 'C' },
+      { id: 'resume', label: 'View Resume', icon: 'file-text', keywords: ['cv', 'view', 'read', 'job', 'pdf'], perform: () => this.router.navigate(['/resume']), type: 'nav', shortcut: 'R' },
       
-      // New specific tech and smart keywords
-      { id: 'tech-angular', label: 'Angular', description: 'Frontend Framework', icon: 'code', keywords: ['angular', 'framework', 'frontend', 'components'], perform: () => this.navigateToHash('skills'), type: 'tech', color: 'text-red-500 bg-red-500/10 border-red-500/20' },
-      { id: 'tech-tailwind', label: 'Tailwind CSS', description: 'Utility-first CSS', icon: 'pen-tool', keywords: ['tailwind', 'css', 'styles', 'design', 'ui'], perform: () => this.navigateToHash('skills'), type: 'tech', color: 'text-primary bg-primary/10 border-primary/20' },
-      { id: 'tech-html', label: 'HTML & Web Standards', description: 'Core Web Tech', icon: 'layout', keywords: ['html', 'dom', 'web', 'markup'], perform: () => this.navigateToHash('skills'), type: 'tech', color: 'text-orange-500 bg-orange-500/10 border-orange-500/20' },
-      { id: 'ui-ux', label: 'UI/UX Design', description: 'My design philosophy', icon: 'palette', keywords: ['design', 'ui', 'ux', 'user', 'interface', 'experience', 'aesthetic'], perform: () => this.navigateToHash('about'), type: 'action', color: 'text-[hsl(var(--dusty-lavender))] bg-[hsl(var(--dusty-lavender))]/10 border-[hsl(var(--dusty-lavender))]/20' },
-      { id: 'education', label: 'Education', description: 'Computer Engineering Student', icon: 'graduation-cap', keywords: ['student', 'degree', 'university', 'college', 'learn', 'engineering', 'computer'], perform: () => this.navigateToHash('about'), type: 'action', color: 'text-warning-amber bg-warning-amber/10 border-warning-amber/20' },
-      { id: 'hire-me', label: 'Hire Me', description: 'Open to Work / Freelance', icon: 'zap', keywords: ['hire', 'work', 'freelance', 'job', 'contract', 'available'], perform: () => this.navigateToHash('contact'), type: 'action', color: 'text-primary bg-primary/10 border-primary/20' },
+      { id: 'tech-react', label: 'React', icon: 'code', keywords: ['reactjs', 'frontend', 'ui', 'component'], perform: () => this.navigateToHash('skills'), type: 'tech' },
+      { id: 'tech-typescript', label: 'TypeScript', icon: 'code', keywords: ['ts', 'types', 'javascript'], perform: () => this.navigateToHash('skills'), type: 'tech' },
+      { id: 'tech-angular', label: 'Angular', icon: 'code', keywords: ['angular', 'framework', 'frontend', 'components'], perform: () => this.navigateToHash('skills'), type: 'tech' },
+      
+      { id: 'project-resume', label: 'Resume Generator', icon: 'layout', keywords: ['resume', 'builder', 'generator', 'project'], perform: () => this.openExternal('https://resume.nowhile.com'), type: 'project' },
+      { id: 'project-link', label: 'Link File Sharing', icon: 'external-link', keywords: ['url', 'link', 'file', 'sharing', 'frontend', 'react', 'project'], perform: () => this.openExternal('https://l.nowhile.com'), type: 'project' },
+      { id: 'project-file', label: 'P2P File Transfer', icon: 'external-link', keywords: ['p2p', 'file', 'transfer', 'sharing', 'project'], perform: () => this.openExternal('https://file.nowhile.com'), type: 'project' },
+      
+      { id: 'social-github', label: 'GitHub', icon: 'github', keywords: ['git', 'code', 'repo'], perform: () => this.openExternal('https://github.com/theanshshah'), type: 'social' },
+      { id: 'social-linkedin', label: 'LinkedIn', icon: 'linkedin', keywords: ['linkedin', 'job', 'career'], perform: () => this.openExternal('https://linkedin.com/in/anshshahh'), type: 'social' },
+      
+      { id: 'theme-light', label: 'Light Mode', icon: 'sun', keywords: ['light', 'white', 'day', 'theme', 'mode'], perform: () => this.themeService.setTheme('light'), type: 'action' },
+      { id: 'theme-dark', label: 'Dark Mode', icon: 'moon', keywords: ['dark', 'black', 'night', 'theme', 'mode'], perform: () => this.themeService.setTheme('dark'), type: 'action' },
+      { id: 'privacy', label: 'Privacy Policy', icon: 'shield', keywords: ['privacy', 'policy', 'data', 'legal'], perform: () => this.router.navigate(['/privacy']), type: 'nav' },
+      { id: 'terms', label: 'Terms of Service', icon: 'file-text', keywords: ['terms', 'service', 'conditions', 'legal'], perform: () => this.router.navigate(['/terms']), type: 'nav' }
     ];
 
-    // Build the Trie for O(L) searches
     this.searchTrie.build(this.actions);
 
     if (isPlatformBrowser(this.platformId)) {
-      this.updateTime();
-      this.timeInterval = setInterval(() => this.updateTime(), 60000);
-      
       if (this.isOpen) {
         this.onOpen();
       }
     }
   }
 
-  private updateTime() {
-    this.currentTimeIST = new Date().toLocaleTimeString('en-US', {
-      timeZone: 'Asia/Kolkata',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true
-    }) + ' IST';
-    this.cdr.markForCheck();
-  }
-
   ngOnDestroy() {
     if (isPlatformBrowser(this.platformId)) {
       window.removeEventListener('keydown', this.keyHandler);
       document.body.style.overflow = '';
-      if (this.timeInterval) clearInterval(this.timeInterval);
     }
   }
 
   private navigateToHash(id: string) {
-    this.sectionRegistry.loadAllSections();
     if (this.router.url === '/' || this.router.url.startsWith('/#')) {
-      smoothScrollToWithRetry(id, { maxRetries: 30, retryInterval: 90 });
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     } else {
       this.router.navigate(['/'], { fragment: id });
     }
@@ -242,8 +217,57 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
   onOpen() {
     window.addEventListener('keydown', this.keyHandler);
     document.body.style.overflow = 'hidden';
-    this.filterItems(); // Ensure default items populate
-    setTimeout(() => this.inputRef?.nativeElement?.focus(), 50);
+    this.filterItems(); 
+    
+    setTimeout(() => {
+      this.inputRef?.nativeElement?.focus();
+      this.playEntranceAnimation();
+      this.updateActiveIndicator(true);
+    }, 50);
+  }
+
+  private playEntranceAnimation() {
+    if (this.backdropRef) {
+      animate(this.backdropRef.nativeElement, {
+        opacity: [0, 1],
+        duration: 300,
+        ease: 'outExpo'
+      });
+    }
+    if (this.dialogRef) {
+      animate(this.dialogRef.nativeElement, {
+        opacity: [0, 1],
+        scale: [0.96, 1],
+        translateY: [-8, 0],
+        filter: ['blur(8px)', 'blur(0px)'],
+        duration: 400,
+        // Mimicking Framer spring: type: "spring", stiffness: 320, damping: 32, mass: 0.9
+        ease: 'spring(0.9, 80, 10, 0)'
+      });
+    }
+  }
+
+  private playExitAnimation(onComplete: () => void) {
+    if (this.backdropRef) {
+      animate(this.backdropRef.nativeElement, {
+        opacity: [1, 0],
+        duration: 200,
+        ease: 'inOutQuad'
+      });
+    }
+    if (this.dialogRef) {
+      animate(this.dialogRef.nativeElement, {
+        opacity: [1, 0],
+        scale: [1, 0.97],
+        translateY: [0, -6],
+        filter: ['blur(0px)', 'blur(6px)'],
+        duration: 200,
+        ease: 'inOutQuad',
+        onComplete: onComplete
+      });
+    } else {
+      onComplete();
+    }
   }
 
   onQueryChange(value: string) {
@@ -251,10 +275,10 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
     this.selectedIndex = 0;
     this.filterItems();
     this.cdr.markForCheck();
+    this.updateActiveIndicator(true);
   }
 
   clearQuery() {
-    // Push current state to stack before clearing
     if (this.query.trim().length > 0) {
       this.historyStack.push({ query: this.query, items: [...this.filteredItems] });
     }
@@ -262,75 +286,120 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
     this.filterItems();
     this.selectedIndex = 0;
     this.cdr.markForCheck();
+    this.updateActiveIndicator(true);
+  }
+
+  private getGroupHeading(type: string): string {
+    switch (type) {
+      case 'nav': return 'Navigation';
+      case 'project': return 'Projects';
+      case 'tech': return 'Technologies';
+      case 'social': return 'Social';
+      case 'action': return 'Actions';
+      default: return 'General';
+    }
   }
 
   filterItems() {
     const q = this.query.toLowerCase().trim();
+    let sorted: ActionItem[] = [];
+
     if (!q) { 
-      this.filteredItems = [];
-      return; 
+      sorted = [...this.actions];
+    } else {
+      const matchedItems = this.searchTrie.search(q);
+      const queryChars = q.split('');
+      const scored = matchedItems.map(item => {
+        let score = 0;
+        const label = item.label.toLowerCase();
+        
+        if (label === q) score += 100;
+        else if (label.startsWith(q)) score += 80;
+        else if (label.includes(q)) score += 60;
+        
+        let charIdx = 0;
+        let fuzzyMatchCount = 0;
+        let lastMatchIdx = -1;
+        let sequentialMatches = 0;
+        
+        for (let i = 0; i < label.length && charIdx < queryChars.length; i++) {
+          if (label[i] === queryChars[charIdx]) {
+            fuzzyMatchCount++;
+            if (lastMatchIdx === i - 1) sequentialMatches++;
+            lastMatchIdx = i;
+            charIdx++;
+          }
+        }
+        
+        if (fuzzyMatchCount === queryChars.length) {
+           score += 40 + (sequentialMatches * 5); 
+        }
+        
+        item.keywords.forEach(k => {
+           if (k === q) score += 70;
+           else if (k.startsWith(q)) score += 50;
+           else if (k.includes(q)) score += 30;
+        });
+
+        return { item, score };
+      });
+
+      sorted = scored.filter(s => s.score > 0).sort((a, b) => b.score - a.score).map(s => s.item);
     }
 
-    // O(L) Lookup using Suffix Trie
-    const matchedItems = this.searchTrie.search(q);
+    const grouped = new Map<string, ActionItem[]>();
+    let globalIndex = 0;
+    
+    for (const item of sorted) {
+      item.globalIndex = globalIndex++;
+      const heading = this.getGroupHeading(item.type);
+      if (!grouped.has(heading)) grouped.set(heading, []);
+      grouped.get(heading)!.push(item);
+    }
 
-    // Compute scores only on the O(L) subset
-    const queryChars = q.split('');
-    const scored = matchedItems.map(item => {
-      let score = 0;
-      const label = item.label.toLowerCase();
-      const desc = item.description.toLowerCase();
-      
-      // Exact / Prefix matches
-      if (label === q) score += 100;
-      else if (label.startsWith(q)) score += 80;
-      else if (label.includes(q)) score += 60;
-      
-      // Fuzzy match on label (e.g. "rct" matches "react")
-      let charIdx = 0;
-      let fuzzyMatchCount = 0;
-      let lastMatchIdx = -1;
-      let sequentialMatches = 0;
-      
-      for (let i = 0; i < label.length && charIdx < queryChars.length; i++) {
-        if (label[i] === queryChars[charIdx]) {
-          fuzzyMatchCount++;
-          if (lastMatchIdx === i - 1) sequentialMatches++;
-          lastMatchIdx = i;
-          charIdx++;
-        }
+    this.filteredGroups = Array.from(grouped.entries()).map(([heading, items]) => ({ heading, items }));
+    this.filteredItems = sorted;
+  }
+
+  private updateActiveIndicator(immediate = false) {
+    if (!isPlatformBrowser(this.platformId) || !this.listRef || !this.indicatorRef) return;
+    
+    setTimeout(() => {
+      const el = this.listRef.nativeElement.querySelector(`[data-index="${this.selectedIndex}"]`) as HTMLElement;
+      if (!el) {
+        if (this.indicatorRef.nativeElement) this.indicatorRef.nativeElement.style.opacity = '0';
+        return;
       }
       
-      if (fuzzyMatchCount === queryChars.length) {
-         score += 40 + (sequentialMatches * 5); 
+      const top = el.offsetTop;
+      const height = el.offsetHeight;
+      
+      if (immediate) {
+        this.indicatorRef.nativeElement.style.top = `${top}px`;
+        this.indicatorRef.nativeElement.style.height = `${height}px`;
+        this.indicatorRef.nativeElement.style.opacity = '1';
+      } else {
+        this.indicatorRef.nativeElement.style.opacity = '1';
+        animate(this.indicatorRef.nativeElement, {
+          top: `${top}px`,
+          height: `${height}px`,
+          duration: 350,
+          ease: 'spring(1, 80, 14, 0)'
+        });
       }
-      
-      // Keyword matching
-      item.keywords.forEach(k => {
-         if (k === q) score += 70;
-         else if (k.startsWith(q)) score += 50;
-         else if (k.includes(q)) score += 30;
-      });
-      
-      // Description fallback
-      if (desc.includes(q)) score += 20;
-
-      return { item, score };
     });
-
-    this.filteredItems = scored
-      .filter(s => s.score > 0)
-      .sort((a, b) => b.score - a.score)
-      .map(s => s.item);
   }
 
   private closeSpotlight() {
-    this.query = '';
-    this.filteredItems = [];
-    this.selectedIndex = 0;
-    this.historyStack.clear();
-    this.close.emit();
-    this.cdr.markForCheck();
+    this.playExitAnimation(() => {
+      this.query = '';
+      this.filteredItems = [];
+      this.filteredGroups = [];
+      this.selectedIndex = 0;
+      this.historyStack.clear();
+      this.close.emit();
+      this.cdr.markForCheck();
+    });
   }
 
   selectItem(item: ActionItem) {
@@ -342,65 +411,15 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
   }
 
   hoverItem(index: number) {
-    this.selectedIndex = index;
-    this.cdr.markForCheck();
-  }
-
-  handleSecondaryAction(item: ActionItem, e: MouseEvent) {
-    e.stopPropagation();
-    if (item.id === 'contact') {
-      this.copyToClipboard('theanshshah@gmail.com', item.id, e);
-    } else if (item.secondaryAction) {
-      item.secondaryAction.perform(e);
-    }
-  }
-
-  copyToClipboard(text: string, id: string, e: MouseEvent) {
-    e.stopPropagation();
-    navigator.clipboard.writeText(text);
-    this.copiedId = id;
-    this.cdr.markForCheck();
-    setTimeout(() => {
-      this.copiedId = null;
+    if (this.selectedIndex !== index) {
+      this.selectedIndex = index;
       this.cdr.markForCheck();
-    }, 2000);
+      this.updateActiveIndicator(false);
+    }
   }
 
   onBackdropClick() {
     this.closeSpotlight();
-  }
-
-  getItemClass(item: ActionItem, index: number): string {
-    return cn(
-      'w-full flex items-center justify-between px-3 py-2.5 rounded-lg cursor-pointer group',
-      'transition-all duration-150 ease-out',
-      this.selectedIndex === index
-        ? 'bg-primary/10 dark:bg-primary/15 shadow-sm'
-        : 'hover:bg-white/5'
-    );
-  }
-
-  getIconWrapperClass(item: ActionItem, index: number): string {
-    return cn(
-      'p-2 rounded-lg transition-all duration-200 shrink-0 border',
-      item.color,
-      this.selectedIndex === index && 'scale-110'
-    );
-  }
-
-  getLabelClass(index: number): string {
-    return cn(
-      'text-sm font-medium truncate flex items-center gap-2 transition-colors duration-150',
-      this.selectedIndex === index ? 'text-foreground' : 'text-muted-foreground'
-    );
-  }
-
-  getSecondaryButtonClass(item: ActionItem): string {
-    return cn(
-      'p-1.5 rounded-md transition-all duration-150 flex items-center gap-1.5 ml-2',
-      'hover:bg-white/10 border border-transparent hover:border-white/10',
-      this.copiedId === item.id ? 'text-primary bg-primary/10' : 'text-muted-foreground hover:text-foreground'
-    );
   }
 
   private handleKeyDown(e: KeyboardEvent) {
@@ -409,28 +428,38 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
       e.preventDefault();
       this.selectedIndex = (this.selectedIndex + 1) % len;
       this.scrollToSelected();
+      this.updateActiveIndicator(false);
+      this.cdr.markForCheck();
     } else if (e.key === 'Backspace' && this.query === '') {
       if (!this.historyStack.isEmpty()) {
         const prevState = this.historyStack.pop()!;
         this.query = prevState.query;
         this.filteredItems = prevState.items;
+        // Group them
+        const grouped = new Map<string, ActionItem[]>();
+        for (const item of this.filteredItems) {
+          const heading = this.getGroupHeading(item.type);
+          if (!grouped.has(heading)) grouped.set(heading, []);
+          grouped.get(heading)!.push(item);
+        }
+        this.filteredGroups = Array.from(grouped.entries()).map(([heading, items]) => ({ heading, items }));
+        
         this.selectedIndex = 0;
         this.cdr.markForCheck();
+        this.updateActiveIndicator(true);
       }
     } else if (e.key === 'ArrowUp' && len > 0) {
       e.preventDefault();
       this.selectedIndex = (this.selectedIndex - 1 + len) % len;
       this.scrollToSelected();
+      this.updateActiveIndicator(false);
+      this.cdr.markForCheck();
     } else if (e.key === 'Enter') {
       e.preventDefault();
       if (len > 0 && this.selectedIndex >= 0 && this.selectedIndex < len) {
         const item = this.filteredItems[this.selectedIndex];
         if (item) {
-          try {
-            item.perform();
-          } finally {
-            this.closeSpotlight();
-          }
+          this.selectItem(item);
         }
       }
     } else if (e.key === 'Escape') {
@@ -440,14 +469,16 @@ export class SpotlightSearchComponent implements OnInit, OnDestroy {
       e.preventDefault();
     } else if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault(); e.stopPropagation();
+      this.closeSpotlight();
     }
   }
 
   private scrollToSelected() {
     setTimeout(() => {
-      const el = this.listRef?.nativeElement?.children[this.selectedIndex] as HTMLElement;
-      el?.scrollIntoView({ block: 'nearest' });
+      const el = this.listRef?.nativeElement?.querySelector(`[data-index="${this.selectedIndex}"]`) as HTMLElement;
+      if (el) {
+        el.scrollIntoView({ block: 'nearest' });
+      }
     });
   }
 }
-

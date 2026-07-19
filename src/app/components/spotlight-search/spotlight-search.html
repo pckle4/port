@@ -1,97 +1,79 @@
 @if (isOpen) {
-<div class="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh] sm:pt-[20vh] px-4">
+<div class="fixed inset-0 z-[100] flex items-start justify-center p-4 pt-[12vh]">
+  <!-- Backdrop -->
   <div
-    class="fixed inset-0 bg-black/60 backdrop-blur-sm"
+    class="absolute inset-0 bg-foreground/40 backdrop-blur-sm"
     (click)="onBackdropClick()"
-    style="animation: fadeIn 150ms ease-out"
+    #backdrop
     aria-hidden="true"
   ></div>
 
+  <!-- Dialog -->
   <div
-    class="relative w-full max-w-4xl bg-background/95 dark:bg-[#0C0C0E]/95 backdrop-blur-2xl border border-border dark:border-[#2E2E33] shadow-2xl rounded-xl overflow-hidden shadow-glow-interactive"
-    style="animation: slideUp 200ms cubic-bezier(0.16, 1, 0.3, 1)"
+    #dialog
     role="dialog"
-    aria-label="Search commands"
     aria-modal="true"
+    aria-label="Command palette"
+    class="relative z-[101] flex max-h-[60vh] w-full max-w-md flex-col overflow-hidden rounded-2xl border-2 border-primary/30 dark:border-primary/40 bg-card text-card-foreground shadow-[0_0_30px_-5px_hsl(var(--primary)/0.2)] dark:shadow-[0_0_30px_-5px_hsl(var(--primary)/0.3)]"
   >
-    <div class="flex items-center px-4 h-12 sm:h-14 gap-3 sm:gap-4">
-      <lucide-icon name="search" class="h-5 w-5 text-muted-foreground/80 shrink-0"></lucide-icon>
+    <!-- Input -->
+    <div class="flex items-center gap-3 border-b border-border px-4 shrink-0">
+      <span aria-hidden="true" class="text-muted-foreground text-xl leading-none pt-1">⌕</span>
       <input
         #searchInput
-        class="flex-1 bg-transparent border-none outline-none text-base placeholder:text-muted-foreground/50 text-foreground h-full min-w-0"
-        placeholder="Type command or search..."
+        class="w-full bg-transparent py-4 text-sm text-foreground outline-none placeholder:text-muted-foreground"
+        placeholder="Type a command or search…"
         [value]="query"
         (input)="onQueryChange($any($event.target).value)"
         spellcheck="false"
         autocomplete="off"
-        aria-label="Search commands and actions"
       />
-      <div class="flex items-center gap-2 shrink-0">
-        @if (query) {
-          <button (click)="clearQuery()" class="p-1 hover:bg-white/10 rounded-full transition-colors" aria-label="Clear search">
-            <lucide-icon name="x" class="h-3.5 w-3.5 text-muted-foreground"></lucide-icon>
-          </button>
-        } @else {
-          <div class="flex items-center gap-3">
-            <div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 select-none shadow-inner" aria-hidden="true">
-              <lucide-icon name="clock" class="h-3 w-3 text-muted-foreground/80"></lucide-icon>
-              <span class="text-[10px] sm:text-xs font-semibold text-muted-foreground tracking-wide font-mono">{{ currentTimeIST }}</span>
-            </div>
-            <div class="hidden sm:flex items-center gap-1.5 px-1.5 py-0.5 rounded bg-white/5 border border-white/10" aria-hidden="true">
-              <span class="text-[10px] font-medium text-muted-foreground">ESC</span>
-            </div>
-          </div>
-        }
-      </div>
     </div>
 
-      <div class="overflow-y-auto border-t border-white/10 dark:border-border" #listContainer style="max-height: calc(50vh)" role="listbox" aria-label="Search results">
-        @if (filteredItems.length === 0 && query) {
-          <div class="py-8 text-center text-muted-foreground">
-            <p class="text-sm">No results found for "{{ query }}"</p>
-          </div>
-        } @else {
-          <div class="p-2 space-y-1">
-            @for (item of filteredItems; track item.id; let i = $index) {
-              <div
-                [class]="getItemClass(item, i)"
-                (click)="selectItem(item)"
-                (mouseenter)="hoverItem(i)"
-              >
-                <div class="flex items-center gap-3 overflow-hidden flex-1">
-                  <div [class]="getIconWrapperClass(item, i)">
-                    <lucide-icon [name]="item.icon" class="h-4 w-4"></lucide-icon>
-                  </div>
-                  <div class="truncate min-w-0 flex-1">
-                    <div [class]="getLabelClass(i)">
-                      {{ item.label }}
-                      @if (selectedIndex === i) {
-                        <lucide-icon name="arrow-right" class="h-3 w-3 opacity-60"></lucide-icon>
-                      }
-                    </div>
-                    <div class="text-[11px] truncate text-muted-foreground/60">
-                      {{ item.description }}
-                    </div>
-                  </div>
-                </div>
-                @if (item.secondaryAction) {
-                  <button
-                    [class]="getSecondaryButtonClass(item)"
-                    (click)="handleSecondaryAction(item, $event)"
-                    [title]="item.secondaryAction.label"
-                  >
-                    @if (copiedId === item.id) {
-                      <lucide-icon name="check" class="h-3.5 w-3.5"></lucide-icon>
-                    } @else {
-                      <lucide-icon [name]="item.secondaryAction.icon" class="h-3.5 w-3.5"></lucide-icon>
-                    }
-                  </button>
-                }
+    <!-- Results -->
+    <div class="overflow-y-auto p-2 relative scrollbar-hide" #listContainer>
+      @if (filteredItems.length === 0) {
+        <div class="px-3 py-8 text-center text-sm text-muted-foreground">
+          No results found.
+        </div>
+      } @else {
+        <!-- Highlight indicator element -->
+        <div 
+          #activeIndicator
+          class="absolute left-2 right-2 rounded-lg bg-accent pointer-events-none transition-all duration-[250ms] ease-[cubic-bezier(0.2,0.8,0.2,1)]"
+          style="height: 40px; top: -100px; transform: scale(1); opacity: 1;"
+        ></div>
+
+        @for (group of filteredGroups; track group.heading) {
+          <div class="mb-1">
+            @if (group.heading) {
+              <div class="px-3 py-1.5 text-xs font-medium text-muted-foreground shrink-0">
+                {{ group.heading }}
               </div>
+            }
+            @for (item of group.items; track item.id) {
+              <button
+                type="button"
+                [attr.data-index]="item.globalIndex"
+                (click)="selectItem(item)"
+                (mousemove)="hoverItem(item.globalIndex!)"
+                class="relative z-10 flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm text-foreground focus:outline-none"
+              >
+                @if (item.icon) {
+                  <lucide-icon [name]="item.icon" class="relative text-muted-foreground h-4 w-4 shrink-0"></lucide-icon>
+                }
+                <span class="relative flex-1 truncate">{{ item.label }}</span>
+                @if (item.shortcut) {
+                  <kbd class="relative rounded border border-border px-1.5 py-0.5 text-[10px] uppercase font-medium text-muted-foreground shrink-0 bg-background/50 backdrop-blur-md">
+                    {{ item.shortcut }}
+                  </kbd>
+                }
+              </button>
             }
           </div>
         }
-      </div>
+      }
+    </div>
   </div>
 </div>
 }

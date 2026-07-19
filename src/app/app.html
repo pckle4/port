@@ -1,10 +1,16 @@
 <!-- Noise Texture is handled efficiently in styles.css background -->
 <div class="min-h-screen bg-background font-sans antialiased text-foreground selection:bg-highlighter-pink selection:text-deep-navy relative">
+  
   @if (!isNotFoundPage()) {
+    <app-grid-background></app-grid-background>
     <app-enhanced-header></app-enhanced-header>
   }
 
-  <main>
+  <main class="pb-20">
     <router-outlet></router-outlet>
   </main>
+
+  @if (!isNotFoundPage()) {
+    <app-enhanced-footer></app-enhanced-footer>
+  }
 </div>

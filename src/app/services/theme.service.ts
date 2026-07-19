@@ -51,14 +51,8 @@ export class ThemeService {
   }
 
   toggleTheme() {
-    const currentTheme = this.theme();
-    if (currentTheme === 'light') {
-      this.setTheme('dark');
-    } else if (currentTheme === 'dark') {
-      this.setTheme('system');
-    } else {
-      this.setTheme('light');
-    }
+    const resolvedTheme = this.resolveTheme(this.theme());
+    this.setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
   }
 
   private resolveTheme(theme: Theme): 'dark' | 'light' {
@@ -86,24 +80,12 @@ export class ThemeService {
     const resolved = this.resolveTheme(theme);
     const changed = this.currentResolvedTheme !== resolved;
 
-    root.classList.add('theme-switching');
     root.classList.toggle('dark', resolved === 'dark');
     root.classList.toggle('light', resolved === 'light');
 
     this.isDark.set(resolved === 'dark');
     this.currentResolvedTheme = resolved;
     root.style.colorScheme = resolved;
-
-    if (this.clearThemeSwitchTimer) {
-      clearTimeout(this.clearThemeSwitchTimer);
-    }
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => root.classList.remove('theme-switching'));
-    });
-    this.clearThemeSwitchTimer = setTimeout(() => {
-      root.classList.remove('theme-switching');
-    }, 220);
 
     if (emitEvent && changed) {
       window.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme: resolved } }));

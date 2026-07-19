@@ -2,9 +2,9 @@ import { Component, OnInit, signal, inject, OnDestroy, PLATFORM_ID, ChangeDetect
 import { isPlatformBrowser } from '@angular/common';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { ThemeService } from './services/theme.service';
-import { SectionRegistryService } from './services/section-registry.service';
-import { smoothScrollToWithRetry } from './lib/utils';
 import { EnhancedHeaderComponent } from './components/enhanced-header/enhanced-header';
+import { EnhancedFooterComponent } from './components/enhanced-footer/enhanced-footer';
+import { GridBackgroundComponent } from './components/ui/grid-background/grid-background';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
@@ -13,7 +13,9 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [
     RouterOutlet,
-    EnhancedHeaderComponent
+    EnhancedHeaderComponent,
+    EnhancedFooterComponent,
+    GridBackgroundComponent
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
@@ -23,7 +25,6 @@ export class App implements OnInit, OnDestroy {
   protected readonly title = signal('my-app');
 
   private themeService = inject(ThemeService);
-  private sectionRegistry = inject(SectionRegistryService);
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
   private routerSub?: Subscription;
@@ -37,26 +38,9 @@ export class App implements OnInit, OnDestroy {
       this.routerSub = this.router.events.pipe(
         filter(event => event instanceof NavigationEnd)
       ).subscribe((event: any) => {
-        // Hide header on 404 page
         this.isNotFoundPage.set(event.urlAfterRedirects.includes('/404'));
-        
-        const fragment = this.router.routerState.snapshot.root.fragment;
-        if (fragment) {
-          this.scrollToFragment(fragment);
-        }
       });
-
-      // Initial load with hash (e.g. external deep links) can happen before sections mount.
-      const initialFragment = this.router.routerState.snapshot.root.fragment;
-      if (initialFragment) {
-        setTimeout(() => this.scrollToFragment(initialFragment), 0);
-      }
     }
-  }
-
-  private scrollToFragment(fragment: string) {
-    this.sectionRegistry.loadAllSections();
-    smoothScrollToWithRetry(fragment, { maxRetries: 30, retryInterval: 100 });
   }
 
   ngOnDestroy() {

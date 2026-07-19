@@ -1,10 +1,10 @@
 <section id="home" #heroHost
-  class="min-h-[100dvh] flex flex-col items-center justify-center relative overflow-hidden px-4 sm:px-6 pt-24 sm:pt-32 pb-16 sm:pb-8">
+  class="min-h-[100dvh] flex flex-col items-center justify-center relative overflow-hidden px-5 sm:px-6 pt-16 sm:pt-24 pb-12 sm:pb-8">
 
   <!-- Dark-mode grid with shimmer sweep -->
   <div class="absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-[600ms] ease-[ease] [contain:strict] z-0 dark:opacity-100" aria-hidden="true">
     <div class="absolute inset-0 bg-[linear-gradient(hsl(var(--primary)/0.07)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--primary)/0.07)_1px,transparent_1px)] bg-[size:60px_60px] [mask-image:radial-gradient(ellipse_90%_75%_at_50%_5%,black_15%,transparent_85%)] [-webkit-mask-image:radial-gradient(ellipse_90%_75%_at_50%_5%,black_15%,transparent_85%)]"></div>
-    <div class="absolute inset-0 bg-[linear-gradient(108deg,transparent_10%,hsl(var(--primary)/0.13)_35%,hsl(var(--dusty-lavender)/0.09)_50%,hsl(var(--primary)/0.06)_62%,transparent_82%)] bg-[size:250%_100%] bg-[position:200%_0] animate-[hero-shimmer_5.5s_cubic-bezier(0.4,0,0.2,1)_infinite] will-change-[background-position,opacity] max-sm:animate-none max-sm:opacity-0"></div>
+    <div class="absolute inset-0 bg-[linear-gradient(108deg,transparent_10%,hsl(var(--foreground)/0.04)_35%,hsl(var(--foreground)/0.04)_50%,hsl(var(--foreground)/0.01)_62%,transparent_82%)] bg-[size:250%_100%] bg-[position:200%_0] animate-[hero-shimmer_5.5s_cubic-bezier(0.4,0,0.2,1)_infinite] will-change-[background-position,opacity] max-sm:animate-none max-sm:opacity-0"></div>
   </div>
 
   @if (isDesktop) {
@@ -14,7 +14,7 @@
   <div class="container mx-auto text-center max-w-5xl relative z-10">
 
     <!-- Open to Work Badge -->
-    <div class="mb-8 sm:mb-10 md:mb-8 lg:mb-6 flex justify-center animate-slide-up relative z-20">
+    <div class="mb-8 sm:mb-10 md:mb-8 lg:mb-6 flex justify-center hero-anime-element relative z-20">
       <div
         class="group relative inline-flex overflow-hidden rounded-sketchy-1 px-3 sm:px-4 py-1 sm:py-1.5 transition-all duration-300 hover:-translate-y-1 hover:-rotate-2 border-2 border-amber-500/40 dark:border-amber-400/40 bg-[#FBF7F0] dark:bg-[hsl(var(--card))] shadow-stamp dark:shadow-glow-charcoal cursor-default items-center justify-center gap-1.5 sm:gap-2">
         <lucide-icon name="zap"
@@ -26,53 +26,42 @@
     </div>
 
     <!-- Greeting -->
-    <div class="mb-4 sm:mb-5 md:mb-4 flex items-center justify-center space-x-2 text-muted-foreground animate-slide-up"
-      style="animation-delay: 100ms">
+    <div class="mb-4 sm:mb-5 md:mb-4 flex items-center justify-center space-x-2 text-muted-foreground hero-anime-element">
       <span class="text-sm sm:text-base md:text-lg font-medium tracking-wide">👋 Hi there, I'm</span>
     </div>
 
     <!-- Name -->
     <h1
-      class="text-[38px] sm:text-4xl md:text-5xl lg:text-6xl font-display font-black mb-3 sm:mb-4 tracking-tight relative inline-block animate-slide-up select-none pointer-events-none leading-[1.1]"
-      style="animation-delay: 200ms">
+      class="text-[42px] sm:text-6xl md:text-7xl lg:text-[5rem] font-display font-black mb-3 sm:mb-4 tracking-tight relative inline-block hero-anime-element select-none pointer-events-none leading-[1.1]">
       <span class="text-foreground">Ansh Shah</span>
       <lucide-icon name="pencil"
-        class="absolute -top-2 sm:-top-3 -right-3 sm:-right-4 w-5 h-5 sm:w-6 sm:h-6 text-amber-500 dark:text-amber-400 hidden sm:block animate-pulse"></lucide-icon>
+        class="absolute -top-3 sm:-top-5 -right-4 sm:-right-8 w-6 h-6 sm:w-8 sm:h-8 text-amber-500 dark:text-amber-400 block animate-pulse"></lucide-icon>
     </h1>
 
     <div
-      class="h-7 sm:h-8 md:h-10 lg:h-12 flex items-center justify-center mb-6 sm:mb-8 text-[17px] sm:text-xl md:text-2xl lg:text-3xl font-display font-bold text-foreground animate-slide-up select-none pointer-events-none"
-      style="animation-delay: 300ms">
+      class="h-8 sm:h-10 md:h-12 lg:h-14 flex items-center justify-center mb-6 sm:mb-10 text-lg sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold text-foreground hero-anime-element select-none pointer-events-none">
       <app-animated-headline [words]="dynamicWords"></app-animated-headline>
     </div>
 
     <!-- Description -->
-    <p class="mb-10 sm:mb-12 md:mb-8 lg:mb-6 text-[13px] sm:text-sm md:text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed animate-slide-up"
-      style="animation-delay: 400ms">
+    <p class="mb-12 sm:mb-16 md:mb-14 lg:mb-12 text-[15px] sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-[280px] sm:max-w-3xl mx-auto leading-relaxed hero-anime-element">
       Building
-      <span class="relative inline-flex items-center justify-center px-1.5 sm:px-2 py-[1px] sm:py-0.5 mx-0.5 sm:mx-1 font-bold text-foreground z-10 group cursor-default transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-1">
-        <span class="relative z-10 group-hover:text-white transition-colors duration-300 drop-shadow-sm">digital masterpieces 🎨</span>
-        <span class="absolute inset-0 w-full h-full bg-destructive/15 dark:bg-destructive/20 -z-10 rounded-[6px] transition-all duration-500 ease-out group-hover:bg-destructive group-hover:scale-105 group-hover:shadow-[0_0_24px_-4px_rgba(223,73,148,0.65)]"></span>
-        <span class="absolute inset-0 w-full h-full rounded-[6px] opacity-0 group-hover:opacity-100 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.35),transparent)] bg-[size:200%_100%] group-hover:animate-[shine_1.5s_infinite] pointer-events-none -z-10 mix-blend-overlay"></span>
+      <span class="inline-flex items-center justify-center px-2.5 py-0.5 mx-1 font-bold text-foreground bg-destructive/15 rounded-md transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-destructive hover:text-white hover:shadow-[0_0_25px_hsl(var(--destructive)/0.5)] cursor-default">
+        digital masterpieces 🎨
       </span>
       that seamlessly blend
-      <span class="relative inline-flex items-center justify-center px-1.5 sm:px-2 py-[1px] sm:py-0.5 mx-0.5 sm:mx-1 font-bold text-foreground z-10 group cursor-default transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-1">
-        <span class="relative z-10 group-hover:text-amber-950 transition-colors duration-300 drop-shadow-sm">complex logic 🧠</span>
-        <span class="absolute inset-0 w-full h-full bg-warning-amber/15 dark:bg-warning-amber/20 -z-10 rounded-[6px] transition-all duration-500 ease-out group-hover:bg-warning-amber group-hover:scale-105 group-hover:shadow-[0_0_24px_-4px_rgba(251,168,24,0.65)]"></span>
-        <span class="absolute inset-0 w-full h-full rounded-[6px] opacity-0 group-hover:opacity-100 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.45),transparent)] bg-[size:200%_100%] group-hover:animate-[shine_1.5s_infinite] pointer-events-none -z-10 mix-blend-overlay"></span>
+      <span class="inline-flex items-center justify-center px-2.5 py-0.5 mx-1 font-bold text-foreground bg-secondary/20 rounded-md transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-secondary hover:text-white hover:shadow-[0_0_25px_hsl(var(--secondary)/0.5)] cursor-default">
+        complex logic 🧠
       </span>
       with
-      <span class="relative inline-flex items-center justify-center px-1.5 sm:px-2 py-[1px] sm:py-0.5 mx-0.5 sm:mx-1 font-bold text-foreground z-10 group cursor-default transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-1">
-        <span class="relative z-10 group-hover:text-white transition-colors duration-300 drop-shadow-sm">elegant aesthetics 🪄</span>
-        <span class="absolute inset-0 w-full h-full bg-action-blue/15 dark:bg-primary/20 -z-10 rounded-[6px] transition-all duration-500 ease-out group-hover:bg-action-blue dark:group-hover:bg-primary group-hover:scale-105 group-hover:shadow-[0_0_24px_-4px_rgba(22,118,243,0.65)] dark:group-hover:shadow-[0_0_24px_-4px_rgba(77,163,255,0.65)]"></span>
-        <span class="absolute inset-0 w-full h-full rounded-[6px] opacity-0 group-hover:opacity-100 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.35),transparent)] bg-[size:200%_100%] group-hover:animate-[shine_1.5s_infinite] pointer-events-none -z-10 mix-blend-overlay"></span>
+      <span class="inline-flex items-center justify-center px-2.5 py-0.5 mx-1 font-bold text-foreground bg-primary/15 rounded-md transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-primary hover:text-white hover:shadow-[0_0_25px_hsl(var(--primary)/0.5)] cursor-default">
+        elegant aesthetics 🪄
       </span>.
     </p>
 
     <!-- CTA Buttons -->
     <div
-      class="flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center items-center mb-10 sm:mb-12 md:mb-8 lg:mb-6 px-4 sm:px-0 animate-slide-up safe-area-inset w-full max-w-[280px] sm:max-w-none mx-auto"
-      style="animation-delay: 500ms">
+      class="flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center items-center mb-10 sm:mb-12 md:mb-8 lg:mb-6 px-4 sm:px-0 hero-anime-element safe-area-inset w-full max-w-[280px] sm:max-w-none mx-auto">
 
       <!-- Primary CTA -->
       <button (click)="scrollToProjects()"
@@ -90,7 +79,7 @@
     </div>
 
     <!-- Social Links -->
-    <div class="flex justify-center gap-3 sm:gap-4 animate-slide-up" style="animation-delay: 600ms">
+    <div class="flex justify-center gap-3 sm:gap-4 hero-anime-element">
       @for (social of socials; track social.label) {
       <a [href]="social.href" target="_blank" rel="noopener noreferrer" [aria-label]="social.label"
         class="p-1.5 sm:p-2 rounded-full bg-white/70 dark:bg-white/5 border border-primary/20 dark:border-border hover:shadow-lg hover:shadow-primary/15 transition-all duration-500 hover:scale-110 hover:-translate-y-1 backdrop-blur-none sm:backdrop-blur-md touch-feedback"

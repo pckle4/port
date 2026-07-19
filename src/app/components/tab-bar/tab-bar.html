@@ -1,0 +1,28 @@
+<div
+  class="tab-bar-wrapper"
+  [class.tab-bar-wrapper--hidden]="!isVisible()"
+>
+  <nav #tabBarRef class="tab-bar" aria-label="Main navigation">
+    <!-- Animated dark pill -->
+    <div #blobRef class="tab-blob" aria-hidden="true"></div>
+
+    @for (item of navigation; track item.id) {
+      <button
+        #tabBtn
+        type="button"
+        class="tab-item"
+        [class.tab-item--active]="isActive(item.id)"
+        [attr.aria-current]="isActive(item.id) ? 'page' : null"
+        [attr.aria-label]="item.name"
+        [attr.data-tab-id]="item.id"
+        (click)="onTabClick(item)"
+      >
+        <span class="tab-icon-wrap">
+          <lucide-icon [name]="item.icon"></lucide-icon>
+        </span>
+        <!-- Label always in DOM — CSS controls visibility via max-width -->
+        <span class="tab-label" [class.tab-label--visible]="isActive(item.id)">{{ item.name }}</span>
+      </button>
+    }
+  </nav>
+</div>

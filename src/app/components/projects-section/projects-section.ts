@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, AfterViewInit, OnDestroy, inject, P
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 import { ProjectCardComponent } from './project-card/project-card';
-import { SectionRegistryService } from '../../services/section-registry.service';
+
 
 @Component({
   selector: 'app-projects-section',
@@ -14,19 +14,10 @@ import { SectionRegistryService } from '../../services/section-registry.service'
 })
 export class ProjectsSectionComponent implements AfterViewInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
-  private sectionRegistry = inject(SectionRegistryService);
 
-  ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.sectionRegistry.register('projects');
-    }
-  }
+  ngAfterViewInit() {}
 
-  ngOnDestroy() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.sectionRegistry.unregister('projects');
-    }
-  }
+  ngOnDestroy() {}
 
   projects = [
     {

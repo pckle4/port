@@ -1,0 +1,73 @@
+<section class="velocity-section relative h-auto md:h-[250vh] w-full py-12 md:py-0" [class.reduced-motion]="reducedMotion()"
+  aria-label="Velocity scroll showcase">
+  <!-- Sticky viewing window covers FULL screen on desktop, natural flow on mobile -->
+  <div class="velocity-sticky-container md:sticky md:top-0 flex h-auto md:h-screen w-full flex-col justify-center overflow-hidden isolation-isolate bg-background/85"
+       [style.transform]="'scale(' + (0.98 + sectionProgress * 0.02) + ')'" [style.transition]="'transform 0.1s linear'">
+    <!-- Background Grid -->
+    <div class="pointer-events-none absolute inset-0 z-[-1] opacity-40"
+      style="background-image: linear-gradient(hsl(var(--foreground) / 0.05) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground) / 0.05) 1px, transparent 1px); background-size: 4rem 4rem; mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);">
+    </div>
+
+    <!-- Radial Glows -->
+    <div
+      class="pointer-events-none absolute inset-0 z-[-1] bg-[radial-gradient(circle_at_78%_12%,hsl(var(--primary)/0.12),transparent_24rem)]">
+    </div>
+    <div
+      class="pointer-events-none absolute inset-0 z-[-1] bg-[radial-gradient(circle_at_8%_92%,hsl(var(--secondary)/0.1),transparent_26rem)]">
+    </div>
+
+    <!-- DESKTOP: JS-Driven Velocity Marquee -->
+    <div class="marquee-stack hidden md:grid w-full gap-4 py-4">
+      @for (row of rows; track $index) {
+      <div class="marquee pointer-events-none overflow-hidden opacity-0" aria-hidden="true">
+        <div #track class="marquee__track flex w-max whitespace-nowrap" [ngClass]="{
+              'text-foreground/70': row.style === 'solid',
+              'text-transparent outline-text': row.style === 'outline',
+              'text-foreground/40': row.style === 'compact'
+            }">
+          @for (copy of copies; track copy) {
+          <span class="marquee__sequence inline-flex items-center font-mono font-bold leading-[0.85] tracking-tighter"
+            [ngClass]="{
+                  'text-[4rem] sm:text-7xl md:text-8xl lg:text-[9rem]': row.style !== 'compact',
+                  'text-[2.5rem] sm:text-5xl md:text-6xl lg:text-[7rem]': row.style === 'compact'
+                }">
+            @for (word of row.words; track word) {
+            <span class="marquee__word">{{ word }}</span>
+            <i class="marquee__dot inline-block h-[0.25em] w-[0.25em] flex-none rounded-full bg-current mx-2 md:mx-4"></i>
+            }
+          </span>
+          }
+        </div>
+      </div>
+      }
+    </div>
+
+    <!-- MOBILE: Pure CSS Marquee -->
+    <div class="marquee-stack-mobile grid md:hidden w-full gap-4 py-4 pointer-events-none overflow-hidden" aria-hidden="true">
+      @for (row of rows; track $index) {
+      <div class="marquee-mobile overflow-hidden">
+        <div class="flex w-max whitespace-nowrap" [ngClass]="{
+              'text-foreground/70': row.style === 'solid',
+              'text-transparent outline-text': row.style === 'outline',
+              'text-foreground/40': row.style === 'compact',
+              'animate-marquee-left': row.direction === 1,
+              'animate-marquee-right': row.direction === -1
+            }">
+          @for (copy of copies; track copy) {
+          <span class="inline-flex items-center font-mono font-bold leading-[0.85] tracking-tighter"
+            [ngClass]="{
+                  'text-[4rem]': row.style !== 'compact',
+                  'text-[2.5rem]': row.style === 'compact'
+                }">
+            @for (word of row.words; track word) {
+            <span class="marquee__word">{{ word }}</span>
+            <i class="marquee__dot inline-block h-[0.25em] w-[0.25em] flex-none rounded-full bg-current mx-2"></i>
+            }
+          </span>
+          }
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</section>

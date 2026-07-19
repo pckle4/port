@@ -107,6 +107,7 @@ module.exports = {
         'float-slow': 'float-slow 6s ease-in-out infinite',
         'nav-pill-in': 'nav-pill-in 0.35s cubic-bezier(0.32,0.72,0,1)',
         'nav-slide-up': 'nav-slide-up 0.4s cubic-bezier(0.32,0.72,0,1)',
+        'draw-stroke': 'draw-stroke 0.4s ease-out forwards',
       },
       keyframes: {
         'spin-slow': {
@@ -131,6 +132,10 @@ module.exports = {
         'nav-slide-up': {
           '0%': { opacity: '0', transform: 'translateY(8px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'draw-stroke': {
+          '0%': { strokeDashoffset: '300' },
+          '100%': { strokeDashoffset: '0' },
         },
       },
     },

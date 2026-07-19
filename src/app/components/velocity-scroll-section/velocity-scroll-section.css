@@ -1,0 +1,59 @@
+/* Outline text utility (Tailwind doesn't do this natively without plugins) */
+.outline-text {
+  -webkit-text-stroke: 1px hsl(var(--primary) / 0.9);
+}
+
+/* Velocity-reactive transitions (smooth, no layout thrashing) */
+.velocity-section.is-fast .marquee__track {
+  transition: color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              -webkit-text-stroke-width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.velocity-section.is-fast .marquee__track.text-foreground\/70 {
+  color: hsl(var(--foreground) / 0.95);
+}
+
+.velocity-section.is-fast .marquee__track.outline-text {
+  -webkit-text-stroke-width: 2px;
+}
+
+.velocity-section.is-fast .marquee__track.text-foreground\/40 {
+  color: hsl(var(--foreground) / 0.7);
+}
+
+/* Dot pulse animation triggered by is-fast */
+.velocity-section.is-fast .marquee__dot {
+  animation: dot-pulse 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes dot-pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.8); opacity: 1; }
+}
+
+/* Reduced motion overrides */
+.reduced-motion .marquee__track,
+.reduced-motion .marquee {
+  transform: none !important;
+  opacity: 1 !important;
+  animation: none !important;
+}
+
+/* Mobile Pure CSS Marquee */
+@keyframes marquee-scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-scroll-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-marquee-left {
+  animation: marquee-scroll-left 125s linear infinite;
+}
+
+.animate-marquee-right {
+  animation: marquee-scroll-right 125s linear infinite;
+}

@@ -2,7 +2,6 @@ import { Component, ElementRef, OnInit, OnDestroy, PLATFORM_ID, inject, ChangeDe
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import * as THREE from 'three';
 import { ThemeService } from '../../../services/theme.service';
-import { SectionRegistryService } from '../../../services/section-registry.service';
 import { SiteDataService } from '../../../services/site-data.service';
 
 // DATA STRUCTURE: Map for O(1) cache lookups
@@ -102,7 +101,6 @@ export class IconCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private ngZone = inject(NgZone);
   private themeService = inject(ThemeService);
-  private sectionRegistry = inject(SectionRegistryService);
   private siteDataService = inject(SiteDataService);
 
   private scene!: THREE.Scene;
@@ -274,8 +272,7 @@ export class IconCloudComponent implements OnInit, AfterViewInit, OnDestroy {
       nextdotjs: isDark ? 'ffffff' : '000000',
       github: isDark ? 'ffffff' : '181717',
       express: isDark ? 'ffffff' : '000000',
-      vercel: isDark ? 'ffffff' : '000000',
-      openai: isDark ? 'ffffff' : '000000'
+      vercel: isDark ? 'ffffff' : '000000'
     };
                   
     try {

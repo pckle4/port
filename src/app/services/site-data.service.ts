@@ -53,7 +53,7 @@ export class SiteDataService {
       'python', 'html5', 'css', 'nextdotjs', 'vercel', 
       'vite', 'figma', 'apachekafka', 'nginx', 'graphql', 
       'redis', 'dotnet', 'kubernetes', 'linux', 'android',
-      'springboot', 'spring', 'tensorflow', 'pytorch', 'scikitlearn', 'openai', 'huggingface', 'java'
+      'springboot', 'spring', 'tensorflow', 'pytorch', 'scikitlearn', 'huggingface'
     ]
   });
 

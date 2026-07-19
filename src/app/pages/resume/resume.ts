@@ -34,7 +34,7 @@ interface ResumeLeadership {
 @Component({
   selector: 'app-resume',
   standalone: true,
-  imports: [CommonModule, RouterLink, LucideAngularModule, EnhancedFooterComponent],
+  imports: [CommonModule, RouterLink, LucideAngularModule],
   templateUrl: './resume.html',
   styleUrls: ['./resume.css'],
   changeDetection: ChangeDetectionStrategy.OnPush

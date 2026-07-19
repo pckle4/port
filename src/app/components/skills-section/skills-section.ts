@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ElementRef, PLATFORM_ID, inject, ChangeDetectionStrategy, signal } from '@angular/core';
-import { SectionRegistryService } from '../../services/section-registry.service';
+
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SkillCardComponent } from './skill-card/skill-card';
 import { IconCloudComponent } from '../ui/icon-cloud/icon-cloud';
@@ -18,18 +18,11 @@ export class SkillsSectionComponent implements OnInit, OnDestroy {
 
   private platformId = inject(PLATFORM_ID);
   private el = inject(ElementRef);
-  private sectionRegistry = inject(SectionRegistryService);
   private siteDataService = inject(SiteDataService);
 
   skillCategories = this.siteDataService.data().skillCategories;
 
-  ngOnInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.sectionRegistry.register('skills');
-    }
-  }
+  ngOnInit() {}
 
-  ngOnDestroy() {
-    this.sectionRegistry.unregister('skills');
-  }
+  ngOnDestroy() {}
 }
