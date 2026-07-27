@@ -80,15 +80,24 @@ export class ThemeService {
     const resolved = this.resolveTheme(theme);
     const changed = this.currentResolvedTheme !== resolved;
 
-    root.classList.toggle('dark', resolved === 'dark');
-    root.classList.toggle('light', resolved === 'light');
+    const doTransition = () => {
+      root.classList.toggle('dark', resolved === 'dark');
+      root.classList.toggle('light', resolved === 'light');
+      root.dataset['theme'] = resolved;
 
-    this.isDark.set(resolved === 'dark');
-    this.currentResolvedTheme = resolved;
-    root.style.colorScheme = resolved;
+      this.isDark.set(resolved === 'dark');
+      this.currentResolvedTheme = resolved;
+      root.style.colorScheme = resolved;
 
-    if (emitEvent && changed) {
-      window.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme: resolved } }));
+      if (emitEvent && changed) {
+        window.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme: resolved } }));
+      }
+    };
+
+    if (emitEvent && changed && 'startViewTransition' in document) {
+      (document as any).startViewTransition(() => doTransition());
+    } else {
+      doTransition();
     }
   }
 }

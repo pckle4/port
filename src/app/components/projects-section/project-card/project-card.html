@@ -1,25 +1,24 @@
 <div [id]="project.id"
-  class="group relative flex flex-col rounded-2xl overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-2 h-full"
-  style="background-color: #fff; border: 1px solid #e8e8e8; box-shadow: 0 4px 20px rgba(0,0,0,0.06);">
+  class="group relative flex flex-col rounded-2xl overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-2 h-full bg-card text-card-foreground border border-border/50 shadow-lg">
 
   <!-- Image -->
-  <div class="relative w-full aspect-[16/10] overflow-hidden" style="background-color: #f0f0f0;">
+  <div class="relative w-full aspect-[16/9] overflow-hidden bg-muted">
     <div
       class="absolute inset-0 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105">
       <img [src]="project.image" [alt]="project.title" class="w-full h-full object-cover" loading="lazy" />
     </div>
 
-    <!-- Hover overlay -->
-    <div
-      class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-all duration-400"
-      style="background-color: rgba(26,26,46,0.7); backdrop-filter: blur(4px);">
+    <!-- Hover overlay (Glassmorphic Slide-up) -->
+    <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0"
+         style="background-color: rgba(0,0,0,0.6); backdrop-filter: blur(8px);">
       <a [href]="project.links.demo" target="_blank" rel="noopener noreferrer"
-        class="pill-btn pill-btn-primary text-xs px-5 py-2">
+        class="pill-btn pill-btn-primary text-xs px-5 py-2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">
         <lucide-icon name="globe" class="w-3.5 h-3.5"></lucide-icon> Live Demo
       </a>
       @if (project.links.github !== "#") {
       <a [href]="project.links.github" target="_blank" rel="noopener noreferrer"
-        class="pill-btn pill-btn-outline text-xs px-5 py-2" style="border-color: white; color: white;">
+        class="pill-btn pill-btn-outline text-xs px-5 py-2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-150" 
+        style="border-color: white; color: white;">
         <lucide-icon name="github" class="w-3.5 h-3.5"></lucide-icon> Code
       </a>
       }
@@ -30,30 +29,28 @@
   <div class="p-5 sm:p-6 flex flex-col flex-1">
     <div class="flex items-start justify-between mb-2">
       <div>
-        <span class="inline-flex items-center text-[10px] font-bold uppercase tracking-wider mb-1"
-              style="color: hsl(247, 91%, 55%);">
+        <span class="inline-flex items-center text-[10px] font-bold uppercase tracking-wider mb-1 text-primary">
           {{ project.category }}
         </span>
-        <h3 class="text-lg font-bold transition-colors" style="color: #1a1a2e;">
+        <h3 class="text-lg font-bold transition-colors text-foreground">
           {{ project.title }}
         </h3>
       </div>
       <a [href]="project.links.demo" target="_blank" rel="noopener noreferrer"
-        class="p-1 shrink-0 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
-        style="color: #999;" [title]="'Open ' + project.title">
+        class="p-1 shrink-0 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 text-muted-foreground hover:text-primary"
+        [title]="'Open ' + project.title">
         <lucide-icon name="arrow-up-right" class="w-5 h-5"></lucide-icon>
       </a>
     </div>
 
-    <p class="text-sm leading-relaxed mb-4 line-clamp-3" style="color: #666;">
+    <p class="text-sm leading-relaxed mb-4 line-clamp-3 text-muted-foreground">
       {{ project.description }}
     </p>
 
-    <div class="mt-auto pt-3 flex flex-wrap gap-1.5 items-center" style="border-top: 1px solid #eee;">
+    <div class="mt-auto pt-3 flex flex-wrap gap-1.5 items-center border-t border-border/50">
       <div class="flex flex-wrap gap-1.5">
         @for (tag of project.tags; track tag) {
-        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold"
-              style="background-color: #f0f0f0; color: #555;">
+        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-muted text-muted-foreground">
           {{ tag }}
         </span>
         }

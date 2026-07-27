@@ -14,10 +14,10 @@
         <div class="marquee">
           <div
             #track
-            class="marquee__track marquee__track--{{ row.style }}"
+            class="marquee__track marquee__track--{{ row.style }} marquee__track--dir-{{ $index % 2 === 0 ? 'left' : 'right' }}"
           >
-            <!-- Repeat 4 times for infinite looping -->
-            @for (copy of [1, 2, 3, 4]; track copy) {
+            <!-- Repeat 6 times for infinite looping safely across ultra-wide monitors -->
+            @for (copy of [1, 2, 3, 4, 5, 6]; track copy) {
               <span class="marquee__sequence" style="padding-right: 0.6em;">
                 @for (word of row.words; track word) {
                   <span>{{ word }}</span>

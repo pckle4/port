@@ -1,4 +1,4 @@
-import { Directive, ElementRef, OnInit, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
+import { Directive, ElementRef, OnInit, OnDestroy, PLATFORM_ID, inject, Input } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 @Directive({
@@ -10,6 +10,9 @@ export class StackSectionDirective implements OnInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private resizeObserver?: ResizeObserver;
   private boundUpdate = this.updateStickyOffset.bind(this);
+
+  @Input() stackPause = '0px';
+  @Input() stackOffset = 0; // Number of pixels to offset the pin from the bottom
 
   ngOnInit() {
     if (!isPlatformBrowser(this.platformId)) return;
@@ -44,14 +47,17 @@ export class StackSectionDirective implements OnInit, OnDestroy {
 
     // If the section is taller than the screen, set a negative top
     // so it scrolls naturally until the bottom of the section
-    // aligns with the bottom of the viewport, then it sticks.
+    // aligns with the bottom of the viewport, minus any custom offset.
     if (elementHeight > windowHeight) {
-      const topOffset = windowHeight - elementHeight;
+      const topOffset = windowHeight - elementHeight - this.stackOffset;
       element.style.top = `${topOffset}px`;
     } else {
-      // Section fits entirely on screen — pin to top
-      element.style.top = '0px';
+      // Section fits entirely on screen — pin to top, or top minus offset if you wanted (usually 0 is fine here)
+      element.style.top = `${-this.stackOffset}px`;
     }
+
+    // Apply reading pause so the next section doesn't immediately overlap
+    element.style.marginBottom = this.stackPause;
   }
 
   ngOnDestroy() {

@@ -22,6 +22,12 @@
   margin-right: -2px; /* tight kerning */
 }
 
+/* GSAP Animated Elements */
+.hero-anime-element {
+  visibility: hidden; /* Prevent FOUC */
+  will-change: transform, opacity;
+}
+
 /* Harsh, offset shadow for UI elements - distinct from soft AI styles */
 .brutalist-badge {
   border: 3px solid hsl(var(--foreground));
@@ -61,25 +67,7 @@
   color: hsl(var(--primary-foreground));
 }
 
-/* Asymmetric container positioning */
-.hero-asymmetric-content {
-  position: relative;
-  z-index: 10;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto auto;
-  gap: 2rem;
-  width: 100%;
-  max-width: 1200px;
-  align-items: start;
-}
-
-@media (max-width: 768px) {
-  .hero-asymmetric-content {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-}
+/* Removed unused grid layout to prevent text squishing on font load delays */
 
 .hero-main-title {
   grid-column: 1 / -1;
