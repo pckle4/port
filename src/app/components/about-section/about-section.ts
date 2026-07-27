@@ -3,12 +3,13 @@ import { Component, ElementRef, OnDestroy, AfterViewInit, PLATFORM_ID, inject, C
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 import { TechOrbitComponent } from '../tech-orbit/tech-orbit';
+import { StackRevealDirective } from '../../core/directives/stack-reveal.directive';
 import { animate, stagger } from 'animejs';
 
 @Component({
   selector: 'app-about-section',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule, TechOrbitComponent],
+  imports: [CommonModule, LucideAngularModule, TechOrbitComponent, StackRevealDirective],
   templateUrl: './about-section.html',
   styleUrls: ['./about-section.css'],
   changeDetection: ChangeDetectionStrategy.OnPush

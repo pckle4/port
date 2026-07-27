@@ -2,12 +2,14 @@ import { Component, ChangeDetectionStrategy, AfterViewInit, OnDestroy, inject, P
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 import { ProjectCardComponent } from './project-card/project-card';
+import { StackRevealDirective } from '../../core/directives/stack-reveal.directive';
+import { MagneticButtonDirective } from '../../core/directives/magnetic-button.directive';
 
 
 @Component({
   selector: 'app-projects-section',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule, ProjectCardComponent],
+  imports: [CommonModule, LucideAngularModule, ProjectCardComponent, StackRevealDirective],
   templateUrl: './projects-section.html',
   styleUrls: ['./projects-section.css'],
   changeDetection: ChangeDetectionStrategy.OnPush

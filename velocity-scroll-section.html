@@ -16,15 +16,14 @@
             #track
             class="marquee__track marquee__track--{{ row.style }}"
           >
-            <!-- Repeat 4 times for infinite looping -->
-            @for (copy of [1, 2, 3, 4]; track copy) {
-              <span class="marquee__sequence" style="padding-right: 0.6em;">
-                @for (word of row.words; track word) {
-                  <span>{{ word }}</span>
+            <span class="marquee__sequence">
+              @for (word of row.words; track word; let isLast = $last) {
+                <span>{{ word }}</span>
+                @if (!isLast) {
                   <i></i>
                 }
-              </span>
-            }
+              }
+            </span>
           </div>
         </div>
       }

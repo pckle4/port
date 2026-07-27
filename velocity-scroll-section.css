@@ -7,10 +7,10 @@
   position: relative;
   /* 700vh = 600vh of pinned scroll travel for 3 full sweeps */
   height: 700vh;
-  background-color: hsl(var(--background));
-  background-image:
+  background:
     radial-gradient(circle at 78% 12%, hsl(var(--primary) / 0.12), transparent 24rem),
-    radial-gradient(circle at 8% 92%, hsl(var(--secondary) / 0.1), transparent 26rem);
+    radial-gradient(circle at 8% 92%, hsl(var(--secondary) / 0.1), transparent 26rem),
+    hsl(var(--background) / 0.85);
   border-top: 1px solid hsl(var(--foreground) / 0.12);
 }
 

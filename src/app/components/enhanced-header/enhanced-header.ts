@@ -6,21 +6,22 @@ import {
   PLATFORM_ID,
   ChangeDetectionStrategy,
   signal,
+  HostListener,
 } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
-import { TabBarComponent } from '../tab-bar/tab-bar';
 import { SpotlightSearchComponent } from '../spotlight-search/spotlight-search';
 import { LucideAngularModule } from 'lucide-angular';
 import { ThemeService } from '../../services/theme.service';
-
+import { smoothScrollToWithRetry } from '../../lib/utils';
+import { StackRevealDirective } from '../../core/directives/stack-reveal.directive';
 @Component({
   selector: 'app-enhanced-header',
   standalone: true,
   imports: [
     CommonModule,
-    TabBarComponent,
     SpotlightSearchComponent,
     LucideAngularModule,
+    StackRevealDirective
   ],
   templateUrl: './enhanced-header.html',
   styleUrls: ['./enhanced-header.css'],
@@ -32,6 +33,14 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
 
   readonly isSearchOpen = signal(false);
   readonly isDark = this.themeService.isDark;
+  readonly isScrolled = signal(false);
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.isScrolled.set(window.scrollY > 50);
+    }
+  }
 
   private keyHandler = (e: KeyboardEvent) => {
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -56,6 +65,10 @@ export class EnhancedHeaderComponent implements OnInit, OnDestroy {
 
   toggleTheme(): void {
     this.themeService.toggleTheme();
+  }
+
+  scrollTo(id: string): void {
+    smoothScrollToWithRetry(id);
   }
 
   ngOnDestroy(): void {

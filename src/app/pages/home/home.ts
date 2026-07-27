@@ -5,6 +5,7 @@ import { SkillsSectionComponent } from '../../components/skills-section/skills-s
 import { ProjectsSectionComponent } from '../../components/projects-section/projects-section';
 import { ContactSectionComponent } from '../../components/contact-section/contact-section';
 import { VelocityScrollSectionComponent } from '../../components/velocity-scroll-section/velocity-scroll-section';
+import { StackSectionDirective } from '../../core/directives/stack-section.directive';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,8 @@ import { VelocityScrollSectionComponent } from '../../components/velocity-scroll
     SkillsSectionComponent,
     ProjectsSectionComponent,
     ContactSectionComponent,
-    VelocityScrollSectionComponent
+    VelocityScrollSectionComponent,
+    StackSectionDirective
   ],
   templateUrl: './home.html',
   styleUrls: ['./home.css'],

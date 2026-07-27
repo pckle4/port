@@ -7,6 +7,7 @@ import { EnhancedFooterComponent } from './components/enhanced-footer/enhanced-f
 import { GridBackgroundComponent } from './components/ui/grid-background/grid-background';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import Lenis from 'lenis';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +29,8 @@ export class App implements OnInit, OnDestroy {
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
   private routerSub?: Subscription;
+  private lenis?: Lenis;
+  private rafId?: number;
 
   isNotFoundPage = signal(false);
 
@@ -35,6 +38,18 @@ export class App implements OnInit, OnDestroy {
     this.themeService.initTheme();
 
     if (isPlatformBrowser(this.platformId)) {
+      // Initialize Lenis Smooth Scroll with butter-smooth spring dynamics
+      this.lenis = new Lenis({ 
+        duration: 1.1, 
+        easing: (t) => 1 - Math.pow(1 - t, 3) 
+      });
+      
+      const raf = (time: number) => { 
+        this.lenis?.raf(time); 
+        this.rafId = requestAnimationFrame(raf); 
+      };
+      this.rafId = requestAnimationFrame(raf);
+
       this.routerSub = this.router.events.pipe(
         filter(event => event instanceof NavigationEnd)
       ).subscribe((event: any) => {
@@ -45,5 +60,9 @@ export class App implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.routerSub?.unsubscribe();
+    if (this.rafId) {
+      cancelAnimationFrame(this.rafId);
+    }
+    this.lenis?.destroy();
   }
 }

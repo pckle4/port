@@ -10,7 +10,6 @@ import {
   ViewChildren,
   inject,
   signal,
-  NgZone,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -33,7 +32,6 @@ interface TravelConfig {
 })
 export class VelocityScrollSectionComponent implements AfterViewInit, OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly ngZone = inject(NgZone);
 
   @ViewChild('sectionRef', { static: true })
   sectionRef!: ElementRef<HTMLElement>;
@@ -61,9 +59,6 @@ export class VelocityScrollSectionComponent implements AfterViewInit, OnDestroy 
   private rafId: number | null = null;
   private scrollHandler: (() => void) | null = null;
   private resizeHandler: (() => void) | null = null;
-  
-  private baseSpeed = 1.5;
-  private positions: number[] = [0, 0, 0];
 
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
@@ -79,12 +74,6 @@ export class VelocityScrollSectionComponent implements AfterViewInit, OnDestroy 
     window.addEventListener('scroll', this.scrollHandler, { passive: true });
     window.addEventListener('resize', this.resizeHandler, { passive: true });
     this.onScroll();
-    // Start infinite animation loop immediately outside Angular to avoid SSR hangs
-    if (this.rafId === null) {
-      this.ngZone.runOutsideAngular(() => {
-        this.rafId = requestAnimationFrame(this.frame);
-      });
-    }
   }
 
   private onScroll(): void {
@@ -92,54 +81,36 @@ export class VelocityScrollSectionComponent implements AfterViewInit, OnDestroy 
     const totalTravel = section.offsetHeight - window.innerHeight;
     if (totalTravel <= 0) return;
 
-    // Use absolute top to track total scroll distance, not clamped to 0-1.
-    // This gives us kinetic continuous motion based on scroll speed.
-    const rectTop = -section.getBoundingClientRect().top;
-    this.targetProgress = rectTop;
+    this.targetProgress = this.clamp(-section.getBoundingClientRect().top / totalTravel, 0, 1);
+    if (this.rafId === null) this.rafId = requestAnimationFrame(this.frame);
   }
 
   private readonly frame = (): void => {
     const previous = this.currentProgress;
     this.currentProgress += (this.targetProgress - this.currentProgress) * VelocityScrollSectionComponent.LERP_FACTOR;
-    
-    // Calculate scroll velocity (pixels per frame)
-    const scrollDelta = this.currentProgress - previous;
-    // Skew based on scroll velocity
-    const skew = this.clamp(scrollDelta * -0.15, -8, 8);
+    const skew = this.clamp((this.currentProgress - previous) * -1200, -8, 8);
+    const viewportWidth = window.innerWidth;
     const tracks = this.trackRefs.toArray();
 
     tracks.forEach((track, index) => {
       const config = this.travel[index];
       if (!config) return;
-      
-      const seq = track.nativeElement.children[0] as HTMLElement;
-      if (!seq) return;
-      const seqWidth = seq.offsetWidth;
-      if (!seqWidth) return;
-
-      const dir = config.toVw > config.fromVw ? 1 : -1;
-      
-      // Continuous movement: base speed + extra speed from scroll velocity
-      const extraSpeed = scrollDelta * 0.8;
-      
-      this.positions[index] += (this.baseSpeed * dir) + (extraSpeed * dir);
-      
-      // Wrap position seamlessly using modulo. 
-      // We start offset by -seqWidth and wrap between -seqWidth and -seqWidth*2 
-      // so there are always duplicate nodes visible on screen.
-      let x = this.positions[index] % seqWidth;
-      if (x > 0) x -= seqWidth; // normalize to -seqWidth -> 0
-      x -= seqWidth; // shift to -2*seqWidth -> -seqWidth
-      
+      const x = (config.fromVw + (config.toVw - config.fromVw) * this.currentProgress) * viewportWidth / 100;
       track.nativeElement.style.transform = `translate3d(${x.toFixed(1)}px, 0, 0) skewX(${skew.toFixed(2)}deg)`;
     });
 
-    if (this.currentProgress > 300) this.nameVisible.set(true);
+    if (this.currentProgress > 0.35) this.nameVisible.set(true);
 
-    // Continue loop forever for continuous scrolling
-    this.ngZone.runOutsideAngular(() => {
-      this.rafId = requestAnimationFrame(this.frame);
-    });
+    if (Math.abs(this.targetProgress - this.currentProgress) < VelocityScrollSectionComponent.SETTLE_EPSILON) {
+      this.currentProgress = this.targetProgress;
+      tracks.forEach((track) => {
+        track.nativeElement.style.transform = track.nativeElement.style.transform.replace(/skewX\([^)]+\)/, 'skewX(0deg)');
+      });
+      this.rafId = null;
+      return;
+    }
+
+    this.rafId = requestAnimationFrame(this.frame);
   };
 
   private clamp(value: number, min: number, max: number): number {

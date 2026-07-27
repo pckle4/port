@@ -13,8 +13,9 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { LucideAngularModule } from 'lucide-angular';
 import { Subscription } from 'rxjs';
-import { TerminalDisplayComponent } from './terminal-display/terminal-display';
+import { GlobeComponent } from './globe/globe.component';
 import { SpinnerComponent } from '../ui/spinner/spinner';
+import { StackRevealDirective } from '../../core/directives/stack-reveal.directive';
 
 type SubmitStatus = 'idle' | 'success' | 'error';
 type CaptchaMode = 'code' | 'math';
@@ -33,8 +34,9 @@ interface CaptchaChallenge {
     CommonModule,
     ReactiveFormsModule,
     LucideAngularModule,
-    TerminalDisplayComponent,
-    SpinnerComponent
+    GlobeComponent,
+    SpinnerComponent,
+    StackRevealDirective
   ],
   templateUrl: './contact-section.html',
   styleUrls: ['./contact-section.css'],

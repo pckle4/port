@@ -4,11 +4,12 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SkillCardComponent } from './skill-card/skill-card';
 import { IconCloudComponent } from '../ui/icon-cloud/icon-cloud';
 import { SiteDataService } from '../../services/site-data.service';
+import { StackRevealDirective } from '../../core/directives/stack-reveal.directive';
 
 @Component({
   selector: 'app-skills-section',
   standalone: true,
-  imports: [CommonModule, SkillCardComponent, IconCloudComponent],
+  imports: [CommonModule, SkillCardComponent, IconCloudComponent, StackRevealDirective],
   templateUrl: './skills-section.html',
   styleUrls: ['./skills-section.css'],
   changeDetection: ChangeDetectionStrategy.OnPush

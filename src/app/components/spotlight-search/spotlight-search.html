@@ -1,8 +1,8 @@
 @if (isOpen) {
-<div class="fixed inset-0 z-[100] flex items-start justify-center p-4 pt-[12vh]">
+<div class="fixed inset-0 z-[100] flex items-start justify-center p-4 pt-[20vh]">
   <!-- Backdrop -->
   <div
-    class="absolute inset-0 bg-foreground/40 backdrop-blur-sm"
+    class="absolute inset-0 bg-black/20 dark:bg-black/40 backdrop-blur-sm"
     (click)="onBackdropClick()"
     #backdrop
     aria-hidden="true"
@@ -13,16 +13,16 @@
     #dialog
     role="dialog"
     aria-modal="true"
-    aria-label="Command palette"
-    class="relative z-[101] flex max-h-[60vh] w-full max-w-md flex-col overflow-hidden rounded-2xl border-2 border-primary/30 dark:border-primary/40 bg-card text-card-foreground shadow-[0_0_30px_-5px_hsl(var(--primary)/0.2)] dark:shadow-[0_0_30px_-5px_hsl(var(--primary)/0.3)]"
+    aria-label="Search"
+    class="relative z-[101] flex w-full max-w-2xl flex-col overflow-hidden rounded-[20px] bg-white/95 dark:bg-[#1c1c1e]/95 backdrop-blur-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.6)] border border-black/5 dark:border-white/10"
   >
     <!-- Input -->
-    <div class="flex items-center gap-3 border-b border-border px-4 shrink-0">
-      <span aria-hidden="true" class="text-muted-foreground text-xl leading-none pt-1">⌕</span>
+    <div class="flex items-center gap-4 px-6 shrink-0 h-[72px]">
+      <lucide-icon name="search" class="w-6 h-6 text-black/40 dark:text-white/40"></lucide-icon>
       <input
         #searchInput
-        class="w-full bg-transparent py-4 text-sm text-foreground outline-none placeholder:text-muted-foreground"
-        placeholder="Type a command or search…"
+        class="w-full bg-transparent text-2xl text-black dark:text-white outline-none placeholder:text-black/30 dark:placeholder:text-white/30 font-light"
+        placeholder="Search..."
         [value]="query"
         (input)="onQueryChange($any($event.target).value)"
         spellcheck="false"
@@ -30,50 +30,35 @@
       />
     </div>
 
-    <!-- Results -->
-    <div class="overflow-y-auto p-2 relative scrollbar-hide" #listContainer>
-      @if (filteredItems.length === 0) {
-        <div class="px-3 py-8 text-center text-sm text-muted-foreground">
-          No results found.
-        </div>
-      } @else {
-        <!-- Highlight indicator element -->
-        <div 
-          #activeIndicator
-          class="absolute left-2 right-2 rounded-lg bg-accent pointer-events-none transition-all duration-[250ms] ease-[cubic-bezier(0.2,0.8,0.2,1)]"
-          style="height: 40px; top: -100px; transform: scale(1); opacity: 1;"
-        ></div>
-
-        @for (group of filteredGroups; track group.heading) {
-          <div class="mb-1">
-            @if (group.heading) {
-              <div class="px-3 py-1.5 text-xs font-medium text-muted-foreground shrink-0">
-                {{ group.heading }}
+    <!-- Recommendations List -->
+    @if (topMatches.length > 0 && query.trim().length > 0) {
+      <div class="border-t border-black/5 dark:border-white/10 p-2 max-h-[300px] overflow-y-auto">
+        @for (match of topMatches; track match.id; let i = $index) {
+          <button
+            type="button"
+            (click)="executeMatch(match)"
+            (mouseenter)="setSelectedIndex(i)"
+            class="flex w-full items-center justify-between gap-4 rounded-[12px] px-4 py-4 text-left focus:outline-none transition-colors mb-1 last:mb-0"
+            [ngClass]="i === selectedIndex ? 'bg-black/10 dark:bg-white/20' : 'hover:bg-black/5 dark:hover:bg-white/10 transparent'"
+          >
+            <div class="flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary/20 shrink-0">
+                <lucide-icon [name]="match.icon" class="h-5 w-5 text-primary"></lucide-icon>
               </div>
+              <div>
+                <div class="text-lg font-medium text-black dark:text-white">{{ match.label }}</div>
+                <div class="text-sm text-black/50 dark:text-white/50">{{ getMatchDescription(match) }}</div>
+              </div>
+            </div>
+            @if (i === selectedIndex) {
+              <kbd class="hidden sm:flex items-center gap-1 rounded bg-black/10 dark:bg-white/10 px-2 py-1 text-xs font-medium text-black/60 dark:text-white/60">
+                <span>↵</span> Enter
+              </kbd>
             }
-            @for (item of group.items; track item.id) {
-              <button
-                type="button"
-                [attr.data-index]="item.globalIndex"
-                (click)="selectItem(item)"
-                (mousemove)="hoverItem(item.globalIndex!)"
-                class="relative z-10 flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm text-foreground focus:outline-none"
-              >
-                @if (item.icon) {
-                  <lucide-icon [name]="item.icon" class="relative text-muted-foreground h-4 w-4 shrink-0"></lucide-icon>
-                }
-                <span class="relative flex-1 truncate">{{ item.label }}</span>
-                @if (item.shortcut) {
-                  <kbd class="relative rounded border border-border px-1.5 py-0.5 text-[10px] uppercase font-medium text-muted-foreground shrink-0 bg-background/50 backdrop-blur-md">
-                    {{ item.shortcut }}
-                  </kbd>
-                }
-              </button>
-            }
-          </div>
+          </button>
         }
-      }
-    </div>
+      </div>
+    }
   </div>
 </div>
 }
