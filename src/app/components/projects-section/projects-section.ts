@@ -2,24 +2,31 @@ import { Component, ChangeDetectionStrategy, AfterViewInit, OnDestroy, inject, P
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 import { ProjectCardComponent } from './project-card/project-card';
-import { StackRevealDirective } from '../../core/directives/stack-reveal.directive';
-import { MagneticButtonDirective } from '../../core/directives/magnetic-button.directive';
-
+import { SectionRegistryService } from '../../services/section-registry.service';
 
 @Component({
   selector: 'app-projects-section',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule, ProjectCardComponent, StackRevealDirective],
+  imports: [CommonModule, LucideAngularModule, ProjectCardComponent],
   templateUrl: './projects-section.html',
   styleUrls: ['./projects-section.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectsSectionComponent implements AfterViewInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
+  private sectionRegistry = inject(SectionRegistryService);
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.sectionRegistry.register('projects');
+    }
+  }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.sectionRegistry.unregister('projects');
+    }
+  }
 
   projects = [
     {

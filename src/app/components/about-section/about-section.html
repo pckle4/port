@@ -1,90 +1,94 @@
-<section class="section-white py-12 sm:py-16 relative overflow-hidden"
-  style="contain: layout style; scroll-margin-top: 96px;">
+<section class="py-14 sm:py-8 md:py-10 relative overflow-hidden bg-background section-divider"
+  style="scroll-margin-top: 96px">
+  <!-- Hand-drawn blob divider top -->
+  <div class="absolute top-0 left-0 w-full overflow-hidden pointer-events-none hidden sm:block h-6 sm:h-12 bg-background border-t-2 border-dashed border-pencil-graphite/20"></div>
 
-  <div class="container mx-auto px-5 sm:px-8 lg:px-16 relative z-10">
-    <div class="max-w-7xl mx-auto">
+  <div class="absolute inset-0 opacity-30 dark:opacity-20 pointer-events-none">
+    <div
+      class="absolute top-0 right-0 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-gradient-to-b from-warning-amber/30 to-transparent blur-3xl">
+    </div>
+    <div
+      class="absolute bottom-0 left-0 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-gradient-to-t from-action-blue/30 to-transparent blur-3xl">
+    </div>
+  </div>
 
-      <!-- Massive Typography Header -->
-      <div class="mb-16 sm:mb-20">
-        <div stackReveal class="flex flex-col mb-6">
-          <div class="overflow-hidden">
-            <h2 class="stack-line translate-y-[110%] section-heading-massive m-0 text-[#1a1a2e] dark:text-white" style="letter-spacing: 0.04em;">
-              BEHIND
-            </h2>
-          </div>
-          <div class="overflow-hidden">
-            <h2 class="stack-line translate-y-[110%] section-heading-massive text-outline m-0 text-[#1a1a2e] dark:text-white" style="letter-spacing: 0.04em;">
-              THE
-            </h2>
-          </div>
-          <div class="overflow-hidden">
-            <h2 class="stack-line translate-y-[110%] section-heading-massive m-0" style="color: hsl(82, 86%, 42%);">
-              CODE.
-            </h2>
-          </div>
-        </div>
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="max-w-5xl mx-auto">
+      <div
+        [ngClass]="['text-center mb-8 sm:mb-12 transition-all duration-500 sm:duration-700', isVisible() ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4']">
+        <h2
+          class="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-foreground inline-block mb-3 relative">
+          Behind the Code
+          <svg class="absolute -bottom-2 sm:-bottom-3 left-0 w-full h-3 text-warning-amber" viewBox="0 0 100 12" preserveAspectRatio="none">
+            <path d="M0,8 C30,0 70,12 100,5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </svg>
+        </h2>
       </div>
 
-      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+      <div class="grid lg:grid-cols-2 gap-8 lg:gap-8 items-center">
 
-        <!-- Left: Tech Orbit -->
-        <div class="about-anime-element">
+        <div
+          [ngClass]="['order-2 lg:order-1 transition-all duration-500 sm:duration-1000 sm:delay-200', isVisible() ? 'opacity-100 scale-100' : 'opacity-0 scale-95 sm:scale-90']">
           <app-tech-orbit></app-tech-orbit>
         </div>
 
-        <!-- Right: Content -->
-        <div class="space-y-8">
+        <div class="order-1 lg:order-2 space-y-7 sm:space-y-8">
 
-          <div class="space-y-5 about-anime-element">
-            <p class="text-lg sm:text-xl font-medium leading-relaxed text-[#1a1a2e] dark:text-white/90">
-              I'm a <span class="text-highlight">Computer Engineering Student</span> driven by an
-              obsession for crafting software that feels <strong class="text-[hsl(247,91%,55%)] dark:text-primary">alive</strong>.
+          <div
+            [ngClass]="['space-y-4 transition-all duration-500 sm:duration-700 sm:delay-300', isVisible() ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4 sm:translate-x-8']">
+            <p class="text-base sm:text-lg font-medium text-foreground leading-relaxed">
+              I'm a <span class="bg-highlighter-gradient px-1 font-bold">Computer Engineering Student</span> driven by an
+              insatiable curiosity for how things work under the hood.
             </p>
-            <p class="text-sm sm:text-base leading-relaxed text-[#444] dark:text-[#7a889e]">
-              From architecting scalable Angular applications to building real-time systems with WebRTC and Socket.io, 
-              I treat every project as a canvas for clean code and stunning design. I'm currently deep into the modern 
-              web stack — pushing the boundaries of what's possible with TypeScript, Three.js, and GSAP.
+            <p class="text-sm sm:text-base text-muted-foreground leading-relaxed">
+              My journey isn't defined by a destination, but by the continuous process of learning. From deciphering
+              complex algorithms to crafting intuitive user interfaces, I treat every challenge as an opportunity to
+              expand my toolkit. I'm currently deep-diving into the modern web stack, exploring the intersection of
+              design and logic.
             </p>
           </div>
 
-          <!-- Info Cards -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 about-anime-element">
-
-            <div class="rounded-2xl p-6 transition-all duration-500 hover:-translate-y-1" 
-                 style="background-color: hsl(247, 91%, 63%); color: white;">
-              <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-full flex items-center justify-center" style="background-color: rgba(255,255,255,0.2);">
-                  <lucide-icon name="graduation-cap" class="w-6 h-6"></lucide-icon>
+          <!-- Sticky Note Concept Cards -->
+          <div
+            [ngClass]="['grid grid-cols-1 sm:grid-cols-2 gap-4 transition-all duration-500 sm:duration-700 sm:delay-500 mt-6', isVisible() ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4']">
+            
+            <div
+              class="bg-sticky-note-yellow dark:bg-[#3D3520] dark:border dark:border-dashed dark:border-[#5C4A20] shadow-sticky-note dark:shadow-polaroid-dark p-4 sm:p-5 -rotate-1 hover:rotate-0 transition-transform relative">
+              <div class="absolute top-2 left-1/2 -translate-x-1/2 w-8 h-2 bg-tape-tan/60 dark:bg-white/10 -rotate-3 rounded-sm mix-blend-multiply dark:mix-blend-normal"></div>
+              <div class="flex items-center gap-3 sm:gap-4 mt-2">
+                <div class="text-action-blue dark:text-primary opacity-80">
+                  <lucide-icon name="graduation-cap" class="w-5 h-5 sm:w-6 sm:h-6"></lucide-icon>
                 </div>
                 <div>
-                  <h3 class="font-bold text-xl" style="color: white;">Student</h3>
-                  <p class="text-sm opacity-80" style="color: rgba(255,255,255,0.8);">Computer Engineering</p>
+                  <h3 class="font-handwriting font-bold text-[#121826] dark:text-[#EDEDEF] text-xl">Student</h3>
+                  <p class="text-xs font-mono text-[#121826]/70 dark:text-[#9E9EA6]">Computer Engineering</p>
                 </div>
               </div>
             </div>
 
-            <div class="rounded-2xl p-6 transition-all duration-500 hover:-translate-y-1 bg-primary text-primary-foreground">
-              <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-full flex items-center justify-center" style="background-color: rgba(0,0,0,0.1);">
-                  <lucide-icon name="book-open" class="w-6 h-6"></lucide-icon>
+            <div
+              class="bg-[#FBF7F0] dark:bg-[#0C0C0E] border-2 border-dashed border-deep-navy/20 dark:border-[#252528] rounded-sketchy-1 p-4 sm:p-5 rotate-1 hover:rotate-0 transition-transform relative">
+              <div class="flex items-center gap-3 sm:gap-4">
+                <div class="text-warning-amber">
+                  <lucide-icon name="book-open" class="w-5 h-5 sm:w-6 sm:h-6"></lucide-icon>
                 </div>
                 <div>
-                  <h3 class="font-bold text-xl text-[#1a1a2e] dark:text-[#0e1117]">Learner</h3>
-                  <p class="text-sm opacity-80" style="color: rgba(0,0,0,0.6);">Full Stack Development</p>
+                  <h3 class="font-handwriting font-bold text-foreground text-xl">Learner</h3>
+                  <p class="text-xs font-mono text-muted-foreground">Full Stack Development</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Core Values -->
-          <div class="about-anime-element">
-            <h3 class="text-sm font-bold uppercase tracking-wider mb-4 text-[#888] dark:text-[#7a889e]">Core Values</h3>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div
+            [ngClass]="['pt-4 transition-all duration-500 sm:duration-700 sm:delay-700', isVisible() ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4']">
+            <h3 class="text-sm font-handwriting font-semibold text-muted-foreground mb-3 sm:mb-4">Core Values</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
               @for (item of coreValues; track item.label) {
-                <div
-                class="flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 hover:-translate-y-1 group bg-[#f0f0f0] dark:bg-[hsl(220,15%,14%)] border border-[#e0e0e0] dark:border-[hsl(220,15%,20%)]">
-                <lucide-icon [name]="item.icon" class="w-5 h-5 mb-2 transition-colors text-[hsl(247,91%,55%)] dark:text-primary"></lucide-icon>
-                <span class="text-xs font-bold text-[#1a1a2e] dark:text-white/90">{{item.label}}</span>
+              <div
+                class="flex flex-col items-center justify-center p-3 rounded-sketchy-3 bg-background dark:bg-[#161618] border border-border dark:border-[#2E2E33] hover:bg-warning-amber/10 dark:hover:bg-warning-amber/5 hover:border-warning-amber/40 hover:-translate-y-1 transition-all duration-300 group">
+                <lucide-icon [name]="item.icon" class="w-4 h-4 sm:w-5 sm:h-5 mb-2 text-action-blue dark:text-primary group-hover:text-warning-amber transition-colors"></lucide-icon>
+                <span class="text-xs font-bold text-foreground">{{item.label}}</span>
               </div>
               }
             </div>

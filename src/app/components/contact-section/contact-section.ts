@@ -13,9 +13,9 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { LucideAngularModule } from 'lucide-angular';
 import { Subscription } from 'rxjs';
-import { GlobeComponent } from './globe/globe.component';
+import { SectionRegistryService } from '../../services/section-registry.service';
+import { TerminalDisplayComponent } from './terminal-display/terminal-display';
 import { SpinnerComponent } from '../ui/spinner/spinner';
-import { StackRevealDirective } from '../../core/directives/stack-reveal.directive';
 
 type SubmitStatus = 'idle' | 'success' | 'error';
 type CaptchaMode = 'code' | 'math';
@@ -34,9 +34,8 @@ interface CaptchaChallenge {
     CommonModule,
     ReactiveFormsModule,
     LucideAngularModule,
-    GlobeComponent,
-    SpinnerComponent,
-    StackRevealDirective
+    TerminalDisplayComponent,
+    SpinnerComponent
   ],
   templateUrl: './contact-section.html',
   styleUrls: ['./contact-section.css'],
@@ -62,6 +61,7 @@ export class ContactSectionComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private platformId = inject(PLATFORM_ID);
   private el = inject(ElementRef);
+  private sectionRegistry = inject(SectionRegistryService);
   private captchaSub?: Subscription;
 
   contactForm = this.fb.nonNullable.group({
@@ -94,6 +94,10 @@ export class ContactSectionComponent implements OnInit, OnDestroy {
         this.captchaState.set('invalid');
       }
     });
+
+    if (isPlatformBrowser(this.platformId)) {
+      this.sectionRegistry.register('contact');
+    }
   }
 
   handleSubmit() {
@@ -237,6 +241,7 @@ export class ContactSectionComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.sectionRegistry.unregister('contact');
     this.captchaSub?.unsubscribe();
   }
 }

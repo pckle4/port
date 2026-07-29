@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter, withInMemoryScrolling, withPreloading } from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { LUCIDE_ICONS, LucideIconProvider } from 'lucide-angular';
 import {
@@ -82,7 +82,6 @@ import {
   TriangleAlert,
   Trophy,
   User,
-  Users,
   Wifi,
   Wrench,
   X,
@@ -91,7 +90,6 @@ import {
 } from 'lucide-angular';
 
 import { routes } from './app.routes';
-import { LinkedListPreloader } from './core/linked-list-preloader';
 
 const usedIcons = {
   Activity,
@@ -173,7 +171,6 @@ const usedIcons = {
   TriangleAlert,
   Trophy,
   User,
-  Users,
   Wifi,
   Wrench,
   X,
@@ -184,7 +181,7 @@ const usedIcons = {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes, withPreloading(LinkedListPreloader), withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' })),
+    provideRouter(routes, withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' })),
     provideClientHydration(withEventReplay()),
     { provide: LUCIDE_ICONS, multi: true, useValue: new LucideIconProvider(usedIcons) }
   ]

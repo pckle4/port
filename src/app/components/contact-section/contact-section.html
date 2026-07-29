@@ -1,95 +1,133 @@
-<section class="section-white py-12 sm:py-16 relative overflow-hidden" style="scroll-margin-top: 96px;">
+<section class="relative overflow-hidden bg-background py-12 sm:py-8 md:py-10" style="scroll-margin-top: 96px;">
+  <div class="pointer-events-none absolute inset-0">
+    <div class="absolute -top-20 left-1/2 h-[24rem] w-[24rem] -translate-x-1/2 rounded-full bg-primary/10 blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 h-[18rem] w-[18rem] rounded-full bg-primary/10 blur-3xl"></div>
+  </div>
 
-  <div class="container relative z-10 mx-auto px-5 sm:px-8 lg:px-16">
-    <div class="mx-auto max-w-7xl">
-
-      <!-- Massive Typography Header -->
-      <div class="mb-16 sm:mb-20">
-        <div stackReveal class="flex flex-col mb-6">
-          <div class="overflow-hidden">
-            <h2 class="stack-line translate-y-[110%] section-heading-massive m-0 text-[#1a1a2e] dark:text-white" style="letter-spacing: 0.04em;">
-              LET'S
-            </h2>
-          </div>
-          <div class="overflow-hidden">
-            <h2 class="stack-line translate-y-[110%] section-heading-massive text-outline m-0 text-[#1a1a2e] dark:text-white" style="letter-spacing: 0.04em;">
-              BUILD
-            </h2>
-          </div>
-          <div class="overflow-hidden">
-            <h2 class="stack-line translate-y-[110%] section-heading-massive m-0" style="color: hsl(82, 86%, 42%);">
-              TOGETHER.
-            </h2>
-          </div>
-        </div>
-        <p class="text-sm sm:text-base max-w-xl leading-relaxed text-[#666] dark:text-[#7a889e]">
+  <div class="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-10 text-center transition-all duration-500 sm:duration-700 sm:mb-12" [class.translate-y-0]="isVisible()"
+        [class.opacity-100]="isVisible()" [class.translate-y-4]="!isVisible()" [class.opacity-0]="!isVisible()">
+        <p class="mb-3 inline-flex items-center rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-primary">
+          Contact
+        </p>
+        <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+          Let's build something <span class="text-primary">seriously good</span>
+        </h2>
+        <p class="mx-auto mt-3 max-w-2xl text-sm text-muted-foreground sm:text-base">
           Share your goals, stack, and timeline. I will open a clean draft in your mail app with everything pre-filled.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-16">
+      <div class="grid grid-cols-1 items-start gap-6 sm:gap-7 lg:grid-cols-2 lg:gap-10">
+        <div class="order-2 lg:order-1 transition-all duration-500 sm:duration-700 sm:delay-150" [class.translate-x-0]="isVisible()" [class.opacity-100]="isVisible()"
+          [class.-translate-x-4]="!isVisible()" [class.sm:-translate-x-8]="!isVisible()" [class.opacity-0]="!isVisible()">
+          <app-terminal-display [isVisible]="isVisible()"></app-terminal-display>
 
-        <!-- Left: Interactive Globe -->
-        <div class="transition-all duration-500 sm:duration-700 sm:delay-150" [class.translate-x-0]="isVisible()" [class.opacity-100]="isVisible()"
-          [class.-translate-x-4]="!isVisible()" [class.opacity-0]="!isVisible()">
-          <div class="w-full aspect-square max-w-[500px] mx-auto lg:mx-0 rounded-3xl overflow-hidden relative" style="background: radial-gradient(circle at 50% 50%, rgba(26,26,46,0.9), rgba(0,0,0,0.95));">
-            <app-globe
-              [speed]="2"
-              dotColor="rgba(163, 230, 53, 0.7)"
-              [dotSize]="5"
-              [density]="8"
-              oceanColor="transparent"
-              outlineColor="rgba(163, 230, 53, 0.3)"
-              graticuleColor="rgba(255,255,255,0.06)"
-              markerColor="#a3e635"
-              [markers]="[{lat: 23.0225, lng: 72.5714}]"
-              [markerSize]="50"
-              [scaleVal]="8"
-              [detail]="5">
-            </app-globe>
+          <div class="mt-5 relative p-[1px] rounded-2xl overflow-hidden shadow-2xl group/block">
+            <div class="absolute inset-0 bg-gradient-to-br from-[#0c1120] to-[#04060c] z-0"></div>
+            <div class="relative z-10 p-5 sm:p-6 backdrop-blur-xl h-full flex flex-col">
+              
+              <!-- Hacker Header -->
+              <div class="flex items-center justify-between mb-4">
+                <div class="inline-flex items-center gap-2 rounded-md border border-primary/30 bg-primary/20 px-2.5 py-1 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-widest text-primary shadow-[0_0_15px_rgba(var(--primary)/0.15)]">
+                  <lucide-icon name="terminal-square" class="h-3.5 w-3.5"></lucide-icon>
+                  Engagement_Protocol
+                </div>
+                <div class="flex gap-1.5 opacity-40">
+                  <span class="w-2.5 h-2.5 rounded-full bg-red-400"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-primary/80"></span>
+                </div>
+              </div>
+
+              <!-- Rotating Cards Grid -->
+              <div class="mt-1 grid grid-cols-3 gap-2.5 sm:gap-3 text-center">
+                <!-- Response -->
+                <div class="relative p-[1px] rounded-xl overflow-hidden group/card bg-black/40">
+                  <div class="absolute inset-[-100%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,hsl(var(--primary))_100%)] opacity-40 group-hover/card:opacity-100 transition-opacity duration-300"></div>
+                  <div class="relative h-full w-full rounded-[11px] bg-[#0a0f1d] border border-white/5 py-3.5 flex flex-col items-center justify-center transition-colors group-hover/card:bg-[#0c1223]">
+                    <lucide-icon name="zap" class="h-4 w-4 text-primary/80 mb-2"></lucide-icon>
+                    <p class="text-[8px] sm:text-[9px] font-mono tracking-widest text-zinc-500 uppercase">Response</p>
+                    <p class="mt-0.5 text-xs sm:text-sm font-bold font-mono text-zinc-200 tracking-wider">&lt;24H</p>
+                  </div>
+                </div>
+
+                <!-- Signal -->
+                <div class="relative p-[1px] rounded-xl overflow-hidden group/card bg-black/40">
+                  <div class="absolute inset-[-100%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,hsl(var(--accent))_100%)] opacity-40 group-hover/card:opacity-100 transition-opacity duration-300" style="animation-delay: -1.5s"></div>
+                  <div class="relative h-full w-full rounded-[11px] bg-[#0a0f1d] border border-white/5 py-3.5 flex flex-col items-center justify-center transition-colors group-hover/card:bg-[#0c1223]">
+                    <lucide-icon name="radio" class="h-4 w-4 text-accent/80 mb-2"></lucide-icon>
+                    <p class="text-[8px] sm:text-[9px] font-mono tracking-widest text-zinc-500 uppercase">Signal</p>
+                    <p class="mt-0.5 text-[10px] sm:text-xs font-bold font-mono text-zinc-200 tracking-wider">CLEAR</p>
+                  </div>
+                </div>
+
+                <!-- Security -->
+                <div class="relative p-[1px] rounded-xl overflow-hidden group/card bg-black/40">
+                  <div class="absolute inset-[-100%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,hsl(var(--light-coral))_100%)] opacity-40 group-hover/card:opacity-100 transition-opacity duration-300" style="animation-delay: -3s"></div>
+                  <div class="relative h-full w-full rounded-[11px] bg-[#0a0f1d] border border-white/5 py-3.5 flex flex-col items-center justify-center transition-colors group-hover/card:bg-[#0c1223]">
+                    <lucide-icon name="shield-check" class="h-4 w-4 text-[hsl(var(--light-coral))]/80 mb-2"></lucide-icon>
+                    <p class="text-[8px] sm:text-[9px] font-mono tracking-widest text-zinc-500 uppercase">Security</p>
+                    <p class="mt-0.5 text-[10px] sm:text-[11px] sm:text-xs font-bold font-mono text-zinc-200 tracking-wider">SECURE</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Terminal List -->
+              <div class="mt-5 space-y-2.5 font-mono text-[10px] sm:text-[11px] text-zinc-400">
+                <div class="flex items-start gap-2.5">
+                  <span class="text-primary font-bold opacity-80 mt-0.5">></span>
+                  <p class="leading-relaxed">Initial system response guaranteed within <span class="text-zinc-200 font-semibold">24 hours</span>.</p>
+                </div>
+                <div class="flex items-start gap-2.5">
+                  <span class="text-primary font-bold opacity-80 mt-0.5">></span>
+                  <p class="leading-relaxed">Incoming packets analyzed for clear scope &amp; outcomes.</p>
+                </div>
+                <div class="flex items-start gap-2.5">
+                  <span class="text-primary font-bold opacity-80 mt-0.5">></span>
+                  <p class="leading-relaxed">Transmission encrypted via strict <span class="text-[hsl(var(--light-coral))] font-semibold">anti-bot</span> verification.</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <p class="mt-4 text-center lg:text-left text-xs tracking-wider uppercase font-semibold" style="color: #999;">
-            <span style="color: #a3e635;">●</span>&nbsp; Based in India — Available worldwide
-          </p>
         </div>
 
-        <!-- Right: Form -->
-        <div class="transition-all duration-500 sm:duration-700 sm:delay-300" [class.translate-x-0]="isVisible()" [class.opacity-100]="isVisible()"
-          [class.translate-x-4]="!isVisible()" [class.opacity-0]="!isVisible()">
-          <div class="rounded-3xl overflow-hidden" style="background-color: #fff; border: 1px solid #e8e8e8; box-shadow: 0 8px 40px rgba(0,0,0,0.08);">
-            <div class="px-6 py-5 sm:px-8 sm:py-6" style="background-color: #f5f5f5; border-bottom: 1px solid #e8e8e8;">
-              <h3 class="text-xl font-bold" style="color: #1a1a2e;">Project Brief</h3>
-              <p class="mt-1 text-sm" style="color: #888;">
+        <div class="order-1 lg:order-2 transition-all duration-500 sm:duration-700 sm:delay-300" [class.translate-x-0]="isVisible()" [class.opacity-100]="isVisible()"
+          [class.translate-x-4]="!isVisible()" [class.sm:translate-x-8]="!isVisible()" [class.opacity-0]="!isVisible()">
+          <div class="overflow-hidden rounded-sketchy-2 border-[1.5px] border-dashed border-border/80 bg-warm-paper dark:bg-card/70 shadow-stamp backdrop-blur-xl rotate-[0.5deg]">
+            <div class="border-b-[1.5px] border-dashed border-border/80 bg-sticky-note-yellow/40 dark:bg-primary/10 px-5 py-4 sm:px-6">
+              <h3 class="text-base font-bold font-handwriting tracking-wide text-foreground sm:text-2xl">Project Brief</h3>
+              <p class="mt-1 text-xs text-muted-foreground sm:text-sm">
                 The clearer your context, the better the first reply.
               </p>
             </div>
 
-            <div class="p-6 sm:p-8">
+            <div class="p-5 sm:p-6">
               @if (submitStatus() === 'success') {
-                <div class="rounded-2xl p-6 text-center" style="background-color: hsl(82, 86%, 95%); border: 1px solid hsl(82, 86%, 80%);">
-                  <div class="mx-auto mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full" style="background-color: hsl(82, 86%, 62%); color: #1a1a2e;">
+                <div class="rounded-xl border border-primary/30 bg-primary/10 p-5 text-center">
+                  <div class="mx-auto mb-3 inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary/20 text-primary">
                     <lucide-icon name="check-circle-2" class="h-6 w-6"></lucide-icon>
                   </div>
-                  <h4 class="text-lg font-semibold" style="color: #1a1a2e;">Draft ready</h4>
-                  <p class="mt-2 text-sm" style="color: #666;">{{ formMessage() }}</p>
+                  <h4 class="text-lg font-semibold text-foreground">Draft ready</h4>
+                  <p class="mt-2 text-sm text-muted-foreground">{{ formMessage() }}</p>
 
                   <button type="button" (click)="startNewMessage()"
-                    class="pill-btn pill-btn-dark mt-4 text-xs px-5 py-2">
+                    class="mt-4 inline-flex items-center gap-2 rounded-sketchy-3 border-[1.5px] border-dashed border-border bg-background px-4 py-2 text-sm font-bold text-foreground transition hover:border-primary/50 hover:text-primary hover:-translate-y-0.5 hover:shadow-stamp-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40">
                     <lucide-icon name="pen-line" class="h-4 w-4"></lucide-icon>
                     Write another message
                   </button>
                 </div>
               } @else {
-                <form [formGroup]="contactForm" (ngSubmit)="handleSubmit()" class="space-y-5" novalidate>
+                <form [formGroup]="contactForm" (ngSubmit)="handleSubmit()" class="space-y-4 sm:space-y-5" novalidate>
                   <input type="text" [value]="hp" (input)="hp = $any($event.target).value" class="sr-only" tabindex="-1" aria-hidden="true" />
 
-                  <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div class="space-y-1.5">
-                      <label for="contact-name" class="text-xs font-bold uppercase tracking-wider" style="color: #888;">Name</label>
+                      <label for="contact-name" class="text-xs font-bold uppercase tracking-[0.06em] text-foreground/90 font-mono">Name</label>
                       <input id="contact-name" formControlName="name" type="text"
-                        class="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all duration-300"
-                        style="background-color: #f8f8f8; border: 1px solid #e0e0e0; color: #1a1a2e;"
-                        [class.border-red-500]="f['name'].touched && f['name'].invalid" />
+                        class="w-full rounded-sketchy-3 border-[1.5px] border-dashed border-input dark:border-[#2E2E33] bg-background/70 dark:bg-[#1A1A1E] px-3.5 py-2.5 text-sm text-foreground dark:text-[#EDEDEF] outline-none transition focus:border-primary focus:shadow-stamp-subtle dark:focus:border-primary dark:focus:shadow-glow-focus"
+                        [class.border-red-500]="f['name'].touched && f['name'].invalid" [class.focus:border-red-500]="f['name'].touched && f['name'].invalid" />
                       @if (f['name'].touched && f['name'].errors) {
                         <p class="text-xs font-medium text-red-500">
                           @if (f['name'].errors['required']) { Name is required. }
@@ -100,11 +138,10 @@
                     </div>
 
                     <div class="space-y-1.5">
-                      <label for="contact-email" class="text-xs font-bold uppercase tracking-wider" style="color: #888;">Email</label>
+                      <label for="contact-email" class="text-xs font-bold uppercase tracking-[0.06em] text-foreground/90 font-mono">Email</label>
                       <input id="contact-email" formControlName="email" type="email"
-                        class="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all duration-300"
-                        style="background-color: #f8f8f8; border: 1px solid #e0e0e0; color: #1a1a2e;"
-                        [class.border-red-500]="f['email'].touched && f['email'].invalid" />
+                        class="w-full rounded-sketchy-3 border-[1.5px] border-dashed border-input dark:border-[#2E2E33] bg-background/70 dark:bg-[#1A1A1E] px-3.5 py-2.5 text-sm text-foreground dark:text-[#EDEDEF] outline-none transition focus:border-primary focus:shadow-stamp-subtle dark:focus:border-primary dark:focus:shadow-glow-focus"
+                        [class.border-red-500]="f['email'].touched && f['email'].invalid" [class.focus:border-red-500]="f['email'].touched && f['email'].invalid" />
                       @if (f['email'].touched && f['email'].errors) {
                         <p class="text-xs font-medium text-red-500">
                           @if (f['email'].errors['required']) { Email is required. }
@@ -115,11 +152,10 @@
                   </div>
 
                   <div class="space-y-1.5">
-                    <label for="contact-subject" class="text-xs font-bold uppercase tracking-wider" style="color: #888;">Subject</label>
+                    <label for="contact-subject" class="text-xs font-bold uppercase tracking-[0.06em] text-foreground/90 font-mono">Subject</label>
                     <input id="contact-subject" formControlName="subject" type="text"
-                      class="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all duration-300"
-                      style="background-color: #f8f8f8; border: 1px solid #e0e0e0; color: #1a1a2e;"
-                      [class.border-red-500]="f['subject'].touched && f['subject'].invalid" />
+                      class="w-full rounded-sketchy-3 border-[1.5px] border-dashed border-input dark:border-[#2E2E33] bg-background/70 dark:bg-[#1A1A1E] px-3.5 py-2.5 text-sm text-foreground dark:text-[#EDEDEF] outline-none transition focus:border-primary focus:shadow-stamp-subtle dark:focus:border-primary dark:focus:shadow-glow-focus"
+                      [class.border-red-500]="f['subject'].touched && f['subject'].invalid" [class.focus:border-red-500]="f['subject'].touched && f['subject'].invalid" />
                     @if (f['subject'].touched && f['subject'].errors) {
                       <p class="text-xs font-medium text-red-500">
                         @if (f['subject'].errors['required']) { Subject is required. }
@@ -130,11 +166,10 @@
                   </div>
 
                   <div class="space-y-1.5">
-                    <label for="contact-message" class="text-xs font-bold uppercase tracking-wider" style="color: #888;">Message</label>
+                    <label for="contact-message" class="text-xs font-bold uppercase tracking-[0.06em] text-foreground/90 font-mono">Message</label>
                     <textarea id="contact-message" formControlName="message" rows="5"
-                      class="w-full resize-y rounded-xl px-4 py-3 text-sm outline-none transition-all duration-300"
-                      style="background-color: #f8f8f8; border: 1px solid #e0e0e0; color: #1a1a2e;"
-                      [class.border-red-500]="f['message'].touched && f['message'].invalid"></textarea>
+                      class="w-full resize-y rounded-sketchy-1 border-[1.5px] border-dashed border-input dark:border-[#2E2E33] bg-background/70 dark:bg-[#1A1A1E] px-3.5 py-3 text-sm text-foreground dark:text-[#EDEDEF] outline-none transition focus:border-primary focus:shadow-stamp-subtle dark:focus:border-primary dark:focus:shadow-glow-focus"
+                      [class.border-red-500]="f['message'].touched && f['message'].invalid" [class.focus:border-red-500]="f['message'].touched && f['message'].invalid"></textarea>
                     <div class="flex items-center justify-between">
                       @if (f['message'].touched && f['message'].errors) {
                         <p class="text-xs font-medium text-red-500">
@@ -143,27 +178,25 @@
                           @else if (f['message'].errors['maxlength']) { Message is too long. }
                         </p>
                       } @else {
-                        <p class="text-xs" style="color: #aaa;">Tip: include budget + deadline for faster planning.</p>
+                        <p class="text-xs text-muted-foreground">Tip: include budget + deadline for faster planning.</p>
                       }
                     </div>
                   </div>
 
-                  <div class="space-y-3 rounded-2xl p-4" style="background-color: #f5f5f5; border: 1px solid #e8e8e8;">
+                  <div class="space-y-3 rounded-sketchy-1 border-[1.5px] border-dashed border-border/70 dark:border-terminal-accent/50 bg-kraft-paper/30 dark:bg-background p-3.5 sm:p-4 rotate-1 dark:rotate-0 dark:rounded-none">
                     <div class="flex items-start justify-between gap-3">
                       <div>
-                        <p class="text-xs font-bold uppercase tracking-wider" style="color: #555;">Captcha verification</p>
-                        <p class="mt-1 text-xs" style="color: #999;">{{ captchaChallenge().hint }}</p>
+                        <p class="text-xs font-semibold uppercase tracking-[0.06em] text-foreground/90">Captcha verification</p>
+                        <p class="mt-1 text-xs text-muted-foreground">{{ captchaChallenge().hint }}</p>
                       </div>
                       <button type="button" (click)="refreshCaptcha()"
-                        class="inline-flex h-8 w-8 items-center justify-center rounded-full transition-all hover:scale-110"
-                        style="background-color: #e8e8e8; color: #555;"
+                        class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted-foreground transition hover:border-primary/50 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
                         aria-label="Refresh captcha challenge">
                         <lucide-icon name="refresh-cw" class="h-4 w-4"></lucide-icon>
                       </button>
                     </div>
 
-                    <div class="rounded-xl px-4 py-3 text-center text-base font-bold font-mono uppercase tracking-widest"
-                         style="background-color: #fff; border: 2px solid hsl(247, 91%, 55%); color: hsl(247, 91%, 55%);">
+                    <div class="rounded-sketchy-3 dark:rounded-none border-2 border-primary dark:border-terminal-accent bg-background px-3 py-2.5 text-center text-base font-bold text-terminal-accent font-mono uppercase tracking-widest shadow-stamp dark:shadow-glow-terminal">
                       @if (captchaChallenge().mode === 'code') {
                         <span class="tracking-[0.25rem] uppercase whitespace-nowrap">{{ captchaDisplay() }}</span>
                       } @else {
@@ -172,19 +205,22 @@
                     </div>
 
                     <div class="space-y-1.5">
-                      <label for="contact-captcha" class="text-xs font-bold uppercase tracking-wider" style="color: #888;">Your answer</label>
-                      <input id="contact-captcha" formControlName="captcha" type="text" inputmode="text" autocomplete="off"
-                        placeholder="Enter captcha answer"
-                        class="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all duration-300"
-                        style="background-color: #fff; border: 1px solid #e0e0e0; color: #1a1a2e;"
-                        [class.border-red-500]="(f['captcha'].touched && f['captcha'].invalid) || captchaState() === 'invalid'"
-                        [style.borderColor]="captchaState() === 'valid' ? 'hsl(82, 86%, 50%)' : ''" />
+                      <label for="contact-captcha" class="text-xs font-bold uppercase tracking-[0.06em] text-foreground/90 font-mono">Your answer</label>
+                      <div class="relative">
+                        <input id="contact-captcha" formControlName="captcha" type="text" inputmode="text" autocomplete="off"
+                          placeholder="Enter captcha answer"
+                          class="w-full rounded-sketchy-3 dark:rounded-none border-[1.5px] border-dashed dark:border-solid border-input dark:border-border bg-background/70 dark:bg-background px-3.5 py-2.5 pr-10 text-sm text-foreground dark:text-terminal-accent outline-none transition focus:border-primary dark:focus:border-terminal-accent focus:shadow-stamp-subtle dark:focus:shadow-glow-terminal"
+                          [class.border-red-500]="(f['captcha'].touched && f['captcha'].invalid) || captchaState() === 'invalid'"
+                          [class.focus:border-red-500]="(f['captcha'].touched && f['captcha'].invalid) || captchaState() === 'invalid'"
+                          [class.border-primary]="captchaState() === 'valid'"
+                          [class.focus:border-primary]="captchaState() === 'valid'" />
 
-                      @if (captchaState() === 'valid') {
-                        <lucide-icon name="check-circle-2" class="pointer-events-none h-4 w-4" style="color: hsl(82, 86%, 50%);"></lucide-icon>
-                      } @else if (captchaState() === 'invalid') {
-                        <lucide-icon name="triangle-alert" class="pointer-events-none h-4 w-4 text-red-500"></lucide-icon>
-                      }
+                        @if (captchaState() === 'valid') {
+                          <lucide-icon name="check-circle-2" class="pointer-events-none absolute right-3 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-primary"></lucide-icon>
+                        } @else if (captchaState() === 'invalid') {
+                          <lucide-icon name="triangle-alert" class="pointer-events-none absolute right-3 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-red-500"></lucide-icon>
+                        }
+                      </div>
 
                       @if ((f['captcha'].touched && f['captcha'].errors) || captchaState() === 'invalid') {
                         <p class="text-xs font-medium text-red-500">
@@ -196,7 +232,7 @@
                   </div>
 
                   @if (submitStatus() === 'error' && formMessage()) {
-                    <div class="rounded-xl px-4 py-3 text-sm" style="background-color: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #ef4444;">
+                    <div class="rounded-lg border border-red-500/30 bg-red-500/10 px-3.5 py-2.5 text-sm text-red-300">
                       <div class="flex items-start gap-2">
                         <lucide-icon name="circle-alert" class="mt-0.5 h-4 w-4 shrink-0"></lucide-icon>
                         <span>{{ formMessage() }}</span>
@@ -205,14 +241,14 @@
                   }
 
                   <button type="submit" [disabled]="isSubmitting()"
-                    class="pill-btn pill-btn-primary w-full py-3.5 text-sm font-bold"
-                    style="font-size: 0.875rem;">
+                    class="group inline-flex w-full items-center justify-center gap-2 rounded-sketchy-3 bg-primary dark:bg-[#4DA3FF] px-4 py-3 text-sm font-bold font-mono text-white dark:text-[#0C0C0E] shadow-[0_8px_24px_-8px_rgba(22,118,243,0.5)] dark:shadow-glow-cta transition-all hover:bg-[#0D5FD8] dark:hover:bg-[#6BB5FF] hover:-translate-y-0.5 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline-none border-[1.5px] border-transparent relative overflow-hidden">
+                    <div class="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.15)] rounded-sketchy-3 pointer-events-none"></div>
                     @if (isSubmitting()) {
                       <app-spinner size="sm"></app-spinner>
-                      <span>Preparing draft...</span>
+                      <span class="relative z-10">Preparing draft...</span>
                     } @else {
-                      <lucide-icon name="send" class="h-4 w-4"></lucide-icon>
-                      <span>Send message</span>
+                      <lucide-icon name="send" class="h-4 w-4 relative z-10 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></lucide-icon>
+                      <span class="relative z-10">Send message</span>
                     }
                   </button>
                 </form>

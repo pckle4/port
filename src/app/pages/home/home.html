@@ -1,30 +1,45 @@
-<!-- Sticky Hero Section that stays in background (Uses pure CSS since it's the very first element) -->
-<div class="sticky top-0 h-screen w-full overflow-hidden" style="z-index: 0;">
-  <app-hero-section id="home"></app-hero-section>
+<div class="min-h-screen bg-transparent selection:bg-primary/30 selection:text-slate-900 relative">
+  <app-grid-background></app-grid-background>
+  <main>
+    <app-hero-section></app-hero-section>
+
+    <div id="about" style="scroll-margin-top: 96px">
+      @defer (on viewport; prefetch on idle) {
+        <app-about-section></app-about-section>
+      } @placeholder {
+        <div class="h-64 sm:h-96 w-full rounded-xl bg-card/5 animate-pulse"></div>
+      }
+    </div>
+
+    <div id="skills" style="scroll-margin-top: 96px">
+      @defer (on viewport; prefetch on idle) {
+        <app-skills-section></app-skills-section>
+      } @placeholder {
+        <div class="h-64 sm:h-96 w-full rounded-xl bg-card/5 animate-pulse mt-10"></div>
+      }
+    </div>
+
+    <div id="projects" style="scroll-margin-top: 96px">
+      @defer (on viewport; prefetch on idle) {
+        <app-projects-section></app-projects-section>
+      } @placeholder {
+        <div class="h-64 sm:h-96 w-full rounded-xl bg-card/5 animate-pulse mt-10"></div>
+      }
+    </div>
+
+    <div id="contact" style="scroll-margin-top: 96px">
+      @defer (on viewport; prefetch on idle) {
+        <app-contact-section></app-contact-section>
+      } @placeholder {
+        <div class="h-64 sm:h-96 w-full rounded-xl bg-card/5 animate-pulse mt-10"></div>
+      }
+    </div>
+
+    @defer (on viewport; prefetch on idle) {
+      <app-enhanced-footer></app-enhanced-footer>
+    } @placeholder {
+      <div class="h-32 w-full"></div>
+    }
+  </main>
 </div>
 
-<!-- Rest of the content slides over the hero and then stacks natively when scrolling finishes -->
-<div class="relative z-10 bg-transparent">
-  
-  <div id="about" appStackSection stackPause="15vh" class="relative w-full shadow-[0_-10px_40px_rgba(0,0,0,0.3)] z-[10]">
-    <app-about-section></app-about-section>
-  </div>
-  
-  <div id="projects" appStackSection stackPause="35vh" class="relative w-full shadow-[0_-10px_40px_rgba(0,0,0,0.4)] z-[20]">
-    <app-projects-section></app-projects-section>
-  </div>
-
-  <div id="skills" appStackSection stackPause="20vh" class="relative w-full shadow-[0_-10px_40px_rgba(0,0,0,0.5)] z-[30]">
-    <app-skills-section></app-skills-section>
-  </div>
-  
-  <div id="contact" appStackSection stackPause="20vh" class="relative w-full shadow-[0_-10px_40px_rgba(0,0,0,0.6)] z-[40]">
-    <app-contact-section></app-contact-section>
-  </div>
-  
-  <!-- Velocity Scroll doesn't need to be pinned since it's the last section -->
-  <div class="relative w-full shadow-[0_-10px_40px_rgba(0,0,0,0.7)] z-[50]">
-    <app-velocity-scroll-section></app-velocity-scroll-section>
-  </div>
-  
-</div>
