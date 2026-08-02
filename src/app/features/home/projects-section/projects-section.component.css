@@ -485,7 +485,8 @@
   .projects-section__inner {
     grid-template-columns: 1fr;
     gap: 28px;
-    height: 100vh;
+    height: auto;
+    min-height: 100vh;
     padding: 32px 20px;
     align-content: start;
   }
@@ -513,8 +514,18 @@
 
   .projects-section__cards {
     max-width: 480px;
-    min-height: 480px;
-    height: clamp(480px, 58vh, 560px);
+    height: auto;
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    transform: none;
+  }
+
+  .project-card {
+    position: relative;
+    inset: auto;
+    will-change: auto;
   }
 }
 

@@ -45,6 +45,7 @@ export class ProjectsSectionComponent implements AfterViewInit, OnDestroy {
         st.kill();
       }
     });
+    gsap.matchMedia().revert(); // Ensure matchMedia is cleaned up
   }
 
   private setupScrollAnimation(): void {
@@ -52,8 +53,11 @@ export class ProjectsSectionComponent implements AfterViewInit, OnDestroy {
     const totalCards = cardElements.length;
     if (totalCards === 0) return;
 
-    // Initial state: parallax stacking setup
-    cardElements.forEach((card, i) => {
+    const mm = gsap.matchMedia();
+
+    mm.add('(min-width: 851px)', () => {
+      // Initial state: parallax stacking setup
+      cardElements.forEach((card, i) => {
       gsap.set(card, {
         yPercent: i === 0 ? 0 : 120, // First card visible, rest pushed down
         scale: 1,
@@ -154,6 +158,14 @@ export class ProjectsSectionComponent implements AfterViewInit, OnDestroy {
         // Update progress bar
         this.progressFill.nativeElement.style.width = `${progress * 100}%`;
       },
+    });
+
+      return () => {
+        gsap.set(cardElements, { clearProps: 'all' });
+        if (this.scrollTriggerInstance) {
+          this.scrollTriggerInstance.kill();
+        }
+      };
     });
   }
 }

@@ -195,23 +195,23 @@
 /* ───────────────────── Theme Variants ───────────────────── */
 .skill-card[data-theme="blue"] .skill-card__icon-wrap { background: #eef2ff; }
 .skill-card[data-theme="blue"] .skill-card__bar { background: #4b6bfb; }
-.skill-card[data-theme="blue"] .skill-card__icon svg { color: #2d3a8c; }
+.skill-card[data-theme="blue"] .skill-card__icon ::ng-deep svg { color: #2d3a8c; }
 
 .skill-card[data-theme="green"] .skill-card__icon-wrap { background: #eef6e8; }
 .skill-card[data-theme="green"] .skill-card__bar { background: #60704f; }
-.skill-card[data-theme="green"] .skill-card__icon svg { color: #3d5a1e; }
+.skill-card[data-theme="green"] .skill-card__icon ::ng-deep svg { color: #3d5a1e; }
 
 .skill-card[data-theme="purple"] .skill-card__icon-wrap { background: #f0eeff; }
 .skill-card[data-theme="purple"] .skill-card__bar { background: #828bf7; }
-.skill-card[data-theme="purple"] .skill-card__icon svg { color: #5c4db8; }
+.skill-card[data-theme="purple"] .skill-card__icon ::ng-deep svg { color: #5c4db8; }
 
 .skill-card[data-theme="orange"] .skill-card__icon-wrap { background: #fff0e6; }
 .skill-card[data-theme="orange"] .skill-card__bar { background: #e07838; }
-.skill-card[data-theme="orange"] .skill-card__icon svg { color: #2d2d2d; }
+.skill-card[data-theme="orange"] .skill-card__icon ::ng-deep svg { color: #2d2d2d; }
 
 .skill-card[data-theme="pink"] .skill-card__icon-wrap { background: #fce8ef; }
 .skill-card[data-theme="pink"] .skill-card__bar { background: #e85d8a; }
-.skill-card[data-theme="pink"] .skill-card__icon svg { color: #2d2d2d; }
+.skill-card[data-theme="pink"] .skill-card__icon ::ng-deep svg { color: #2d2d2d; }
 
 .skill-card__body {
   display: flex;
@@ -244,7 +244,7 @@
   justify-content: center;
 }
 
-.skill-card__icon svg {
+.skill-card__icon ::ng-deep svg {
   width: 100%;
   height: 100%;
   color: #2d2d2d;
