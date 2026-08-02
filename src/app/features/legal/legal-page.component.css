@@ -1,0 +1,81 @@
+.legal-page {
+  padding-top: var(--header-height, 80px);
+  min-height: 100vh;
+  background: var(--cream);
+  color: var(--ink);
+}
+
+.legal-header {
+  padding: 80px 20px 40px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.legal-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  margin: 0 0 16px;
+}
+
+.legal-last-updated {
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.legal-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px 80px;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.legal-content h2 {
+  font-size: 1.5rem;
+  margin: 48px 0 16px;
+  letter-spacing: -0.02em;
+}
+
+.legal-content p, 
+.legal-content ul {
+  margin-bottom: 24px;
+}
+
+.legal-content ul {
+  padding-left: 24px;
+}
+
+.legal-content li {
+  margin-bottom: 8px;
+}
+
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid var(--ink);
+  border-radius: 99px;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 16px;
+}
+
+.copy-btn:hover {
+  background: var(--ink);
+  color: var(--cream);
+}
+
+.copy-btn.copied {
+  background: #3d9b4f;
+  border-color: #3d9b4f;
+  color: white;
+}

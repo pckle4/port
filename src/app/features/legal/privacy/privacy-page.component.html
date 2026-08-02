@@ -1,0 +1,48 @@
+<app-site-header />
+
+<main class="legal-page">
+  <header class="legal-header">
+    <h1 class="legal-title">Privacy Policy</h1>
+    <p class="legal-last-updated">Last Updated: August 2026</p>
+  </header>
+
+  <article class="legal-content">
+    <p>At Nowhile.com, we respect your privacy and are committed to protecting it through our compliance with this policy. This policy describes the types of information we may collect from you or that you may provide when you visit the website.</p>
+
+    <h2>1. Information We Collect</h2>
+    <p>We collect several types of information from and about users of our Website, including information:</p>
+    <ul>
+      <li>By which you may be personally identified, such as name, postal address, e-mail address, telephone number, or any other identifier by which you may be contacted online or offline.</li>
+      <li>That is about you but individually does not identify you, such as anonymous usage statistics and technical information about your device.</li>
+    </ul>
+
+    <h2>2. How We Use Your Information</h2>
+    <p>We use information that we collect about you or that you provide to us, including any personal information:</p>
+    <ul>
+      <li>To present our Website and its contents to you.</li>
+      <li>To provide you with information, products, or services that you request from us.</li>
+      <li>To fulfill any other purpose for which you provide it.</li>
+    </ul>
+
+    <h2>3. Data Security</h2>
+    <p>We have implemented measures designed to secure your personal information from accidental loss and from unauthorized access, use, alteration, and disclosure. The safety and security of your information also depends on you.</p>
+
+    <h2>4. Copyright, Inspiration & Attribution</h2>
+    <p>This website was built entirely from scratch. No proprietary code, source files, or copyrighted content was copied from external parties. However, the design language heavily draws inspiration from modern web development trends and talented creative studios. All SVGs and illustrations are AI-generated (special thanks to ChatGPT and Adobe Firefly).</p>
+    <p><strong>Takedown Policy:</strong> I deeply respect the rights of other creators. If you believe your work has been improperly referenced or if you have a dispute regarding any design choices or content on this site, please reach out. Any valid removal request will be honored and actioned within 24 hours.</p>
+
+    <h2>5. Contact Information</h2>
+    <p>To ask questions, submit a takedown request, or comment about this privacy policy, contact my legal and support team:</p>
+    
+    <button class="copy-btn" [class.copied]="copied()" (click)="copyEmail()">
+      @if (copied()) {
+        <span>✓ Copied to clipboard</span>
+      } @else {
+        <span>legal&#64;nowhile.com</span>
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      }
+    </button>
+  </article>
+</main>
+
+<app-portfolio-footer />
