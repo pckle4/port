@@ -1,0 +1,61 @@
+<div class="orbit-container">
+  <!-- Pulsing center hub -->
+  <div class="orbit-hub">
+    <div class="orbit-hub-glow"></div>
+    <div class="orbit-hub-inner">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="orbit-hub-icon">
+        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+        <path d="M2 17l10 5 10-5"/>
+        <path d="M2 12l10 5 10-5"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Ring 1 — Inner (core languages) -->
+  <div class="orbit-ring orbit-ring-1">
+    <div class="orbit-ring-track"></div>
+    @for (icon of ring1; track icon.slug; let i = $index) {
+      <div class="orbit-icon-wrapper"
+        [style.--angle]="getAngle(i, ring1.length) + 'deg'"
+        [style.--icon-color]="icon.color">
+        <div class="orbit-icon" [attr.title]="icon.label">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" [style.fill]="icon.color">
+            <path [attr.d]="icon.svg"/>
+          </svg>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Ring 2 — Middle (frameworks & tools) -->
+  <div class="orbit-ring orbit-ring-2">
+    <div class="orbit-ring-track"></div>
+    @for (icon of ring2; track icon.slug; let i = $index) {
+      <div class="orbit-icon-wrapper"
+        [style.--angle]="getAngle(i, ring2.length) + 'deg'"
+        [style.--icon-color]="icon.color">
+        <div class="orbit-icon" [attr.title]="icon.label">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" [style.fill]="icon.color">
+            <path [attr.d]="icon.svg"/>
+          </svg>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Ring 3 — Outer (infra & platforms) -->
+  <div class="orbit-ring orbit-ring-3">
+    <div class="orbit-ring-track"></div>
+    @for (icon of ring3; track icon.slug; let i = $index) {
+      <div class="orbit-icon-wrapper"
+        [style.--angle]="getAngle(i, ring3.length) + 'deg'"
+        [style.--icon-color]="icon.color">
+        <div class="orbit-icon" [attr.title]="icon.label">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" [style.fill]="icon.color">
+            <path [attr.d]="icon.svg"/>
+          </svg>
+        </div>
+      </div>
+    }
+  </div>
+</div>

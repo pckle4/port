@@ -1,0 +1,190 @@
+<app-enhanced-header></app-enhanced-header>
+
+<main id="main-content" class="min-h-screen bg-background text-foreground pt-24 pb-16 sm:pt-32 sm:pb-24 selection:bg-primary/30 selection:text-primary">
+  <article class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+
+    <header class="mb-12 sm:mb-16 border-b border-border/40 pb-8">
+      <nav aria-label="Breadcrumb" class="mb-8">
+        <a routerLink="/" class="group inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm ring-offset-background">
+          <lucide-icon name="arrow-left" class="h-4 w-4 group-hover:-translate-x-1 transition-transform duration-300"></lucide-icon>
+          Return to Home
+        </a>
+      </nav>
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
+        Terms of <span class="text-primary">Service</span>
+      </h1>
+      <p class="text-base sm:text-lg text-muted-foreground flex items-center gap-2">
+        <lucide-icon name="calendar" class="h-4 w-4"></lucide-icon>
+        Effective Date: <time datetime="2026-04-19">{{lastUpdated}}</time>
+      </p>
+    </header>
+
+    <div class="prose prose-slate dark:prose-invert prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline hover:prose-a:text-primary/80 prose-a:transition-colors prose-p:leading-relaxed prose-li:leading-relaxed max-w-none space-y-10 text-sm sm:text-base text-foreground/90">
+
+      <section aria-labelledby="acceptance-of-terms" class="scroll-mt-12">
+        <h2 id="acceptance-of-terms" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
+          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">01</span>
+          Acceptance of Terms
+        </h2>
+        <div class="pl-0 sm:pl-11 mt-4">
+          <p>
+            By accessing, browsing, or utilizing the services provided on <strong>nowhile.com</strong> (the "System"), you are acknowledging that you have read, understood, and agree to be legally bound by these Terms of Service. If you do not agree to these terms in their entirety, you must immediately terminate your use of the System. 
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="service-provision" class="scroll-mt-12">
+        <h2 id="service-provision" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
+          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">02</span>
+          Service Provision
+        </h2>
+        <div class="pl-0 sm:pl-11 mt-4">
+          <p>
+            This infrastructure serves as a professional portfolio, interactive resume, and communication gateway for Ansh Shah. All features, APIs, tools, and content (collectively, "Services") are provided strictly for informational and professional networking purposes. 
+          </p>
+          <p class="mt-3">
+            We reserve the right to deploy updates, modify features, or deprecate availability of the System without prior notice, conforming to our evolving operational priorities and security obligations.
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="intellectual-property" class="scroll-mt-12">
+        <h2 id="intellectual-property" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
+          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">03</span>
+          Intellectual Property &amp; Licensing
+        </h2>
+        <div class="pl-0 sm:pl-11 mt-4">
+          <p>
+            All proprietary content distributed through the System, encompassing text, algorithmic snippets, architectural diagrams, vector graphics, and interface designs, are the intellectual property of Ansh Shah, protected under international copyright legislation.
+          </p>
+          <div class="bg-card border border-border/50 rounded-xl p-5 mt-4 text-sm mt-4">
+            <h3 class="font-bold text-foreground mb-2 flex items-center gap-2">
+              <lucide-icon name="shield-alert" class="h-4 w-4 text-accent"></lucide-icon>
+              Open Source Extensibility
+            </h3>
+            <p class="text-muted-foreground m-0">
+              Where explicit open-source licenses (e.g., MIT, Apache 2.0) are attached to referenced repositories, those specific terms supersede this clause for the respective repositories only. Otherwise, strict "All Rights Reserved" applies to the portfolio infrastructure itself.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="acceptable-use" class="scroll-mt-12">
+        <h2 id="acceptable-use" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
+          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">04</span>
+          Acceptable Use Policy (AUP)
+        </h2>
+        <div class="pl-0 sm:pl-11 mt-4">
+          <p class="mb-3">You explicitly agree to refrain from the following vectors of misuse:</p>
+          <ul class="space-y-3 bg-secondary/20 rounded-xl p-6 border border-border/30 list-none m-0">
+            <li class="flex items-start gap-3">
+              <lucide-icon name="x-circle" class="h-5 w-5 text-red-500/80 shrink-0 mt-0.5"></lucide-icon>
+              <span><strong>Automated Exploitation:</strong> Utilizing automated agents, scrapers, or botnets to extract data or interact with System endpoints without explicit cryptographic authorization.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <lucide-icon name="x-circle" class="h-5 w-5 text-red-500/80 shrink-0 mt-0.5"></lucide-icon>
+              <span><strong>Malicious Payload Injection:</strong> Transmitting executing scripts, XSS payloads, or arbitrary malicious objects via contact forms or any exposed input vectors.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <lucide-icon name="x-circle" class="h-5 w-5 text-red-500/80 shrink-0 mt-0.5"></lucide-icon>
+              <span><strong>Denial of Service:</strong> Causing architectural exhaustion or deliberate network latency degradation via high-volume synthetic request generation.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <lucide-icon name="x-circle" class="h-5 w-5 text-red-500/80 shrink-0 mt-0.5"></lucide-icon>
+              <span><strong>Identity Spoofing:</strong> Falsifying headers, origin IPs, or contact identity to impersonate organizational entities.</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section aria-labelledby="communication-channels" class="scroll-mt-12">
+        <h2 id="communication-channels" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
+          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">05</span>
+          Secure Communication Interfaces
+        </h2>
+        <div class="pl-0 sm:pl-11 mt-4">
+          <p>
+            Any ingestion of data through our defined contact protocols implies your consent that the payload is accurate, benign, and intended for professional dialogue. We implement active spam mitigation and cryptographic heuristics (CAPTCHA constraints) to filter anomalous traffic. We retain absolute operational authority to discard unverified submissions.
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="limitation-liability" class="scroll-mt-12">
+        <h2 id="limitation-liability" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
+          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">06</span>
+          Limitation of Liability &amp; Warranty
+        </h2>
+        <div class="pl-0 sm:pl-11 mt-4">
+          <div class="border-l-4 border-accent pl-5 py-2 my-5 bg-accent/5 rounded-r-xl">
+            <p class="font-bold text-foreground uppercase tracking-wider text-xs mb-2">Disclaimer of Guarantees</p>
+            <p class="text-muted-foreground m-0">
+              The System is architected and deployed on an "AS IS" and "AS AVAILABLE" methodology. No explicit or implicit guarantees are issued regarding 100% uptime, defect-free execution, or endpoint resilience against emerging zero-day vulnerabilities.
+            </p>
+          </div>
+          <p>
+            Under no legal or equitable theory shall Ansh Shah be liable for any direct, indirect, incidental, or consequential degradation (including data loss or business interruption) resulting from your interactions with the System.
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="jurisdiction" class="scroll-mt-12">
+        <h2 id="jurisdiction" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
+          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">07</span>
+          Governing Law &amp; Severability
+        </h2>
+        <div class="pl-0 sm:pl-11 mt-4">
+          <p>
+            These architectural agreements are executed and construed in alignment with the legal statutory frameworks of India. Extraterritorial conflict-of-law principles are actively excluded. If any isolated clause herein is successfully challenged in a court of competent jurisdiction as unenforceable, the remaining architectural framework of this agreement remains intact and legally binding.
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="educational-purpose" class="scroll-mt-12">
+        <h2 id="educational-purpose" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
+          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">08</span>
+          Educational Purpose & Ownership
+        </h2>
+        <div class="pl-0 sm:pl-11 mt-4">
+          <p>
+            The domain <strong>nowhile.com</strong> is wholly owned and operated by <strong>Ansh Shah</strong>. All content displayed on this website is intended strictly for <strong>educational, portfolio, and demonstrative purposes</strong>.
+          </p>
+          <div class="bg-card border border-border/50 rounded-xl p-5 mt-4 text-sm">
+            <h3 class="font-bold text-foreground mb-2 flex items-center gap-2">
+              <lucide-icon name="shield-alert" class="h-4 w-4 text-accent"></lucide-icon>
+              Non-Ownership of Reference Materials
+            </h3>
+            <p class="text-muted-foreground m-0">
+              The developer explicitly disclaims ownership of certain graphical assets, placeholder images, icons, and UI design references utilized within the System. These assets have been curated from the public domain or open internet strictly for demonstrative, non-commercial purposes. We do not claim to have originally authored these specific referenced materials, nor do we assume liability for their inherent origins. No malicious copying, intellectual property theft, or plagiarism of third-party proprietary work is intended or executed.
+            </p>
+          </div>
+          <p class="mt-4">
+            <strong>Takedown Procedure & DMCA Compliance:</strong> If you are the rightful copyright or trademark owner of any reference material inadvertently used in this educational demonstration and wish for it to be removed, please contact our legal liaison with formal proof of ownership. We are fully committed to honoring all valid, verifiable takedown requests expediently and amicably.
+          </p>
+        </div>
+      </section>
+
+      <footer class="mt-16 pt-8 border-t border-border/40 text-center sm:text-left">
+        <h2 class="text-lg font-semibold text-foreground mb-4">Legal Liaison &amp; Escalation</h2>
+        <p class="text-muted-foreground mb-4">
+          For policy escalations, authorization queries, or legal triage, transmit inquiries to the designated endpoint:
+        </p>
+        <div class="flex items-center gap-3 justify-center sm:justify-start">
+          <a href="mailto:legal@nowhile.com" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ring-offset-background">
+            <lucide-icon name="mail-check" class="h-4 w-4"></lucide-icon>
+            legal@nowhile.com
+          </a>
+          <button (click)="copyEmail()" class="inline-flex items-center justify-center p-2.5 rounded-lg border border-border/50 hover:bg-secondary/50 text-muted-foreground hover:text-foreground transition-colors" [title]="isCopied() ? 'Copied!' : 'Copy to clipboard'">
+            <lucide-icon [name]="isCopied() ? 'check' : 'copy'" class="h-4 w-4"></lucide-icon>
+          </button>
+        </div>
+      </footer>
+
+    </div>
+  </article>
+</main>
+
+@defer (on viewport) {
+  <app-enhanced-footer></app-enhanced-footer>
+} @placeholder {
+  <div class="h-32 w-full"></div>
+}

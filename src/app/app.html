@@ -1,1 +1,10 @@
-<router-outlet />
+<!-- Noise Texture is handled efficiently in styles.css background -->
+<div class="min-h-screen bg-background font-sans antialiased text-foreground selection:bg-highlighter-pink selection:text-deep-navy relative">
+  @if (!isNotFoundPage()) {
+    <app-enhanced-header></app-enhanced-header>
+  }
+
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</div>

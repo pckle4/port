@@ -1,0 +1,99 @@
+<app-navbar>
+  <app-nav-body>
+    <app-navbar-logo>
+      <a routerLink="/" class="group relative flex items-center gap-2 font-bold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500/60 rounded-lg px-2 py-1 -mx-1" aria-label="Go to homepage">
+        <lucide-icon name="pen-tool" class="w-5 h-5 text-action-blue -rotate-12 group-hover:rotate-12 transition-transform"></lucide-icon>
+        <span class="text-xl font-handwriting font-bold tracking-tight text-foreground select-none transition-all duration-300 group-hover:scale-105">
+          Ansh<span class="text-warning-amber">.</span>
+        </span>
+      </a>
+    </app-navbar-logo>
+
+    <nav class="flex items-center gap-2 relative" #navContainer (mouseleave)="onNavLeave()">
+      <div
+        #hoverPill
+        class="absolute transition-all duration-300 ease-out bg-muted/50 dark:bg-[#1A1A1E] rounded-full pointer-events-none opacity-0 z-0 origin-top-left"
+        style="transform: translate3d(0, 0, 0); width: 0; height: 0; top: 0; left: 0;"
+      ></div>
+      @for (item of navigation; track item.id) {
+        <button
+          #navItem
+          type="button"
+          [class]="getNavItemClass(item.id)"
+          (click)="handleNavClick(item.link, item.id)"
+          (mouseenter)="onNavHover(item.id, navItem)"
+          [tabIndex]="isNavItemHidden(item.id) ? -1 : 0"
+          [attr.aria-hidden]="isNavItemHidden(item.id) ? true : null"
+        >
+          <!-- Using a sketchy underline via CSS/SVG class for active state -->
+          @if (isActive(item.id)) {
+            <svg class="absolute -bottom-0.5 left-1 w-[calc(100%-8px)] h-2 text-action-blue/70 dark:text-[#4DA3FF]/70 z-10" viewBox="0 0 100 12" preserveAspectRatio="none">
+              <path d="M0,8 C30,0 70,12 100,5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+          }
+          <span class="flex items-center gap-2 relative z-10">
+            <lucide-icon [name]="item.icon" class="h-4 w-4" [class.text-action-blue]="isActive(item.id)" [class.dark:text-[#4DA3FF]]="isActive(item.id)"></lucide-icon>
+            {{ item.name }}
+          </span>
+        </button>
+      }
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <button
+        (click)="openSearch()"
+        class="p-2 hover:bg-warning-amber/10 rounded-sketchy-2 border border-transparent hover:border-warning-amber/30 transition-all duration-300 group hover:rotate-2 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        title="Search (Ctrl+K)"
+        aria-label="Open search (Ctrl+K)"
+      >
+        <lucide-icon name="search" class="h-5 w-5 text-muted-foreground group-hover:text-action-blue transition-all duration-300"></lucide-icon>
+      </button>
+      <app-theme-toggle></app-theme-toggle>
+    </div>
+  </app-nav-body>
+
+  <app-mobile-nav>
+    <app-mobile-nav-header class="flex items-center justify-between w-full relative">
+      <div class="flex-1 basis-0 min-w-0 flex justify-start z-10 relative">
+        <app-mobile-nav-toggle [isOpen]="isMobileMenuOpen()" (toggle)="toggleMobileMenu()"></app-mobile-nav-toggle>
+      </div>
+      <app-navbar-logo class="flex-1 basis-0 min-w-0 flex justify-center z-10 relative">
+        <a routerLink="/" class="flex items-center gap-2 font-bold group max-w-full" (click)="closeMobileMenu()">
+          <lucide-icon name="pen-tool" class="w-4 h-4 text-action-blue"></lucide-icon>
+          <span class="text-lg font-handwriting font-bold tracking-tight text-foreground select-none whitespace-nowrap truncate">
+            Ansh<span class="text-warning-amber">.</span>
+          </span>
+        </a>
+      </app-navbar-logo>
+      <div class="flex-1 basis-0 min-w-0 flex items-center justify-end gap-0.5 sm:gap-2 z-10 relative">
+        <button (click)="openSearch()" class="p-1.5 sm:p-2 hover:bg-warning-amber/10 rounded-sketchy-1 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring" aria-label="Open search">
+          <lucide-icon name="search" class="h-4 w-4 sm:h-5 sm:w-5"></lucide-icon>
+        </button>
+        <app-theme-toggle></app-theme-toggle>
+      </div>
+    </app-mobile-nav-header>
+
+    <app-mobile-nav-menu [isOpen]="isMobileMenuOpen()">
+      @for (item of navigation; track item.id) {
+        <button
+          type="button"
+          [class]="getMobileItemClass(item.id)"
+          (click)="handleNavClick(item.link, item.id)"
+        >
+          <div class="flex items-center gap-2">
+            <lucide-icon [name]="item.icon" class="h-4 w-4" [class.text-action-blue]="isActive(item.id)"></lucide-icon>
+            <span class="text-base font-medium" [class.font-bold]="isActive(item.id)">{{ item.name }}</span>
+          </div>
+          @if (isActive(item.id)) {
+            <lucide-icon name="pencil" class="w-4 h-4 text-warning-amber animate-pulse"></lucide-icon>
+          }
+        </button>
+      }
+    </app-mobile-nav-menu>
+  </app-mobile-nav>
+</app-navbar>
+
+@defer (when isSearchOpen()) {
+  <app-spotlight-search [isOpen]="isSearchOpen()" (close)="closeSearch()"></app-spotlight-search>
+}
+

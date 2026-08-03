@@ -10,6 +10,8 @@
 /node_modules
 npm-debug.log
 yarn-error.log
+pnpm-debug.log
+*.log
 
 # IDEs and editors
 .idea/
@@ -38,7 +40,20 @@ yarn-error.log
 testem.log
 /typings
 __screenshots__/
+*.tmp
+*.temp
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Build/tool caches
+.cache/
+.eslintcache
 
 # System files
 .DS_Store
 Thumbs.db
+
+ang/
