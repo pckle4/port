@@ -21,4 +21,9 @@ export const routes: Routes = [
     loadComponent: () => import('./features/legal/terms/terms-page.component').then(c => c.TermsPageComponent), 
     title: 'Ansh Shah — Terms of Service' 
   },
+  { 
+    path: '**', 
+    loadComponent: () => import('./features/not-found/not-found.component').then(c => c.NotFoundPageComponent), 
+    title: 'Ansh Shah — Page Not Found' 
+  },
 ];

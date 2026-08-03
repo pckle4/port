@@ -486,7 +486,7 @@
     grid-template-columns: 1fr;
     gap: 28px;
     height: auto;
-    min-height: 100vh;
+    min-height: auto;
     padding: 32px 20px;
     align-content: start;
   }
@@ -503,19 +503,32 @@
     margin-inline: auto;
   }
 
+  /* Hide counter and progress on mobile */
   .projects-section__counter {
-    justify-content: center;
-    margin-top: 18px;
+    display: none;
   }
 
   .projects-section__progress {
-    margin-inline: auto;
+    display: none;
   }
 
+  /* Cards in normal vertical flow instead of stacked */
   .projects-section__cards {
+    position: relative;
     max-width: 480px;
+    min-height: auto;
+    height: auto;
     margin: 0 auto;
     transform: none;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* Cards are no longer absolute-positioned */
+  .project-card {
+    position: relative;
+    inset: auto;
   }
 }
 
@@ -535,18 +548,10 @@
     margin-top: 14px;
   }
 
-  .projects-section__counter {
-    margin-top: 14px;
-  }
-
-  .projects-section__counter-current {
-    font-size: 30px;
-  }
-
   .projects-section__cards {
     max-width: 100%;
-    min-height: 460px;
-    height: clamp(460px, 60vh, 520px);
+    min-height: auto;
+    height: auto;
   }
 
   .project-card__surface {

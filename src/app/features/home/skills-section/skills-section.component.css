@@ -335,6 +335,11 @@
     margin-inline: auto;
   }
 
+  /* Hide decorative SVG arrows on mobile */
+  .skills-bg {
+    display: none;
+  }
+
   /* Swap order so Globe is above the list on mobile */
   .skills-section__left {
     order: 2;
@@ -361,6 +366,11 @@
 
   .skill-card {
     padding: 24px;
+    overflow: hidden; /* Prevent absolute decorations from overflowing */
+  }
+
+  .skill-card__deco {
+    display: none;
   }
 
   .skill-card__body {

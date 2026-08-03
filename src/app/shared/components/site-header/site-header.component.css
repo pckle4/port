@@ -112,7 +112,8 @@
     top: calc(100% + 7px);
     right: 0;
     left: 0;
-    padding: 10px;
+    padding: 8px;
+    gap: 2px;
     border: 1px solid var(--ink);
     border-radius: 12px;
     background: var(--cream);
@@ -122,7 +123,7 @@
   .nav-links>button, .nav-links>a {
     width: 100%;
     margin: 0;
-    padding: 14px;
+    padding: 10px 12px;
     text-align: left;
   }
 }

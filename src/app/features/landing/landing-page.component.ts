@@ -13,6 +13,7 @@ import { SkillsSectionComponent } from '../home/skills-section/skills-section.co
 import { ContactSectionComponent } from '../home/contact-section/contact-section.component';
 import { PortfolioFooterComponent } from '../home/portfolio-footer/portfolio-footer.component';
 import { SiteHeaderComponent } from '../../shared/components/site-header/site-header.component';
+import { WorkflowSectionComponent } from '../home/workflow-section/workflow-section.component';
 
 @Component({
   selector: 'app-landing-page',
@@ -27,6 +28,7 @@ import { SiteHeaderComponent } from '../../shared/components/site-header/site-he
     PortfolioFooterComponent,
     SiteHeaderComponent,
     RevealDirective,
+    WorkflowSectionComponent,
   ],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.css',

@@ -315,9 +315,8 @@
   transition: color 0.2s ease;
 }
 
-.ext-tag {
+.ext-arrow {
   color: #4a4a4a;
-  font-size: 11px;
   transition: color 0.2s ease, transform 0.2s ease;
 }
 
@@ -343,7 +342,7 @@
   color: #3b82f6;
 }
 
-.social-item:hover .ext-tag {
+.social-item:hover .ext-arrow {
   color: #3b82f6;
   transform: translate(1px, -1px);
 }

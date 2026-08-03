@@ -55,7 +55,7 @@ export class ProjectsSectionComponent implements AfterViewInit, OnDestroy {
 
     const mm = gsap.matchMedia();
 
-    mm.add('(min-width: 0px)', () => {
+    mm.add('(min-width: 851px)', () => {
       // Initial state: parallax stacking setup
       cardElements.forEach((card, i) => {
       gsap.set(card, {
