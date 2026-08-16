@@ -1,161 +1,107 @@
-<app-enhanced-header></app-enhanced-header>
-
-<main id="main-content" class="min-h-screen bg-background text-foreground pt-24 pb-16 sm:pt-32 sm:pb-24 selection:bg-primary/30 selection:text-primary">
-  <article class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-
-    <header class="mb-12 sm:mb-16 border-b border-border/40 pb-8">
-      <nav aria-label="Breadcrumb" class="mb-8">
-        <a routerLink="/" class="group inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm ring-offset-background">
-          <lucide-icon name="arrow-left" class="h-4 w-4 group-hover:-translate-x-1 transition-transform duration-300"></lucide-icon>
-          Return to Home
-        </a>
-      </nav>
-      <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
-        Privacy <span class="text-primary">Policy</span>
-      </h1>
-      <p class="text-base sm:text-lg text-muted-foreground flex items-center gap-2">
-        <lucide-icon name="calendar" class="h-4 w-4"></lucide-icon>
-        Effective Date: <time datetime="2026-04-19">{{lastUpdated}}</time>
-      </p>
-    </header>
-
-    <div class="prose prose-slate dark:prose-invert prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline hover:prose-a:text-primary/80 prose-a:transition-colors prose-p:leading-relaxed prose-li:leading-relaxed max-w-none space-y-10 text-sm sm:text-base text-foreground/90">
-
-      <section aria-labelledby="data-collection-principles" class="scroll-mt-12">
-        <h2 id="data-collection-principles" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
-          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">01</span>
-          Data Collection Principles
-        </h2>
-        <div class="pl-0 sm:pl-11 mt-4">
-          <p>
-            Ansh Shah ("we", "us", "our") operates <strong>nowhile.com</strong> (the "System") strictly adhering to the principle of data minimization. We only ingest, process, and retain telemetry and user-provided datasets that are absolutely vital for maintaining infrastructure stability, security, and establishing professional contact.
-          </p>
-        </div>
-      </section>
-
-      <section aria-labelledby="telemetry-infrastructure" class="scroll-mt-12">
-        <h2 id="telemetry-infrastructure" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
-          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">02</span>
-          Telemetry &amp; Access Logging
-        </h2>
-        <div class="pl-0 sm:pl-11 mt-4">
-          <p>
-            When interfacing with the System, our routing architecture automatically aggregates non-personally identifiable connectivity metadata:
-          </p>
-          <ul class="space-y-3 bg-secondary/20 rounded-xl p-6 border border-border/30 list-none m-0 mt-4">
-            <li class="flex items-start gap-3">
-              <lucide-icon name="network" class="h-5 w-5 text-primary shrink-0 mt-0.5"></lucide-icon>
-              <span><strong>Network Information:</strong> IP address strings, gross geolocational mapping (country/region index) for threat intelligence, and bandwidth heuristics.</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <lucide-icon name="monitor-smartphone" class="h-5 w-5 text-primary shrink-0 mt-0.5"></lucide-icon>
-              <span><strong>Device Signatures:</strong> Browser user-agent variants, rendering engine type, OS fingerprint, and viewport dimensions for responsive layout optimizations.</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <lucide-icon name="activity" class="h-5 w-5 text-primary shrink-0 mt-0.5"></lucide-icon>
-              <span><strong>Traffic Flow:</strong> Application routing states, ingress/egress points, and API latency measurements.</span>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <section aria-labelledby="secure-data-transmission" class="scroll-mt-12">
-        <h2 id="secure-data-transmission" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
-          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">03</span>
-          Secure Data Transmission
-        </h2>
-        <div class="pl-0 sm:pl-11 mt-4">
-          <p>
-            Any data payload explicitly transmitted via contact channels (Name, Email Identifiers, Messaging Body) is parsed solely for immediate correspondence. We do not aggregate this data for marketing clusters, nor do we serialize it for long-term algorithmic profiling.
-          </p>
-        </div>
-      </section>
-
-      <section aria-labelledby="state-management" class="scroll-mt-12">
-        <h2 id="state-management" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
-          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">04</span>
-          Local State Management
-        </h2>
-        <div class="pl-0 sm:pl-11 mt-4">
-          <p>
-            The System operates entirely without tracking cookies. It solely utilizes secure localStorage API tokens to persist explicit user interactions (e.g., rendering Theme preferences spanning Dark/Light modes). No personalized state leaves your execution environment.
-          </p>
-        </div>
-      </section>
-
-      <section aria-labelledby="external-service-providers" class="scroll-mt-12">
-        <h2 id="external-service-providers" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
-          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">05</span>
-          External Service Providers
-        </h2>
-        <div class="pl-0 sm:pl-11 mt-4">
-          <div class="bg-card border border-border/50 rounded-xl p-5 mb-4 text-sm">
-            <h3 class="font-bold text-foreground mb-2 flex items-center gap-2">
-              <lucide-icon name="server" class="h-4 w-4 text-accent"></lucide-icon>
-              Architecture Backbones
-            </h3>
-            <p class="text-muted-foreground m-0">
-              We leverage enterprise providers strictly for structural integrity. Subprocessors include Vercel (Edge-routing and Serverless execution) and third-party cryptographic services (CAPTCHA endpoints against botnet injections).
-            </p>
-          </div>
-          <p>
-            These entities maintain SOC2/ISO compliant data governance independently. We distribute no organic user data beyond fundamental TCP/IP routing requirements.
-          </p>
-        </div>
-      </section>
-
-      <section aria-labelledby="data-sovereignty" class="scroll-mt-12">
-        <h2 id="data-sovereignty" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
-          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">06</span>
-          Data Sovereignty &amp; Subpoenas
-        </h2>
-        <div class="pl-0 sm:pl-11 mt-4">
-          <p>
-            Your information is never commoditized, licensed, or swapped. Access is strictly partitioned. Data release to external jurisdictions only occurs if legally compelled via rigorous, cryptographically verifiable warrants originating from competent statutory bodies.
-          </p>
-        </div>
-      </section>
-
-      <section aria-labelledby="educational-purpose" class="scroll-mt-12">
-        <h2 id="educational-purpose" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
-          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">07</span>
-          Educational Purpose & Ownership
-        </h2>
-        <div class="pl-0 sm:pl-11 mt-4">
-          <p>
-            The domain <strong>nowhile.com</strong> is wholly owned and operated by <strong>Ansh Shah</strong>. All content displayed on this website is intended strictly for <strong>educational and demonstrative purposes</strong>.
-          </p>
-          <p class="mt-4">
-            We explicitly declare that we do not own many of the placeholder images, generic graphical assets, icons, or design layouts used throughout the System. These materials have been sourced from publicly available internet resources, open-source libraries, and design communities strictly as structural demonstrations and aesthetic references. 
-          </p>
-          <p class="mt-4">
-            No copyright infringement is intended, and we do not claim original ownership of referenced third-party materials. We have not maliciously copied or plagiarized any specific individual's proprietary work for commercial gain. For any disputes, takedown requests under the Digital Millennium Copyright Act (DMCA) or equivalent international frameworks, or general legal queries regarding asset attribution, please contact our legal liaison immediately.
-          </p>
-        </div>
-      </section>
-
-      <footer class="mt-16 pt-8 border-t border-border/40 text-center sm:text-left">
-        <h2 class="text-lg font-semibold text-foreground mb-4">Privacy Compliance Contact</h2>
-        <p class="text-muted-foreground mb-4">
-          To initiate a GDPR/CCPA data excision request or query our cryptographic protocols, transmit requests directly to:
-        </p>
-        <div class="flex items-center gap-3 justify-center sm:justify-start">
-          <a href="mailto:legal@nowhile.com" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ring-offset-background">
-            <lucide-icon name="shield-check" class="h-4 w-4"></lucide-icon>
-            legal@nowhile.com
-          </a>
-          <button (click)="copyEmail()" class="inline-flex items-center justify-center p-2.5 rounded-lg border border-border/50 hover:bg-secondary/50 text-muted-foreground hover:text-foreground transition-colors" [title]="isCopied() ? 'Copied!' : 'Copy to clipboard'">
-            <lucide-icon [name]="isCopied() ? 'check' : 'copy'" class="h-4 w-4"></lucide-icon>
-          </button>
-        </div>
-      </footer>
-
+<main class="legal-page">
+  <!-- Header Section with Animation & Grid SVG -->
+  <header class="legal-header">
+    <div class="legal-header__graphic" aria-hidden="true"></div>
+    <div class="legal-header__content">
+      <span class="legal-eyebrow">Legal Information</span>
+      <h1 class="legal-title">Privacy Policy</h1>
+      <p class="legal-last-updated">Last Updated: August 2026</p>
     </div>
-  </article>
+  </header>
+
+  <!-- Main Content Grid -->
+  <div class="legal-container">
+    
+    <!-- Sidebar / TOC -->
+    <aside class="legal-sidebar" [style.animation-delay]="'0.1s'">
+      <nav class="legal-toc" aria-label="Table of Contents">
+        <h3>Contents</h3>
+        <ul>
+          <li><a href="#introduction" (click)="scrollTo('introduction', $event)">1. Introduction</a></li>
+          <li><a href="#data-collection" (click)="scrollTo('data-collection', $event)">2. Data Collection</a></li>
+          <li><a href="#how-we-use" (click)="scrollTo('how-we-use', $event)">3. How We Use Data</a></li>
+          <li><a href="#analytics-cookies" (click)="scrollTo('analytics-cookies', $event)">4. Analytics & Cookies</a></li>
+          <li><a href="#data-security" (click)="scrollTo('data-security', $event)">5. Data Security & Retention</a></li>
+          <li><a href="#your-rights" (click)="scrollTo('your-rights', $event)">6. Your Rights</a></li>
+          <li><a href="#contact" (click)="scrollTo('contact', $event)">7. Contact Us</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content Body -->
+    <article class="legal-content" [style.animation-delay]="'0.2s'">
+      
+      <section id="introduction">
+        <h2>1. Introduction</h2>
+        <p>At <strong>Nowhile</strong>, we take your privacy seriously. This Privacy Policy governs the manner in which we collect, use, maintain, and disclose information collected from users (each, a "User") of the <a href="https://nowhile.com">nowhile.com</a> website ("Site"). This privacy policy applies to the Site and all products and services offered by Nowhile.</p>
+        <p>By using this Site, you signify your acceptance of this policy. If you do not agree to this policy, please do not use our Site.</p>
+      </section>
+
+      <section id="data-collection">
+        <h2>2. Data Collection</h2>
+        <p>We may collect personal identification information from Users in a variety of ways, including, but not limited to, when Users visit our site, fill out a form (such as a project brief or contact form), and in connection with other activities, services, features, or resources we make available on our Site.</p>
+        <ul>
+          <li><strong>Information you provide directly:</strong> Name, email address, project details, and any other information you choose to provide in forms or correspondence.</li>
+          <li><strong>Information collected automatically:</strong> We may collect non-personal identification information whenever you interact with our Site. This may include browser names, IP addresses, the type of computer, and technical information about your means of connection to our Site (e.g., operating systems and internet service providers utilized).</li>
+        </ul>
+      </section>
+
+      <section id="how-we-use">
+        <h2>3. How We Use Data</h2>
+        <p>Nowhile collects and uses Users' personal information for the following purposes:</p>
+        <ul>
+          <li><strong>To respond to inquiries:</strong> We use the email addresses and project details provided to respond to requests, questions, and other correspondence.</li>
+          <li><strong>To improve user experience:</strong> We may use information in the aggregate to understand how our Users as a group use the services and resources provided on our Site.</li>
+          <li><strong>To improve our Site:</strong> We continually strive to improve our website offerings based on the information and feedback we receive from you.</li>
+        </ul>
+      </section>
+
+      <section id="analytics-cookies">
+        <h2>4. Analytics & Cookies</h2>
+        <p>Our Site may use "cookies" to enhance the User experience. A user's web browser places cookies on their hard drive for record-keeping purposes and sometimes to track information about them. You may choose to set your web browser to refuse cookies, or to alert you when cookies are being sent. If you do so, note that some parts of the Site may not function properly.</p>
+        <p>We also utilize privacy-friendly analytics tools to measure website traffic and interactions. These tools are configured to anonymize IP addresses and avoid storing personally identifiable information without consent.</p>
+      </section>
+
+      <section id="data-security">
+        <h2>5. Data Security & Retention</h2>
+        <p>We adopt appropriate data collection, storage, and processing practices and security measures to protect against unauthorized access, alteration, disclosure, or destruction of your personal information, username, password, transaction information, and data stored on our Site.</p>
+        <p>We retain your personal data only for as long as necessary to fulfill the purposes for which it was collected, including for the purposes of satisfying any legal, accounting, or reporting requirements. Project inquiries and related correspondence may be kept for internal records for a period of up to 5 years.</p>
+      </section>
+
+      <section id="your-rights">
+        <h2>6. Your Rights</h2>
+        <p>Depending on your location (such as under the GDPR or CCPA), you may have specific rights regarding your personal data:</p>
+        <ul>
+          <li>The right to request access to the personal data we hold about you.</li>
+          <li>The right to request correction of any inaccurate or incomplete data.</li>
+          <li>The right to request deletion of your personal data ("right to be forgotten").</li>
+          <li>The right to object to the processing of your personal data.</li>
+        </ul>
+        <p>If you wish to exercise any of these rights, please contact us using the details below.</p>
+      </section>
+
+      <section id="contact">
+        <h2>7. Contact Us</h2>
+        <p>If you have any questions about this Privacy Policy, the practices of this site, or your dealings with this site, please contact our legal and support team.</p>
+        
+        <button class="premium-contact-btn" [class.copied]="copied()" (click)="copyEmail()">
+          @if (copied()) {
+            <span class="btn-text">Email Address Copied!</span>
+            <svg class="btn-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          } @else {
+            <span class="btn-text">legal&#64;nowhile.com</span>
+            <svg class="btn-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          }
+        </button>
+      </section>
+
+    </article>
+  </div>
 </main>
 
-@defer (on viewport) {
-  <app-enhanced-footer></app-enhanced-footer>
-} @placeholder {
-  <div class="h-32 w-full"></div>
-}
+<app-enhanced-footer />

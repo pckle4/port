@@ -1,190 +1,99 @@
-<app-enhanced-header></app-enhanced-header>
-
-<main id="main-content" class="min-h-screen bg-background text-foreground pt-24 pb-16 sm:pt-32 sm:pb-24 selection:bg-primary/30 selection:text-primary">
-  <article class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-
-    <header class="mb-12 sm:mb-16 border-b border-border/40 pb-8">
-      <nav aria-label="Breadcrumb" class="mb-8">
-        <a routerLink="/" class="group inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm ring-offset-background">
-          <lucide-icon name="arrow-left" class="h-4 w-4 group-hover:-translate-x-1 transition-transform duration-300"></lucide-icon>
-          Return to Home
-        </a>
-      </nav>
-      <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
-        Terms of <span class="text-primary">Service</span>
-      </h1>
-      <p class="text-base sm:text-lg text-muted-foreground flex items-center gap-2">
-        <lucide-icon name="calendar" class="h-4 w-4"></lucide-icon>
-        Effective Date: <time datetime="2026-04-19">{{lastUpdated}}</time>
-      </p>
-    </header>
-
-    <div class="prose prose-slate dark:prose-invert prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline hover:prose-a:text-primary/80 prose-a:transition-colors prose-p:leading-relaxed prose-li:leading-relaxed max-w-none space-y-10 text-sm sm:text-base text-foreground/90">
-
-      <section aria-labelledby="acceptance-of-terms" class="scroll-mt-12">
-        <h2 id="acceptance-of-terms" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
-          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">01</span>
-          Acceptance of Terms
-        </h2>
-        <div class="pl-0 sm:pl-11 mt-4">
-          <p>
-            By accessing, browsing, or utilizing the services provided on <strong>nowhile.com</strong> (the "System"), you are acknowledging that you have read, understood, and agree to be legally bound by these Terms of Service. If you do not agree to these terms in their entirety, you must immediately terminate your use of the System. 
-          </p>
-        </div>
-      </section>
-
-      <section aria-labelledby="service-provision" class="scroll-mt-12">
-        <h2 id="service-provision" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
-          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">02</span>
-          Service Provision
-        </h2>
-        <div class="pl-0 sm:pl-11 mt-4">
-          <p>
-            This infrastructure serves as a professional portfolio, interactive resume, and communication gateway for Ansh Shah. All features, APIs, tools, and content (collectively, "Services") are provided strictly for informational and professional networking purposes. 
-          </p>
-          <p class="mt-3">
-            We reserve the right to deploy updates, modify features, or deprecate availability of the System without prior notice, conforming to our evolving operational priorities and security obligations.
-          </p>
-        </div>
-      </section>
-
-      <section aria-labelledby="intellectual-property" class="scroll-mt-12">
-        <h2 id="intellectual-property" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
-          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">03</span>
-          Intellectual Property &amp; Licensing
-        </h2>
-        <div class="pl-0 sm:pl-11 mt-4">
-          <p>
-            All proprietary content distributed through the System, encompassing text, algorithmic snippets, architectural diagrams, vector graphics, and interface designs, are the intellectual property of Ansh Shah, protected under international copyright legislation.
-          </p>
-          <div class="bg-card border border-border/50 rounded-xl p-5 mt-4 text-sm mt-4">
-            <h3 class="font-bold text-foreground mb-2 flex items-center gap-2">
-              <lucide-icon name="shield-alert" class="h-4 w-4 text-accent"></lucide-icon>
-              Open Source Extensibility
-            </h3>
-            <p class="text-muted-foreground m-0">
-              Where explicit open-source licenses (e.g., MIT, Apache 2.0) are attached to referenced repositories, those specific terms supersede this clause for the respective repositories only. Otherwise, strict "All Rights Reserved" applies to the portfolio infrastructure itself.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section aria-labelledby="acceptable-use" class="scroll-mt-12">
-        <h2 id="acceptable-use" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
-          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">04</span>
-          Acceptable Use Policy (AUP)
-        </h2>
-        <div class="pl-0 sm:pl-11 mt-4">
-          <p class="mb-3">You explicitly agree to refrain from the following vectors of misuse:</p>
-          <ul class="space-y-3 bg-secondary/20 rounded-xl p-6 border border-border/30 list-none m-0">
-            <li class="flex items-start gap-3">
-              <lucide-icon name="x-circle" class="h-5 w-5 text-red-500/80 shrink-0 mt-0.5"></lucide-icon>
-              <span><strong>Automated Exploitation:</strong> Utilizing automated agents, scrapers, or botnets to extract data or interact with System endpoints without explicit cryptographic authorization.</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <lucide-icon name="x-circle" class="h-5 w-5 text-red-500/80 shrink-0 mt-0.5"></lucide-icon>
-              <span><strong>Malicious Payload Injection:</strong> Transmitting executing scripts, XSS payloads, or arbitrary malicious objects via contact forms or any exposed input vectors.</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <lucide-icon name="x-circle" class="h-5 w-5 text-red-500/80 shrink-0 mt-0.5"></lucide-icon>
-              <span><strong>Denial of Service:</strong> Causing architectural exhaustion or deliberate network latency degradation via high-volume synthetic request generation.</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <lucide-icon name="x-circle" class="h-5 w-5 text-red-500/80 shrink-0 mt-0.5"></lucide-icon>
-              <span><strong>Identity Spoofing:</strong> Falsifying headers, origin IPs, or contact identity to impersonate organizational entities.</span>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <section aria-labelledby="communication-channels" class="scroll-mt-12">
-        <h2 id="communication-channels" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
-          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">05</span>
-          Secure Communication Interfaces
-        </h2>
-        <div class="pl-0 sm:pl-11 mt-4">
-          <p>
-            Any ingestion of data through our defined contact protocols implies your consent that the payload is accurate, benign, and intended for professional dialogue. We implement active spam mitigation and cryptographic heuristics (CAPTCHA constraints) to filter anomalous traffic. We retain absolute operational authority to discard unverified submissions.
-          </p>
-        </div>
-      </section>
-
-      <section aria-labelledby="limitation-liability" class="scroll-mt-12">
-        <h2 id="limitation-liability" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
-          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">06</span>
-          Limitation of Liability &amp; Warranty
-        </h2>
-        <div class="pl-0 sm:pl-11 mt-4">
-          <div class="border-l-4 border-accent pl-5 py-2 my-5 bg-accent/5 rounded-r-xl">
-            <p class="font-bold text-foreground uppercase tracking-wider text-xs mb-2">Disclaimer of Guarantees</p>
-            <p class="text-muted-foreground m-0">
-              The System is architected and deployed on an "AS IS" and "AS AVAILABLE" methodology. No explicit or implicit guarantees are issued regarding 100% uptime, defect-free execution, or endpoint resilience against emerging zero-day vulnerabilities.
-            </p>
-          </div>
-          <p>
-            Under no legal or equitable theory shall Ansh Shah be liable for any direct, indirect, incidental, or consequential degradation (including data loss or business interruption) resulting from your interactions with the System.
-          </p>
-        </div>
-      </section>
-
-      <section aria-labelledby="jurisdiction" class="scroll-mt-12">
-        <h2 id="jurisdiction" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
-          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">07</span>
-          Governing Law &amp; Severability
-        </h2>
-        <div class="pl-0 sm:pl-11 mt-4">
-          <p>
-            These architectural agreements are executed and construed in alignment with the legal statutory frameworks of India. Extraterritorial conflict-of-law principles are actively excluded. If any isolated clause herein is successfully challenged in a court of competent jurisdiction as unenforceable, the remaining architectural framework of this agreement remains intact and legally binding.
-          </p>
-        </div>
-      </section>
-
-      <section aria-labelledby="educational-purpose" class="scroll-mt-12">
-        <h2 id="educational-purpose" class="text-2xl sm:text-3xl text-foreground flex items-center gap-3">
-          <span class="flex items-center justify-center bg-primary/10 text-primary w-8 h-8 rounded-full text-sm font-mono ring-1 ring-primary/20">08</span>
-          Educational Purpose & Ownership
-        </h2>
-        <div class="pl-0 sm:pl-11 mt-4">
-          <p>
-            The domain <strong>nowhile.com</strong> is wholly owned and operated by <strong>Ansh Shah</strong>. All content displayed on this website is intended strictly for <strong>educational, portfolio, and demonstrative purposes</strong>.
-          </p>
-          <div class="bg-card border border-border/50 rounded-xl p-5 mt-4 text-sm">
-            <h3 class="font-bold text-foreground mb-2 flex items-center gap-2">
-              <lucide-icon name="shield-alert" class="h-4 w-4 text-accent"></lucide-icon>
-              Non-Ownership of Reference Materials
-            </h3>
-            <p class="text-muted-foreground m-0">
-              The developer explicitly disclaims ownership of certain graphical assets, placeholder images, icons, and UI design references utilized within the System. These assets have been curated from the public domain or open internet strictly for demonstrative, non-commercial purposes. We do not claim to have originally authored these specific referenced materials, nor do we assume liability for their inherent origins. No malicious copying, intellectual property theft, or plagiarism of third-party proprietary work is intended or executed.
-            </p>
-          </div>
-          <p class="mt-4">
-            <strong>Takedown Procedure & DMCA Compliance:</strong> If you are the rightful copyright or trademark owner of any reference material inadvertently used in this educational demonstration and wish for it to be removed, please contact our legal liaison with formal proof of ownership. We are fully committed to honoring all valid, verifiable takedown requests expediently and amicably.
-          </p>
-        </div>
-      </section>
-
-      <footer class="mt-16 pt-8 border-t border-border/40 text-center sm:text-left">
-        <h2 class="text-lg font-semibold text-foreground mb-4">Legal Liaison &amp; Escalation</h2>
-        <p class="text-muted-foreground mb-4">
-          For policy escalations, authorization queries, or legal triage, transmit inquiries to the designated endpoint:
-        </p>
-        <div class="flex items-center gap-3 justify-center sm:justify-start">
-          <a href="mailto:legal@nowhile.com" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ring-offset-background">
-            <lucide-icon name="mail-check" class="h-4 w-4"></lucide-icon>
-            legal@nowhile.com
-          </a>
-          <button (click)="copyEmail()" class="inline-flex items-center justify-center p-2.5 rounded-lg border border-border/50 hover:bg-secondary/50 text-muted-foreground hover:text-foreground transition-colors" [title]="isCopied() ? 'Copied!' : 'Copy to clipboard'">
-            <lucide-icon [name]="isCopied() ? 'check' : 'copy'" class="h-4 w-4"></lucide-icon>
-          </button>
-        </div>
-      </footer>
-
+<main class="legal-page">
+  <!-- Header Section with Animation & Grid SVG -->
+  <header class="legal-header">
+    <div class="legal-header__graphic" aria-hidden="true"></div>
+    <div class="legal-header__content">
+      <span class="legal-eyebrow">Legal Information</span>
+      <h1 class="legal-title">Terms of Service</h1>
+      <p class="legal-last-updated">Last Updated: August 2026</p>
     </div>
-  </article>
+  </header>
+
+  <!-- Main Content Grid -->
+  <div class="legal-container">
+    
+    <!-- Sidebar / TOC -->
+    <aside class="legal-sidebar" [style.animation-delay]="'0.1s'">
+      <nav class="legal-toc" aria-label="Table of Contents">
+        <h3>Contents</h3>
+        <ul>
+          <li><a href="#acceptance" (click)="scrollTo('acceptance', $event)">1. Acceptance of Terms</a></li>
+          <li><a href="#license" (click)="scrollTo('license', $event)">2. Use License</a></li>
+          <li><a href="#intellectual-property" (click)="scrollTo('intellectual-property', $event)">3. Intellectual Property</a></li>
+          <li><a href="#disclaimer" (click)="scrollTo('disclaimer', $event)">4. Disclaimer</a></li>
+          <li><a href="#limitations" (click)="scrollTo('limitations', $event)">5. Limitations</a></li>
+          <li><a href="#revisions" (click)="scrollTo('revisions', $event)">6. Revisions and Errata</a></li>
+          <li><a href="#contact" (click)="scrollTo('contact', $event)">7. Contact Information</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content Body -->
+    <article class="legal-content" [style.animation-delay]="'0.2s'">
+      
+      <section id="acceptance">
+        <h2>1. Acceptance of Terms</h2>
+        <p>By accessing the website at <a href="https://nowhile.com">nowhile.com</a>, you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site. The materials contained in this website are protected by applicable copyright and trademark law.</p>
+      </section>
+
+      <section id="license">
+        <h2>2. Use License</h2>
+        <p>Permission is granted to temporarily download one copy of the materials (information or software) on Nowhile's website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:</p>
+        <ul>
+          <li>Modify or copy the materials;</li>
+          <li>Use the materials for any commercial purpose, or for any public display (commercial or non-commercial);</li>
+          <li>Attempt to decompile or reverse engineer any software contained on Nowhile's website;</li>
+          <li>Remove any copyright or other proprietary notations from the materials; or</li>
+          <li>Transfer the materials to another person or "mirror" the materials on any other server.</li>
+        </ul>
+        <p>This license shall automatically terminate if you violate any of these restrictions and may be terminated by Nowhile at any time.</p>
+      </section>
+
+      <section id="intellectual-property">
+        <h2>3. Intellectual Property, Inspiration & Attribution</h2>
+        <p>This website (its architecture, codebase, and logic) was built entirely from scratch by Ansh. No proprietary code or copyrighted source files were copied from external parties. The intellectual property of the codebase belongs entirely to the creator.</p>
+        <p>However, the design language heavily draws inspiration from modern web development trends and talented creative studios. All embedded SVGs and illustrations are AI-generated (with special thanks to generative AI tools). We deeply respect the rights of other creators and designers.</p>
+        <p><strong>Takedown Policy:</strong> If you believe your work has been improperly referenced or if you have a dispute regarding any design choices on this site, please reach out via the contact information below. Any valid removal request will be honored and actioned within 24 hours.</p>
+      </section>
+
+      <section id="disclaimer">
+        <h2>4. Disclaimer</h2>
+        <p>The materials on Nowhile's website are provided on an 'as is' basis. Nowhile makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
+        <p>Further, Nowhile does not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials on its website or otherwise relating to such materials or on any sites linked to this site.</p>
+      </section>
+
+      <section id="limitations">
+        <h2>5. Limitations</h2>
+        <p>In no event shall Nowhile or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on Nowhile's website, even if Nowhile or a Nowhile authorized representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you.</p>
+      </section>
+
+      <section id="revisions">
+        <h2>6. Revisions and Errata</h2>
+        <p>The materials appearing on Nowhile's website could include technical, typographical, or photographic errors. Nowhile does not warrant that any of the materials on its website are accurate, complete or current. Nowhile may make changes to the materials contained on its website at any time without notice. However Nowhile does not make any commitment to update the materials.</p>
+      </section>
+
+      <section id="contact">
+        <h2>7. Contact Information</h2>
+        <p>If you have any questions, takedown requests, or concerns about these Terms, please contact our legal team.</p>
+        
+        <button class="premium-contact-btn" [class.copied]="copied()" (click)="copyEmail()">
+          @if (copied()) {
+            <span class="btn-text">Email Address Copied!</span>
+            <svg class="btn-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          } @else {
+            <span class="btn-text">legal&#64;nowhile.com</span>
+            <svg class="btn-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          }
+        </button>
+      </section>
+
+    </article>
+  </div>
 </main>
 
-@defer (on viewport) {
-  <app-enhanced-footer></app-enhanced-footer>
-} @placeholder {
-  <div class="h-32 w-full"></div>
-}
+<app-enhanced-footer />

@@ -1,29 +1,29 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { EnhancedHeaderComponent } from '../../components/enhanced-header/enhanced-header';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { EnhancedFooterComponent } from '../../components/enhanced-footer/enhanced-footer';
-import { LucideAngularModule } from 'lucide-angular';
-
 @Component({
   selector: 'app-terms',
   standalone: true,
-  imports: [CommonModule, RouterLink, EnhancedHeaderComponent, EnhancedFooterComponent, LucideAngularModule],
+  imports: [EnhancedFooterComponent],
   templateUrl: './terms.html',
   styleUrls: ['./terms.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TermsComponent {
-  lastUpdated = 'April 19, 2026';
-  isCopied = signal(false);
+  protected readonly copied = signal(false);
 
-  async copyEmail() {
-    try {
-      await navigator.clipboard.writeText('legal@nowhile.com');
-      this.isCopied.set(true);
-      setTimeout(() => this.isCopied.set(false), 2000);
-    } catch (err) {
-      console.error('Failed to copy text: ', err);
+  copyEmail() {
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText('legal@nowhile.com').then(() => {
+        this.copied.set(true);
+        setTimeout(() => this.copied.set(false), 2000);
+      });
+    }
+  }
+
+  scrollTo(id: string, event: Event): void {
+    event.preventDefault();
+    if (typeof document !== 'undefined') {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 }

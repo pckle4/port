@@ -1,54 +1,81 @@
-<section class="py-12 sm:py-8 relative overflow-hidden bg-[#050505] text-slate-100 dark"
-  style="contain: layout style; scroll-margin-top: 96px;">
-  <div class="absolute inset-0 z-0 opacity-15 pointer-events-none">
-    <div class="absolute top-0 left-0 w-[50%] h-[50%] bg-primary/30 rounded-full blur-[100px]"></div>
-    <div class="absolute bottom-0 right-0 w-[50%] h-[50%] bg-accent/30 rounded-full blur-[100px]"></div>
-  </div>
+<section class="skills-section" id="skills">
+  <div class="skills-section__inner">
+    <!-- Left column: text & new skill cards -->
+    <div class="skills-section__left">
+      <!-- Decorative background elements -->
+      <svg class="skills-bg skills-bg--dots" aria-hidden="true" width="100" height="100" viewBox="0 0 100 100" fill="none">
+        <pattern id="skills-dots" x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse">
+          <circle cx="12.5" cy="12.5" r="3" fill="#d0d7e5" />
+        </pattern>
+        <rect x="0" y="0" width="100" height="100" fill="url(#skills-dots)" />
+      </svg>
+      
+      <svg class="skills-bg skills-bg--arrow" aria-hidden="true" width="120" height="80" viewBox="0 0 120 80" fill="none">
+        <path d="M10,70 C40,20 80,80 110,30" stroke="#a0b3c6" stroke-width="2.5" stroke-dasharray="6 6" fill="none" stroke-linecap="round"/>
+        <path d="M95,30 L110,30 L105,45" stroke="#a0b3c6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
 
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-    <div class="max-w-7xl mx-auto">
-      <div [class]="isVisible() ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 sm:translate-y-8'"
-        class="transition-all duration-500 sm:duration-1000 text-center lg:text-left mb-8 sm:mb-10 lg:mb-12">
-        <h2
-          class="text-2xl sm:text-3xl md:text-5xl font-bold mb-3 sm:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-slate-100 to-primary">
-          Skills & Technologies
-        </h2>
-        <p class="text-slate-400 text-sm sm:text-base md:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-          I specialize in building robust, scalable applications. My toolkit evolves continuously, but these are my
-          core weapons of choice.
+      <div class="skills-section__text">
+        <p class="skills-section__eyebrow">✨ What I do ✨</p>
+        <h2>Skills & <span class="highlight-cursive">Technologies</span></h2>
+        <p class="skills-section__lead">
+          I specialize in building robust, scalable applications.<br>
+          My toolkit evolves continuously, but these are my core weapons of choice.
         </p>
       </div>
 
-      <div class="grid lg:grid-cols-12 gap-8 md:gap-6 lg:gap-8 items-center">
-
-        <!-- Skill Cards (left on desktop, bottom on mobile) -->
-        <div class="lg:col-span-7 space-y-6 sm:space-y-8 order-2 lg:order-1">
-
-          <div [class]="isVisible() ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 sm:translate-y-8'"
-            class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 transition-all duration-500 sm:duration-1000 sm:delay-200">
-            @for (category of skillCategories; track category.title) {
-              <app-skill-card [category]="category"></app-skill-card>
+      <!-- Categories list (New Card Style) -->
+      <div class="skills-section__categories">
+        @for (category of skillCategories; track category.title) {
+          <article class="skill-card group" [attr.data-theme]="category.theme">
+            <!-- Decorative corner bracket (only on some cards) -->
+            @if (category.decorations.includes('bracket-top-right')) {
+              <svg class="skill-card__corner" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 6H18V18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             }
-          </div>
-        </div>
 
-        <!-- Icon Orbit (right on desktop, top on mobile) -->
-        <div class="lg:col-span-5 order-1 lg:order-2 flex justify-center items-center">
-          <div
-            class="relative w-full max-w-[300px] sm:max-w-[380px] lg:max-w-[500px] xl:max-w-[560px] transition-all duration-500 sm:duration-1000 sm:delay-300"
-            [class.opacity-100]="isVisible()" [class.scale-100]="isVisible()" [class.opacity-0]="!isVisible()"
-            [class.scale-95]="!isVisible()" [class.sm:scale-90]="!isVisible()">
+            <!-- Star decoration -->
+            @if (category.decorations.includes('star-top-right')) {
+              <svg class="skill-card__deco skill-card__deco--star" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                <path d="M20 2 L24 14 L36 14 L26 22 L30 34 L20 26 L10 34 L14 22 L4 14 L16 14 Z" stroke="#f5a0b8" stroke-width="2" fill="none" stroke-linejoin="round"/>
+              </svg>
+            }
 
-            <div class="relative p-[1px] rounded-2xl overflow-hidden group">
-              <div class="absolute inset-[-100%] animate-[spin_8s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,hsl(var(--primary))_100%)]"></div>
-              <div class="relative rounded-[15px] bg-[#0a0a0a] border border-white/10 p-2 sm:p-4 w-full aspect-square flex items-center justify-center overflow-hidden">
-                <app-icon-cloud class="w-full h-full"></app-icon-cloud>
+
+
+            <!-- Scribble decoration -->
+            @if (category.decorations.includes('scribble-bottom-right')) {
+              <svg class="skill-card__deco skill-card__deco--scribble" viewBox="0 0 50 20" fill="none" aria-hidden="true">
+                <path d="M5,15 C10,5 20,18 30,8 C35,3 40,12 45,7" stroke="#f5a0b8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              </svg>
+            }
+
+            <div class="skill-card__body">
+              <div class="skill-card__icon-wrap">
+                <span class="skill-card__icon" [innerHTML]="category.iconSafe"></span>
+              </div>
+              <div class="skill-card__content">
+                <h3 class="skill-card__title">{{ category.title }}</h3>
+                <div class="skill-card__bar"></div>
+                <p class="skill-card__desc">{{ category.description }}</p>
               </div>
             </div>
 
-          </div>
-        </div>
+            <div class="skill-card__tech">
+              @for (tech of category.skills; track tech) {
+                <span class="skill-card__pill">{{ tech }}</span>
+              }
+            </div>
+          </article>
+        }
+      </div>
+    </div>
 
+    <!-- Right column: Large Globe -->
+    <div class="skills-section__right">
+      <div class="skills-section__globe">
+         <app-icon-cloud></app-icon-cloud>
       </div>
     </div>
   </div>

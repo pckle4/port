@@ -1,122 +1,257 @@
-<footer class="bg-[#0a0a0a] text-zinc-100 relative overflow-hidden border-t border-white/10"
-  style="content-visibility: auto">
-  <div class="absolute inset-0 opacity-[0.04] dark:opacity-[0.03]">
-    <div class="absolute inset-0"
-      style="background-image: linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px); background-size: 32px 32px">
-    </div>
-  </div>
+<footer class="portfolio-footer" role="contentinfo">
+  <div class="footer-container">
 
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-7 md:pt-10 pb-5 sm:pb-6 md:pb-8 relative z-10">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-7 md:gap-8 items-start">
-      <div class="space-y-4 sm:space-y-4 flex flex-col items-center text-center sm:items-start sm:text-left">
-        <div>
-          <h3 class="text-2xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white inline-block select-none"
-            style="font-family: 'JetBrains Mono', monospace;">
-            ANSH<span class="text-primary/80">_</span>SHAH
-          </h3>
-          <div class="h-1 w-10 sm:w-10 md:w-12 bg-primary rounded-full mt-2 mx-auto sm:mx-0"></div>
+    <!-- ════════════════════ MAIN 4-COLUMN CONTENT ════════════════════ -->
+    <div class="footer-floor footer-floor--main">
+      <!-- Col 1: Brand -->
+      <div class="floor-col floor-col--brand">
+        <div class="brand-title-wrap">
+          <span class="brand-prefix">// 01</span>
+          <h3 class="brand-name">ANSH<span class="brand-accent">_</span>SHAH</h3>
         </div>
-        <p class="text-muted-foreground leading-relaxed text-xs sm:text-xs md:text-sm font-medium max-w-sm sm:max-w-md">
-          Full-stack developer crafting beautiful digital experiences with modern technologies.
+        <p class="brand-summary">
+          Software engineer crafting distributed backends, performant frontend architectures, and resilient user interfaces.
         </p>
       </div>
 
-      <div class="flex flex-col items-center sm:items-start sm:justify-self-center w-full">
-        <div class="w-full max-w-[200px] sm:w-auto text-center sm:text-left">
-          <p class="text-[11px] sm:text-[11px] text-muted-foreground uppercase tracking-widest mb-3 sm:mb-2.5 font-bold">Menu</p>
-          <nav class="flex flex-row sm:flex-col justify-center sm:justify-start items-center sm:items-start gap-4 sm:gap-2.5 flex-wrap" aria-label="Footer menu">
-            <a routerLink="/" fragment="about" class="group inline-flex items-center gap-1.5 text-xs sm:text-sm text-muted-foreground hover:text-white transition-colors duration-200">
-              <lucide-icon name="user" class="h-3 w-3 sm:h-3.5 sm:w-3.5 text-primary/70 group-hover:text-primary"></lucide-icon>
-              About
+      <!-- Col 2: Navigation -->
+      <div class="floor-col floor-col--nav">
+        <p class="col-heading">Navigation</p>
+        <ul class="nav-list" aria-label="Footer navigation">
+          <li>
+            <button type="button" class="nav-item-btn" (click)="scrollTo('about')">
+              <svg class="nav-arrow" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M6 3l5 5-5 5"/>
+              </svg>
+              <span>About</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="nav-item-btn" (click)="scrollTo('skills')">
+              <svg class="nav-arrow" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M6 3l5 5-5 5"/>
+              </svg>
+              <span>Skills</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="nav-item-btn" (click)="scrollTo('projects')">
+              <svg class="nav-arrow" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M6 3l5 5-5 5"/>
+              </svg>
+              <span>Projects</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="nav-item-btn" (click)="scrollTo('workflow')">
+              <svg class="nav-arrow" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M6 3l5 5-5 5"/>
+              </svg>
+              <span>Workflow</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="nav-item-btn" (click)="scrollTo('contact')">
+              <svg class="nav-arrow" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M6 3l5 5-5 5"/>
+              </svg>
+              <span>Contact</span>
+            </button>
+          </li>
+          <li>
+            <a routerLink="/resume" class="nav-item-btn" style="text-decoration: none">
+              <svg class="nav-arrow" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M6 3l5 5-5 5"/>
+              </svg>
+              <span>Resume</span>
             </a>
-            <a routerLink="/" fragment="projects" class="group inline-flex items-center gap-1.5 text-xs sm:text-sm text-muted-foreground hover:text-white transition-colors duration-200">
-              <lucide-icon name="folder-kanban" class="h-3 w-3 sm:h-3.5 sm:w-3.5 text-primary/70 group-hover:text-primary"></lucide-icon>
-              Projects
-            </a>
-            <a routerLink="/" fragment="contact" class="group inline-flex items-center gap-1.5 text-xs sm:text-sm text-muted-foreground hover:text-white transition-colors duration-200">
-              <lucide-icon name="message-square" class="h-3 w-3 sm:h-3.5 sm:w-3.5 text-primary/70 group-hover:text-primary"></lucide-icon>
-              Contact
-            </a>
-          </nav>
-        </div>
+          </li>
+        </ul>
       </div>
 
-      <div class="space-y-5 sm:space-y-4 col-span-1 sm:col-span-2 md:col-span-1">
-        <app-enhanced-system-info></app-enhanced-system-info>
+      <!-- Col 3: Connect & Channels -->
+      <div class="floor-col floor-col--social">
+        <p class="col-heading">Connect</p>
+        <ul class="social-list" aria-label="Social profiles">
+          <li>
+            <a href="https://github.com/theanshshah" target="_blank" rel="noopener noreferrer" class="social-item">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+              </svg>
+              <span>GitHub</span>
+              <svg class="ext-arrow" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            </a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/anshshahh" target="_blank" rel="noopener noreferrer" class="social-item">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+              </svg>
+              <span>LinkedIn</span>
+              <svg class="ext-arrow" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            </a>
+          </li>
+          <li>
+            <a href="mailto:ansh@nowhile.com" class="social-item">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/>
+              </svg>
+              <span>ansh&#64;nowhile.com</span>
+              <svg class="ext-arrow" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            </a>
+          </li>
+          <li>
+            <a href="https://nowhile.com" target="_blank" rel="noopener noreferrer" class="social-item">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+              <span>nowhile.com</span>
+            </a>
+          </li>
+        </ul>
+      </div>
 
-        <div class="relative p-[1px] rounded-lg overflow-hidden group">
-          <div class="absolute inset-[-100%] animate-[spin_8s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,hsl(var(--primary))_100%)]"></div>
-          <div class="relative p-2.5 sm:p-3 rounded-lg bg-[#0a0a0a] border border-white/10 h-full w-full flex flex-col justify-center">
-            <p class="text-[9px] sm:text-[10px] text-muted-foreground uppercase tracking-wider mb-1.5 sm:mb-2 font-semibold">Get in touch</p>
-            <div class="space-y-1 sm:space-y-1.5">
-              <a href="mailto:help@nowhile.com"
-                class="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs text-muted-foreground hover:text-white transition-colors">
-                <lucide-icon name="mail" class="h-2.5 w-2.5 sm:h-3 sm:w-3 text-primary/80 shrink-0"></lucide-icon>
-                help&#64;nowhile.com
-              </a>
-              <a href="mailto:legal@nowhile.com"
-                class="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs text-muted-foreground hover:text-white transition-colors">
-                <lucide-icon name="shield" class="h-2.5 w-2.5 sm:h-3 sm:w-3 text-primary/80 shrink-0"></lucide-icon>
-                legal&#64;nowhile.com
-              </a>
+      <!-- Col 4: Minimalist IP Monitor -->
+      <div class="floor-col floor-col--monitor">
+        <div class="monitor-card">
+          <div class="monitor-card__header">
+            <div class="monitor-card__title">
+              <span class="pulse-dot"></span>
+              <span class="monitor-tag">SYS_MONITOR // LIVE</span>
+            </div>
+            <button
+              type="button"
+              class="mask-toggle-btn"
+              (click)="toggleIpVisibility()"
+              [title]="isIpHidden() ? 'Reveal IP' : 'Mask IP'"
+            >
+              @if (isIpHidden()) {
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              } @else {
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              }
+            </button>
+          </div>
+
+          <div class="monitor-card__body">
+            <div class="ip-hero">
+              <span class="ip-hero__label">YOUR PUBLIC IP</span>
+              <button
+                type="button"
+                class="ip-hero__box"
+                (click)="copyIp()"
+                [title]="copied() ? 'Copied to clipboard' : 'Click to copy IP'"
+              >
+                <code class="ip-hero__value" [class.ip-hero__value--masked]="isIpHidden()">
+                  @if (isIpHidden()) {
+                    ••••:••••:••••:••••
+                  } @else {
+                    {{ networkInfo().ip }}
+                  }
+                </code>
+                @if (copied()) {
+                  <span class="copy-badge">COPIED</span>
+                } @else {
+                  <span class="copy-hint">COPY</span>
+                }
+              </button>
+            </div>
+
+            <div class="monitor-data-grid">
+              <div class="data-row">
+                <span class="data-key">ISP</span>
+                <span class="data-val">{{ networkInfo().provider }}</span>
+              </div>
+            </div>
+
+            <div class="ip-disclaimer">
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="16" x2="12" y2="12"/>
+                <line x1="12" y1="8" x2="12.01" y2="8"/>
+              </svg>
+              <span>Demonstration only. We do not store your IP.</span>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="border-t border-border mt-8 sm:mt-6 md:mt-8 pt-6 sm:pt-4 md:pt-5 pb-6">
-      <div class="flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-4 lg:gap-3 flex-wrap">
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-2 text-[11px] sm:text-xs text-muted-foreground order-3 lg:order-1 w-full lg:w-auto">
-          <p>&copy; {{currentTime().getFullYear()}} Ansh Shah</p>
-          <span class="hidden sm:inline opacity-50">&middot;</span>
-          <span class="inline-flex items-center gap-1 leading-none">
-            Made with
-            <span class="text-red-500 text-xs leading-none">&hearts;</span>
-            &amp; coffee &#9749;
-          </span>
-        </div>
+    <div class="floor-divider" aria-hidden="true"></div>
 
-        <div class="flex flex-wrap justify-center items-center gap-4 sm:gap-4 text-[11px] sm:text-xs text-muted-foreground order-2 w-full lg:w-auto">
-          <a routerLink="/privacy" class="inline-flex items-center gap-1.5 hover:text-white transition-colors">
-            <lucide-icon name="shield-check" class="h-3 w-3 sm:h-3 sm:w-3"></lucide-icon>
-            Privacy
-          </a>
-          <a routerLink="/terms" class="inline-flex items-center gap-1.5 hover:text-white transition-colors">
-            <lucide-icon name="file-text" class="h-3 w-3 sm:h-3 sm:w-3"></lucide-icon>
-            Terms
-          </a>
+    <!-- ════════════════════ FLOOR 3: FORMAL LEGAL & ZERO-STORAGE DISCLOSURE ════════════════════ -->
+    <div class="footer-floor footer-floor--legal">
+      <div class="legal-box">
+        <div class="legal-header">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span>LEGAL NOTICE &amp; PRIVACY DISCLOSURE</span>
         </div>
-
-        <div class="flex items-center justify-center w-full lg:w-auto order-1 lg:order-3">
-          <div class="inline-flex items-center px-2 sm:px-2 py-1 rounded-full bg-black/50 border border-white/10 gap-1.5 sm:gap-1.5 text-[10px] sm:text-[10px] md:text-[10px] text-muted-foreground font-mono tracking-wide">
-            <span>{{formatTime(currentTime())}}</span>
-            <span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-white/20 rounded-full"></span>
-            <span>{{formatDate(currentTime())}}</span>
-            <span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-white/20 rounded-full"></span>
-            <span class="text-primary/90">IST</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="flex justify-center pt-6 sm:pt-5 border-t border-white/5 sm:border-0 mt-6 sm:mt-0">
-        <div class="relative p-[1px] rounded-full overflow-hidden group cursor-pointer" onclick="window.open('https://nowhile.com', '_blank', 'noopener,noreferrer')">
-          <div class="absolute inset-[-100%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,hsl(var(--primary))_100%)]"></div>
-          <div class="relative px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-[#0a0a0a] border border-white/10 text-[9px] sm:text-[10px] md:text-[11px] text-white font-bold tracking-widest flex items-center justify-center transition-colors hover:bg-black">
-            NOWHILE
-          </div>
+        <div class="legal-content">
+          <p class="legal-line">
+            <strong>Gratitude &amp; Inspiration:</strong> A huge thank you to the internet, open-source developers, and creative communities for the endless knowledge and inspiration. The design of this portfolio draws heavy inspiration from modern web trends, but no proprietary code or content was copied. 
+          </p>
+          <p class="legal-line">
+            <strong>Assets &amp; AI:</strong> The SVGs and illustrations used across this site were carefully generated using AI. Special thanks to LLM Models for helping bring these ideas to life visually.
+          </p>
+          <p class="legal-line">
+            <strong>Ownership &amp; Takedown Policy:</strong> All original code and structure belong to Ansh Shah. If any individual or creator feels their work was improperly referenced or has any concerns, please contact me directly at <a href="mailto:help@nowhile.com" class="legal-link">help&#64;nowhile.com</a>. I respect all creators and will honor any valid removal request within 24 hours.
+          </p>
         </div>
       </div>
     </div>
 
-    <button (click)="scrollToTop()"
-      [class]="'group fixed bottom-5 sm:bottom-6 right-5 sm:right-6 z-50 btn-primary-icon-action h-10 w-10 sm:h-11 sm:w-11 ' + (showBackToTop() ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none')"
-      aria-label="Back to top">
-      <lucide-icon name="arrow-up" class="h-4 w-4 sm:h-5 sm:w-5 btn-feedback-icon"></lucide-icon>
-    </button>
+    <div class="floor-divider" aria-hidden="true"></div>
 
-    <div
-      class="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary/50 to-transparent">
+    <!-- ════════════════════ FLOOR 4: COPYRIGHT & REAL-TIME CLOCK ════════════════════ -->
+    <div class="footer-floor footer-floor--bottom">
+      <!-- Left: Copyright & Legal -->
+      <div class="bottom-left" style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+        <p class="copyright">
+          &copy; {{ currentTime() | date:'yyyy' }} Ansh Shah. All rights reserved.
+        </p>
+        <div style="display: flex; gap: 12px; font-size: 11px; font-family: var(--mono, 'Roboto Mono', monospace);">
+          <a routerLink="/privacy" style="color: #888888; text-decoration: underline dotted #666; text-underline-offset: 3px;">Privacy Policy</a>
+          <span style="color: #444;">•</span>
+          <a routerLink="/terms" style="color: #888888; text-decoration: underline dotted #666; text-underline-offset: 3px;">Terms of Service</a>
+        </div>
+      </div>
+
+      <!-- Right: Real-time Live Clock & Back to Top -->
+      <div class="bottom-right">
+        <div class="live-timer" aria-label="Current system time">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="timer-icon">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+          <span class="timer-time">{{ currentTime() | date:'hh:mm:ss a' }}</span>
+          <span class="timer-dot">&bull;</span>
+          <span class="timer-date">{{ currentTime() | date:'EEE, MMM d, yyyy' }}</span>
+          <span class="timer-tz">{{ timeZone() }}</span>
+        </div>
+
+        <button
+          type="button"
+          class="scroll-top-btn"
+          (click)="scrollTo('home')"
+          aria-label="Scroll back to top"
+          title="Back to top"
+        >
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 19V5M5 12l7-7 7 7"/>
+          </svg>
+        </button>
+      </div>
     </div>
+
   </div>
 </footer>

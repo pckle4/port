@@ -3,6 +3,11 @@
 
 @import '@fontsource/jetbrains-mono/700.css';
 
+@import '@fontsource/poppins/500.css';
+@import '@fontsource/poppins/600.css';
+@import '@fontsource/poppins/700.css';
+@import '@fontsource/poppins/800.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -46,6 +51,26 @@
     --noise-opacity: 0.03;
 
     --radius: 0.5rem;
+
+    /* nwv1 Design System Variables */
+    --ink: #1a3300;
+    --cream: #fcfaf5;
+    --yellow: #ffe95c;
+    --mint: #d5f5c2;
+    --teal: #a8e5e5;
+    --blush: #f6d0ff;
+    --terra: #cb5521;
+    --terracotta: #cb5521;
+    --pencil: #b6b6a9;
+    --display: 'Bricolage Grotesque', Arial Black, sans-serif;
+    --ui: 'Inter', Arial, sans-serif;
+    --mono: 'Roboto Mono', monospace;
+  }
+
+  /* GSAP FOUC Prevention */
+  :is(.app-reveal) {
+    visibility: hidden;
+    opacity: 0;
   }
 
   .dark {
@@ -376,5 +401,22 @@
     animation: flash-highlight 1.5s cubic-bezier(0.2, 0, 0, 1) forwards;
     border-radius: var(--radius);
   }
+}
+
+/* ── Lenis Smooth Scrolling Boilerplate ────────────────────── */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 

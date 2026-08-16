@@ -1,262 +1,309 @@
-<section class="relative overflow-hidden bg-background py-12 sm:py-8 md:py-10" style="scroll-margin-top: 96px;">
-  <div class="pointer-events-none absolute inset-0">
-    <div class="absolute -top-20 left-1/2 h-[24rem] w-[24rem] -translate-x-1/2 rounded-full bg-primary/10 blur-3xl"></div>
-    <div class="absolute bottom-0 right-0 h-[18rem] w-[18rem] rounded-full bg-primary/10 blur-3xl"></div>
+<section class="conversion section" id="contact" aria-labelledby="conversion-title">
+  <!-- Decorative background elements -->
+  <div class="conversion-illustration" aria-hidden="true">
+    <div class="mountain"></div>
+    <div class="flag">✦</div>
   </div>
 
-  <div class="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="mx-auto max-w-6xl">
-      <div class="mb-10 text-center transition-all duration-500 sm:duration-700 sm:mb-12" [class.translate-y-0]="isVisible()"
-        [class.opacity-100]="isVisible()" [class.translate-y-4]="!isVisible()" [class.opacity-0]="!isVisible()">
-        <p class="mb-3 inline-flex items-center rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-primary">
-          Contact
-        </p>
-        <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-          Let's build something <span class="text-primary">seriously good</span>
-        </h2>
-        <p class="mx-auto mt-3 max-w-2xl text-sm text-muted-foreground sm:text-base">
-          Share your goals, stack, and timeline. I will open a clean draft in your mail app with everything pre-filled.
-        </p>
-      </div>
+  <div class="conversion-container">
+    <!-- ════════════════════ LEFT: PERSISTENT STICKY 3D GLOBE ════════════════════ -->
+    <div class="conversion-left">
+      <div class="globe-sticky-wrapper">
+        <div class="globe-box">
+          <div class="globe-box__header">
+            <div class="globe-status">
+              <span class="pulse-dot" aria-hidden="true"></span>
+              <span class="globe-status__text">GLOBAL NETWORK</span>
+            </div>
+            <span class="globe-drag-hint">● Drag to rotate</span>
+          </div>
 
-      <div class="grid grid-cols-1 items-start gap-6 sm:gap-7 lg:grid-cols-2 lg:gap-10">
-        <div class="order-2 lg:order-1 transition-all duration-500 sm:duration-700 sm:delay-150" [class.translate-x-0]="isVisible()" [class.opacity-100]="isVisible()"
-          [class.-translate-x-4]="!isVisible()" [class.sm:-translate-x-8]="!isVisible()" [class.opacity-0]="!isVisible()">
-          <app-terminal-display [isVisible]="isVisible()"></app-terminal-display>
+          <div class="globe-viewport-wrap">
+            <app-interactive-globe
+              [speed]="1.1"
+              [smoothing]="8"
+              [scale]="8.8"
+              [initialLatitude]="22"
+              [initialLongitude]="72"
+              [oceanColor]="'rgba(45, 99, 32, 0.03)'"
+              [outlineColor]="'rgba(43, 95, 31, 0.42)'"
+              [graticuleColor]="'rgba(43, 95, 31, 0.10)'"
+              [outlineWidth]="1.2"
+              [dots]="{ color: '#2d6320', size: 4.8, density: 7.5, allDots: false }"
+              [markerConfig]="{
+                markers: [
+                  { lat: 22.2587, lng: 71.1924, label: 'Gujarat, India (HQ)' },
+                  { lat: 37.7749, lng: -122.4194, label: 'San Francisco' },
+                  { lat: 51.5074, lng: -0.1278, label: 'London' },
+                  { lat: 1.3521, lng: 103.8198, label: 'Singapore' },
+                  { lat: 35.6762, lng: 139.6503, label: 'Tokyo' }
+                ],
+                color: '#cb5521',
+                size: 44
+              }"
+            />
+          </div>
 
-          <div class="mt-5 relative p-[1px] rounded-2xl overflow-hidden shadow-2xl group/block">
-            <div class="absolute inset-0 bg-gradient-to-br from-[#0c1120] to-[#04060c] z-0"></div>
-            <div class="relative z-10 p-5 sm:p-6 backdrop-blur-xl h-full flex flex-col">
-              
-              <!-- Hacker Header -->
-              <div class="flex items-center justify-between mb-4">
-                <div class="inline-flex items-center gap-2 rounded-md border border-primary/30 bg-primary/20 px-2.5 py-1 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-widest text-primary shadow-[0_0_15px_rgba(var(--primary)/0.15)]">
-                  <lucide-icon name="terminal-square" class="h-3.5 w-3.5"></lucide-icon>
-                  Engagement_Protocol
-                </div>
-                <div class="flex gap-1.5 opacity-40">
-                  <span class="w-2.5 h-2.5 rounded-full bg-red-400"></span>
-                  <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-                  <span class="w-2.5 h-2.5 rounded-full bg-primary/80"></span>
-                </div>
-              </div>
-
-              <!-- Rotating Cards Grid -->
-              <div class="mt-1 grid grid-cols-3 gap-2.5 sm:gap-3 text-center">
-                <!-- Response -->
-                <div class="relative p-[1px] rounded-xl overflow-hidden group/card bg-black/40">
-                  <div class="absolute inset-[-100%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,hsl(var(--primary))_100%)] opacity-40 group-hover/card:opacity-100 transition-opacity duration-300"></div>
-                  <div class="relative h-full w-full rounded-[11px] bg-[#0a0f1d] border border-white/5 py-3.5 flex flex-col items-center justify-center transition-colors group-hover/card:bg-[#0c1223]">
-                    <lucide-icon name="zap" class="h-4 w-4 text-primary/80 mb-2"></lucide-icon>
-                    <p class="text-[8px] sm:text-[9px] font-mono tracking-widest text-zinc-500 uppercase">Response</p>
-                    <p class="mt-0.5 text-xs sm:text-sm font-bold font-mono text-zinc-200 tracking-wider">&lt;24H</p>
-                  </div>
-                </div>
-
-                <!-- Signal -->
-                <div class="relative p-[1px] rounded-xl overflow-hidden group/card bg-black/40">
-                  <div class="absolute inset-[-100%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,hsl(var(--accent))_100%)] opacity-40 group-hover/card:opacity-100 transition-opacity duration-300" style="animation-delay: -1.5s"></div>
-                  <div class="relative h-full w-full rounded-[11px] bg-[#0a0f1d] border border-white/5 py-3.5 flex flex-col items-center justify-center transition-colors group-hover/card:bg-[#0c1223]">
-                    <lucide-icon name="radio" class="h-4 w-4 text-accent/80 mb-2"></lucide-icon>
-                    <p class="text-[8px] sm:text-[9px] font-mono tracking-widest text-zinc-500 uppercase">Signal</p>
-                    <p class="mt-0.5 text-[10px] sm:text-xs font-bold font-mono text-zinc-200 tracking-wider">CLEAR</p>
-                  </div>
-                </div>
-
-                <!-- Security -->
-                <div class="relative p-[1px] rounded-xl overflow-hidden group/card bg-black/40">
-                  <div class="absolute inset-[-100%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,hsl(var(--light-coral))_100%)] opacity-40 group-hover/card:opacity-100 transition-opacity duration-300" style="animation-delay: -3s"></div>
-                  <div class="relative h-full w-full rounded-[11px] bg-[#0a0f1d] border border-white/5 py-3.5 flex flex-col items-center justify-center transition-colors group-hover/card:bg-[#0c1223]">
-                    <lucide-icon name="shield-check" class="h-4 w-4 text-[hsl(var(--light-coral))]/80 mb-2"></lucide-icon>
-                    <p class="text-[8px] sm:text-[9px] font-mono tracking-widest text-zinc-500 uppercase">Security</p>
-                    <p class="mt-0.5 text-[10px] sm:text-[11px] sm:text-xs font-bold font-mono text-zinc-200 tracking-wider">SECURE</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Terminal List -->
-              <div class="mt-5 space-y-2.5 font-mono text-[10px] sm:text-[11px] text-zinc-400">
-                <div class="flex items-start gap-2.5">
-                  <span class="text-primary font-bold opacity-80 mt-0.5">></span>
-                  <p class="leading-relaxed">Initial system response guaranteed within <span class="text-zinc-200 font-semibold">24 hours</span>.</p>
-                </div>
-                <div class="flex items-start gap-2.5">
-                  <span class="text-primary font-bold opacity-80 mt-0.5">></span>
-                  <p class="leading-relaxed">Incoming packets analyzed for clear scope &amp; outcomes.</p>
-                </div>
-                <div class="flex items-start gap-2.5">
-                  <span class="text-primary font-bold opacity-80 mt-0.5">></span>
-                  <p class="leading-relaxed">Transmission encrypted via strict <span class="text-[hsl(var(--light-coral))] font-semibold">anti-bot</span> verification.</p>
-                </div>
-              </div>
+          <div class="globe-box__footer">
+            <div class="globe-coord">
+              <span class="coord-dot"></span>
+              <span>HQ: GUJARAT, INDIA (IST &middot; UTC+5:30)</span>
+            </div>
+            <div class="globe-tz">
+              <span>ACTIVE NOW</span>
             </div>
           </div>
         </div>
+      </div>
+    </div>
 
-        <div class="order-1 lg:order-2 transition-all duration-500 sm:duration-700 sm:delay-300" [class.translate-x-0]="isVisible()" [class.opacity-100]="isVisible()"
-          [class.translate-x-4]="!isVisible()" [class.sm:translate-x-8]="!isVisible()" [class.opacity-0]="!isVisible()">
-          <div class="overflow-hidden rounded-sketchy-2 border-[1.5px] border-dashed border-border/80 bg-warm-paper dark:bg-card/70 shadow-stamp backdrop-blur-xl rotate-[0.5deg]">
-            <div class="border-b-[1.5px] border-dashed border-border/80 bg-sticky-note-yellow/40 dark:bg-primary/10 px-5 py-4 sm:px-6">
-              <h3 class="text-base font-bold font-handwriting tracking-wide text-foreground sm:text-2xl">Project Brief</h3>
-              <p class="mt-1 text-xs text-muted-foreground sm:text-sm">
-                The clearer your context, the better the first reply.
-              </p>
+    <!-- ════════════════════ RIGHT: TEXT + EXPANDED CONTACT FORM ════════════════════ -->
+    <div class="conversion-right">
+      <div class="conversion-copy">
+        <p class="eyebrow eyebrow--plain">A better start is one brief away</p>
+        <h2 id="conversion-title">Designed for ambitious people.</h2>
+        <p class="conversion-desc">
+          No more hidden agendas, lost context, or changes in scope. Start each project with something
+          everyone can see.
+        </p>
+      </div>
+
+      <form class="signup-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        @if (submissionStatus() === 'success') {
+          <div class="form-message form-message--success">
+            <span class="success-icon">✓</span>
+            <div class="success-text">
+              <b>Message sent successfully, {{ submittedName() }}!</b>
+              <p>Thank you for reaching out. I’ll review your note and get back to you shortly.</p>
+            </div>
+            <button
+              type="button"
+              class="dismiss-btn"
+              (click)="dismissSubmission()"
+              aria-label="Send another message"
+            >
+              &times;
+            </button>
+          </div>
+        } @else {
+          <!-- Field 1: Your Name -->
+          <div class="form-field">
+            <label for="user-name">YOUR NAME <span class="required-star">*</span></label>
+            <input
+              id="user-name"
+              type="text"
+              formControlName="name"
+              autocomplete="name"
+              placeholder="Maria Chen"
+              [class.input--invalid]="isInvalid('name')"
+            />
+            @if (isInvalid('name')) {
+              <small class="field-error">Please enter your name (at least 2 characters).</small>
+            }
+          </div>
+
+          <!-- Field 2: Your Email -->
+          <div class="form-field">
+            <label for="user-email">YOUR EMAIL <span class="required-star">*</span></label>
+            <input
+              id="user-email"
+              type="email"
+              formControlName="email"
+              autocomplete="email"
+              placeholder="maria@studio.com"
+              [class.input--invalid]="isInvalid('email')"
+            />
+            @if (isInvalid('email')) {
+              <small class="field-error">Please enter a valid email address (e.g. name&#64;domain.com).</small>
+            }
+          </div>
+
+          <!-- Field 3: Subject -->
+          <div class="form-field">
+            <label for="user-subject">SUBJECT <span class="required-star">*</span></label>
+            <input
+              id="user-subject"
+              type="text"
+              formControlName="subject"
+              placeholder="e.g. Full-Stack Engineering Role / Technical Collaboration"
+              [class.input--invalid]="isInvalid('subject')"
+            />
+            @if (isInvalid('subject')) {
+              <small class="field-error">Please specify a subject (at least 3 characters).</small>
+            }
+          </div>
+
+          <!-- Field 4: Description / Message -->
+          <div class="form-field">
+            <label for="user-description">DESCRIPTION / MESSAGE <span class="required-star">*</span></label>
+            <textarea
+              id="user-description"
+              rows="4"
+              formControlName="description"
+              placeholder="Tell me about what you're building, project scope, team, or opportunity..."
+              [class.input--invalid]="isInvalid('description')"
+            ></textarea>
+            @if (isInvalid('description')) {
+              <small class="field-error">Please share at least a few details (minimum 10 characters).</small>
+            }
+          </div>
+
+          <!-- Field 5: Maths Captcha with Real-Time SVG Verification -->
+          <div
+            class="captcha-card"
+            [class.captcha-card--valid]="captchaStatus() === 'correct'"
+            [class.captcha-card--invalid]="captchaStatus() === 'incorrect' || (isInvalid('captcha') && captchaStatus() === 'empty')"
+          >
+            <div class="captcha-header">
+              <label for="user-captcha" class="captcha-label">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                <span>SECURITY VERIFICATION</span>
+              </label>
+              <button
+                type="button"
+                class="captcha-refresh-btn"
+                (click)="generateCaptcha()"
+                title="Generate new question"
+                aria-label="Refresh math challenge"
+              >
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+                </svg>
+                <span>New puzzle</span>
+              </button>
             </div>
 
-            <div class="p-5 sm:p-6">
-              @if (submitStatus() === 'success') {
-                <div class="rounded-xl border border-primary/30 bg-primary/10 p-5 text-center">
-                  <div class="mx-auto mb-3 inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary/20 text-primary">
-                    <lucide-icon name="check-circle-2" class="h-6 w-6"></lucide-icon>
-                  </div>
-                  <h4 class="text-lg font-semibold text-foreground">Draft ready</h4>
-                  <p class="mt-2 text-sm text-muted-foreground">{{ formMessage() }}</p>
+            <div class="captcha-body">
+              <div class="captcha-math-pill" aria-label="Math challenge">
+                <span class="math-num">{{ captchaNum1() }}</span>
+                <span class="math-op">+</span>
+                <span class="math-num">{{ captchaNum2() }}</span>
+                <span class="math-eq">=</span>
+              </div>
 
-                  <button type="button" (click)="startNewMessage()"
-                    class="mt-4 inline-flex items-center gap-2 rounded-sketchy-3 border-[1.5px] border-dashed border-border bg-background px-4 py-2 text-sm font-bold text-foreground transition hover:border-primary/50 hover:text-primary hover:-translate-y-0.5 hover:shadow-stamp-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40">
-                    <lucide-icon name="pen-line" class="h-4 w-4"></lucide-icon>
-                    Write another message
-                  </button>
-                </div>
+              <div class="captcha-input-wrapper">
+                <input
+                  id="user-captcha"
+                  type="text"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                  maxlength="3"
+                  autocomplete="off"
+                  formControlName="captcha"
+                  class="captcha-input"
+                  [class.input--valid]="captchaStatus() === 'correct'"
+                  [class.input--invalid]="captchaStatus() === 'incorrect' || (isInvalid('captcha') && captchaStatus() === 'empty')"
+                  placeholder="?"
+                  aria-label="Enter the sum of the two numbers"
+                  (wheel)="$event.preventDefault()"
+                />
+
+                <!-- Real-time Verification SVG Indicators -->
+                @if (captchaStatus() === 'correct') {
+                  <div class="captcha-badge captcha-badge--valid" title="Correct answer">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span>Correct</span>
+                  </div>
+                } @else if (captchaStatus() === 'incorrect') {
+                  <div class="captcha-badge captcha-badge--invalid" title="Incorrect answer">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    <span>Wrong</span>
+                  </div>
+                }
+              </div>
+            </div>
+
+            @if (captchaStatus() === 'incorrect') {
+              <small class="field-error captcha-error">
+                Incorrect answer. Please calculate {{ captchaNum1() }} + {{ captchaNum2() }}.
+              </small>
+            } @else if (isInvalid('captcha') && captchaStatus() === 'empty') {
+              <small class="field-error captcha-error">
+                Please enter the sum to verify.
+              </small>
+            }
+          </div>
+
+          @if (submissionStatus() === 'error') {
+            <p class="field-error field-error--banner">{{ submissionError() }}</p>
+          }
+
+          <!-- Improvised Submit Button (Disabled if captcha is incorrect) -->
+          <button
+            class="submit-button"
+            type="submit"
+            [disabled]="submissionStatus() === 'submitting' || captchaStatus() === 'incorrect'"
+            [title]="captchaStatus() === 'incorrect' ? 'Please solve the math captcha correctly first' : 'Send your message'"
+          >
+            @if (submissionStatus() === 'submitting') {
+              <span class="btn-spinner" aria-hidden="true"></span>
+            } @else {
+              <svg class="btn-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            }
+            <span class="btn-text">{{ submitLabel() }}</span>
+            <span aria-hidden="true" class="button-arrow">&rarr;</span>
+          </button>
+
+          @if (captchaStatus() === 'incorrect') {
+            <p class="captcha-block-note" aria-live="polite">
+              ⚠️ Please enter the correct math answer above before sending.
+            </p>
+          } @else {
+            <p class="form-note">
+              Directly delivered to Ansh’s personal inbox. Replies typically within 12 hours.
+            </p>
+          }
+        }
+
+        <!-- ════════════════════ ENLARGED & HIGHLY VISIBLE DIRECT EMAIL ════════════════════ -->
+        <div class="direct-email-panel">
+          <div class="direct-email-panel__header">
+            <span class="direct-email-tag">PREFER DIRECT EMAIL?</span>
+            <span class="direct-email-sub">CLICK TO COPY OR SEND INSTANTLY</span>
+          </div>
+
+          <div class="direct-email-panel__body">
+            <a [href]="'mailto:' + emailAddress" class="direct-email-link" aria-label="Send direct email to ansh@nowhile.com">
+              <svg class="email-envelope-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="4" width="20" height="16" rx="3"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+              <span class="direct-email-text">{{ emailAddress }}</span>
+            </a>
+
+            <button
+              type="button"
+              class="direct-copy-btn"
+              (click)="copyEmail()"
+              [class.direct-copy-btn--copied]="emailCopied()"
+              [attr.aria-label]="emailCopied() ? 'Email address copied' : 'Copy email address'"
+            >
+              @if (emailCopied()) {
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                <span>COPIED!</span>
               } @else {
-                <form [formGroup]="contactForm" (ngSubmit)="handleSubmit()" class="space-y-4 sm:space-y-5" novalidate>
-                  <input type="text" [value]="hp" (input)="hp = $any($event.target).value" class="sr-only" tabindex="-1" aria-hidden="true" />
-
-                  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div class="space-y-1.5">
-                      <label for="contact-name" class="text-xs font-bold uppercase tracking-[0.06em] text-foreground/90 font-mono">Name</label>
-                      <input id="contact-name" formControlName="name" type="text"
-                        class="w-full rounded-sketchy-3 border-[1.5px] border-dashed border-input dark:border-[#2E2E33] bg-background/70 dark:bg-[#1A1A1E] px-3.5 py-2.5 text-sm text-foreground dark:text-[#EDEDEF] outline-none transition focus:border-primary focus:shadow-stamp-subtle dark:focus:border-primary dark:focus:shadow-glow-focus"
-                        [class.border-red-500]="f['name'].touched && f['name'].invalid" [class.focus:border-red-500]="f['name'].touched && f['name'].invalid" />
-                      @if (f['name'].touched && f['name'].errors) {
-                        <p class="text-xs font-medium text-red-500">
-                          @if (f['name'].errors['required']) { Name is required. }
-                          @else if (f['name'].errors['minlength']) { Name must be at least 2 characters. }
-                          @else if (f['name'].errors['maxlength']) { Name must be under 60 characters. }
-                        </p>
-                      }
-                    </div>
-
-                    <div class="space-y-1.5">
-                      <label for="contact-email" class="text-xs font-bold uppercase tracking-[0.06em] text-foreground/90 font-mono">Email</label>
-                      <input id="contact-email" formControlName="email" type="email"
-                        class="w-full rounded-sketchy-3 border-[1.5px] border-dashed border-input dark:border-[#2E2E33] bg-background/70 dark:bg-[#1A1A1E] px-3.5 py-2.5 text-sm text-foreground dark:text-[#EDEDEF] outline-none transition focus:border-primary focus:shadow-stamp-subtle dark:focus:border-primary dark:focus:shadow-glow-focus"
-                        [class.border-red-500]="f['email'].touched && f['email'].invalid" [class.focus:border-red-500]="f['email'].touched && f['email'].invalid" />
-                      @if (f['email'].touched && f['email'].errors) {
-                        <p class="text-xs font-medium text-red-500">
-                          @if (f['email'].errors['required']) { Email is required. }
-                          @else if (f['email'].errors['email']) { Enter a valid email address. }
-                        </p>
-                      }
-                    </div>
-                  </div>
-
-                  <div class="space-y-1.5">
-                    <label for="contact-subject" class="text-xs font-bold uppercase tracking-[0.06em] text-foreground/90 font-mono">Subject</label>
-                    <input id="contact-subject" formControlName="subject" type="text"
-                      class="w-full rounded-sketchy-3 border-[1.5px] border-dashed border-input dark:border-[#2E2E33] bg-background/70 dark:bg-[#1A1A1E] px-3.5 py-2.5 text-sm text-foreground dark:text-[#EDEDEF] outline-none transition focus:border-primary focus:shadow-stamp-subtle dark:focus:border-primary dark:focus:shadow-glow-focus"
-                      [class.border-red-500]="f['subject'].touched && f['subject'].invalid" [class.focus:border-red-500]="f['subject'].touched && f['subject'].invalid" />
-                    @if (f['subject'].touched && f['subject'].errors) {
-                      <p class="text-xs font-medium text-red-500">
-                        @if (f['subject'].errors['required']) { Subject is required. }
-                        @else if (f['subject'].errors['minlength']) { Subject needs at least 3 characters. }
-                        @else if (f['subject'].errors['maxlength']) { Subject must be under 100 characters. }
-                      </p>
-                    }
-                  </div>
-
-                  <div class="space-y-1.5">
-                    <label for="contact-message" class="text-xs font-bold uppercase tracking-[0.06em] text-foreground/90 font-mono">Message</label>
-                    <textarea id="contact-message" formControlName="message" rows="5"
-                      class="w-full resize-y rounded-sketchy-1 border-[1.5px] border-dashed border-input dark:border-[#2E2E33] bg-background/70 dark:bg-[#1A1A1E] px-3.5 py-3 text-sm text-foreground dark:text-[#EDEDEF] outline-none transition focus:border-primary focus:shadow-stamp-subtle dark:focus:border-primary dark:focus:shadow-glow-focus"
-                      [class.border-red-500]="f['message'].touched && f['message'].invalid" [class.focus:border-red-500]="f['message'].touched && f['message'].invalid"></textarea>
-                    <div class="flex items-center justify-between">
-                      @if (f['message'].touched && f['message'].errors) {
-                        <p class="text-xs font-medium text-red-500">
-                          @if (f['message'].errors['required']) { Message is required. }
-                          @else if (f['message'].errors['minlength']) { Add at least 20 characters for context. }
-                          @else if (f['message'].errors['maxlength']) { Message is too long. }
-                        </p>
-                      } @else {
-                        <p class="text-xs text-muted-foreground">Tip: include budget + deadline for faster planning.</p>
-                      }
-                    </div>
-                  </div>
-
-                  <div class="space-y-3 rounded-sketchy-1 border-[1.5px] border-dashed border-border/70 dark:border-terminal-accent/50 bg-kraft-paper/30 dark:bg-background p-3.5 sm:p-4 rotate-1 dark:rotate-0 dark:rounded-none">
-                    <div class="flex items-start justify-between gap-3">
-                      <div>
-                        <p class="text-xs font-semibold uppercase tracking-[0.06em] text-foreground/90">Captcha verification</p>
-                        <p class="mt-1 text-xs text-muted-foreground">{{ captchaChallenge().hint }}</p>
-                      </div>
-                      <button type="button" (click)="refreshCaptcha()"
-                        class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted-foreground transition hover:border-primary/50 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-                        aria-label="Refresh captcha challenge">
-                        <lucide-icon name="refresh-cw" class="h-4 w-4"></lucide-icon>
-                      </button>
-                    </div>
-
-                    <div class="rounded-sketchy-3 dark:rounded-none border-2 border-primary dark:border-terminal-accent bg-background px-3 py-2.5 text-center text-base font-bold text-terminal-accent font-mono uppercase tracking-widest shadow-stamp dark:shadow-glow-terminal">
-                      @if (captchaChallenge().mode === 'code') {
-                        <span class="tracking-[0.25rem] uppercase whitespace-nowrap">{{ captchaDisplay() }}</span>
-                      } @else {
-                        <span>{{ captchaChallenge().prompt }}</span>
-                      }
-                    </div>
-
-                    <div class="space-y-1.5">
-                      <label for="contact-captcha" class="text-xs font-bold uppercase tracking-[0.06em] text-foreground/90 font-mono">Your answer</label>
-                      <div class="relative">
-                        <input id="contact-captcha" formControlName="captcha" type="text" inputmode="text" autocomplete="off"
-                          placeholder="Enter captcha answer"
-                          class="w-full rounded-sketchy-3 dark:rounded-none border-[1.5px] border-dashed dark:border-solid border-input dark:border-border bg-background/70 dark:bg-background px-3.5 py-2.5 pr-10 text-sm text-foreground dark:text-terminal-accent outline-none transition focus:border-primary dark:focus:border-terminal-accent focus:shadow-stamp-subtle dark:focus:shadow-glow-terminal"
-                          [class.border-red-500]="(f['captcha'].touched && f['captcha'].invalid) || captchaState() === 'invalid'"
-                          [class.focus:border-red-500]="(f['captcha'].touched && f['captcha'].invalid) || captchaState() === 'invalid'"
-                          [class.border-primary]="captchaState() === 'valid'"
-                          [class.focus:border-primary]="captchaState() === 'valid'" />
-
-                        @if (captchaState() === 'valid') {
-                          <lucide-icon name="check-circle-2" class="pointer-events-none absolute right-3 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-primary"></lucide-icon>
-                        } @else if (captchaState() === 'invalid') {
-                          <lucide-icon name="triangle-alert" class="pointer-events-none absolute right-3 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-red-500"></lucide-icon>
-                        }
-                      </div>
-
-                      @if ((f['captcha'].touched && f['captcha'].errors) || captchaState() === 'invalid') {
-                        <p class="text-xs font-medium text-red-500">
-                          @if (f['captcha'].errors?.['required']) { Captcha answer is required. }
-                          @else { Verification failed. Please try again. }
-                        </p>
-                      }
-                    </div>
-                  </div>
-
-                  @if (submitStatus() === 'error' && formMessage()) {
-                    <div class="rounded-lg border border-red-500/30 bg-red-500/10 px-3.5 py-2.5 text-sm text-red-300">
-                      <div class="flex items-start gap-2">
-                        <lucide-icon name="circle-alert" class="mt-0.5 h-4 w-4 shrink-0"></lucide-icon>
-                        <span>{{ formMessage() }}</span>
-                      </div>
-                    </div>
-                  }
-
-                  <button type="submit" [disabled]="isSubmitting()"
-                    class="group inline-flex w-full items-center justify-center gap-2 rounded-sketchy-3 bg-primary dark:bg-[#4DA3FF] px-4 py-3 text-sm font-bold font-mono text-white dark:text-[#0C0C0E] shadow-[0_8px_24px_-8px_rgba(22,118,243,0.5)] dark:shadow-glow-cta transition-all hover:bg-[#0D5FD8] dark:hover:bg-[#6BB5FF] hover:-translate-y-0.5 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline-none border-[1.5px] border-transparent relative overflow-hidden">
-                    <div class="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.15)] rounded-sketchy-3 pointer-events-none"></div>
-                    @if (isSubmitting()) {
-                      <app-spinner size="sm"></app-spinner>
-                      <span class="relative z-10">Preparing draft...</span>
-                    } @else {
-                      <lucide-icon name="send" class="h-4 w-4 relative z-10 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></lucide-icon>
-                      <span class="relative z-10">Send message</span>
-                    }
-                  </button>
-                </form>
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+                <span>COPY EMAIL</span>
               }
-            </div>
+            </button>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </section>

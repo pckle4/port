@@ -1,5 +1,11 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import gsap from "gsap"
+import { ScrollToPlugin } from "gsap/ScrollToPlugin"
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollToPlugin)
+}
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -14,75 +20,43 @@ export function smoothScrollToElement(element: HTMLElement, options: SmoothScrol
   if (typeof window === "undefined" || !element) return
 
   const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false
-  const { offset = 84, duration = 620 } = options
-  const docEl = document.documentElement
-  const body = document.body
-  const previousDocScrollBehavior = docEl.style.scrollBehavior
-  const previousBodyScrollBehavior = body?.style.scrollBehavior ?? null
-  const restoreScrollBehavior = () => {
-    docEl.style.scrollBehavior = previousDocScrollBehavior
-    if (body && previousBodyScrollBehavior !== null) {
-      body.style.scrollBehavior = previousBodyScrollBehavior
-    }
-  }
-
-  // Prevent CSS `scroll-behavior: smooth` from fighting our frame-by-frame animation.
-  docEl.style.scrollBehavior = "auto"
-  if (body) {
-    body.style.scrollBehavior = "auto"
-  }
+  const { offset = 84, duration = 1500 } = options
 
   if (prefersReducedMotion) {
     const targetRect = element.getBoundingClientRect()
     const targetPosition = targetRect.top + window.pageYOffset - offset
     window.scrollTo({ top: targetPosition, behavior: "auto" })
-    restoreScrollBehavior()
     return
   }
 
-  let start = window.pageYOffset
-  const clampedDuration = Math.max(320, Math.min(960, duration))
-  const startTime = performance.now()
+  const durationInSeconds = duration / 1000
+  const lenis = (window as any).lenis
 
-  let lastTargetPosition = element.getBoundingClientRect().top + window.pageYOffset - offset
-
-  const easeOutExpo = (t: number) =>
-    t === 1 ? 1 : 1 - Math.pow(2, -10 * t)
-
-  const step = (currentTime: number) => {
-    const elapsed = currentTime - startTime
-    const progress = Math.min(1, elapsed / clampedDuration)
-    const eased = easeOutExpo(progress)
-
-    // Recalculate target position to check for layout shifts (e.g. lazy-loaded content popping in)
-    const currentTargetPosition = element.getBoundingClientRect().top + window.pageYOffset - offset
-    
-    // If the target moved, shift our start position by the same amount to prevent jarring jumps
-    if (Math.abs(currentTargetPosition - lastTargetPosition) > 2) {
-      start += (currentTargetPosition - lastTargetPosition)
-      lastTargetPosition = currentTargetPosition
-    }
-
-    const distance = currentTargetPosition - start
-    window.scrollTo({ top: start + distance * eased })
-
-    if (progress < 1) {
-      window.requestAnimationFrame(step)
-    } else {
-      // Final correction to ensure exact alignment
-      const finalRect = element.getBoundingClientRect()
-      window.scrollTo({ top: finalRect.top + window.pageYOffset - offset, behavior: "auto" })
-      restoreScrollBehavior()
-      
-      // Flash highlight
-      element.classList.remove('animate-flash-highlight'); // reset if already flashing
-      void element.offsetWidth; // trigger reflow
-      element.classList.add('animate-flash-highlight');
-      setTimeout(() => element.classList.remove('animate-flash-highlight'), 1600);
-    }
+  const onComplete = () => {
+    document.body.classList.remove('is-navigating');
+    element.classList.remove('animate-flash-highlight');
+    void element.offsetWidth;
+    element.classList.add('animate-flash-highlight');
+    setTimeout(() => element.classList.remove('animate-flash-highlight'), 1600);
   }
 
-  window.requestAnimationFrame(step)
+  document.body.classList.add('is-navigating');
+
+  if (lenis) {
+    lenis.scrollTo(element, { 
+      offset: -offset, 
+      duration: durationInSeconds,
+      easing: (t: number) => t === 1 ? 1 : 1 - Math.pow(2, -10 * t), // power3.inOut equivalent
+      onComplete
+    })
+  } else {
+    gsap.to(window, {
+      duration: durationInSeconds,
+      scrollTo: { y: element, offsetY: offset },
+      ease: "power3.inOut",
+      onComplete
+    })
+  }
 }
 export function smoothScrollTo(id: string, options: SmoothScrollOptions = {}) {
   const element = document.getElementById(id)

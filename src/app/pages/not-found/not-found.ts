@@ -1,54 +1,39 @@
-import { Component, OnInit, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterLink, Router } from '@angular/router';
-import { LucideAngularModule } from 'lucide-angular';
+import { ChangeDetectionStrategy, Component, signal, OnInit, OnDestroy, inject, PLATFORM_ID } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { DatePipe, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-not-found',
   standalone: true,
-  imports: [CommonModule, RouterLink, LucideAngularModule],
+  imports: [RouterLink, DatePipe],
   templateUrl: './not-found.html',
   styleUrls: ['./not-found.css'],
-  host: {
-    'class': 'block'
-  }
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotFoundComponent implements OnInit, OnDestroy {
-  currentTime = new Date();
-  fullUrl = '';
-  private timer: any;
   private platformId = inject(PLATFORM_ID);
-  private router = inject(Router);
+  protected fullUrl = signal<string>('/404');
+  protected currentTime = signal<Date>(new Date());
+  private timerId: any;
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
-      this.fullUrl = `${window.location.hostname}${window.location.pathname}`;
-      this.timer = setInterval(() => {
-        this.currentTime = new Date();
+      this.fullUrl.set(window.location.href);
+      this.timerId = setInterval(() => {
+        this.currentTime.set(new Date());
       }, 1000);
     }
   }
 
-  formatIST(date: Date): string {
-    return date.toLocaleString('en-IN', {
-      timeZone: 'Asia/Kolkata',
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: true
-    });
-  }
-
-  reload() {
-    if (isPlatformBrowser(this.platformId)) {
-      window.location.reload();
+  ngOnDestroy() {
+    if (this.timerId) {
+      clearInterval(this.timerId);
     }
   }
 
-  ngOnDestroy() {
-    if (this.timer) clearInterval(this.timer);
+  protected reload() {
+    if (typeof window !== 'undefined') {
+      window.location.reload();
+    }
   }
 }

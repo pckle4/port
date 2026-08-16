@@ -1,23 +1,16 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, inject, PLATFORM_ID, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, inject, PLATFORM_ID, ChangeDetectionStrategy, ChangeDetectorRef, NgZone } from '@angular/core';
 import { SectionRegistryService } from '../../services/section-registry.service';
-import { SiteDataService } from '../../services/site-data.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { LucideAngularModule } from 'lucide-angular';
-
-import { FloatingIconsComponent } from '../ui/floating-icons/floating-icons';
-import { AnimatedHeadlineComponent } from '../ui/animated-headline/animated-headline';
 import { smoothScrollToWithRetry } from '../../lib/utils';
+import gsap from 'gsap';
 
 @Component({
   selector: 'app-hero-section',
   standalone: true,
   imports: [
     CommonModule,
-    RouterLink,
-    LucideAngularModule,
-    FloatingIconsComponent,
-    AnimatedHeadlineComponent
+    RouterLink
   ],
   templateUrl: './hero-section.html',
   styleUrls: ['./hero-section.css'],
@@ -27,74 +20,125 @@ import { smoothScrollToWithRetry } from '../../lib/utils';
   }
 })
 export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('heroHost') heroHost!: ElementRef<HTMLElement>;
-
-  isDesktop = false;
+  isLoaded = false;
   private platformId = inject(PLATFORM_ID);
   private cdr = inject(ChangeDetectorRef);
   private ngZone = inject(NgZone);
   private sectionRegistry = inject(SectionRegistryService);
-  private siteDataService = inject(SiteDataService);
-  private rafId: number | null = null;
-  private boundMouseMove?: (e: MouseEvent) => void;
-  
-  heroData = this.siteDataService.data().hero;
-  dynamicWords = this.heroData.dynamicWords;
-  socials = this.heroData.socials;
+
+  rollingWords = [
+    'ENGINEER'.split(''),
+    'CRAFTSMAN'.split(''),
+    'STRATEGIST'.split('')
+  ];
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
-      this.isDesktop = window.innerWidth >= 768;
-      this.cdr.markForCheck();
+      this.sectionRegistry.register('home');
     }
   }
 
   ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.sectionRegistry.register('home');
-    }
-    if (!isPlatformBrowser(this.platformId) || !this.isDesktop) return;
-    const el = this.heroHost?.nativeElement;
-    if (!el) return;
+    if (!isPlatformBrowser(this.platformId)) return;
 
-    let pendingX = 0;
-    let pendingY = 0;
+    // Handle Loading State
+    setTimeout(() => {
+      this.isLoaded = true;
+      this.cdr.markForCheck();
+    }, 1200);
 
-    this.boundMouseMove = (e: MouseEvent) => {
-      const rect = el.getBoundingClientRect();
-      pendingX = (e.clientX - rect.left - rect.width / 2) / 50;
-      pendingY = (e.clientY - rect.top - rect.height / 2) / 50;
-      if (this.rafId !== null) return;
-      this.rafId = requestAnimationFrame(() => {
-        this.rafId = null;
-        el.style.setProperty('--parallax-x', `${pendingX}px`);
-        el.style.setProperty('--parallax-y', `${pendingY}px`);
-      });
-    };
-
+    // Scramble Effect for Specific Words
     this.ngZone.runOutsideAngular(() => {
-      el.addEventListener('mousemove', this.boundMouseMove!, { passive: true });
+      this.initScrambleEffect();
+      this.initRollingText();
     });
+  }
+
+  private initRollingText() {
+    const lines = document.querySelectorAll('.tube-container .line');
+    if (!lines.length) return;
+
+    gsap.set(lines, { perspective: 400, transformStyle: "preserve-3d" });
+
+    const depth = -40; // small radius so characters stay near the box
+    const transformOrigin = `50% 50% ${depth}px`;
+    const animTime = 0.8; // increased for a slower, smoother roll
+
+    // Set initial state
+    lines.forEach(line => {
+      gsap.set(line.querySelectorAll('.char'), { rotationX: 90, opacity: 0 });
+    });
+
+    const tl = gsap.timeline({ repeat: -1 });
+
+    Array.from(lines).forEach((line) => {
+      const chars = line.querySelectorAll('.char');
+      
+      // Animate word IN
+      tl.to(chars, { 
+        rotationX: 0, 
+        opacity: 1, 
+        stagger: 0.04, 
+        duration: animTime, 
+        ease: "expo.out", 
+        transformOrigin 
+      });
+
+      // Stay for 5 seconds
+      tl.to({}, { duration: 5 });
+
+      // Animate word OUT
+      tl.to(chars, { 
+        rotationX: -90, 
+        opacity: 0, 
+        stagger: 0.04, 
+        duration: animTime, 
+        ease: "expo.in", 
+        transformOrigin 
+      });
+    });
+  }
+
+  private initScrambleEffect() {
+    const chars = '!<>-_\\/[]{}—=+*^?#________';
+    const scrambleElements = document.querySelectorAll('.scramble-hover');
+
+    scrambleElements.forEach((el: Element) => {
+      const htmlEl = el as HTMLElement;
+      const originalText = htmlEl.getAttribute('data-text') || htmlEl.innerText;
+
+      htmlEl.addEventListener('mouseenter', () => {
+        let iterations = 0;
+        clearInterval((htmlEl as any)._scrambleInterval);
+        (htmlEl as any)._scrambleInterval = setInterval(() => {
+          htmlEl.innerText = originalText.split('')
+            .map((letter: string, index: number) => {
+              if (index < iterations) return originalText[index];
+              return chars[Math.floor(Math.random() * chars.length)];
+            }).join('');
+          if (iterations >= originalText.length) {
+            clearInterval((htmlEl as any)._scrambleInterval);
+            htmlEl.innerText = originalText;
+          }
+          iterations += 1 / 3;
+        }, 30);
+      });
+
+      htmlEl.addEventListener('mouseleave', () => {
+        clearInterval((htmlEl as any)._scrambleInterval);
+        htmlEl.innerText = originalText;
+      });
+    });
+  }
+
+  scrollToProjects() {
+    this.sectionRegistry.loadAllSections();
+    smoothScrollToWithRetry('projects', { duration: 1500 });
   }
 
   ngOnDestroy() {
     if (isPlatformBrowser(this.platformId)) {
       this.sectionRegistry.unregister('home');
     }
-    if (isPlatformBrowser(this.platformId) && this.heroHost?.nativeElement && this.boundMouseMove) {
-      this.heroHost.nativeElement.removeEventListener('mousemove', this.boundMouseMove);
-    }
-    if (this.rafId !== null) cancelAnimationFrame(this.rafId);
-  }
-
-  scrollToProjects() {
-    this.sectionRegistry.loadAllSections();
-    smoothScrollToWithRetry('projects');
-  }
-
-  scrollToAbout() {
-    this.sectionRegistry.loadAllSections();
-    smoothScrollToWithRetry('about');
   }
 }
-
