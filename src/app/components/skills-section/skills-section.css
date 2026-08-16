@@ -351,6 +351,8 @@
   .skills-section__globe {
     position: static; /* Disable sticky on mobile */
     max-width: 500px;
+    width: 100%;
+    overflow: hidden;
     transform: scale(1);
   }
 }
@@ -388,6 +390,8 @@
   }
 
   .skills-section__globe {
-    max-width: 350px;
+    max-width: 100%;
+    width: 100%;
+    overflow: hidden;
   }
 }

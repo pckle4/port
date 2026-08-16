@@ -319,7 +319,7 @@
   background: var(--card-bg);
   border: 2px solid var(--ink);
   border-radius: 12px;
-  padding: 32px;
+  padding: clamp(16px, 4vw, 32px);
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -527,7 +527,7 @@
 }
 
 .project-card {
-  padding: 28px;
+  padding: clamp(16px, 4vw, 28px);
   border: 2px solid var(--ink);
   border-radius: 12px;
   background: var(--card-bg);
@@ -647,7 +647,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 20px;
+  padding: clamp(16px, 4vw, 20px);
   border-radius: 12px;
   transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   border: 2px solid transparent;
@@ -1008,6 +1008,26 @@
 
   .education-sketch__badge {
     margin-left: 0;
+  }
+
+  .arsenal-box {
+    gap: 20px;
+  }
+
+  .arsenal-row {
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 24px;
+  }
+
+  .arsenal-label {
+    flex: none;
+    padding-top: 0;
+  }
+
+  .project-card__top {
+    flex-direction: column;
+    gap: 8px;
   }
 }
 
