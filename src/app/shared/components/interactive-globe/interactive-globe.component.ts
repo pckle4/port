@@ -9,6 +9,7 @@ import {
   PLATFORM_ID,
   ChangeDetectionStrategy,
   signal,
+  NgZone,
 } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import {
@@ -251,6 +252,7 @@ export class InteractiveGlobeComponent implements OnInit, OnDestroy {
   readonly error = signal<string | null>(null);
 
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly ngZone = inject(NgZone);
   private isBrowser = false;
 
   private scene: Scene | null = null;
@@ -278,7 +280,9 @@ export class InteractiveGlobeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isBrowser = isPlatformBrowser(this.platformId);
     if (this.isBrowser) {
-      setTimeout(() => this.initThreeGlobe(), 0);
+      this.ngZone.runOutsideAngular(() => {
+        setTimeout(() => this.initThreeGlobe(), 0);
+      });
     }
   }
 
@@ -457,7 +461,9 @@ export class InteractiveGlobeComponent implements OnInit, OnDestroy {
     continentOutlineGroup: Group
   ): Promise<void> {
     try {
-      this.isLoading.set(true);
+      this.ngZone.run(() => {
+        this.isLoading.set(true);
+      });
       let landFeatures: any;
       try {
         const localRes = await fetch('/data/ne_50m_land.json');
@@ -749,11 +755,15 @@ export class InteractiveGlobeComponent implements OnInit, OnDestroy {
         });
       }
 
-      this.isLoading.set(false);
+      this.ngZone.run(() => {
+        this.isLoading.set(false);
+      });
     } catch (err: any) {
       console.warn('Could not load vector land data, showing fallback visual', err);
-      this.isLoading.set(false);
-      this.error.set('Map data unavailable');
+      this.ngZone.run(() => {
+        this.isLoading.set(false);
+        this.error.set('Map data unavailable');
+      });
     }
   }
 

@@ -45,7 +45,7 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       this.isLoaded = true;
       this.cdr.markForCheck();
-    }, 1200);
+    }, 0);
 
     // Scramble Effect for Specific Words
     this.ngZone.runOutsideAngular(() => {

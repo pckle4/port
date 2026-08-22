@@ -67,6 +67,12 @@
     --mono: 'Roboto Mono', monospace;
   }
 
+  /* Global Selection Color */
+  ::selection {
+    background-color: #fce4ec; /* Light pinkish cream */
+    color: var(--ink);
+  }
+
   /* GSAP FOUC Prevention */
   :is(.app-reveal) {
     visibility: hidden;

@@ -249,3 +249,142 @@
 .premium-contact-btn.copied:hover {
   transform: none;
 }
+
+/* ───────────────────── Mobile Responsive ───────────────────── */
+
+@media (max-width: 850px) {
+  .legal-header {
+    padding: 0 16px clamp(28px, 6vw, 60px);
+  }
+
+  .legal-sidebar {
+    order: -1;
+  }
+
+  .legal-toc {
+    position: static;
+    padding: 16px;
+    border-radius: 10px;
+  }
+
+  .legal-toc ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .legal-toc a {
+    font-size: 13px;
+    padding: 6px 12px;
+    background: rgba(26, 51, 0, 0.04);
+    border-radius: 999px;
+    border: 1px solid rgba(26, 51, 0, 0.08);
+  }
+
+  .legal-toc a:hover {
+    transform: none;
+    background: rgba(26, 51, 0, 0.08);
+  }
+
+  .legal-container {
+    padding: 0 16px 80px;
+    gap: 24px;
+  }
+
+  .legal-content {
+    font-size: 0.95rem;
+  }
+
+  .legal-content section {
+    margin-bottom: 40px;
+  }
+
+  .legal-content h2 {
+    font-size: clamp(1.3rem, 5vw, 1.6rem);
+  }
+
+  .premium-contact-btn {
+    width: 100%;
+    padding: 14px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .legal-page {
+    padding-top: var(--header-height, 60px);
+  }
+
+  .legal-header {
+    padding: 0 12px clamp(20px, 5vw, 40px);
+  }
+
+  .legal-title {
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+    letter-spacing: -0.03em;
+  }
+
+  .legal-eyebrow {
+    font-size: 10px;
+    padding: 5px 8px;
+  }
+
+  .legal-last-updated {
+    font-size: 0.75rem;
+  }
+
+  .legal-container {
+    padding: 0 12px 60px;
+    gap: 20px;
+  }
+
+  .legal-toc {
+    padding: 12px;
+  }
+
+  .legal-toc h3 {
+    font-size: 10px;
+    margin-bottom: 10px;
+  }
+
+  .legal-toc a {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  .legal-content {
+    font-size: 0.88rem;
+    line-height: 1.65;
+  }
+
+  .legal-content section {
+    margin-bottom: 32px;
+    scroll-margin-top: 80px;
+  }
+
+  .legal-content h2 {
+    font-size: clamp(1.15rem, 5vw, 1.4rem);
+    padding-bottom: 8px;
+    margin-bottom: 14px;
+  }
+
+  .legal-content p {
+    margin-bottom: 14px;
+  }
+
+  .legal-content ul,
+  .legal-content ol {
+    padding-left: 18px;
+    margin-bottom: 16px;
+  }
+
+  .legal-content li {
+    margin-bottom: 8px;
+  }
+
+  .premium-contact-btn {
+    font-size: 13px;
+    padding: 12px 16px;
+    gap: 8px;
+    box-shadow: 3px 3px 0 rgba(26, 51, 0, 0.15);
+  }
+}

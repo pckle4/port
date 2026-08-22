@@ -1,27 +1,51 @@
-<div class="min-h-screen bg-transparent selection:bg-primary/30 selection:text-slate-900 relative">
+<div class="min-h-screen bg-transparent relative">
   <main>
     <app-hero-section></app-hero-section>
 
-    <div id="about" style="scroll-margin-top: 96px">
-      <app-about-section></app-about-section>
-    </div>
+    @defer (on viewport; when sectionRegistry.forceLoadAllSections()) {
+      <div id="about" style="scroll-margin-top: 96px">
+        <app-about-section></app-about-section>
+      </div>
+    } @placeholder {
+      <div style="min-height: 100vh"></div>
+    }
 
-    <div id="skills" style="scroll-margin-top: 96px">
-      <app-skills-section></app-skills-section>
-    </div>
+    @defer (on viewport; when sectionRegistry.forceLoadAllSections()) {
+      <div id="skills" style="scroll-margin-top: 96px">
+        <app-skills-section></app-skills-section>
+      </div>
+    } @placeholder {
+      <div style="min-height: 100vh"></div>
+    }
 
-    <div id="projects" style="scroll-margin-top: 96px">
-      <app-projects-section></app-projects-section>
-    </div>
+    @defer (on viewport; when sectionRegistry.forceLoadAllSections()) {
+      <div id="projects" style="scroll-margin-top: 96px">
+        <app-projects-section></app-projects-section>
+      </div>
+    } @placeholder {
+      <div style="min-height: 100vh"></div>
+    }
 
-    <div id="workflow" style="scroll-margin-top: 96px">
-      <app-workflow-section></app-workflow-section>
-    </div>
+    @defer (on viewport; when sectionRegistry.forceLoadAllSections()) {
+      <div id="workflow" style="scroll-margin-top: 96px">
+        <app-workflow-section></app-workflow-section>
+      </div>
+    } @placeholder {
+      <div style="min-height: 100vh"></div>
+    }
 
-    <div id="contact" style="scroll-margin-top: 96px">
-      <app-contact-section></app-contact-section>
-    </div>
+    @defer (on viewport; when sectionRegistry.forceLoadAllSections()) {
+      <div id="contact" style="scroll-margin-top: 96px">
+        <app-contact-section></app-contact-section>
+      </div>
+    } @placeholder {
+      <div style="min-height: 100vh"></div>
+    }
 
-    <app-enhanced-footer></app-enhanced-footer>
+    @defer (on viewport; when sectionRegistry.forceLoadAllSections()) {
+      <app-enhanced-footer></app-enhanced-footer>
+    } @placeholder {
+      <div style="min-height: 200px"></div>
+    }
   </main>
 </div>
