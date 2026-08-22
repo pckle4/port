@@ -194,214 +194,164 @@
   transform: translate(1px, -1px);
 }
 
-/* ════════════════════ COL 4: HIGH-TECH REDESIGNED IP MONITOR ════════════════════ */
-.monitor-card {
-  width: 100%;
-  background: #050505;
-  border: 1.5px solid #333333;
-  border-radius: 2px;
+/* ════════ IP CARD — ELEGANT ORANGE ════════ */
+.ip-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  background: linear-gradient(165deg, #0f0f0f 0%, #0a0908 100%);
+  border: 1px solid rgba(232, 113, 58, 0.12);
+  border-radius: 14px;
   overflow: hidden;
-  box-shadow: 4px 4px 0px #1a1a1a;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.3),
+    0 4px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
-.monitor-card:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0px #3b82f6;
-  border-color: #444444;
+.ip-card__top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px 10px;
+  background: linear-gradient(180deg, rgba(232, 113, 58, 0.06) 0%, transparent 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-.monitor-card__header {
+.ip-card__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f0925a 30%, #e8713a 100%);
+  box-shadow: 0 0 6px rgba(232, 113, 58, 0.5);
+}
+
+.ip-card__tag {
+  flex: 1;
+  color: #8a8a8a;
+  font: 600 9px/1 var(--mono, 'Roboto Mono', monospace);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ip-card__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  color: #777777;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.ip-card__toggle:hover {
+  background: rgba(232, 113, 58, 0.1);
+  color: #e8713a;
+}
+
+.ip-card__value-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 12px;
-  background: #0a0a0a;
-  border-bottom: 1.5px solid #222222;
-}
-
-.monitor-card__title {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: #a0a0a0;
-  font: 700 10px/1 var(--mono, 'Roboto Mono', monospace);
-  letter-spacing: 0.08em;
-}
-
-.monitor-tag {
-  color: #3b82f6;
-  letter-spacing: 0.08em;
-}
-
-.mask-toggle-btn {
-  background: transparent;
-  border: 1px solid transparent;
-  padding: 3px;
-  color: #737373;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 2px;
-  transition: all 0.2s ease;
-}
-
-.mask-toggle-btn:hover {
-  color: #ffffff;
-  background: #1c1c1c;
-  border-color: #333333;
-}
-
-.monitor-card__body {
-  padding: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* ════════ IP TERMINAL THEME ════════ */
-.ip-terminal-wrap {
-  display: flex;
-  flex-direction: column;
-  background: #000000;
-  border: 1px solid #2a2a2a;
-  border-left: 3px solid #3b82f6;
-}
-
-.ip-terminal-header {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
-  background: #080808;
-  border-bottom: 1px solid #1a1a1a;
-}
-
-.ip-terminal-dot {
-  width: 5px;
-  height: 5px;
-  background: #3b82f6;
-}
-
-.ip-terminal-label {
-  color: #737373;
-  font: 700 9px/1 var(--mono, 'Roboto Mono', monospace);
-  letter-spacing: 0.12em;
-}
-
-.ip-terminal-body {
-  position: relative;
-  display: flex;
-  align-items: center;
   width: 100%;
-  padding: 10px 10px;
-  background: transparent;
+  margin: 0;
+  padding: 14px 16px;
+  background: rgba(0, 0, 0, 0.25);
   border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
   cursor: pointer;
-  text-align: left;
-  transition: background-color 0.15s ease;
+  transition: background 0.2s ease;
 }
 
-.ip-terminal-body:hover {
-  background: #0a0a0a;
+.ip-card__value-row:hover {
+  background: rgba(232, 113, 58, 0.04);
 }
 
-.ip-terminal-prompt {
-  color: #3b82f6;
-  font: 700 12px/1 var(--mono, 'Roboto Mono', monospace);
-  margin-right: 10px;
+.ip-card__ip {
+  color: #f0f0f0;
+  font: 600 13.5px/1 var(--mono, 'Roboto Mono', monospace);
+  letter-spacing: 0.06em;
 }
 
-.ip-terminal-value {
-  flex-grow: 1;
-  font: 600 13px/1.2 var(--mono, 'Roboto Mono', monospace);
-  color: #ededed;
-  letter-spacing: 0.05em;
+.ip-card__ip--hidden {
+  color: #444444;
+  font-weight: 400;
 }
 
-.ip-terminal-value--masked {
-  color: #555555;
-}
-
-.ip-terminal-action {
+.ip-card__copy-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #555555;
-  transition: color 0.2s ease, transform 0.2s ease;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  color: #666666;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: color 0.2s ease, background 0.2s ease;
 }
 
-.ip-terminal-body:hover .ip-terminal-action:not(.is-copied) {
-  color: #ffffff;
-  transform: scale(1.1);
+.ip-card__value-row:hover .ip-card__copy-icon {
+  color: #e8713a;
+  background: rgba(232, 113, 58, 0.08);
+  border-color: rgba(232, 113, 58, 0.2);
 }
 
-.ip-terminal-action.is-copied {
-  color: #10b981;
-  transform: scale(1.1);
-  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+.ip-card__copy-icon.is-done {
+  color: #fff;
+  background: #e8713a;
+  border-color: #e8713a;
 }
 
-@keyframes popIn {
-  0% { transform: scale(0.5); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-/* Key-Value Data Rows */
-.monitor-data-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 8px 0;
-  border-top: 1px dashed #333333;
-  border-bottom: 1px dashed #333333;
-}
-
-.data-row {
+.ip-card__meta {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  padding: 10px 16px;
   font: 500 10.5px/1.2 var(--mono, 'Roboto Mono', monospace);
 }
 
-.data-key {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  color: #666666;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  flex-shrink: 0;
+.ip-card__meta-key {
+  color: #555555;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
-.data-val {
-  color: #b5b5b5;
+.ip-card__meta-val {
+  color: #b0b0b0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: right;
+  font-weight: 400;
 }
 
-/* Mandatory Micro-Disclaimer Inside IP Box */
-.ip-disclaimer {
+.ip-card__note {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 8px;
-  background: #050505;
-  border: 1px solid #222222;
-  border-left: 3px solid #3b82f6;
-  border-radius: 0;
-  color: #666666;
-  font: 400 9.5px/1.35 var(--mono, 'Roboto Mono', monospace);
+  margin: 0;
+  padding: 8px 16px 12px;
+  color: #4a4a4a;
+  font: 400 9px/1.4 var(--mono, 'Roboto Mono', monospace);
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-.ip-disclaimer svg {
-  color: #3b82f6;
+.ip-card__note svg {
+  color: rgba(232, 113, 58, 0.6);
   flex-shrink: 0;
 }
+
+
+
 
 /* ════════════════════ FLOOR 3: FORMAL LEGAL & PRIVACY DISCLOSURE ════════════════════ */
 .footer-floor--legal {

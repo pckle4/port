@@ -4,7 +4,7 @@
   background: var(--cream, #fcfaf5);
   color: var(--ink, #1a3300);
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 /* ───────────────────── Header with Graphics ───────────────────── */
@@ -143,6 +143,7 @@
 .legal-content {
   font: 400 1.05rem/1.75 var(--ui, sans-serif);
   color: #2b381d;
+  word-break: break-word;
 }
 
 .legal-content section {

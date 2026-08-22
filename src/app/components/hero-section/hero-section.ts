@@ -105,20 +105,20 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
 
     scrambleElements.forEach((el: Element) => {
       const htmlEl = el as HTMLElement;
-      const originalText = htmlEl.getAttribute('data-text') || htmlEl.innerText;
+      const originalText = htmlEl.getAttribute('data-text') || htmlEl.textContent || '';
 
       htmlEl.addEventListener('mouseenter', () => {
         let iterations = 0;
         clearInterval((htmlEl as any)._scrambleInterval);
         (htmlEl as any)._scrambleInterval = setInterval(() => {
-          htmlEl.innerText = originalText.split('')
+          htmlEl.textContent = originalText.split('')
             .map((letter: string, index: number) => {
               if (index < iterations) return originalText[index];
               return chars[Math.floor(Math.random() * chars.length)];
             }).join('');
           if (iterations >= originalText.length) {
             clearInterval((htmlEl as any)._scrambleInterval);
-            htmlEl.innerText = originalText;
+            htmlEl.textContent = originalText;
           }
           iterations += 1 / 3;
         }, 30);
@@ -126,7 +126,7 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
 
       htmlEl.addEventListener('mouseleave', () => {
         clearInterval((htmlEl as any)._scrambleInterval);
-        htmlEl.innerText = originalText;
+        htmlEl.textContent = originalText;
       });
     });
   }

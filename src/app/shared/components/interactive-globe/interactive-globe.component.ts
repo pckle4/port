@@ -27,6 +27,9 @@ import {
   CatmullRomCurve3,
   Vector3,
   CanvasTexture,
+  LineBasicMaterial,
+  BufferGeometry,
+  Line,
 } from 'three';
 
 export type Rgba = { r: number; g: number; b: number; a: number };
@@ -364,7 +367,7 @@ export class InteractiveGlobeComponent implements OnInit, OnDestroy {
     if (this.showGrid && this.graticuleColor && graticuleRgba.a > 0) {
       const graticuleGroup = new Group();
       const graticuleColorObj = new Color(this.graticuleColor);
-      const graticuleMaterial = new MeshBasicMaterial({
+      const graticuleMaterial = new LineBasicMaterial({
         color: graticuleColorObj,
         transparent: graticuleRgba.a < 1 || graticuleRgba.a === 0,
         opacity: graticuleRgba.a,
@@ -385,11 +388,9 @@ export class InteractiveGlobeComponent implements OnInit, OnDestroy {
             points.push(new Vector3(positions[i], positions[i + 1], positions[i + 2]));
           }
           if (points.length >= 2) {
-            const curve = new CatmullRomCurve3(points);
-            const radius = 0.0012;
-            const tubeGeometry = new TubeGeometry(curve, points.length * 2, radius, 6, false);
-            const tubeMesh = new Mesh(tubeGeometry, graticuleMaterial);
-            graticuleGroup.add(tubeMesh);
+            const geometry = new BufferGeometry().setFromPoints(points);
+            const line = new Line(geometry, graticuleMaterial);
+            graticuleGroup.add(line);
           }
         }
       }
@@ -407,11 +408,9 @@ export class InteractiveGlobeComponent implements OnInit, OnDestroy {
             points.push(new Vector3(positions[i], positions[i + 1], positions[i + 2]));
           }
           if (points.length >= 2) {
-            const curve = new CatmullRomCurve3(points);
-            const radius = 0.0012;
-            const tubeGeometry = new TubeGeometry(curve, points.length * 2, radius, 6, false);
-            const tubeMesh = new Mesh(tubeGeometry, graticuleMaterial);
-            graticuleGroup.add(tubeMesh);
+            const geometry = new BufferGeometry().setFromPoints(points);
+            const line = new Line(geometry, graticuleMaterial);
+            graticuleGroup.add(line);
           }
         }
       }
@@ -487,7 +486,7 @@ export class InteractiveGlobeComponent implements OnInit, OnDestroy {
       // Continent Outlines
       if (this.showOutline && this.outlineColor && outlineRgba.a > 0) {
         const outlineColorObj = new Color(this.outlineColor);
-        const outlineMaterial = new MeshBasicMaterial({
+        const outlineMaterial = new LineBasicMaterial({
           color: outlineColorObj,
           transparent: outlineRgba.a < 1,
           opacity: outlineRgba.a,
@@ -527,12 +526,10 @@ export class InteractiveGlobeComponent implements OnInit, OnDestroy {
                 points.push(points[0].clone());
               }
               if (points.length >= 2) {
-                const curve = new CatmullRomCurve3(points);
-                const radius = (this.outlineWidth / 10) * 0.012;
-                const tubeGeometry = new TubeGeometry(curve, points.length * 2, radius, 6, false);
-                const tubeMesh = new Mesh(tubeGeometry, outlineMaterial);
-                tubeMesh.renderOrder = 0;
-                continentOutlineGroup.add(tubeMesh);
+                const geometry = new BufferGeometry().setFromPoints(points);
+                const line = new Line(geometry, outlineMaterial);
+                line.renderOrder = 0;
+                continentOutlineGroup.add(line);
               }
             }
           };
